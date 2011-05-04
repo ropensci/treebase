@@ -1,0 +1,11 @@
+Package: treebase
+Type: Package
+Title: TreeBASE interface
+Version: 0.0-1
+Date: 2011-04-25
+Author: Carl Boettiger <cboettig@gmail.com>
+Maintainer: Carl Boettiger <cboettig@gmail.com>
+Description: Interface to the API for TreeBASE 
+Depends: ape, XML 
+URL: http://www.carlboettiger.info
+License: GPL (>= 2)
