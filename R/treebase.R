@@ -84,7 +84,7 @@ search_treebase <- function(input, by=c("author", "taxon"), exact_match=FALSE,
 
   # combine into a search query
   # Should eventually update to allow for multiple query terms with booleans
-  query <- paste("http://purl.org/phylo/treebase/phylows/", search_type, 
+  query <- paste("http://purl.org/phylo/treebase/dev/phylows/", search_type, 
                  search_term, input, format, "&recordSchema=", schema, sep="")
   print(query)
   get_nexus(query)
