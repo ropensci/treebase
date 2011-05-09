@@ -13,9 +13,11 @@ get_nexus <- function(query){
   #     see https://sourceforge.net/apps/mediawiki/treebase/index.php?title=API 
   # Returns:
   #   A list object containing all the trees matching the search (class phylo)
-  con <- url(query)
-  search_returns <- try(xmlParse(readLines(con)))
-  close(con)
+
+#  tt <- getURLContent(query, followlocation=TRUE, curl=curl)
+  tt <- getURLContent(query, followlocation=TRUE)
+  search_returns <- xmlParse(tt)
+
   if(is(search_returns, "try-error")){
     print("failed to parse query")
   } else {
@@ -23,9 +25,9 @@ get_nexus <- function(query){
              function(x){
                # Open the page on each resource 
                thepage <- xmlAttrs(x, "rdf:resource")
-               connection <- url(thepage)
-               seconddoc <- xmlParse(readLines(connection))
-               close(connection)
+               target = getURLContent(thepage, followlocation=TRUE)
+               seconddoc <- xmlParse(target)
+
                ## use xpathApply to find and return the nexus files
                node <- try(xpathApply(seconddoc, "//x:item[x:title='Nexus file']", 
                                 namespaces=c(x="http://purl.org/rss/1.0/"),
@@ -87,7 +89,9 @@ search_treebase <- function(input, by=c("author", "taxon"), exact_match=FALSE,
   query <- paste("http://purl.org/phylo/treebase/dev/phylows/", search_type, 
                  search_term, input, format, "&recordSchema=", schema, sep="")
   print(query)
-  get_nexus(query)
+  out <- get_nexus(query)
+  class(out) <- "multiPhylo"
+  out
 }
 
 
