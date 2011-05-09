@@ -3,6 +3,7 @@
 # date: 26 April 2011
 # Description: Implementation of the TreeBASE API in R 
 # Adapted from Gabriel Becker
+# With input from Ducan Temple Lang
 
 # FIXME Needs error handling for timeouts, etc
 # Close unused connections
@@ -14,7 +15,6 @@ get_nexus <- function(query){
   # Returns:
   #   A list object containing all the trees matching the search (class phylo)
 
-#  tt <- getURLContent(query, followlocation=TRUE, curl=curl)
   tt <- getURLContent(query, followlocation=TRUE)
   search_returns <- xmlParse(tt)
 
@@ -54,31 +54,94 @@ get_nexus <- function(query){
 }     
 
 
-search_treebase <- function(input, by=c("author", "taxon"), exact_match=FALSE,
-                            section=c("study", "taxon", "matrix", "tree")){
-
-  # Consider error handling to prevent combinations 
-  # that are not supported (author by taxon, etc)
-  section <- match.arg(section)
-  search_type <- paste(section, "/find?query=", sep="")
+search_treebase <- function(input, by, exact_match=FALSE){
 
 
 # Choose the search type, for a description of all possible options, see
 # https://spreadsheets.google.com/pub?key=rL--O7pyhR8FcnnG5-ofAlw 
-  by <- match.arg(by)
-  search_term <- switch(by,
-                       author = "dcterms.contributor=",
-                       taxon = "tb.title.taxon=") 
-  if(by=="taxon"){
-    input <- gsub(" +", "%20\\1", input) # whitespace to html space symbol
-    input <- gsub("^+", "%22\\1", input) # html quote code at start
-    input <- gsub("+$", "%22\\1", input) # html quote code at end
+
+  nterms <- length(by)
+  search_term <- character(nterms)
+  section <- character(nterms)
+
+  for(i in 1:nterms){
+  search_term[i] <- switch(by[i],
+                       abstract="dcterms.abtract",
+                       citation="dcterms.bibliographicCitation",
+                       author = "dcterms.contributor",
+                       subject = "dcterms.subject",
+                       id.matrix = "tb.identifier.matrix",
+                       id.matrix.tb1 = "tb.identifer.matrix.tb1",
+                       ncbi = "tb.identifier.ncbi",
+                       id.study = "tb.identifier.study",
+                       id.study.tb1 = "tb.identifier.study.tb1",
+                       id.taxon = "tb.identifer.taxon",
+                       taxon.tb1 = "tb.identifier.taxon.tb1",
+                       taxonVariant.tb1 = "tb.identifier.taxonVarient.tb1",
+                       id.tree = "tb.identifier.tree",
+                       ubio = "tb.identifier.ubio",
+                       kind.tree = "tb.kind.tree",
+                       nchar = "tb.nchar.matrix",
+                       ntax = "tb.ntax.matrix", 
+                       quality="tb.quality.tree",
+                       matrix = "tb.title.matrix",
+                       study = "tb.title.study",
+                       taxon = "tb.title.taxon",
+                       taxonLabel = "tb.title.taxonLabel",
+                       taxonVariant = "tb.title.taxonVariant",
+                       tree = "tb.title.tree",
+                       type.matrix="tb.type.matrix",
+                       type.tree = "tb.type.tree")
+  section[i] <- switch(by[i],
+                       abstract= "study",
+                       citation= "study",
+                       author = "study",
+                       subject = "study",
+                       id.matrix ="matrix",  
+                       id.matrix.tb1 = "matrix",
+                       ncbi =  "taxon",
+                       id.study = "study",
+                       id.study.tb1 = "study",
+                       id.taxon = "taxon",
+                       taxon.tb1 = "taxon",
+                       taxonVariant.tb1 = "taxon",
+                       id.tree =  "tree",
+                       ubio = "taxon",
+                       kind.tree = "tree", 
+                       nchar = "matrix",
+                       ntax = "matrix",
+                       quality = "tree",
+                       matrix = "matrix",
+                       study="study",
+                       taxon = "taxon",
+                       taxonLabel =  "taxon",
+                       taxonVariant = "taxon", 
+                       tree = "tree", 
+                       type.matrix= "matrix",
+                       type.tree = "tree")
   }
+  if(!all(section == section[1]))
+    stop("Multiple queries must belong to the same section (study/taxon/tree/matrix)")
+  search_type <- paste(section[1], "/find?query=", sep="")
+
+  search_term[1] <- paste(search_term[1], "=", sep="") 
+  if(nterms > 1){
+    for(i in 2:nterms){
+      input <- sub("(and|or) ", paste("\\1%20", search_term[i], "=", sep=""), input)
+    }
+  }
+
+  input <- gsub(" +", "%20\\1", input) # whitespace to html space symbol
+
+  #if(by=="taxon"){
+    input <- gsub("\"", "%22", input) # html quote code at start
+  #}
   if(exact_match){
-    search_term <- paste(search_term, "=", sep="") # exact match uses (==) 
+    search_term <- gsub("=", "==", search_term) # exact match uses (==) 
   }
 # Some fixed 
-#Can be one of tree, study, or matrix. Each has nexus, nexml, rdf, and html versions 
+#Can be one of tree, study, or matrix. Each has nexus, nexml, rdf, and html versions
+# Probably needs to be "matrix" for those class of search items
   schema <- "tree"  
 # We'll always use rss1 as the machine-readable format 
 # could attempt to open a webpage instead with html format to allow manual user search
@@ -87,7 +150,7 @@ search_treebase <- function(input, by=c("author", "taxon"), exact_match=FALSE,
   # combine into a search query
   # Should eventually update to allow for multiple query terms with booleans
   query <- paste("http://purl.org/phylo/treebase/dev/phylows/", search_type, 
-                 search_term, input, format, "&recordSchema=", schema, sep="")
+                 search_term[1], input, format, "&recordSchema=", schema, sep="")
   print(query)
   out <- get_nexus(query)
   class(out) <- "multiPhylo"
