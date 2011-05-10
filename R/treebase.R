@@ -7,7 +7,7 @@
 
 # FIXME Needs error handling for timeouts, etc
 # Close unused connections
-get_nexus <- function(query){
+get_nexus <- function(query, curl=getCurlHandle()){
   # imports phylogenetic trees from treebase
   # Args:
   #   query: a phylows formatted search, 
@@ -15,7 +15,7 @@ get_nexus <- function(query){
   # Returns:
   #   A list object containing all the trees matching the search (class phylo)
 
-  tt <- getURLContent(query, followlocation=TRUE)
+  tt <- getURLContent(query, followlocation=TRUE, curl=curl)
   search_returns <- xmlParse(tt)
 
   if(is(search_returns, "try-error")){
@@ -25,7 +25,7 @@ get_nexus <- function(query){
              function(x){
                # Open the page on each resource 
                thepage <- xmlAttrs(x, "rdf:resource")
-               target = getURLContent(thepage, followlocation=TRUE)
+               target = getURLContent(thepage, followlocation=TRUE, curl=curl)
                seconddoc <- xmlParse(target)
 
                ## use xpathApply to find and return the nexus files
