@@ -6,17 +6,42 @@
 # With input from Ducan Temple Lang
 
 
-#query <- "http://treebase.org/treebase-web/top/oai?verb=GetRecord&metadataPrefix=oai_dc&identifier=TB:s1234"
-## FIXME THIS DOESN'T DO WHAT I WANT IT TO
-metadata <- function(query, curl=getCurlHandle()){
+
+
+metadata <- function(study.id, curl=getCurlHandle()){
+  # Get the metadata associated with the study in which the phylogeny was published.
+  # if the tree is imported with search_treebase, then this is in tree$id:
+  #
+  # Examples: 
+  #   tree <- search_treebase("1234", "id.tree")
+  #   metadata(tree$S.id)
+  #   
+
+  oai_url <- "http://treebase.org/treebase-web/top/oai?verb=" 
+  get_record <- "GetRecord&metadataPrefix=oai_dc&identifier=" 
+  query <- paste(oai_url, get_record, "TB:s", study.id, sep="")
+  oai_metadata(query, curl=curl)
+}
+
+
+dryad_metadata <- function(study.id, curl=getCurlHandle()){
+  # Example: 
+  #   dryad_metadata("10255/dryad.12")
+
+  oai_url <- "http://www.datadryad.org/oai/request?verb=" 
+  get_record <- "GetRecord&metadataPrefix=oai_dc&identifier=" 
+  query <- paste(oai_url, get_record, "oai:datadryad.org:", study.id, sep="")
+  oai_metadata(query, curl=curl)
+}
+
+
+
+oai_metadata <- function(query, curl=curl){
+  print(query)
   tt <- getURLContent(query, followlocation=TRUE, curl=curl)
-  search_returns <- xmlParse(tt)
-  node <- xpathApply(search_returns, "metadata", 
-            function(x){
-#              xmlAttrs(x, "identifier")
-              x
-            })
-  node
+  doc <- xmlParse(tt)
+  dc = getNodeSet(doc, "//dc:dc", namespaces=c(dc="http://www.openarchives.org/OAI/2.0/oai_dc/"))
+  lapply(dc, xmlToList)
 }
 
 # FIXME Needs error handling for timeouts, etc
@@ -44,10 +69,19 @@ get_nexus <- function(query, max_trees = Inf, curl=getCurlHandle(), branch_lengt
     try(xpathApply(search_returns, paste("//rdf:li[position()< ", max_trees, "]", sep=""),
              function(x){
                # Open the page on each resource 
+
                thepage <- xmlAttrs(x, "rdf:resource")
                target = getURLContent(thepage, followlocation=TRUE, curl=curl)
-               id <- gsub(".*Tr([1-9]+)+", "\\1", as.character(thepage))
                seconddoc <- xmlParse(target)
+
+               # Get the tree ID
+               Tr.id <- gsub(".*Tr([1-9]+)+", "\\1", as.character(thepage))
+              
+               # Get the study ID  
+               S.id <- xpathSApply(seconddoc, "//x:isDefinedBy", xmlValue, 
+                           namespaces=c(x="http://www.w3.org/2000/01/rdf-schema#"))[2]
+               S.id <- gsub(".*TB2:S([1-9]+)+", "\\1", S.id)
+
                ## use xpathApply to find and return the nexus files
                node <- try(xpathApply(seconddoc, "//x:item[x:title='Nexus file']", 
                                 namespaces=c(x="http://purl.org/rss/1.0/"),
@@ -63,13 +97,15 @@ get_nexus <- function(query, max_trees = Inf, curl=getCurlHandle(), branch_lengt
                                   close(con)
                                   nex
                                 }))
-               node[[1]]$id <- id # add the TreeBASE id to the phylogeny, so we can query its metadata
+               node[[1]]$Tr.id <- Tr.id # add the TreeBASE tree.id to the phylogeny, so we can query its metadata
+               node[[1]]$S.id <- S.id # add the TreeBASE id to the phylogeny, so we can query its metadata
                if(is(node[[1]], "phylo")){
                  print("phylogeny obtained")
                } else {
                  print("phylogeny unaccessible")
                }
 
+               ## Return only trees that have branch lengths if asked to.  
                if(branch_lengths){
                  print("Checking for branch lengths")
                  if(is.null(node[[1]]$edge.length)){
@@ -82,6 +118,7 @@ get_nexus <- function(query, max_trees = Inf, curl=getCurlHandle(), branch_lengt
                } else {
                  out <- node[[1]]
                }
+                      
                out
             }))
   }
@@ -189,20 +226,12 @@ search_treebase <- function(input, by, exact_match=FALSE, max_trees = Inf, branc
                  search_term[1], input, format, "&recordSchema=", schema, sep="")
   print(query)
   out <- get_nexus(query, max_trees = max_trees, branch_lengths = branch_lengths)
+  out <- out[!sapply(out, is.null)] # drop nulls
 
-  # dumb way to drop null items
-  if(branch_lengths){
-    j <- 1
-    newout <- vector("list", 1)
-    for(i in 1:length(out)){
-        if(!is.null(out[[i]])){
-              newout[[j]] <- out[[i]]
-              j <- j+1
-        }
-    }
-  out <- newout
-  }
   class(out) <- "multiPhylo"
+  # if returning one tree, don't make it a multiphylo list
+  if(length(out) == 1) 
+    out <- out[[1]]         
   out
 }
 
