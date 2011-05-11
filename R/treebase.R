@@ -5,9 +5,23 @@
 # Adapted from Gabriel Becker
 # With input from Ducan Temple Lang
 
+
+#query <- "http://treebase.org/treebase-web/top/oai?verb=GetRecord&metadataPrefix=oai_dc&identifier=TB:s1234"
+## FIXME THIS DOESN'T DO WHAT I WANT IT TO
+metadata <- function(query, curl=getCurlHandle()){
+  tt <- getURLContent(query, followlocation=TRUE, curl=curl)
+  search_returns <- xmlParse(tt)
+  node <- xpathApply(search_returns, "metadata", 
+            function(x){
+#              xmlAttrs(x, "identifier")
+              x
+            })
+  node
+}
+
 # FIXME Needs error handling for timeouts, etc
 # Close unused connections
-get_nexus <- function(query, curl=getCurlHandle()){
+get_nexus <- function(query, max_trees = Inf, curl=getCurlHandle(), branch_lengths=FALSE){
   # imports phylogenetic trees from treebase
   # Args:
   #   query: a phylows formatted search, 
@@ -15,6 +29,7 @@ get_nexus <- function(query, curl=getCurlHandle()){
   # Returns:
   #   A list object containing all the trees matching the search (class phylo)
 
+  n_trees <- 0
   tt <- getURLContent(query, followlocation=TRUE, curl=curl)
   search_returns <- xmlParse(tt)
 
@@ -26,8 +41,8 @@ get_nexus <- function(query, curl=getCurlHandle()){
                # Open the page on each resource 
                thepage <- xmlAttrs(x, "rdf:resource")
                target = getURLContent(thepage, followlocation=TRUE, curl=curl)
+               id <- gsub(".*Tr([1-9]+)+", "\\1", as.character(thepage))
                seconddoc <- xmlParse(target)
-
                ## use xpathApply to find and return the nexus files
                node <- try(xpathApply(seconddoc, "//x:item[x:title='Nexus file']", 
                                 namespaces=c(x="http://purl.org/rss/1.0/"),
@@ -43,18 +58,32 @@ get_nexus <- function(query, curl=getCurlHandle()){
                                   close(con)
                                   nex
                                 }))
+               node[[1]]$id <- id # add the TreeBASE id to the phylogeny, so we can query its metadata
                if(is(node[[1]], "phylo")){
                  print("phylogeny obtained")
                } else {
                  print("phylogeny unaccessible")
                }
-               node[[1]] 
-          }))
+
+               if(branch_lengths){
+                 print("Checking for branch lengths")
+                 if(is.null(node[[1]]$edge.length)){
+                   out <- NULL 
+                 } else {
+                   out <- node[[1]]
+                 }
+               } else {
+                 out <- node[[1]]
+               }
+               out
+            }))
   }
 }     
 
 
-search_treebase <- function(input, by, exact_match=FALSE){
+search_treebase <- function(input, by, exact_match=FALSE, max_trees = Inf, branch_lengths=FALSE){
+# 
+# branch_lengths -- logical indicating whether should only return trees that have branch lengths.  
 
 
 # Choose the search type, for a description of all possible options, see
@@ -152,7 +181,8 @@ search_treebase <- function(input, by, exact_match=FALSE){
   query <- paste("http://purl.org/phylo/treebase/dev/phylows/", search_type, 
                  search_term[1], input, format, "&recordSchema=", schema, sep="")
   print(query)
-  out <- get_nexus(query)
+  out <- get_nexus(query, max_trees = max_trees, branch_lengths = branch_lengths)
+  out <- lapply(out, function(x) if(!is.null(x)) x) #remove NULLS FIXME
   class(out) <- "multiPhylo"
   out
 }
