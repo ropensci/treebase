@@ -36,7 +36,12 @@ get_nexus <- function(query, max_trees = Inf, curl=getCurlHandle(), branch_lengt
   if(is(search_returns, "try-error")){
     print("failed to parse query")
   } else {
-    try(xpathApply(search_returns, "//rdf:li",
+    if(max_trees == Inf){
+      max_trees <- "last()+1"
+    } else {
+      max_trees <- max_trees+1
+    }
+    try(xpathApply(search_returns, paste("//rdf:li[position()< ", max_trees, "]", sep=""),
              function(x){
                # Open the page on each resource 
                thepage <- xmlAttrs(x, "rdf:resource")
@@ -69,8 +74,10 @@ get_nexus <- function(query, max_trees = Inf, curl=getCurlHandle(), branch_lengt
                  print("Checking for branch lengths")
                  if(is.null(node[[1]]$edge.length)){
                    out <- NULL 
+                   print("no branch lengths")
                  } else {
                    out <- node[[1]]
+                   print("has branch lengths")
                  }
                } else {
                  out <- node[[1]]
@@ -182,7 +189,19 @@ search_treebase <- function(input, by, exact_match=FALSE, max_trees = Inf, branc
                  search_term[1], input, format, "&recordSchema=", schema, sep="")
   print(query)
   out <- get_nexus(query, max_trees = max_trees, branch_lengths = branch_lengths)
-  out <- lapply(out, function(x) if(!is.null(x)) x) #remove NULLS FIXME
+
+  # dumb way to drop null items
+  if(branch_lengths){
+    j <- 1
+    newout <- vector("list", 1)
+    for(i in 1:length(out)){
+        if(!is.null(out[[i]])){
+              newout[[j]] <- out[[i]]
+              j <- j+1
+        }
+    }
+  out <- newout
+  }
   class(out) <- "multiPhylo"
   out
 }
