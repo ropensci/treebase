@@ -6,11 +6,12 @@
 # With input from Ducan Temple Lang
 
 
-
+# Could take a phylogeny, but then function is less general
 
 metadata <- function(study.id, curl=getCurlHandle()){
   # Get the metadata associated with the study in which the phylogeny was published.
-  # if the tree is imported with search_treebase, then this is in tree$id:
+  # if the tree is imported with search_treebase, then this is in tree$S.id:
+  # Note that this is not the Tree ID, tree$Tr.id   
   #
   # Examples: 
   #   tree <- search_treebase("1234", "id.tree")

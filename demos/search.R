@@ -18,11 +18,14 @@ humans <- search_treebase('"Homo sapiens"', by="taxon", exact_match=TRUE)
 
 five <- search_treebase(5, by="ntax")
 
+# These are different, a tree ID isn't a Study Id
 studies <- search_treebase("2377", by="id.study")
 tree <- search_treebase("2377", by="id.tree")
+c("TreeID" = tree$Tr.id, "StudyID" = tree$S.id)
 
-
+# Only results wiht branch lengths
 Near <- search_treebase("Near", "author", branch_lengths=TRUE)
+# Check out the metadata from the study in which tree is published:
+metadata(Near[[1]]$S.id)
 
-#whales <- search_treebase('"Cetecea"', by="taxon")
 
