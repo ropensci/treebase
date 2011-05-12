@@ -11,14 +11,18 @@ Huelsenbeck <- search_treebase("Huelsenbeck", by="author")
 # Grab all trees by an author.  Can't distinguish between S. Price and R. Price 
 #price_trees <- search_treebase("Price", by="author")
 
-# notice the quotes
+
+## We'll often use max_trees in the example so that they run efficiently, remove to get 
+## all trees matching a query. 
+
+# notice the quotes for species.  
 dolphins <- search_treebase('"Delphinus"', by="taxon", max_trees=5)
 
 ## can do exact matches
 humans <- search_treebase('"Homo sapiens"', by="taxon", exact_match=TRUE, max_trees=10)
 
 # all trees with 5 taxa
-five <- search_treebase(5, by="ntax")
+five <- search_treebase(5, by="ntax", max_trees = 10)
 
 # These are different, a tree id isn't a Study id.  we report both
 studies <- search_treebase("2377", by="id.study")
@@ -74,7 +78,7 @@ s <- get_study_id( all[post2010] )
 
 # Grab the trees entered since 2011: (some studies will have multiple trees)
 #can compare dates with as.Date("2001-01-01", "%y-%m-%d) < as.Date ...
-m <- search_metadata("2011-05-01", by="from")
+m <- search_metadata("2011-05-05", by="from")
 s <- get_study_id(m)
 out <- lapply(s, function(x) search_treebase(x, "id.study"))
 
