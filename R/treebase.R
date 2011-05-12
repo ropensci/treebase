@@ -7,8 +7,8 @@ get_nexus <- function(query, max_trees = Inf, curl=getCurlHandle(), branch_lengt
   #   A list object containing all the trees matching the search (class phylo)
 
   n_trees <- 0
-  tt <- getURLContent(query, followlocation=TRUE, curl=curl)
-  search_returns <- xmlParse(tt)
+  tt <- try(getURLContent(query, followlocation=TRUE, curl=curl))
+  search_returns <- try(xmlParse(tt))
 
   if(is(search_returns, "try-error")){
     print("failed to parse query")

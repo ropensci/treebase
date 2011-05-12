@@ -2,19 +2,15 @@
 # the search prints url to the query.  Paste into a commandline to explore in a browser
 library(treebase)
 
+# Grab all trees by an author.  Can't distinguish between S. Price and R. Price 
+#price_trees <- search_treebase("Price", by="author")
 
 ## Use Booleans in search: and, or, not
 ## Note that by must identify each entry type if a Boolean is given
 HR_trees <- search_treebase("Ronquist or Hulesenbeck", by=c("author", "author"))
 Huelsenbeck <- search_treebase("Huelsenbeck", by="author")
 
-# Grab all trees by an author.  Can't distinguish between S. Price and R. Price 
-#price_trees <- search_treebase("Price", by="author")
-
-
-## We'll often use max_trees in the example so that they run efficiently, remove to get 
-## all trees matching a query. 
-
+## We'll often use max_trees in the example so that they run quickly, 
 # notice the quotes for species.  
 dolphins <- search_treebase('"Delphinus"', by="taxon", max_trees=5)
 
