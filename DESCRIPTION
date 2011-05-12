@@ -6,6 +6,7 @@ Date: 2011-04-25
 Author: Carl Boettiger <cboettig@gmail.com>
 Maintainer: Carl Boettiger <cboettig@gmail.com>
 Description: Interface to the API for TreeBASE 
-Imports: XML, RCurl, ape
+Imports: XML, RCurl
+Depends: ape
 URL: http://www.carlboettiger.info
 License: GPL (>= 2)
