@@ -25,10 +25,32 @@ metadata <- function(study.id, curl=getCurlHandle()){
 }
 
 
+search_metadata <- function(query, by=c("until", "from", "all"), curl=getCurlHandle()){
+# query must be a date in format yyyy-mm-dd
+# search_metadata(2010-01-01, by="until")
+# all isn't a real query type, but will return all trees regardless of date
+  by = match.arg(by)
+  oai_url <- "http://treebase.org/treebase-web/top/oai?verb=" 
+  list_record <- "ListRecords&metadataPrefix=oai_dc&"
+  midnight <- "T00:00:00Z"
+  query <- paste(oai_url, list_record, by, "=", query, midnight, sep="")
+  oai_metadata(query, curl=curl)
+}
+
+
+
+get_study_id <- function(search_results){
+  sapply(1:length(search_results), 
+          function(i){
+            id <- search_results[[i]]$identifier
+            id <- sub(".*TB2:S(\\d+)+", "\\1", id)
+          })
+}
+
 dryad_metadata <- function(study.id, curl=getCurlHandle()){
   # Example: 
   #   dryad_metadata("10255/dryad.12")
-
+  
   oai_url <- "http://www.datadryad.org/oai/request?verb=" 
   get_record <- "GetRecord&metadataPrefix=oai_dc&identifier=" 
   query <- paste(oai_url, get_record, "oai:datadryad.org:", study.id, sep="")

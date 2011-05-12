@@ -1,4 +1,4 @@
 import(RCurl)
 import(XML)
 import(ape)
-export(search_treebase, metadata, dryad_metadata)
+export(search_treebase, search_metadata, metadata, dryad_metadata, get_study_id)
