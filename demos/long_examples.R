@@ -3,24 +3,52 @@ library(treebase)
 
 Near <- search_treebase("Near", "author", branch_lengths=TRUE)
 
+timetree <- function(tree){
+    check.na <- try(sum(is.na(tree$edge.length))>0)
+    if(is(check.na, "try-error") | check.na)
+      NULL
+    else
+    try( chronoMPL(multi2di(tree)) )
+}
+drop_errors <- function(trees){
+## apply to a list of trees created with timetree to drop errors
+  tt <- tt[!sapply(trees, is.null)]
+  tt <- tt[!sapply(tt, function(x) is(x, "try-error"))]
+  print(paste("dropped", length(trees)-length(tt), "trees"))
+  tt
+}
+
+tt <- drop_errors(sapply(trees, timetree))
+
+
 require(laser)
 pick_branching_model <- function(tree){
-  timetree <- multi2di(chronopl(tree, lambda=1))
-  m1 <- pureBirth(branching.times(timetree))
-  m2 <- bd(branching.times(timetree))
-  m2$aic < m1$aic
+  m1 <- try(pureBirth(branching.times(tree)))
+  m2 <- try(bd(branching.times(tree)))
+  as.logical(try(m2$aic < m1$aic))
 }
-is_yule <- sapply(Near, pick_branching_model)
+
+is_yule <- sapply(tt, pick_branching_model)
+table(is_yule)
 
 
 
 # Return all treebase trees that have branch lengths
 # This has to download every tree in treebase, so not superfast...
 all <- search_treebase("Consensus", "type.tree", branch_lengths=TRUE)
+tt <- drop_errors(sapply(all, timetree))
+is_yule <- sapply(tt, pick_branching_model)
+table(is_yule)
 
+
+## Some metadata queries and stats on these trees (note that the manipulations haven't lost the study-ids!
 # Most trees with branches are recent additions
-dates <- sapply(1:length(all), function(i) metadata(all[[i]]$S.id)[[1]]$date)
+dates <- sapply(tt, function(x) metadata(x$S.id)[[1]]$date)
 hist(as.numeric(dates), main="Trees with branch lengths included", xlab="year")
 
-is_yule <- (all, pick_branching_model)
+
+Near[[1]] -> tree
+write.nexus(tree, file="ref.nex")
+system("./raxmlHPC -f e -t ref.nex -m GTRGAMMA -s ref.nex -n output.nex")
+
 

@@ -39,9 +39,9 @@ search_metadata <- function(query, by=c("until", "from", "all"), curl=getCurlHan
 
 
 get_study_id <- function(search_results){
-  sapply(1:length(search_results), 
-          function(i){
-            id <- search_results[[i]]$identifier
+  sapply(search_results, 
+          function(x){
+            id <- x$identifier
             id <- sub(".*TB2:S(\\d+)+", "\\1", id)
           })
 }
