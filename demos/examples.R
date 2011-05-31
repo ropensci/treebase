@@ -1,14 +1,21 @@
 # demos
 # the search prints url to the query.  Paste into a commandline to explore in a browser
-library(treebase)
+require(treebase)
 
-# Grab all trees by an author.  Can't distinguish between S. Price and R. Price 
-#price_trees <- search_treebase("Price", by="author")
+# defaults to return phylogeny 
+Huelsenbeck <- search_treebase("Huelsenbeck", by="author")
+
+# can ask for character matrices:
+wingless <- search_treebase("2907", by="id.matrix", returns="matrix")
+
+## Some nexus matrices don't meet read.nexus.data's strict requirements,
+## these aren't returned
+H_matrices <- search_treebase("Huelsenbeck", by="author", returns="matrix")
+
 
 ## Use Booleans in search: and, or, not
 ## Note that by must identify each entry type if a Boolean is given
 HR_trees <- search_treebase("Ronquist or Hulesenbeck", by=c("author", "author"))
-Huelsenbeck <- search_treebase("Huelsenbeck", by="author")
 
 ## We'll often use max_trees in the example so that they run quickly, 
 # notice the quotes for species.  

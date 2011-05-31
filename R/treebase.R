@@ -1,4 +1,4 @@
-get_nexus <- function(query, max_trees = Inf, curl=getCurlHandle(), branch_lengths=FALSE){
+get_nexus <- function(query, max_trees = Inf, curl=getCurlHandle(), branch_lengths=FALSE, returns="tree"){
   # imports phylogenetic trees from treebase
   # Args:
   #   query: a phylows formatted search, 
@@ -41,7 +41,12 @@ get_nexus <- function(query, max_trees = Inf, curl=getCurlHandle(), branch_lengt
                                   if(is.list(x))
                                     x = x[[1]]
                                   con <- url(xmlValue(x[["link"]]))
-                                  nex <- try(read.nexus(con))
+                                  if(returns=="tree"){
+                                    nex <- try(read.nexus(con))
+                                  } else if (returns=="matrix"){
+#                                    print(xmlValue(x[["link"]])) # print resource location
+                                    nex <- try(read.nexus.data(xmlValue(x[["link"]])))
+                                  }
                                   if(is(nex, "try-error")){
                                     print("Resource unavailable")
                                     nex <- NULL
@@ -49,16 +54,22 @@ get_nexus <- function(query, max_trees = Inf, curl=getCurlHandle(), branch_lengt
                                   close(con)
                                   nex
                                 }))
-               node[[1]]$Tr.id <- Tr.id # add the TreeBASE tree.id to the phylogeny, so we can query its metadata
-               node[[1]]$S.id <- S.id # add the TreeBASE id to the phylogeny, so we can query its metadata
+
+               if(returns == "tree"){
+                 node[[1]]$Tr.id <- Tr.id # add the TreeBASE tree.id to the phylogeny, so we can query its metadata
+                 node[[1]]$S.id <- S.id # add the TreeBASE id to the phylogeny, so we can query its metadata
+               }
+
                if(is(node[[1]], "phylo")){
                  print("phylogeny obtained")
-               } else {
+               } else if(is(node[[1]], "list")) {
+                 print("alignment obtained")
+               } else if(is.null(node[[1]])) {
                  print("phylogeny unaccessible")
                }
 
-               ## Return only trees that have branch lengths if asked to.  
-               if(branch_lengths){
+               ## Return only trees that have branch lengths if asked to. cannot apply to matrices 
+               if(branch_lengths & returns=="tree"){
                  print("Checking for branch lengths")
                  if(is.null(node[[1]]$edge.length)){
                    out <- NULL 
@@ -77,13 +88,28 @@ get_nexus <- function(query, max_trees = Inf, curl=getCurlHandle(), branch_lengt
 }     
 
 
-search_treebase <- function(input, by, exact_match=FALSE, max_trees = Inf, branch_lengths=FALSE){
+search_treebase <- function(input, by, returns=c("tree", "matrix"),   
+                            exact_match=FALSE, max_trees = Inf,
+                            branch_lengths=FALSE){
+# A function to pull in the phyologeny/phylogenies matching a search query
 # 
-# branch_lengths -- logical indicating whether should only return trees that have branch lengths.  
-
-
+# Args:
+#   input: a search query (character string)
+#   by: the kind of search; author, taxon, subject, study, etc (see list of     
+#       possible search terms)
+#   exact_match:  force exact matching for author name, taxon, etc.  Otherwise #                 does partial matching
+#   max_trees: Upper bound for the number of trees returned, good for keeping 
+#               possibly large initial queries fast
+#   branch_lengths: logical indicating whether should only return trees that 
+#                   have branch lengths.  
+#   returns: should fn return the character matrix or the tree phylogeny?
+# Returns:
+#   either a list of trees (multiphylo) or a list of character matrices
+#
+# Details:  
 # Choose the search type, for a description of all possible options, see
 # https://spreadsheets.google.com/pub?key=rL--O7pyhR8FcnnG5-ofAlw 
+
 
   nterms <- length(by)
   search_term <- character(nterms)
@@ -117,6 +143,7 @@ search_treebase <- function(input, by, exact_match=FALSE, max_trees = Inf, branc
                        tree = "tb.title.tree",
                        type.matrix="tb.type.matrix",
                        type.tree = "tb.type.tree")
+
   section[i] <- switch(by[i],
                        abstract= "study",
                        citation= "study",
@@ -157,17 +184,16 @@ search_treebase <- function(input, by, exact_match=FALSE, max_trees = Inf, branc
   }
 
   input <- gsub(" +", "%20\\1", input) # whitespace to html space symbol
-
-  #if(by=="taxon"){
-    input <- gsub("\"", "%22", input) # html quote code at start
-  #}
+  input <- gsub("\"", "%22", input) # html quote code at start
   if(exact_match){
     search_term <- gsub("=", "==", search_term) # exact match uses (==) 
   }
-# Some fixed 
-#Can be one of tree, study, or matrix. Each has nexus, nexml, rdf, and html versions
-# Probably needs to be "matrix" for those class of search items
-  schema <- "tree"  
+
+  returns <- match.arg(returns)
+  schema <- switch(returns,
+    tree = "tree",
+    matrix = "matrix")
+
 # We'll always use rss1 as the machine-readable format 
 # could attempt to open a webpage instead with html format to allow manual user search
   format <- "&format=rss1"
@@ -177,13 +203,20 @@ search_treebase <- function(input, by, exact_match=FALSE, max_trees = Inf, branc
   query <- paste("http://purl.org/phylo/treebase/dev/phylows/", search_type, 
                  search_term[1], input, format, "&recordSchema=", schema, sep="")
   print(query)
-  out <- get_nexus(query, max_trees = max_trees, branch_lengths = branch_lengths)
-  out <- out[!sapply(out, is.null)] # drop nulls
 
-  class(out) <- "multiPhylo"
-  # if returning one tree, don't make it a multiphylo list
-  if(length(out) == 1) 
-    out <- out[[1]]         
+
+    out <- get_nexus(query, max_trees = max_trees, branch_lengths =
+                     branch_lengths, returns=returns)
+    out <- out[!sapply(out, is.null)] # drop nulls
+
+  if(schema=="tree"){
+    class(out) <- "multiPhylo"
+    # if returning one tree, don't make it a multiphylo list -- nice gesture but not good practice to vary output type
+    # if(length(out) == 1) 
+    #  out <- out[[1]]  
+  } else if(schema=="matrix"){
+    
+  }
   out
 }
 
