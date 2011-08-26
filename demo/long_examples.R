@@ -52,3 +52,10 @@ write.nexus(tree, file="ref.nex")
 system("./raxmlHPC -f e -t ref.nex -m GTRGAMMA -s ref.nex -n output.nex")
 
 
+## add MEDUSA and TreePar examples
+
+
+
+
+
+

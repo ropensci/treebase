@@ -1,8 +1,12 @@
+
 require(treebase)
-search_treebase("Derryberry", "author") -> a
-tree <- a[[1]]
+search_treebase("Derryberry", "author")[[1]] -> tree
 metadata(tree$S.id)
 plot(tree)
+
+
+# Other such trees
+others <- search_treebase("furnariidae", by="taxon")
 
 
 # birth-death study
@@ -21,23 +25,16 @@ models <-  list(pb = pureBirth(tt),
                 )
 
 aics <- sapply(models, function(x) x$aic)
-
 models[which.min(aics)]
 
 
+names <- sapply(tree$tip.label, function(input) gsub("_", " ", input))
+others <- lapply(names, function(n) search_treebase(paste('"', n, '"', sep=""), by="taxon", exact=TRUE))
 
 
 
 
-
-
-
-
-
-
-
-
-
+out  <- runMedusa(tree, richness=data.frame(tree$tip.label, rep(1, tree$Nnode+1)))
 
 
 

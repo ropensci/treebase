@@ -1,4 +1,4 @@
-Package: treebase
+Package: rtreebase
 Type: Package
 Title: TreeBASE interface
 Version: 0.0-2
