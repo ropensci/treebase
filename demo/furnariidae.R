@@ -1,5 +1,5 @@
 
-require(treebase)
+require(rtreebase)
 search_treebase("Derryberry", "author")[[1]] -> tree
 metadata(tree$S.id)
 plot(tree)
