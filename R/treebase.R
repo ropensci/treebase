@@ -61,7 +61,7 @@ get_nexus <- function(query, max_trees = Inf, curl=getCurlHandle(), branch_lengt
                }
 
                if(is(node[[1]], "phylo")){
-                 print("phylogeny obtained")
+                 message("phylogeny obtained")
                } else if(is(node[[1]], "list")) {
                  print("alignment obtained")
                } else if(is.null(node[[1]])) {
@@ -202,7 +202,7 @@ search_treebase <- function(input, by, returns=c("tree", "matrix"),
   # Should eventually update to allow for multiple query terms with booleans
   query <- paste("http://purl.org/phylo/treebase/dev/phylows/", search_type, 
                  search_term[1], input, format, "&recordSchema=", schema, sep="")
-  print(query)
+  message(query)
 
 
     out <- get_nexus(query, max_trees = max_trees, branch_lengths =
