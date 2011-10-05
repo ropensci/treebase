@@ -33,9 +33,9 @@ others <- lapply(names, function(n) search_treebase(paste('"', n, '"', sep=""), 
 
 
 
-
-out  <- runMedusa(tree, richness=data.frame(tree$tip.label, rep(1, tree$Nnode+1)))
-
+richness=data.frame(tree$tip.label, rep(1, tree$Nnode+1))
+out  <- runMedusa(tree,richness)
+summaryMedusa(tree, richness, out) 
 
 
 

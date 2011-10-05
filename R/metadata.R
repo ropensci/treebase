@@ -46,6 +46,9 @@ get_study_id <- function(search_results){
           })
 }
 
+
+## Dryad MetaData functions
+
 dryad_metadata <- function(study.id, curl=getCurlHandle()){
   # Example: 
   #   dryad_metadata("10255/dryad.12")
@@ -55,8 +58,6 @@ dryad_metadata <- function(study.id, curl=getCurlHandle()){
   query <- paste(oai_url, get_record, "oai:datadryad.org:", study.id, sep="")
   oai_metadata(query, curl=curl)
 }
-
-
 
 oai_metadata <- function(query, curl=curl){
   print(query)
