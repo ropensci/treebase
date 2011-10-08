@@ -1,4 +1,13 @@
 
+## Log in lab notebook for Reproducible Research 
+require(socialR)
+script <- "furnariidae.R" # Must specify the script name! 
+gitaddr <- gitcommit(script)     # Must commmit at start and store id.
+
+
+
+
+
 require(rtreebase)
 search_treebase("Derryberry", "author")[[1]] -> tree
 metadata(tree$S.id)
@@ -6,11 +15,12 @@ plot(tree)
 
 
 # Other such trees
-others <- search_treebase("furnariidae", by="taxon")
+#others <- search_treebase("furnariidae", by="taxon")
 
 
 # birth-death study
-require(laser); require(TreePar)
+require(laser)
+require(TreePar)
 
 tt <- branching.times(tree)
 
@@ -27,19 +37,17 @@ models <-  list(pb = pureBirth(tt),
 aics <- sapply(models, function(x) x$aic)
 models[which.min(aics)]
 
+# replace underscores in names with spaces
+#names <- sapply(tree$tip.label, function(input) gsub("_", " ", input))
 
-names <- sapply(tree$tip.label, function(input) gsub("_", " ", input))
-others <- lapply(names, function(n) search_treebase(paste('"', n, '"', sep=""), by="taxon", exact=TRUE))
-
-
-
-richness=data.frame(tree$tip.label, rep(1, tree$Nnode+1))
-out  <- runMedusa(tree,richness)
-summaryMedusa(tree, richness, out) 
+# Search treebase for any of these taxa
+#others <- lapply(names, function(n) search_treebase(paste('"', n, '"', sep=""), by="taxon", exact=TRUE))
 
 
-
-
+# run medusa on this tree -- seems to choke on size
+#richness=data.frame(tree$tip.label, rep(1, tree$Nnode+1))
+#out  <- runMedusa(tree,richness)
+#summaryMedusa(tree, richness, out) 
 
 
 

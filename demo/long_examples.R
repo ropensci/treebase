@@ -10,15 +10,15 @@ timetree <- function(tree){
     else
     try( chronoMPL(multi2di(tree)) )
 }
-drop_errors <- function(trees){
+drop_errors <- function(tr){
 ## apply to a list of trees created with timetree to drop errors
-  tt <- tt[!sapply(trees, is.null)]
+  tt <- tr[!sapply(tr, is.null)]
   tt <- tt[!sapply(tt, function(x) is(x, "try-error"))]
-  print(paste("dropped", length(trees)-length(tt), "trees"))
+  print(paste("dropped", length(tr)-length(tt), "trees"))
   tt
 }
 
-tt <- drop_errors(sapply(trees, timetree))
+tt <- drop_errors(sapply(Near, timetree))
 
 
 require(laser)

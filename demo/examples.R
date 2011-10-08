@@ -41,7 +41,7 @@ metadata("2377")
 
 
 # get all trees from a certain depostition date forwards
-m <- search_metadata("1996-01-01", by="until")
+m <- search_metadata("2011-01-01", by="until")
 # extract any metadata, i.e. publication date
 dates <- sapply(m, function(x) as.numeric(x$date))
 hist(dates, main="TreeBase growth", xlab="Year")
@@ -93,7 +93,7 @@ topics <- sapply(all,
 all[grep("[Cc]omparative", topics)]
 
 # we can also list topics.  other than "in press", nothing is used frequently
-#unlist(topics[!sapply(topics, is.null)]) -> topics
+unlist(topics[!sapply(topics, is.null)]) -> topics
 #topics[topics != "in press"]
 
 
