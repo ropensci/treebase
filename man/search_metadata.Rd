@@ -1,82 +1,62 @@
 \name{search_metadata}
 \alias{search_metadata}
-\title{
-  Search the TreeBASE metadata by year
+\title{Search the metadata on treebase using the OAI-MPH interface}
+\usage{
+  search_metadata(query, by = c("until", "from", "all"),
+  curl = getCurlHandle())
+}
+\arguments{
+  \item{query}{a date in format yyyy-mm-dd}
+
+  \item{by}{return all data "until" that date, "from" that
+  date to current, or "all"}
+
+  \item{curl}{if calling in series many times, call
+  getCurlHandle() first and then pass the return value in
+  here. Avoids repeated handshakes with server.}
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+  Search the metadata on treebase using the OAI-MPH
+  interface
 }
-\usage{
-search_metadata(query, by = c("until", "from", "all"), curl = getCurlHandle())
-}
-%- maybe also 'usage' for other objects documented here.
-\arguments{
-  \item{query}{
-  A date in format "%Y-%m-%d" 
-}
-  \item{by}{
-    until -- all trees deposited up until given date
-    from -- all trees deposited from given date on
-    all -- all trees (needs no date, give blank or is ignored)
-}
-  \item{curl}{
-    leave as default
-}
-}
-\value{
- Returns a list with all metadata
-}
-\references{
-  Project Development portal: \url{https://github.com/cboettig/treeBASE}
-  TreeBASE phylo-ws API: \url{http://sourceforge.net/apps/mediawiki/treebase/index.php?title=API}
-  TreeBASE OAI-PMH API: \url{http://sourceforge.net/apps/mediawiki/treebase/index.php?title=OAI-PMH}
-  Dryad API: \url{https://datadryad.org/wiki/API}
-}
-\author{
-Carl Boettiger \email{cboettig@gmail.com}
-}
+\details{
+  query
 
-
+  must be#' search_metadata(2010-01-01, by="until") all
+  isn't a real query type, but will return all trees
+  regardless of date
+}
 \examples{
-  \dontrun{
-    
-# get all trees from a certain depostition date forwards
-    m <- search_metadata("1996-01-01", by="until")
-# extract any metadata, i.e. publication date
-    dates <- sapply(m, function(x) as.numeric(x$date))
-    hist(dates, main="TreeBase growth", xlab="Year")
+\dontrun{
+Near <- search_treebase("Near", "author", max_trees=1)
+metadata(Near[[1]]$S.id)
+## or manualy give a sudy id
+metadata("2377")
 
-# can search for studies deposited more recently than given date:
-m <- search_metadata("2010-01-01", by="from")
-# can do richer metadata slicing, i.e. query on date, summarize by author: 
+### get all trees from a certain depostition date forwards ##
+m <- search_metadata("2009-01-01", by="until")
+## extract any metadata, e.g. publication date:
+dates <- sapply(m, function(x) as.numeric(x$date))
+hist(dates, main="TreeBase growth", xlab="Year")
+
+### show authors with most tree submissions in that date range
 authors <- sapply(m, function(x){
-    index <- grep( "creator", names(x))
-      x[index] 
-        })
+index <- grep( "creator", names(x))
+x[index]
+})
 a <- as.factor(unlist(authors))
 head(summary(a))
 
-
-# Get metadata for all trees in treebase date 
+## Show growth of TreeBASE
 all <- search_metadata("", by="all")
-dates <- sapply(1:length(all), function(i) as.numeric(all[[i]]$date))
+dates <- sapply(all, function(x) as.numeric(x$date))
 hist(dates, main="TreeBase growth", xlab="Year")
 
-# Use that to get all trees "published" after 2010
-# publication date is only a year i
-## MANY TREES, may be SLOW
-post2010 <- sapply(dates, function(x) 2010 < as.numeric(x))
-s <- get_study_id( all[post2010] )
-out <- lapply(s, function(x) search_treebase(x, "id.study"))
-
-
-# Grab the trees entered since 2011: (some studies will have multiple trees)
-#can compare dates with as.Date("2001-01-01", "%y-%m-%d) < as.Date ...
-m <- search_metadata("2011-05-05", by="from")
-s <- get_study_id(m)
-out <- lapply(s, function(x) search_treebase(x, "id.study"))
-
-
-
-  }
+## make a barplot submission volume by journals
+journals <- sapply(all, function(x) x$publisher)
+J <- tail(sort(table(as.factor(unlist(journals)))),5)
+b<- barplot(as.numeric(J))
+text(b, names(J), srt=70, pos=4, xpd=T)
 }
+}
+

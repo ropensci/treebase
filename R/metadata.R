@@ -5,18 +5,21 @@
 # With input from Ducan Temple Lang
 
 
-# 
-
+#' Get the metadata associated with the study in which the phylogeny
+#'  was published.
+#' @param The treebase study id (numbers only, specify in quotes)
+#' @param curl if calling in series many times, call getCurlHandle()
+#'  first and then pass the return value in here.  avoids repeated
+#' handshakes with server. 
+#' @details if the tree is imported with search_treebase, 
+#' then this is in tree$S.id
+#' @keywords utilities
+#' @examples \dontrun{
+#'   tree <- search_treebase("1234", "id.tree")
+#'   metadata(tree$S.id)
+#' }
+#' @export
 metadata <- function(study.id, curl=getCurlHandle()){
-  # Get the metadata associated with the study in which the phylogeny was published.
-  # if the tree is imported with search_treebase, then this is in tree$S.id:
-  # Note that this is not the Tree ID, tree$Tr.id   
-  #
-  # Examples: 
-  #   tree <- search_treebase("1234", "id.tree")
-  #   metadata(tree$S.id)
-  #   
-
   oai_url <- "http://treebase.org/treebase-web/top/oai?verb=" 
   get_record <- "GetRecord&metadataPrefix=oai_dc&identifier=" 
   query <- paste(oai_url, get_record, "TB:s", study.id, sep="")
@@ -24,10 +27,48 @@ metadata <- function(study.id, curl=getCurlHandle()){
 }
 
 
-search_metadata <- function(query, by=c("until", "from", "all"), curl=getCurlHandle()){
-# query must be a date in format yyyy-mm-dd
-# search_metadata(2010-01-01, by="until")
-# all isn't a real query type, but will return all trees regardless of date
+#' Search the metadata on treebase using the OAI-MPH interface
+#' @param query a date in format yyyy-mm-dd
+#' @param by return all data "until" that date, 
+#'   "from" that date to current, or "all"
+#' @param curl if calling in series many times, call getCurlHandle() first and 
+#'  then pass the return value in here. Avoids repeated handshakes with server.
+#' @details query must be#'  search_metadata(2010-01-01, by="until")
+#'  all isn't a real query type, but will return all trees regardless of date
+#' @examples \dontrun{
+#' Near <- search_treebase("Near", "author", max_trees=1)
+#'  metadata(Near[[1]]$S.id)
+#' ## or manualy give a sudy id
+#' metadata("2377")
+#' 
+#' ### get all trees from a certain depostition date forwards ##
+#' m <- search_metadata("2009-01-01", by="until")
+#' ## extract any metadata, e.g. publication date:
+#' dates <- sapply(m, function(x) as.numeric(x$date))
+#' hist(dates, main="TreeBase growth", xlab="Year")
+#' 
+#' ### show authors with most tree submissions in that date range 
+#' authors <- sapply(m, function(x){
+#'    index <- grep( "creator", names(x))
+#'      x[index] 
+#' })
+#' a <- as.factor(unlist(authors))
+#' head(summary(a))
+#' 
+#' ## Show growth of TreeBASE 
+#' all <- search_metadata("", by="all")
+#' dates <- sapply(all, function(x) as.numeric(x$date))
+#' hist(dates, main="TreeBase growth", xlab="Year")
+#' 
+#' ## make a barplot submission volume by journals
+#' journals <- sapply(all, function(x) x$publisher)
+#' J <- tail(sort(table(as.factor(unlist(journals)))),5)
+#' b<- barplot(as.numeric(J))
+#' text(b, names(J), srt=70, pos=4, xpd=T)
+#' }
+#' @export
+search_metadata <- function(query, by=c("until", "from", "all"),
+                            curl=getCurlHandle()){
   by = match.arg(by)
   oai_url <- "http://treebase.org/treebase-web/top/oai?verb=" 
   list_record <- "ListRecords&metadataPrefix=oai_dc&"
@@ -37,7 +78,22 @@ search_metadata <- function(query, by=c("until", "from", "all"), curl=getCurlHan
 }
 
 
-
+#' return the study.id from the search results.  
+#' @param search_results
+#' @return the study id
+#' @details this function is commonly used to get trees corresponding
+#'   to the metadata search.  
+#' @examples \dontrun{
+#' all <- search_metadata("", by="all")
+#' 
+#' nature <- sapply(all, function(x) length(grep("Nature", x$publisher))>0)
+#' science <- sapply(all, function(x) length(grep("^Science$", x$publisher))>0)
+#' s <- get_study_id( all[nature] )
+#' nature_trees <- sapply(s, function(x) search_treebase(x, "id.study"))
+#' s <- get_study_id(all[science])
+#' science_trees <- sapply(s, function(x) search_treebase(x, "id.study", branch=T))
+#' }
+#' @export
 get_study_id <- function(search_results){
   sapply(search_results, 
           function(x){
@@ -47,18 +103,30 @@ get_study_id <- function(search_results){
 }
 
 
-## Dryad MetaData functions
 
+#' Search the dryad metadata archive
+#' @param dryad study.id
+#' @param curl if calling in series many times, call getCurlHandle() first and 
+#'  then pass the return value in here. Avoids repeated handshakes with server.
+#' @return a list object containing the study metadata
+#' @examples \dontrun{
+#'   dryad_metadata("10255/dryad.12")
+#' }
+#' @export
 dryad_metadata <- function(study.id, curl=getCurlHandle()){
-  # Example: 
-  #   dryad_metadata("10255/dryad.12")
-  
   oai_url <- "http://www.datadryad.org/oai/request?verb=" 
   get_record <- "GetRecord&metadataPrefix=oai_dc&identifier=" 
   query <- paste(oai_url, get_record, "oai:datadryad.org:", study.id, sep="")
   oai_metadata(query, curl=curl)
 }
 
+
+#' Internal function for OAI-MPH interface to the Dryad database
+#' @param query a properly formed url query to dryad
+#' @param curl if calling in series many times, call getCurlHandle() first and 
+#'  then pass the return value in here. Avoids repeated handshakes with server.
+#' @keywords internal
+#' @seealso \code{\link{dryad_metadata}}
 oai_metadata <- function(query, curl=curl){
   print(query)
   tt <- getURLContent(query, followlocation=TRUE, curl=curl)

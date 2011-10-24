@@ -3,10 +3,16 @@ Type: Package
 Title: TreeBASE interface
 Version: 0.0-2
 Date: 2011-04-25
-Author: Carl Boettiger, Duncan Temple-Lang 
+Author: Carl Boettiger, Duncan Temple-Lang
 Maintainer: Carl Boettiger <cboettig@gmail.com>
-Description: Interface to the API for TreeBASE 
-Imports: XML, RCurl
-Depends: ape
+Description: Interface to the API for TreeBASE
+Imports:
+    XML,
+    RCurl
+Depends:
+    ape
 URL: http://www.github.com/cboettig/treeBASE
 License: GPL (>= 2)
+Collate:
+    'metadata.R'
+    'treebase.R'

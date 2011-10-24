@@ -1,47 +1,34 @@
 \name{get_study_id}
 \alias{get_study_id}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-  A function to get the TreeBASE study id
-  }
-\description{
-  A simple function to grab the TreeBASE study id from the  query from search_metadata
-
-}
+\title{return the study.id from the search results.}
 \usage{
-get_study_id(search_results)
+  get_study_id(search_results)
 }
 \arguments{
-  \item{search_results}{
-  The output of \code{\link{search_metadata}} function
-}
-}
-\details{
-  Parses the \code{\link{search_metadata}} output to return just the study ids.
-  This information can be passed to search_treebase to return the corresponding trees
+  \item{search_results}{}
 }
 \value{
-  A character string with each element containing a TreeBASE study id.
+  the study id
 }
-\references{
- Project Development portal: \url{https://github.com/cboettig/treeBASE}
- TreeBASE phylo-ws API: \url{http://sourceforge.net/apps/mediawiki/treebase/index.php?title=API}
- TreeBASE OAI-PMH API: \url{http://sourceforge.net/apps/mediawiki/treebase/index.php?title=OAI-PMH}
- Dryad API: \url{https://datadryad.org/wiki/API}
+\description{
+  return the study.id from the search results.
 }
-\author{
-Carl Boettiger \email{cboettig@gmail.com}
-}
+\details{
+  this
 
-\seealso{
-  \code{\link{search_metadata}}
-  \code{\link{search_treebase}}
-
+  function is commonly used to get trees corresponding to
+  the metadata search.
 }
 \examples{
-  \dontrun{
-    m <- search_metadata("2011-05-05", by="from")
-    s <- get_study_id(m)
-    out <- lapply(s, function(x) search_treebase(x, "id.study"))
-  }
+\dontrun{
+all <- search_metadata("", by="all")
+
+nature <- sapply(all, function(x) length(grep("Nature", x$publisher))>0)
+science <- sapply(all, function(x) length(grep("^Science$", x$publisher))>0)
+s <- get_study_id( all[nature] )
+nature_trees <- sapply(s, function(x) search_treebase(x, "id.study"))
+s <- get_study_id(all[science])
+science_trees <- sapply(s, function(x) search_treebase(x, "id.study", branch=T))
 }
+}
+
