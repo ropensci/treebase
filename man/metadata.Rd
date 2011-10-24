@@ -6,8 +6,8 @@ was published.}
   metadata(study.id, curl = getCurlHandle())
 }
 \arguments{
-  \item{The}{treebase study id (numbers only, specify in
-  quotes)}
+  \item{study.id}{The treebase study id (numbers only,
+  specify in quotes)}
 
   \item{curl}{if calling in series many times, call
   getCurlHandle() first and then pass the return value in

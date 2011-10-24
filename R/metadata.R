@@ -7,7 +7,7 @@
 
 #' Get the metadata associated with the study in which the phylogeny
 #'  was published.
-#' @param The treebase study id (numbers only, specify in quotes)
+#' @param study.id The treebase study id (numbers only, specify in quotes)
 #' @param curl if calling in series many times, call getCurlHandle()
 #'  first and then pass the return value in here.  avoids repeated
 #' handshakes with server. 
@@ -105,7 +105,7 @@ get_study_id <- function(search_results){
 
 
 #' Search the dryad metadata archive
-#' @param dryad study.id
+#' @param study.id the dryad identifier
 #' @param curl if calling in series many times, call getCurlHandle() first and 
 #'  then pass the return value in here. Avoids repeated handshakes with server.
 #' @return a list object containing the study metadata

@@ -5,7 +5,7 @@
   dryad_metadata(study.id, curl = getCurlHandle())
 }
 \arguments{
-  \item{dryad}{study.id}
+  \item{study.id}{the dryad identifier}
 
   \item{curl}{if calling in series many times, call
   getCurlHandle() first and then pass the return value in
