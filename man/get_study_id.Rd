@@ -5,7 +5,8 @@
   get_study_id(search_results)
 }
 \arguments{
-  \item{search_results}{}
+  \item{search_results}{the output of search_metadata, or a
+  subset thereof}
 }
 \value{
   the study id

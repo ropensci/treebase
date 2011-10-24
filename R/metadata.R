@@ -79,7 +79,7 @@ search_metadata <- function(query, by=c("until", "from", "all"),
 
 
 #' return the study.id from the search results.  
-#' @param search_results
+#' @param search_results the output of search_metadata, or a subset thereof
 #' @return the study id
 #' @details this function is commonly used to get trees corresponding
 #'   to the metadata search.  
