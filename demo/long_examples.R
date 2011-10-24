@@ -1,5 +1,5 @@
 #long_examples.R
-library(treebase)
+require(treebase)
 
 Near <- search_treebase("Near", "author", branch_lengths=TRUE)
 
@@ -47,9 +47,9 @@ dates <- sapply(tt, function(x) metadata(x$S.id)[[1]]$date)
 hist(as.numeric(dates), main="Trees with branch lengths included", xlab="year")
 
 
-Near[[1]] -> tree
-write.nexus(tree, file="ref.nex")
-system("./raxmlHPC -f e -t ref.nex -m GTRGAMMA -s ref.nex -n output.nex")
+# Near[[1]] -> tree
+# write.nexus(tree, file="ref.nex")
+# system("./raxmlHPC -f e -t ref.nex -m GTRGAMMA -s ref.nex -n output.nex")
 
 
 ## add MEDUSA and TreePar examples

@@ -12,7 +12,6 @@ wingless <- search_treebase("2907", by="id.matrix", returns="matrix")
 ## these aren't returned
 H_matrices <- search_treebase("Huelsenbeck", by="author", returns="matrix")
 
-
 ## Use Booleans in search: and, or, not
 ## Note that by must identify each entry type if a Boolean is given
 HR_trees <- search_treebase("Ronquist or Hulesenbeck", by=c("author", "author"))
@@ -32,6 +31,8 @@ c("TreeID" = tree$Tr.id, "StudyID" = tree$S.id)
 # Has to grab all the trees first, then toss out ones without branch_lengths
 Near <- search_treebase("Near", "author", branch_lengths=TRUE)
 length(Near)
+
+
 #### Metadata examples ### 
 # Use the OAI-PMH api to check out the metadata from the study in which tree is published:
 metadata(Near[[1]]$S.id)

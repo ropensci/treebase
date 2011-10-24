@@ -1,22 +1,10 @@
-
-## Log in lab notebook for Reproducible Research 
-require(socialR)
-script <- "furnariidae.R" # Must specify the script name! 
-gitaddr <- gitcommit(script)     # Must commmit at start and store id.
-
-
-
-
-
-require(rtreebase)
+require(treebase)
 search_treebase("Derryberry", "author")[[1]] -> tree
 metadata(tree$S.id)
 plot(tree)
 
-
 # Other such trees
 #others <- search_treebase("furnariidae", by="taxon")
-
 
 # birth-death study
 require(laser)
@@ -42,7 +30,6 @@ models[which.min(aics)]
 
 # Search treebase for any of these taxa
 #others <- lapply(names, function(n) search_treebase(paste('"', n, '"', sep=""), by="taxon", exact=TRUE))
-
 
 # run medusa on this tree -- seems to choke on size
 #richness=data.frame(tree$tip.label, rep(1, tree$Nnode+1))
