@@ -256,7 +256,7 @@ search_treebase <- function(input, by, returns=c("tree", "matrix"),
 
   # combine into a search query
   # Should eventually update to allow for multiple query terms with booleans
-  query <- paste("http://purl.org/phylo/treebase/dev/phylows/", search_type, 
+  query <- paste("http://purl.org/phylo/treebase/phylows/", search_type, 
                  search_term[1], input, format, "&recordSchema=", schema, sep="")
   message(query)
 
