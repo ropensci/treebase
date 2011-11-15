@@ -19,7 +19,7 @@
 }
 \examples{
 \dontrun{
-dryad_metadata("10255/dryad.12")
+  dryad_metadata("10255/dryad.12")
 }
 }
 

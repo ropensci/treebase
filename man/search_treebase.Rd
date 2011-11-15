@@ -3,8 +3,8 @@
 \title{A function to pull in the phyologeny/phylogenies matching a search query}
 \usage{
   search_treebase(input, by, returns = c("tree", "matrix"),
-  exact_match = FALSE, max_trees = Inf, branch_lengths =
-  FALSE)
+    exact_match = FALSE, max_trees = Inf,
+    branch_lengths = FALSE, curl = getCurlHandle())
 }
 \arguments{
   \item{input}{a search query (character string)}
@@ -16,7 +16,7 @@
   character matrix?}
 
   \item{exact_match}{force exact matching for author name,
-  taxon, etc. Otherwise does partial matching}
+  taxon, etc.  Otherwise does partial matching}
 
   \item{max_trees}{Upper bound for the number of trees
   returned, good for keeping possibly large initial queries
@@ -24,6 +24,10 @@
 
   \item{branch_lengths}{logical indicating whether should
   only return trees that have branch lengths.}
+
+  \item{curl}{the handle to the curl web utility for
+  repeated calls, see the getCurlHandle() function in RCurl
+  package for details.}
 }
 \value{
   either a list of trees (multiphylo) or a list of
@@ -34,9 +38,7 @@
   a search query
 }
 \details{
-  Choose
-
-  the search type.  Options are:
+  Choose the search type.  Options are:
   abstract="dcterms.abtract", search terms in the
   publication abstract
   citation="dcterms.bibliographicCitation", author =
@@ -93,7 +95,7 @@ c("TreeID" = tree$Tr.id, "StudyID" = tree$S.id)
 ## Only results with branch lengths
 ## Has to grab all the trees first, then toss out ones without branch_lengths
 Near <- search_treebase("Near", "author", branch_lengths=TRUE)
-}
+ }
 }
 \keyword{utility}
 
