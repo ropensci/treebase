@@ -89,9 +89,6 @@ search_metadata <- function(query, by=c("until", "from", "all"),
 #' nature <- sapply(all, function(x) length(grep("Nature", x$publisher))>0)
 #' science <- sapply(all, function(x) length(grep("^Science$", x$publisher))>0)
 #' s <- get_study_id( all[nature] )
-#' nature_trees <- sapply(s, function(x) search_treebase(x, "id.study"))
-#' s <- get_study_id(all[science])
-#' science_trees <- sapply(s, function(x) search_treebase(x, "id.study", branch=T))
 #' }
 #' @export
 get_study_id <- function(search_results){
@@ -103,6 +100,25 @@ get_study_id <- function(search_results){
 }
 
 
+#' return the trees in treebase that correspond to the search results
+#' @param search_results the output of search_metadata, or a subset thereof
+#' @param curl the handle to the curl web utility for repeated calls, see
+#'  the getCurlHandle() function in RCurl package for details.  
+#' @param ... additional arguments to pass to search_treebase
+#' @return all corresponding phylogenies.  
+#' @details this function is commonly used to get trees corresponding
+#'   to the metadata search.  
+#' @examples \dontrun{
+#' all <- search_metadata("", by="all")
+#' nature <- sapply(all, function(x) length(grep("Nature", x$publisher))>0)
+#' science <- sapply(all, function(x) length(grep("^Science$", x$publisher))>0)
+#' s <- get_study( all[nature] )
+#' s <- get_study(all[science])
+#' }
+#' @export
+get_study <- function(search_results, curl=getCurlHandle(), ...){
+  sapply(s, function(x) search_treebase(x, input="id.study", curl=curl, ...))
+}
 
 #' Search the dryad metadata archive
 #' @param study.id the dryad identifier
