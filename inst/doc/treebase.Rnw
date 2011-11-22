@@ -1,0 +1,103 @@
+\documentclass{elsarticle}
+
+%% Redefines the elsarticle footer
+\makeatletter
+\def\ps@pprintTitle{%
+ \let\@oddhead\@empty
+ \let\@evenhead\@empty
+ \def\@oddfoot{\it \hfill\today}%
+ \let\@evenfoot\@oddfoot}
+\makeatother
+
+
+\bibliographystyle{elsarticle-harv}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage[pdftex, colorlinks]{hyperref}
+\usepackage{amsmath, amsfonts}  % extended mathematics
+\usepackage{booktabs} % book-quality tables
+\usepackage{units}    % non-stacked fractions and better unit spacing
+\usepackage{multicol} % multiple column layout facilities
+\usepackage{lipsum}   % filler text
+\usepackage{fancyvrb} % extended verbatim environments
+\fvset{fontsize=\normalsize}% default font size for fancy-verbatim environments
+\usepackage{xspace}
+
+\textwidth 6.75in
+\oddsidemargin -0.15in
+\evensidemargin -0.15in
+\textheight 9in
+\topmargin -0.5in
+\newcommand{\ud}{\mathrm{d}}
+
+% should be able to set figure size with:
+%  <<label=test, fig=TRUE, width=5, height=5>>=
+
+%-------------------------------------------------------------------------------
+\RequirePackage{fancyvrb}
+\RequirePackage{listings}
+%% important: keep the following comment in
+%% (see https://mailman.stat.ethz.ch/pipermail/r-help/2009-July/204747.html)
+%% this comment persuades Sweav enot to insert\usepackage{Sweave}
+%-------------------------------------------------------------------------------
+\SweaveOpts{keep.source=TRUE}
+%-------------------------------------------------------------------------------
+<<SweaveListingsPreparations,results=tex,echo=FALSE,strip.white=false>>=
+## Must require any other packages to be loaded here!! 
+require(SweaveListingUtils)
+require(ggplot2)
+require(treebase)
+## must call this setup 
+SweaveListingPreparations()
+## you may also wish to pass arguments to SweaveListingPreparations()
+## This next line may be skipped in general, see ?SweaveListingPreparations 
+setToBeDefinedPkgs(pkgs=c("SweaveListingUtils","distr"),
+                   keywordstyles=c("\\bf\\color{blue}","\\bf\\color{red}"))
+@
+                   
+
+\begin{document}
+\begin{frontmatter}
+  \title{An introduction to the \texttt{package-name} Package}
+  \author[davis]{Carl Boettiger\corref{cor1}}
+  \ead{cboettig@ucdavis.edu}
+  %\author[davis]{}
+  \cortext[cor1]{Corresponding author.}
+  \address[davis]{Center for Population Biology, University of California, Davis, United States}
+
+  \begin{abstract}
+  Here's an abstract
+  \end{abstract}
+
+  \begin{keyword}
+   R  \sep vignette
+   \end{keyword}
+ \end{frontmatter}
+
+\section{Introduction}
+The introduction
+
+<<basicQueries echo=TRUE>>=
+search_treebase('"Delphinus"', by="taxon", max_trees=2)
+@
+
+\begin{figure}
+<<Figure1, fig=TRUE, echo=TRUE, width=3, height=3>>=
+p <- qplot(rnorm(10), rnorm(10))
+print(p)
+@
+\end{figure}
+
+ \section{Acknowledgements}
+ CB is supported by a Computational Sciences Graduate Fellowship from the Department of Energy under grant number DE-FG02-97ER25308. 
+ \section*{ }%bibliography
+ \bibliography{/home/cboettig/Documents/Mendeley/bib/library.bib}
+
+
+<<cleanup, echo=FALSE>>=
+unloadNamespace("SweaveListingUtils")
+@
+
+\end{document}
+
+

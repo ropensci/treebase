@@ -6,6 +6,7 @@
 #'  should be kept.  
 #' @param returns should return the tree object or the matrix (of sequences)
 #' @param curl the handle to the curl 
+#' @param verbose a logical indicating if output should be printed to screen
 #' @return A list object containing all the trees matching the search 
 #'    (of class phylo)
 #' @import XML
@@ -13,7 +14,7 @@
 #' @import ape
 #' @keywords internal
 get_nexus <- function(query, max_trees = Inf, branch_lengths=FALSE, 
-                      returns="tree", curl=getCurlHandle()){
+                      returns="tree", curl=getCurlHandle(), verbose=TRUE){
   n_trees <- 0
   tt <- try(getURLContent(query, followlocation=TRUE, curl=curl))
   search_returns <- try(xmlParse(tt))
@@ -70,22 +71,22 @@ get_nexus <- function(query, max_trees = Inf, branch_lengths=FALSE,
                }
 
                if(is(node[[1]], "phylo")){
-                 message("phylogeny obtained")
+                 if(verbose) message("phylogeny obtained")
                } else if(is(node[[1]], "list")) {
-                 print("alignment obtained")
+                 if(verbose) print("alignment obtained")
                } else if(is.null(node[[1]])) {
-                 print("phylogeny unaccessible")
+                 if(verbose) print("phylogeny unaccessible")
                }
 
                ## Return only trees that have branch lengths if asked to. cannot apply to matrices 
                if(branch_lengths & returns=="tree"){
-                 print("Checking for branch lengths")
+                 if(verbose) print("Checking for branch lengths")
                  if(is.null(node[[1]]$edge.length)){
                    out <- NULL 
-                   print("no branch lengths")
+                   if(verbose) print("no branch lengths")
                  } else {
                    out <- node[[1]]
-                   print("has branch lengths")
+                   if(verbose) print("has branch lengths")
                  }
                } else {
                  out <- node[[1]]
@@ -110,6 +111,7 @@ get_nexus <- function(query, max_trees = Inf, branch_lengths=FALSE,
 #'   trees that have branch lengths. 
 #' @param curl the handle to the curl web utility for repeated calls, see
 #'  the getCurlHandle() function in RCurl package for details.  
+#' @param verbose logical indicating level of progress reporting
 #' @return either a list of trees (multiphylo) or a list of character matrices
 #' @keywords utility
 #' @details Choose the search type.  Options are:
@@ -175,7 +177,8 @@ get_nexus <- function(query, max_trees = Inf, branch_lengths=FALSE,
 #' @export
 search_treebase <- function(input, by, returns=c("tree", "matrix"),   
                             exact_match=FALSE, max_trees = Inf,
-                            branch_lengths=FALSE, curl=getCurlHandle()){
+                            branch_lengths=FALSE, curl=getCurlHandle(),
+                            verbose=TRUE){
 
   nterms <- length(by)
   search_term <- character(nterms)
