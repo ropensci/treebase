@@ -1,7 +1,7 @@
 \name{metadata}
 \alias{metadata}
 \title{Get the metadata associated with the study in which the phylogeny
-was published.}
+ was published.}
 \usage{
   metadata(study.id, curl = getCurlHandle())
 }
@@ -18,15 +18,13 @@ was published.}
   phylogeny was published.
 }
 \details{
-  if
-
-  the tree is imported with search_treebase, then this is
-  in tree$S.id
+  if the tree is imported with search_treebase, then this
+  is in tree$S.id
 }
 \examples{
 \dontrun{
-tree <- search_treebase("1234", "id.tree")
-metadata(tree$S.id)
+  tree <- search_treebase("1234", "id.tree")
+  metadata(tree$S.id)
 }
 }
 \keyword{utilities}

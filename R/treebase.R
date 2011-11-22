@@ -1,12 +1,19 @@
 #' imports phylogenetic trees from treebase. internal function
 #' @param query : a phylows formatted search, 
-#'     see https://sourceforge.net/apps/mediawiki/treebase/index.php?title=API 
-#' @return A list object containing all the trees matching the search (class phylo)
+#'     see https://sourceforge.net/apps/mediawiki/treebase/index.php?title=API
+#' @param max_trees limits the number of trees returned
+#' @param branch_lengths logical indicating if only trees with branch lengths 
+#'  should be kept.  
+#' @param returns should return the tree object or the matrix (of sequences)
+#' @param curl the handle to the curl 
+#' @return A list object containing all the trees matching the search 
+#'    (of class phylo)
 #' @import XML
 #' @import RCurl
 #' @import ape
 #' @keywords internal
-get_nexus <- function(query, max_trees = Inf, curl=getCurlHandle(), branch_lengths=FALSE, returns="tree"){
+get_nexus <- function(query, max_trees = Inf, branch_lengths=FALSE, 
+                      returns="tree", curl=getCurlHandle()){
   n_trees <- 0
   tt <- try(getURLContent(query, followlocation=TRUE, curl=curl))
   search_returns <- try(xmlParse(tt))
@@ -19,7 +26,8 @@ get_nexus <- function(query, max_trees = Inf, curl=getCurlHandle(), branch_lengt
     } else {
       max_trees <- max_trees+1
     }
-    try(xpathApply(search_returns, paste("//rdf:li[position()< ", max_trees, "]", sep=""),
+    try(xpathApply(search_returns, paste("//rdf:li[position()< ",
+                                          max_trees, "]", sep=""),
              function(x){
                # Open the page on each resource 
 
@@ -32,7 +40,7 @@ get_nexus <- function(query, max_trees = Inf, curl=getCurlHandle(), branch_lengt
               
                # Get the study ID  
                S.id <- xpathSApply(seconddoc, "//x:isDefinedBy", xmlValue, 
-                           namespaces=c(x="http://www.w3.org/2000/01/rdf-schema#"))[2]
+                    namespaces=c(x="http://www.w3.org/2000/01/rdf-schema#"))[2]
                S.id <- gsub(".*TB2:S([1-9]+)+", "\\1", S.id)
 
                ## use xpathApply to find and return the nexus files
@@ -45,7 +53,7 @@ get_nexus <- function(query, max_trees = Inf, curl=getCurlHandle(), branch_lengt
                                   if(returns=="tree"){
                                     nex <- try(read.nexus(con))
                                   } else if (returns=="matrix"){
-#                                    print(xmlValue(x[["link"]])) # print resource location
+#                                 print(xmlValue(x[["link"]])) # print resource location
                                     nex <- try(read.nexus.data(xmlValue(x[["link"]])))
                                   }
                                   if(is(nex, "try-error")){
@@ -57,8 +65,8 @@ get_nexus <- function(query, max_trees = Inf, curl=getCurlHandle(), branch_lengt
                                 }))
 
                if(returns == "tree"){
-                 node[[1]]$Tr.id <- Tr.id # add the TreeBASE tree.id to the phylogeny, so we can query its metadata
-                 node[[1]]$S.id <- S.id # add the TreeBASE id to the phylogeny, so we can query its metadata
+                 node[[1]]$Tr.id <- Tr.id # tree id, for metadata queries
+                 node[[1]]$S.id <- S.id # study id, for metadata queries 
                }
 
                if(is(node[[1]], "phylo")){
@@ -99,7 +107,9 @@ get_nexus <- function(query, max_trees = Inf, curl=getCurlHandle(), branch_lengt
 #' @param max_trees Upper bound for the number of trees returned, good for
 #' keeping possibly large initial queries fast
 #' @param branch_lengths logical indicating whether should only return 
-#'   trees that have branch lengths.  
+#'   trees that have branch lengths. 
+#' @param curl the handle to the curl web utility for repeated calls, see
+#'  the getCurlHandle() function in RCurl package for details.  
 #' @return either a list of trees (multiphylo) or a list of character matrices
 #' @keywords utility
 #' @details Choose the search type.  Options are:
@@ -165,7 +175,7 @@ get_nexus <- function(query, max_trees = Inf, curl=getCurlHandle(), branch_lengt
 #' @export
 search_treebase <- function(input, by, returns=c("tree", "matrix"),   
                             exact_match=FALSE, max_trees = Inf,
-                            branch_lengths=FALSE){
+                            branch_lengths=FALSE, curl=getCurlHandle()){
 
   nterms <- length(by)
   search_term <- character(nterms)
@@ -256,13 +266,13 @@ search_treebase <- function(input, by, returns=c("tree", "matrix"),
 
   # combine into a search query
   # Should eventually update to allow for multiple query terms with booleans
-  query <- paste("http://purl.org/phylo/treebase/dev/phylows/", search_type, 
+  query <- paste("http://purl.org/phylo/treebase/phylows/", search_type, 
                  search_term[1], input, format, "&recordSchema=", schema, sep="")
   message(query)
 
 
     out <- get_nexus(query, max_trees = max_trees, branch_lengths =
-                     branch_lengths, returns=returns)
+                     branch_lengths, returns=returns, curl=curl)
     out <- out[!sapply(out, is.null)] # drop nulls
 
   if(schema=="tree"){
