@@ -8,7 +8,6 @@ plot(tree)
 
 # birth-death study
 require(laser)
-require(TreePar)
 
 tt <- branching.times(tree)
 
@@ -24,6 +23,10 @@ models <-  list(pb = pureBirth(tt),
 
 aics <- sapply(models, function(x) x$aic)
 models[which.min(aics)]
+
+
+
+require(TreePar)
 
 # replace underscores in names with spaces
 #names <- sapply(tree$tip.label, function(input) gsub("_", " ", input))
