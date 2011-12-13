@@ -27,11 +27,6 @@
 %% Looks like a comment but it isn't! (?) 
 % \SweaveOpts{prefix.string=figure/graphics-, prefix.cache=cache/graphics-, fig=TRUE, align=center, dev=tikz, external=TRUE, width=5, height=5, fig.hold=TRUE, cache=TRUE, align=center}
 
-
-<<libs>>=
-require(ggplot2)
-require(treebase)
-@
                    
 
 \begin{document}
@@ -44,16 +39,27 @@ require(treebase)
   \address[davis]{Center for Population Biology, University of California, Davis, United States}
 
   \begin{abstract}
-  Here's an abstract
+  This paper describes the functionality provided by the software~\texttt{treebase}, which provides an interface between the TreeBase API and the R programming language.  
+
   \end{abstract}
 
   \begin{keyword}
-   R  \sep vignette
+   R  \sep vignette \sep API \sep TreeBase
    \end{keyword}
  \end{frontmatter}
 
 \section{Introduction}
-Treebase~\citet{Sanderson1994b}.  
+Treebase~\citet{Sanderson1994b}. Applications that use phylogenetic information as part of their analyses are becoming increasingly central to both evolutionary and ecological research.  The explosion of genomic data, followed by methodological advances for inferring phylogenies from this molecular information, have helped spur this increase.  The R statistical environment has become the dominant platform for researchers performing applied phylogenetic methods (27 are listed on the taskview on Phylogenetic Methods of the Comprehensive R Archive Network) and new methods are added every year.  
+
+
+\section{Examples}
+
+<<libs, echo=FALSE>>=
+suppressMessages(require(ggplot2))
+suppressMessages(require(treebase))
+@
+
+\subsection{Basic Queries}
 <<basicQueries echo=TRUE>>=
 search_treebase('"Delphinus"', by="taxon", max_trees=2)
 @
@@ -64,6 +70,72 @@ p <- qplot(rnorm(10), rnorm(10))
 print(p)
 @
 \end{figure}
+
+\subsection{Meta-data queries}
+Identifying the appropriate study
+<<journals>>=
+nature <- sapply(all, function(x) length(grep("Nature", x$publisher))>0)
+science <- sapply(all, function(x) length(grep("^Science$", x$publisher))>0)
+@
+
+
+\section{Reproducible research \& education}
+<<derryberry, fig=TRUE, width=1, height=5>>=
+search_treebase("Derryberry", "author")[[1]] -> tree
+metadata(tree$S.id)
+plot(tree)
+@
+
+For instance, we can replicate the model choice methods they perform to select the most likely branching model candidate.  
+<<RR>>=
+require(laser)
+tt <- branching.times(tree)
+models <-  list(pb = pureBirth(tt),
+                bdfit = bd(tt),
+                y2r = yule2rate(tt), # yule model with single shift pt
+                ddl = DDL(tt), # linear, diversity-dependent
+                ddx = DDX(tt), #exponential diversity-dendent
+                sv = fitSPVAR(tt), # vary speciation in time
+                ev = fitEXVAR(tt), # vary extinction in time
+                bv = fitBOTHVAR(tt)# vary both
+                )
+aics <- sapply(models, function(x) x$aic)
+# show the winning model
+models[which.min(aics)]
+@ 
+
+In this fast-moving field, new methods often become available within the timeframe that another manuscript is submitted by its authors and the time at which if first appears in print.  For instance, the more sophisticated methods avaialable in the more recent package, TreePar, were not used in this study. We can easily re-analyze these results 
+
+
+\section{The self-updating meta-analysis}
+<<customFunctions, echo=FALSE>>=
+timetree <- function(tree){
+    check.na <- try(sum(is.na(tree$edge.length))>0)
+    if(is(check.na, "try-error") | check.na)
+      NULL
+    else
+    try( chronoMPL(multi2di(tree)) )
+}
+drop_errors <- function(tr){
+  tt <- tr[!sapply(tr, is.null)]
+  tt <- tt[!sapply(tt, function(x) is(x, "try-error"))]
+  print(paste("dropped", length(tr)-length(tt), "trees"))
+  tt
+}
+require(laser)
+pick_branching_model <- function(tree){
+  m1 <- try(pureBirth(branching.times(tree)))
+  m2 <- try(bd(branching.times(tree)))
+  as.logical(try(m2$aic < m1$aic))
+@
+
+<<metaanalysis>>=
+all <- search_treebase("Consensus", "type.tree", branch_lengths=TRUE)
+tt <- drop_errors(sapply(all, timetree))
+is_yule <- sapply(tt, pick_branching_model)
+table(is_yule)
+@
+
 
  \section{Acknowledgements}
  CB is supported by a Computational Sciences Graduate Fellowship from the Department of Energy under grant number DE-FG02-97ER25308. 
