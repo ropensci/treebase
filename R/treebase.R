@@ -31,20 +31,21 @@ get_nexus <- function(query, max_trees = Inf, branch_lengths=FALSE,
                                           max_trees, "]", sep=""),
              function(x){
                # Open the page on each resource 
-
                thepage <- xmlAttrs(x, "rdf:resource")
-               target = getURLContent(thepage, followlocation=TRUE, curl=curl)
-               seconddoc <- xmlParse(target)
-
+               target <- try(getURLContent(thepage, followlocation=TRUE, curl=curl))
+               seconddoc <- try(xmlParse(target))
                # Get the tree ID
                Tr.id <- gsub(".*Tr([1-9]+)+", "\\1", as.character(thepage))
-              
                # Get the study ID  
+               if(is(seconddoc, "try-error")){
+                 warning("failed to parse")
+                 node <- "try-error"
+                 class(node)  <- "try-error"
+               } else {
+               ## use xpathApply to find and return the nexus files
                S.id <- xpathSApply(seconddoc, "//x:isDefinedBy", xmlValue, 
                     namespaces=c(x="http://www.w3.org/2000/01/rdf-schema#"))[2]
                S.id <- gsub(".*TB2:S([1-9]+)+", "\\1", S.id)
-
-               ## use xpathApply to find and return the nexus files
                node <- try(xpathApply(seconddoc, "//x:item[x:title='Nexus file']", 
                                 namespaces=c(x="http://purl.org/rss/1.0/"),
                                 function(x){
@@ -64,7 +65,8 @@ get_nexus <- function(query, max_trees = Inf, branch_lengths=FALSE,
                                   close(con)
                                   nex
                                 }))
-
+               }
+             if(!is(node, "try-error")){
                if(returns == "tree"){
                  node[[1]]$Tr.id <- Tr.id # tree id, for metadata queries
                  node[[1]]$S.id <- S.id # study id, for metadata queries 
@@ -91,7 +93,11 @@ get_nexus <- function(query, max_trees = Inf, branch_lengths=FALSE,
                } else {
                  out <- node[[1]]
                }
-                      
+             } else {
+               out <- "err"
+               class(out) <- "try-error"
+             }
+
                out
             }))
   }
@@ -185,7 +191,7 @@ search_treebase <- function(input, by, returns=c("tree", "matrix"),
   section <- character(nterms)
 
   for(i in 1:nterms){
-  search_term[i] <- switch(by[i],
+    search_term[i] <- switch(by[i],
                        abstract="dcterms.abtract",
                        citation="dcterms.bibliographicCitation",
                        author = "dcterms.contributor",
