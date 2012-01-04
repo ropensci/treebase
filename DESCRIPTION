@@ -14,5 +14,6 @@ Depends:
 URL: http://www.github.com/cboettig/treeBASE
 License: GPL (>= 2)
 Collate:
+    'data.R'
     'metadata.R'
     'treebase.R'

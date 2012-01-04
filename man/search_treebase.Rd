@@ -4,7 +4,8 @@
 \usage{
   search_treebase(input, by, returns = c("tree", "matrix"),
     exact_match = FALSE, max_trees = Inf,
-    branch_lengths = FALSE, curl = getCurlHandle())
+    branch_lengths = FALSE, curl = getCurlHandle(),
+    verbose = TRUE)
 }
 \arguments{
   \item{input}{a search query (character string)}
@@ -28,6 +29,9 @@
   \item{curl}{the handle to the curl web utility for
   repeated calls, see the getCurlHandle() function in RCurl
   package for details.}
+
+  \item{verbose}{logical indicating level of progress
+  reporting}
 }
 \value{
   either a list of trees (multiphylo) or a list of

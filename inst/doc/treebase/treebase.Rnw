@@ -49,20 +49,20 @@
  \end{frontmatter}
 
 \section{Introduction}
-Treebase~\citet{Sanderson1994b}. Applications that use phylogenetic information as part of their analyses are becoming increasingly central to both evolutionary and ecological research.  The explosion of genomic data, followed by methodological advances for inferring phylogenies from this molecular information, have helped spur this increase.  The R statistical environment has become the dominant platform for researchers performing applied phylogenetic methods (27 are listed on the taskview on Phylogenetic Methods of the Comprehensive R Archive Network) and new methods are added every year.  
+Treebase~\citep{Sanderson1994b}. Applications that use phylogenetic information as part of their analyses are becoming increasingly central to both evolutionary and ecological research.  The explosion of genomic data, followed by methodological advances for inferring phylogenies from this molecular information, have helped spur this increase.  The R statistical environment has become the dominant platform for researchers performing applied phylogenetic methods (27 are listed on the taskview on Phylogenetic Methods of the Comprehensive R Archive Network) and new methods are added every year.  
 
 
 \section{Examples}
 
-<<libs, echo=FALSE>>=
-suppressMessages(require(ggplot2))
-suppressMessages(require(RCurl)) #maybe just require "methods" in the makefile?
-suppressMessages(require(XML))
-suppressMessages(require(treebase))
+<<libs, echo=TRUE, message=FALSE>>=
+require(ggplot2)
+require(RCurl) #maybe just require "methods" in the makefile?
+require(XML)
+require(treebase)
 @
 
 \subsection{Basic Queries}
-<<basicQueries, echo=TRUE>>=
+<<basicQueries, echo=TRUE, message=FALSE>>=
 search_treebase('"Delphinus"', by="taxon", max_trees=2)
 @
 
@@ -71,7 +71,8 @@ search_treebase('"Delphinus"', by="taxon", max_trees=2)
 Identifying the appropriate study
 
 <<all>>=
-all <- search_metadata("", by="all") 
+#all <- search_metadata("", by="all") 
+data(metadata)
 dates <- sapply(all, function(x) as.numeric(x$date))
 hist(dates, main="TreeBase growth", xlab="Year")
 @
@@ -83,14 +84,14 @@ science <- sapply(all, function(x) length(grep("^Science$", x$publisher))>0)
 
 
 \section{Reproducible research \& education}
-<<derryberry, fig=TRUE, width=1, height=5>>=
-search_treebase("Derryberry", "author")[[1]] -> tree
+<<derryberry, fig=TRUE, width=1, height=5, cache=TRUE>>=
+tree <- search_treebase("Derryberry", "author")[[1]] 
 metadata(tree$S.id)
 plot(tree)
 @
 
 For instance, we can replicate the model choice methods they perform to select the most likely branching model candidate.  
-<<RR, tidy=TRUE, warning=FALSE>>=
+<<RR, tidy=TRUE, warning=FALSE, message=FALSE, cache=TRUE>>=
 require(laser)
 tt <- branching.times(tree)
 # yule model with single shift pt
@@ -132,7 +133,8 @@ pick_branching_model <- function(tree){
 @
 
 <<metaanalysis, eval=FALSE>>=
-all_trees <- search_treebase("Consensus", "type.tree", branch_lengths=TRUE)
+#all_trees <- search_treebase("Consensus", "type.tree", branch_lengths=TRUE)
+data(branchlengths)
 tt <- drop_errors(sapply(all_trees, timetree))
 is_yule <- sapply(tt, pick_branching_model)
 table(is_yule)

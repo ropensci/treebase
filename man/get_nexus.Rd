@@ -3,7 +3,8 @@
 \title{imports phylogenetic trees from treebase. internal function}
 \usage{
   get_nexus(query, max_trees = Inf, branch_lengths = FALSE,
-    returns = "tree", curl = getCurlHandle())
+    returns = "tree", curl = getCurlHandle(),
+    verbose = TRUE)
 }
 \arguments{
   \item{query}{: a phylows formatted search, see
@@ -18,6 +19,9 @@
   matrix (of sequences)}
 
   \item{curl}{the handle to the curl}
+
+  \item{verbose}{a logical indicating if output should be
+  printed to screen}
 }
 \value{
   A list object containing all the trees matching the
