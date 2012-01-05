@@ -12,7 +12,7 @@ NULL
 #' branchlengths.rda
 #' 
 #' All treebase trees with branch length data, created 2011-12-12
-#' @name all_trees
+#' @name branchlengths
 #' @docType data
 #' @keywords data
 #' @details recreate with code: \code{
@@ -32,3 +32,6 @@ NULL
 #' }
 #'
 NULL
+
+
+

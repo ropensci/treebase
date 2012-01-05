@@ -295,7 +295,15 @@ search_treebase <- function(input, by, returns=c("tree", "matrix"),
   out
 }
 
-
-
+#' drop errors
+#' @param tr a list of phylogenetic trees returned by search_treebase
+#' @return the list of phylogenetic trees returned successfully
+#' @export
+drop_errors <- function(tr){
+  tt <- tr[!sapply(tr, is.null)]
+  tt <- tt[!sapply(tt, function(x) is(x, "try-error"))]
+  print(paste("dropped", length(tr)-length(tt), "trees"))
+  tt
+}
 
 
