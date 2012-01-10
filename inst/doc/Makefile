@@ -27,9 +27,8 @@ treebase.pdf: treebase/treebase.Rnw
 	$(RSCRIPT) -e "tools::texi2dvi( 'treebase.tex', pdf = TRUE, clean = TRUE )" # compile and cleanup
 
 knit:
-	cd treebase
+	cp -f treebase/knit_treebase.Rnw treebase.Rnw
 	$(RSCRIPT) --vanilla -e ".libPaths(c('~/R', .libPaths())); require(knitr); knit( 'treebase.Rnw', '../treebase.Rnw');"
-	cd ..
 	$(RPROG) CMD Sweave treebase.Rnw
 	$(RSCRIPT) -e "tools::texi2dvi( 'treebase.tex', pdf = TRUE, clean = FALSE )"
 	bibtool -s -d -x treebase.aux ~/Documents/Mendeley/bib/library.bib treebase.bib

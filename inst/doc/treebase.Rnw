@@ -25,7 +25,7 @@
 
 
 %% Looks like a comment but it isn't! This is setting the default behavior for the Sweave chunk options, <<options >>= 
-% \SweaveOpts{fig=TRUE, dev=tikz, external=TRUE, width=5, height=5,  cache=FALSE, message=FALSE, warning=FALSE}
+% \SweaveOpts{fig=TRUE, external=TRUE, cache=FALSE, message=FALSE, warning=FALSE}
 
                    
 

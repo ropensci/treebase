@@ -8,7 +8,8 @@ Maintainer: Carl Boettiger <cboettig@gmail.com>
 Description: Interface to the API for TreeBASE
 Imports:
     XML,
-    RCurl
+    RCurl,
+    TreePar
 Depends:
     ape
 URL: http://www.github.com/cboettig/treeBASE
