@@ -25,7 +25,7 @@
 
 
 %% Looks like a comment but it isn't! This is setting the default behavior for the Sweave chunk options, <<options >>= 
-% \SweaveOpts{fig=TRUE, dev=tikz, external=TRUE, width=5, height=5,  cache=FALSE, message=FALSE, warning=FALSE}
+% \SweaveOpts{fig=TRUE, dev=tikz, external=TRUE, cache=FALSE, message=FALSE, warning=FALSE}
 
                    
 
@@ -161,7 +161,7 @@ rm(list="locale") # clean up
 
 
 We can easily re-analyze these results using the TreePar software,
-<<treepar, cache=TRUE, message=FALSE, warning=FALSE>>=
+<<treepar, cache=TRUE, message=FALSE, warning=FALSE, include=FALSE>>=
      require(TreePar)
      x<-sort(getx(derryberry),decreasing=TRUE)
      # look for shifts occuring at times between 0 & 60 with interval of 5
