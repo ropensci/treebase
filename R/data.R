@@ -23,7 +23,8 @@ NULL
 
 #' treebase.rda
 #'
-#' Created 2011-12-12
+#' Contains a cache of all phylogenies search_treebase() function was able
+#' to pull down when run  on 2011-12-12.  
 #' @name all_treebase
 #' @docType data
 #' @keywords data
@@ -32,6 +33,20 @@ NULL
 #' }
 #'
 NULL
+
+
+#' derryberry.rda
+#'
+#' Created 2012-01-04
+#' @name derryberry 
+#' @docType data
+#' @keywords data
+#' @details recreate with: \code{
+#' derryberry <- search_treebase("Derryberry", "author")[[1]]
+#' }
+#'
+NULL
+
 
 
 

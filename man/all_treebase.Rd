@@ -3,7 +3,8 @@
 \alias{all_treebase}
 \title{treebase.rda}
 \description{
-  Created 2011-12-12
+  Contains a cache of all phylogenies search_treebase()
+  function was able to pull down when run on 2011-12-12.
 }
 \details{
   recreate with: \code{ all_treebase <-
