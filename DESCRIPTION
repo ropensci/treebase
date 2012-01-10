@@ -11,6 +11,7 @@ Imports:
     RCurl,
     TreePar
 Depends:
+    R (>= 2.10),
     ape
 URL: http://www.github.com/cboettig/treeBASE
 License: GPL (>= 2)
@@ -18,3 +19,4 @@ Collate:
     'data.R'
     'metadata.R'
     'treebase.R'
+    'clean_metadata.R'

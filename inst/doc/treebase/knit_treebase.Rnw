@@ -1,5 +1,6 @@
 \documentclass{elsarticle}
 
+%\VignetteIndexEntry{treebase}
 %% Redefines the elsarticle footer
 \makeatletter
 \def\ps@pprintTitle{%
@@ -11,7 +12,6 @@
 
 \bibliographystyle{elsarticle-harv}
 \usepackage{graphicx}
-\usepackage{subfigure}
 \usepackage[pdftex, colorlinks]{hyperref}
 \usepackage{amsmath, amsfonts}  % extended mathematics
 \usepackage{booktabs} % book-quality tables
@@ -24,8 +24,8 @@
 \newcommand{\ud}{\mathrm{d}}
 
 
-%% Looks like a comment but it isn't! This is setting the default behavior for the Sweave chunk options, <<options >>= 
-% \SweaveOpts{fig=TRUE, external=TRUE, cache=FALSE, message=FALSE, warning=FALSE}
+%% Looks like a comment but it isn't! This is setting the default behavior for the Sweave chunk options,  
+% \SweaveOpts{fig=TRUE, external=TRUE, cache=FALSE, message=FALSE, warning=FALSE, include=FALSE, tidy=FALSE, dev=pdf}
 
                    
 
@@ -40,7 +40,11 @@
   \address[stats]{Department of Statistics, University of California, Davis, United States}
 
   \begin{abstract}
-  This paper describes the functionality provided by the software~\texttt{treebase}, which provides an interface between the TreeBASE repository and the R programming language.  We illustrate how the package can be used to search and retrieve phylogenetic trees from the repository, replicate existing studies that have deposited their phylogenies on TreeBASE, and perform automatically-updatable meta-analyses across the repostory.  
+  This paper describes the functionality provided by the software~\texttt{treebase},
+  which provides an interface between the TreeBASE repository and the R programming language.  
+  We illustrate how the package can be used to search and retrieve phylogenetic trees from the repository,
+  replicate existing studies that have deposited their phylogenies on TreeBASE,
+  and perform automatically-updatable meta-analyses across the repostory.  
 
   \end{abstract}
 
@@ -50,9 +54,20 @@
  \end{frontmatter}
 
 \section{Introduction}
-Applications that use phylogenetic information as part of their analyses are becoming increasingly central to both evolutionary and ecological research.  The explosion of genomic data, followed by methodological advances for inferring phylogenies from this molecular information, have helped spur this increase.  The R statistical environment has become the dominant platform for researchers performing applied phylogenetic methods (27 are listed on the taskview on Phylogenetic Methods of the Comprehensive R Archive Network) and new methods are added every year.  
+Applications that use phylogenetic information as part of their analyses 
+are becoming increasingly central to both evolutionary and ecological research. 
+The explosion of genomic data, followed by methodological advances for inferring phylogenies from this molecular information,
+have helped spur this increase.
+The R statistical environment has become the dominant platform for researchers performing applied phylogenetic methods
+(27 are listed on the taskview on Phylogenetic Methods of the Comprehensive R Archive Network) 
+and new methods are added every year.  
 
-TreeBASE is an online repository of phylogenies~\citep{Sanderson1994b}.  With the advent of mandatory data archiving in many of the major journals publishing phylognetics-based research over the past year~\citep{Fairbairn2010, Piwowar2011, Whitlock2010}, such resources can expect to become increasingly prominent.  TreeBASE provides an application programming interface, or API, that lets applications make queries to the database.  We have implemented an R package that plugs into this interface to provide direct access to this data.  
+TreeBASE is an online repository of phylogenies~\citep{Sanderson1994b}.  
+With the advent of mandatory data archiving in many of the major journals publishing phylognetics-based research 
+over the past year~\citep{Fairbairn2010, Piwowar2011, Whitlock2010}, 
+such resources can expect to become increasingly prominent.  
+TreeBASE provides an application programming interface, or API, that lets applications make queries to the database.  
+We have implemented an R package that plugs into this interface to provide direct access to this data.  
 
 \section{Examples \& Results}
 
@@ -87,7 +102,7 @@ on the data deposition itself.
 While the metadata can be searched within a given date range,
 it is most straight-forward to import the full meta-data records first, with the command 
 <<getmetadata, eval=FALSE>>=
-all <- search_metadata("", by="all") 
+metadata <- search_metadata("", by="all") 
 @
 %For convience, it is possible to load the copy of this data cached at the time the package was compiled.  
 <<cache, echo=FALSE>>=
@@ -97,8 +112,8 @@ data(metadata)
 \setkeys{Gin}{width=0.75\textwidth}
 \begin{figure}
 \begin{center}
-<<dates>>=
-dates <- sapply(all, function(x) as.numeric(x$date))
+<<dates, include=TRUE>>=
+dates <- sapply(metadata, function(x) as.numeric(x$date))
 hist(dates, main="TreeBase growth", xlab="Year")
 @
 \caption{Histogram of publication dates by year, with the code required to generate the figure.}\label{fig:1}
@@ -106,13 +121,10 @@ hist(dates, main="TreeBase growth", xlab="Year")
 \end{figure}
 We can then look at the distribution of publication years for phylogenies depositied in TreeBASE and see if there is any trend, Fig~\ref{fig:1}. We can also look for patterns among publishers, such as comparing the number of submissions of two different publishers:
 <<journals>>=
-nature <- sapply(all, function(x) length(grep("Nature", x$publisher))>0)
-science <- sapply(all, function(x) length(grep("^Science$", x$publisher))>0)
-# number of entries in each
-sum(nature)
-sum(science)
+nature <- sapply(metadata, function(x) length(grep("Nature", x$publisher))>0)
+science <- sapply(metadata, function(x) length(grep("^Science$", x$publisher))>0)
 @
-Many more such exercises are possible, and several examples are included in the demo files provided with the package.  
+Summing the returned lists in each we find \Sexpr{sum(nature)} phylogenies in \emph{Nature} and \Sexpr{sum(science)} in \emph{Science}. Many more such exercises are possible, and several examples are included in the demo files provided with the package.  
 
 \subsection{Reproducible research \& education}
 Reproducible research has become a topic of increasing concern in recent years~\citep{Schwab2000, Keiding2010a, Peng2011b}.  Access to data and executable scripts that reproduce the results presented are two central elements of this process which are addressed by the \texttt{treebase} package.   
@@ -133,7 +145,7 @@ plot(derryberry)
 @
 
 For instance, we can replicate the model choice methods they perform to select the most likely branching model candidate.  
-<<RR, tidy=TRUE, cache=TRUE>>=
+<<RR, cache=TRUE>>=
 require(laser)
 tt <- branching.times(derryberry)
 models <-  list(pb = pureBirth(tt), # yule model
@@ -150,7 +162,7 @@ aics <- sapply(models, function(x) x$aic)
 names(models[which.min(aics)])
 @ 
 
-In this fast-moving field, new methods often become available within the timeframe that another manuscript is submitted by its authors and the time at which if first appears in print.  For instance, the more sophisticated methods avaialable in the more recent package, TreePar, were not used in this study. 
+In this fast-moving field, new methods often become available within the timeframe that another manuscript is submitted by its authors and the time at which if first appears in print.  For instance, the more sophisticated methods avaialable in the more recent package, \texttt{TreePar}, were not used in this study. 
 
 
 <<TreeSimError, echo=FALSE>>=
@@ -159,31 +171,40 @@ Sys.setlocale(locale="C") -> locale
 rm(list="locale") # clean up
 @
 
-
 We can easily re-analyze these results using the TreePar software,
 <<treepar, cache=TRUE, message=FALSE, warning=FALSE, include=FALSE>>=
      require(TreePar)
      x<-sort(getx(derryberry),decreasing=TRUE)
      # look for shifts occuring at times between 0 & 60 with interval of 5
      # consider yule models, allow up to 3 shifts (4 different rates) 
+     invisible(capture.output( # don't print messages
      yule_4rate <- bd.shifts.optim(x,sampling=c(1,1,1,1), 
-                                   grid=5,start=0,end=60,ME=FALSE, yule=TRUE)
-    # yule_4rate[[2]][[i]] contains the -loglik and parameters 
-    # for "best soln on grid" for the model with i shifts
-    aic <- sapply(yule_4rate[[2]], function(x) 2 * (length(x) - 1) + 2 * x[1] ) 
-    which.min(aic)
+                                   grid=5,start=0,end=60,ME=FALSE, yule=TRUE)))
+     # yule_4rate[[2]][[i]] contains the -loglik and parameters 
+     # for "best soln on grid" for the model with i shifts
+     aic <- sapply(yule_4rate[[2]], function(x) 2 * (length(x) - 1) + 2 * x[1] ) 
+     which.min(aic)
 @
 and confirm that the Yule \Sexpr{which.min(aic)}-rate 
 model is the best fitting by AIC score, 
 even when allowing for up to four different shifts.  
 
-% entry [[2]] contains the best gridpoint, entry [[1]] contains all gridpoints.  first entry is the log-likelihood
-
-
 \subsection{The self-updating meta-analysis}
-Meta-analyses are becoming increasingly common in phylogenetic methods~\citep[\emph{e.g}][]{McPeek2007, Phillimore2008, McPeek2008,Quental2010, Davies2011a}.  Accessing many phylogenies can be difficult, and researchers have gone through heroic efforts to extract phylogenetic information from the literature, such as~\citet{McPeek2007}, who report that ``All branch lengths were measured by hand from these printed sheets using dial calipers'' on 163 phylogenies printed out from pdfs in which they appeared in the literature.  Researchers may focus their meta-analysis on particular taxa~\citep{Phillimore2008}, leaving us to wonder if the conclusions hold in other groups.  Other studies may use a single empirical tree accompanied by a a collection of simulated phylogenies~\citet{Cusimano2010}.  Some already turn to TreeBASE to provide a more extensive collection of phylogenies~\citep{Davies2011a}.  The analysis in many of these studies already uses or can use methods available in R.  
+Meta-analyses are becoming increasingly common in phylogenetic methods~\citep[\emph{e.g}][]{McPeek2007, Phillimore2008, McPeek2008,Quental2010, Davies2011a}.  
+Accessing many phylogenies can be difficult, 
+and researchers have gone through heroic efforts to extract phylogenetic information from the literature, 
+such as~\citet{McPeek2007}, who report that 
+``All branch lengths were measured by hand from these printed sheets using dial calipers'' 
+on 163 phylogenies printed out from pdfs in which they appeared in the literature.  
+Researchers may focus their meta-analysis on particular taxa~\citep{Phillimore2008}, 
+leaving us to wonder if the conclusions hold in other groups.  
+Other studies may use a single empirical tree accompanied by a a collection of simulated phylogenies~\citet{Cusimano2010}.  
+Some already turn to TreeBASE to provide a more extensive collection of phylogenies~\citep{Davies2011a}.  
+The analysis in many of these studies already uses or can use methods available in R.  
 
-By building such meta-analyses around the treebase package, one can not only take advantage of the existing data with far less effort, but also provide a script that can be automatically updated as more phylogenies are deposited in the TreeBASE repository.  
+By building such meta-analyses around the \texttt{treebase} package, 
+one can not only take advantage of the existing data with substantially less effort, 
+but also provide a script that can be automatically updated as more phylogenies are deposited in the TreeBASE repository.  
 
 <<meta_harvest, eval=FALSE>>=
 all_trees <- search_treebase("Consensus", "type.tree", branch_lengths=TRUE)
@@ -195,7 +216,9 @@ data(branchlengths)
 @
 
 
-Many meta-analyses require ultrametric trees (branch lengths proportional to time, rather than to mutational steps).  This function is just an elementary example to illustrate the process of time-calibrating a tree; more sophisticated methods could be chosen instead.  
+Many meta-analyses require ultrametric trees (branch lengths proportional to time, rather than to mutational steps). 
+This function is just an elementary example to illustrate the process of time-calibrating a tree;
+more sophisticated methods could be chosen instead.  
 <<timetree, cache=TRUE>>=
 timetree <- function(tree){
     check.na <- try(sum(is.na(tree$edge.length))>0)
@@ -216,13 +239,17 @@ gammas <- sapply(tt, function(phy)  gammaStat(phy))
 p_gammas <- sapply(gammas, function(x)  2*(1-pnorm(abs(x))))
 non_const <- sum(p_gammas < 0.025)/length(gammas)
 @
-we find that \Sexpr{round(non_const, 2)*100}\% of the trees can reject the constant-rates model at the 95\% confidence level.   
-
+we find that \Sexpr{round(non_const, 2)*100}\% of the trees can reject the constant-rates model at the 95\% confidence level. 
+Because \texttt{treebase} makes it possible to perform this analysis entirely by scripts using the latest treebase data, 
+it is not only easier to perform this analysis but also to update it to reflect the latest data. 
+For instance, this paper is written using R's Sweave tool, where the results and figures are generated on the fly as the paper is compiled.  
+Consequently the analyses presented here can be updated to reflect the latest information in TreeBASE by the click of a button.  
 
 
 
  \section{Acknowledgements}
- CB wishes to thank the TreeBASE developer team for building and supporting the repository, and all contributers to TreeBASE.  CB is supported by a Computational Sciences Graduate Fellowship from the Department of Energy under grant number DE-FG02-97ER25308.   
+ CB wishes to thank the TreeBASE developer team for building and supporting the repository, and all contributers to TreeBASE.
+ CB is supported by a Computational Sciences Graduate Fellowship from the Department of Energy under grant number DE-FG02-97ER25308.   
  \section*{ }%bibliography
 % \bibliography{/home/cboettig/Documents/Mendeley/bib/library}
   \bibliography{treebase}
