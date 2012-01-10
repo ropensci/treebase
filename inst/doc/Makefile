@@ -13,7 +13,7 @@ clean:
 
 treebase.pdf: treebase/treebase.Rnw
 	cp -f treebase/treebase.Rnw .
-	$(RSCRIPT) --vanilla -e "require(knitr); knit( 'treebase.Rnw');"
+	$(RSCRIPT) --vanilla -e ".libPaths(c('~/R', .libPaths())); require(knitr); knit( 'treebase.Rnw');"
 	#Compile in latex, but keep aux file till we make bibliography
 	$(RSCRIPT) -e "tools::texi2dvi( 'treebase.tex', pdf = TRUE, clean = FALSE )" 
 	bibtex treebase # make the bibliography 
