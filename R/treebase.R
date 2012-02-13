@@ -66,7 +66,7 @@ get_nexus <- function(query, max_trees = Inf, branch_lengths=FALSE,
                                   nex
                                 }))
                }
-             if(!is(node, "try-error") & try(node[[1]]) != "try-error" ){
+             if(!is(node, "try-error") && try(node[[1]]) != "try-error" ){
                if(returns == "tree"){
                  node[[1]]$Tr.id <- Tr.id # tree id, for metadata queries
                  node[[1]]$S.id <- S.id # study id, for metadata queries 
