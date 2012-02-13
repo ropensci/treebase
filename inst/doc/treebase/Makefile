@@ -26,7 +26,7 @@ knit:
 	pdflatex treebase
 	pdflatex treebase
 	rm -f *.bbl *blg *.aux *.out *.log *.spl
-	cp -f treebase.Rnw treebase.tex treebase.bib *.pdf ..
+	cp -f treebase.Rnw treebase.tex treebase.bib *.pdf ../../../vignettes/
 
 ## Traditional compile 
 treebase.pdf: treebase.Rnw

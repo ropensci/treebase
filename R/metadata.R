@@ -23,7 +23,8 @@ metadata <- function(study.id, curl=getCurlHandle()){
   oai_url <- "http://treebase.org/treebase-web/top/oai?verb=" 
   get_record <- "GetRecord&metadataPrefix=oai_dc&identifier=" 
   query <- paste(oai_url, get_record, "TB:s", study.id, sep="")
-  oai_metadata(query, curl=curl)
+  out <- oai_metadata(query, curl=curl)
+  out[[1]]
 }
 
 

@@ -15,6 +15,7 @@
 \usepackage[pdftex, colorlinks]{hyperref}
 \usepackage{amsmath, amsfonts}  % extended mathematics
 \usepackage{booktabs} % book-quality tables
+\usepackage{breakurl}
 
 \textwidth 6.75in
 \oddsidemargin -0.15in
@@ -40,11 +41,12 @@
   \address[stats]{Department of Statistics, University of California, Davis, United States}
 
   \begin{abstract}
-  This paper describes the functionality provided by the software~\texttt{treebase},
-  which provides an interface between the TreeBASE repository and the R programming language.  
-  We illustrate how the package can be used to search and retrieve phylogenetic trees from the repository,
-  replicate existing studies that have deposited their phylogenies on TreeBASE,
-  and perform automatically-updatable meta-analyses across the repostory.  
+  \begin{enumerate}
+  \item TreeBASE is an important and rapidly growing repository of phylogenetic data.  The R statistical environment has become a primary tool for the applied phylogenetic analyses that use this kind of data for across a range of questions, from comparative evolution to community ecology to conservation planning.  
+  \item We have developed \texttt{treebase}, an open-source package (freely available from \href{http://cran.r-project.org/web/packages/treebase}{http://cran.r-project.org/web/packages/treebase}) for the R environment.  \texttt{treebase} provides simplified and programmatic access to phylogenetic data that provides a bridge between the repository and the rapidly growing ecosystem of R packages for phylogenetics with which many researchers are already familiar.  
+  \item We illustrate how such programmatic access has important ramifications for research, including making scientific results easier to reproduce and update,
+  \item and also facilitate exploratory analysis, longitudinal studies and meta-analyses at a scale that would hither-to be daunting for most research teams.  
+  \end{enumerate}
 
   \end{abstract}
 
@@ -56,17 +58,19 @@
 \section{Introduction}
 Applications that use phylogenetic information as part of their analyses 
 are becoming increasingly central to both evolutionary and ecological research. 
-The explosion of genomic data, followed by methodological advances for inferring phylogenies from this molecular information,
-have helped spur this increase.
-The R statistical environment has become the dominant platform for researchers performing applied phylogenetic methods
+The explosion of genomic data, followed by methodological advances for 
+inferring phylogenies from this molecular information have helped spur this increase.  
+
+
+The R statistical environment has become a dominant platform for researchers applying these phylogenies to rapidly growing set of questions.
+While the task of inferring phylogenies from genomic data remains dominated by dedicated compiled software such as MrBayes~\citep{Huelsenbeck2001b}, BEAST~\citep{Drummond2007}, RAXML~\citep{Stamatakis2006}, much of the analysis based %% DESCRIBE applied phylogenetics with citations! 
+
 (27 are listed on the taskview on Phylogenetic Methods of the Comprehensive R Archive Network) 
 and new methods are added every year.  
 
-TreeBASE is an online repository of phylogenies~\citep{Sanderson1994b}.  
-With the advent of mandatory data archiving in many of the major journals publishing phylognetics-based research 
-over the past year~\citep{Fairbairn2010, Piwowar2011, Whitlock2010}, 
-such resources can expect to become increasingly prominent.  
-TreeBASE provides an application programming interface, or API, that lets applications make queries to the database.  
+TreeBASE (\href{http://treebase.org}{http://treebase.org}) is an online repository of phylogenies~\citep{Sanderson1994b, Morell1996, }.  
+With the recent advent of mandatory data archiving in many of the major journals publishing phylognetics-based research~\citep[\emph{e.g.}][]{Fairbairn2010, Piwowar2011, Whitlock2010}, such resources can expect to become increasingly prominent.  
+TreeBASE provides an application programming interface (API), that lets applications make queries to the database.  
 We have implemented an R package that plugs into this interface to provide direct access to this data.  
 
 \section{Examples \& Results}
@@ -88,10 +92,10 @@ The real advantage of the capacity to automate these tasks in R is shown in the 
 \subsection{Basic Queries}
 Any of the basic queries avaiable on the web interface can now be made directly from R,
 including downloading and importing the phylogeny into the R interface.  
-For instance, the following command searches for phylogenies containing dolphins,
+For instance, the following command searches for phylogenies containing dolphin taxa,
 or all phylogenies submitted by a given author
 <<basicQueries, eval=FALSE>>=
-search_treebase("\"Delphinus\"", by="taxon")
+search_treebase("Delphinus", by="taxon")
 search_treebase("Huelsenbeck", by="author")
 @
 which loads the matching phylogenies into R, ready for analysis.  
@@ -130,19 +134,23 @@ Summing the returned lists in each we find \Sexpr{sum(nature)} phylogenies in \e
 Reproducible research has become a topic of increasing concern in recent years~\citep{Schwab2000, Keiding2010a, Peng2011b}.  Access to data and executable scripts that reproduce the results presented are two central elements of this process which are addressed by the \texttt{treebase} package.   
 
 
-<<findderryberry, eval=FALSE>>= 
-derryberry <- search_treebase("Derryberry", "author")[[1]] 
+The treebase API does not easily string 
+<<findderryberry, eval=TRUE>>= 
+derryberry_results <- search_treebase("Derryberry", "author")
+ids <- lapply(derryberry_results, `[[`, "S.id")
+meta <- lapply(ids, metadata)
 @
+
+<<matchderryberry>>=
+i <- which( sapply(meta, function(x) x$publisher == "Evolution" && x$date=="2011") )
+derryberry <- derryberry_results[[i]]
+@
+
 <<loadderryberry, echo=FALSE>>=
 # connection may fail on first try, so instead of evaluating this, just load cached copy
 data(derryberry)
 @
 
-% tree is too large to include a proper pretty plot.  metadata output is also too long to display nicely
-<<plotderryberry, eval=FALSE>>=
-metadata(derryberry$S.id)
-plot(derryberry)
-@
 
 For instance, we can replicate the model choice methods they perform to select the most likely branching model candidate.  
 <<RR, cache=TRUE>>=
@@ -173,19 +181,22 @@ rm(list="locale") # clean up
 
 We can easily re-analyze these results using the TreePar software,
 <<treepar, cache=TRUE, message=FALSE, warning=FALSE, include=FALSE>>=
-     require(TreePar)
-     x<-sort(getx(derryberry),decreasing=TRUE)
-     # look for shifts occuring at times between 0 & 60 with interval of 5
-     # consider yule models, allow up to 3 shifts (4 different rates) 
-     invisible(capture.output( # don't print messages
-     yule_4rate <- bd.shifts.optim(x,sampling=c(1,1,1,1), 
-                                   grid=5,start=0,end=60,ME=FALSE, yule=TRUE)))
-     # yule_4rate[[2]][[i]] contains the -loglik and parameters 
-     # for "best soln on grid" for the model with i shifts
-     aic <- sapply(yule_4rate[[2]], function(x) 2 * (length(x) - 1) + 2 * x[1] ) 
-     which.min(aic)
+require(TreePar)
+## TreePar must furst reformat the phylogeny data:
+x<-sort(getx(derryberry), decreasing=TRUE)
+# look for shifts occuring at times between 0 & 60 with interval of 5
+# consider yule models, allow up to 3 shifts (4 different rates) 
+estimated_shifts <- bd.shifts.optim(x, sampling = c(1,1,1,1), 
+  grid = 5, start = 0, end = 60, ME = FALSE, yule = TRUE)
+## TreePar happens to return the model parameters in the second return element:
+models <- estimated_shifts[[2]]
+
+aic <- sapply(model, function(x) 2 * (length(x) - 1) + 2 * x[1] ) 
+which.min(aic)
 @
-and confirm that the Yule \Sexpr{which.min(aic)}-rate 
+
+
+and confirm that the Yule 2-rate %\Sexpr{#which.min(aic)}-rate 
 model is the best fitting by AIC score, 
 even when allowing for up to four different shifts.  
 
@@ -210,8 +221,8 @@ but also provide a script that can be automatically updated as more phylogenies 
 all_trees <- search_treebase("Consensus", "type.tree", branch_lengths=TRUE)
 @
 
-For convience and testing purposes, we could just load the cached set of all phylogenetic trees with branchlengths in TreeBASE at the time the package was built:
-<<meta_cache>>=
+%For convience and testing purposes, we could just load the cached set of all phylogenetic trees with branchlengths in TreeBASE at the time the package was built:
+<<meta_cache, echo=FALSE>>=
 data(branchlengths)
 @
 
@@ -222,7 +233,7 @@ more sophisticated methods could be chosen instead.
 <<timetree, cache=TRUE>>=
 timetree <- function(tree){
     check.na <- try(sum(is.na(tree$edge.length))>0)
-    if(is(check.na, "try-error") | check.na)
+    if(is(check.na, "try-error") || check.na)
       NULL
     else
     try( chronoMPL(multi2di(tree)) )
@@ -234,9 +245,9 @@ tt <- drop_errors(sapply(branchlengths, timetree))
 The central question of many of meta-analyses mentioned above has been whether or not phylogenies show a changing rates of evolution.  A standard test of this is the $\gamma$ statistic of~\citet{Pybus2000} which tests the null hypothesis that the rates of speciation and extinction are constant.  Applying this test to all of the currently available trees in TreeBASE,
 <<gamma>>=
 # gamma statistic
-gammas <- sapply(tt, function(phy)  gammaStat(phy))
+gammas <- sapply(tt,  gammaStat)
 # associated p-value
-p_gammas <- sapply(gammas, function(x)  2*(1-pnorm(abs(x))))
+p_gammas <- 2 * (1 - pnorm(abs(gammas)))
 non_const <- sum(p_gammas < 0.025)/length(gammas)
 @
 we find that \Sexpr{round(non_const, 2)*100}\% of the trees can reject the constant-rates model at the 95\% confidence level. 
