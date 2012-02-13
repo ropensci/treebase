@@ -18,7 +18,7 @@ clean:
 
 # Custom command for my local compile
 knit:
-	$(RSCRIPT) --vanilla -e ".libPaths(c('~/R', .libPaths())); require(knitr); knit( 'knit_treebase.Rnw', 'treebase.Rnw');"
+	$(RSCRIPT) -e ".libPaths(c('~/R', .libPaths())); require(knitr); knit( 'knit_treebase.Rnw', 'treebase.Rnw');"
 	$(RPROG) CMD Sweave treebase.Rnw
 	pdflatex treebase
 	bibtool -s -d -x treebase.aux ~/Documents/Mendeley/bib/library.bib > treebase.bib

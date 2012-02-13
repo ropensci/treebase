@@ -12,6 +12,8 @@
 #' @import XML
 #' @import RCurl
 #' @import ape
+#' @import utils
+#' @import methods
 #' @keywords internal
 get_nexus <- function(query, max_trees = Inf, branch_lengths=FALSE, 
                       returns="tree", curl=getCurlHandle(), verbose=TRUE){
@@ -66,7 +68,7 @@ get_nexus <- function(query, max_trees = Inf, branch_lengths=FALSE,
                                   nex
                                 }))
                }
-             if(!is(node, "try-error") && try(node[[1]]) != "try-error" ){
+             if(!is(node, "try-error") && !is(try(node[[1]]), "try-error")){
                if(returns == "tree"){
                  node[[1]]$Tr.id <- Tr.id # tree id, for metadata queries
                  node[[1]]$S.id <- S.id # study id, for metadata queries 
@@ -260,6 +262,7 @@ search_treebase <- function(input, by, returns=c("tree", "matrix"),
 
   input <- gsub(" +", "%20\\1", input) # whitespace to html space symbol
   input <- gsub("\"", "%22", input) # html quote code at start
+  input <- gsub("'", "%22", input) # html quote code at start
   if(exact_match){
     search_term <- gsub("=", "==", search_term) # exact match uses (==) 
   }

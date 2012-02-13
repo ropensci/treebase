@@ -9,7 +9,9 @@ Description: Interface to the API for TreeBASE
 Imports:
     XML,
     RCurl,
-    TreePar
+    TreePar,
+    methods,
+    utils
 Depends:
     R (>= 2.10),
     ape

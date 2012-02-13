@@ -15,8 +15,7 @@
 \usepackage[pdftex, colorlinks]{hyperref}
 \usepackage{amsmath, amsfonts}  % extended mathematics
 \usepackage{booktabs} % book-quality tables
-\usepackage[hyphens]{url}
-%\usepackage{breakurl}
+\usepackage{breakurl}
 
 \textwidth 6.75in
 \oddsidemargin -0.15in
@@ -76,9 +75,10 @@ We have implemented an R package that plugs into this interface to provide direc
 
 \section{Examples \& Results}
 
-<<libs, echo=FALSE>>=
-require(ggplot2)
-require(treebase)
+<<libs, echo=FALSE, cache=FALSE>>=
+library(methods)
+library(utils)
+library(treebase)
 @
 
 
@@ -106,19 +106,20 @@ This can help the user discover phylogenies of interest and also allows the user
 on the data deposition itself. 
 While the metadata can be searched within a given date range,
 it is most straight-forward to import the full meta-data records first, with the command 
-<<getmetadata, eval=FALSE>>=
+<<getmetadata, cache=FALSE>>=
 metadata <- search_metadata("", by="all") 
 @
 %For convience, it is possible to load the copy of this data cached at the time the package was compiled.  
-<<cache, echo=FALSE>>=
-data(metadata)
-@
+%<<cache, echo=FALSE>>=
+%#data(metadata)
+%@
 
 \setkeys{Gin}{width=0.75\textwidth}
 \begin{figure}
 \begin{center}
-<<dates, include=TRUE>>=
-dates <- sapply(metadata, function(x) as.numeric(x$date))
+<<dates, cache=FALSE>>=
+require(ggplot2)
+dates <- sapply(metadata, `[[`, "date")
 hist(dates, main="TreeBase growth", xlab="Year")
 @
 \caption{Histogram of publication dates by year, with the code required to generate the figure.}\label{fig:1}
@@ -127,13 +128,13 @@ hist(dates, main="TreeBase growth", xlab="Year")
 We can then look at the distribution of publication years for phylogenies depositied in TreeBASE and see if there is any trend, Fig~\ref{fig:1}. 
 We can also look for patterns among publishers, 
 such as how many different journals have contributed: 
-<<journals>>=
+<<journals, cache=FALSE>>=
 pub <- sapply(metadata, `[[`, "publisher")
 pub_table <- sort(table(pub), decreasing=TRUE)
 length(pub_table)
 @
 and which are responsible for the most phylogenies:  
-<<topjournals>>=
+<<topjournals, cache=FALSE>>=
 head(pub_table)
 @
 
@@ -142,13 +143,13 @@ Reproducible research has become a topic of increasing concern in recent years~\
 
 
 The treebase API does not easily string 
-<<findderryberry, eval=TRUE>>= 
+<<findderryberry, cache=FALSE>>= 
 derryberry_results <- search_treebase("Derryberry", "author")
 ids <- lapply(derryberry_results, `[[`, "S.id")
 meta <- lapply(ids, metadata)
 @
 
-<<matchderryberry>>=
+<<matchderryberry, cache=FALSE>>=
 i <- which( sapply(meta, function(x) x$publisher == "Evolution" && x$date=="2011") )
 derryberry <- derryberry_results[[i]]
 @
