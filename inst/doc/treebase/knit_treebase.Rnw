@@ -130,7 +130,7 @@ We can also look for patterns among publishers,
 such as how many different journals have contributed: 
 <<journals, cache=FALSE>>=
 pub <- sapply(metadata, `[[`, "publisher")
-pub_table <- sort(table(pub), decreasing=TRUE)
+pub_table <- sort(table(unlist(pub)), decreasing=TRUE)
 length(pub_table)
 @
 and which are responsible for the most phylogenies:  
@@ -139,20 +139,47 @@ head(pub_table)
 @
 
 \subsection{Reproducible research \& education}
-Reproducible research has become a topic of increasing concern in recent years~\citep{Schwab2000, Keiding2010a, Peng2011b}.  Access to data and executable scripts that reproduce the results presented are two central elements of this process which are addressed by the \texttt{treebase} package.   
+Reproducible research has become a topic of increasing concern in recent years~\citep{Schwab2000, Gentleman2004, Peng2011b}.  
+Access to data and executable scripts that reproduce the results presented 
+are two central elements of this process which are addressed by the \texttt{treebase} package.   
 
 
-The treebase API does not easily string 
+Imagine we are reading the recent phylogenetics paper,~\citet{Derryberry2011}. 
+The paper analyzes speciation models on a phylogeny of bird taxa to identify if the rate of speciation shows
+a substantial shift among any of the groups, using the R package~\texttt{laser}~\citep{Rabosky2006b}.  
+We recall that more recent methods for identifying these rate shifts were presented in~\citet{Stadler2011},
+and would like to see if the results presented hold up under the newer approach.  
+The \texttt{treebase} package can help us do this with minimal effort.  
+Further, because the process can be entirely scripted in R, from accessing the data to performing the analyses,
+it can be easily replicated \& extended to additional datasets or methods.  
+
+
+\subsubsection*{Obtaining the tree}
+By drawing on the rich data manipulation tools available in R (and thus familiar to the large R phylogenetics community),
+the \texttt{treebase} package allows us to construct richer queries than are possible through TreeBASE alone.
+We begin our search by asking for a phylogenies by one of the paper's authors:  
+
 <<findderryberry, cache=FALSE>>= 
 derryberry_results <- search_treebase("Derryberry", "author")
+derryberry_results
+@
+
+This shows several results. 
+We would like the phylogeny appearing in \emph{Evolution} in 2011.
+Each phylogeny includes a TreeBASE study id number, stored in the ``S.id'' element, 
+which we use to look up the metadata for each paper.
+<<filter>>=
 ids <- lapply(derryberry_results, `[[`, "S.id")
 meta <- lapply(ids, metadata)
 @
 
+We can then look through the metadata to find the study matching our description.  
 <<matchderryberry, cache=FALSE>>=
 i <- which( sapply(meta, function(x) x$publisher == "Evolution" && x$date=="2011") )
 derryberry <- derryberry_results[[i]]
 @
+
+This is simply one possible path to identify the correct study.   
 
 <<loadderryberry, echo=FALSE>>=
 # connection may fail on first try, so instead of evaluating this, just load cached copy

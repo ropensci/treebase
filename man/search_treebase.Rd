@@ -45,10 +45,15 @@
   Choose the search type.  Options are:
   abstract="dcterms.abtract", search terms in the
   publication abstract
-  citation="dcterms.bibliographicCitation", author =
-  "dcterms.contributor", match authors in the publication
-  subject = "dcterms.subject", match subject id.matrix =
-  "tb.identifier.matrix", id.matrix.tb1 =
+
+  citation="dcterms.bibliographicCitation",
+
+  author = "dcterms.contributor", match authors in the
+  publication
+
+  subject = "dcterms.subject", match subject
+
+  id.matrix = "tb.identifier.matrix", id.matrix.tb1 =
   "tb.identifer.matrix.tb1", (TreeBASE 1 id #s, legacy)
   ncbi = "tb.identifier.ncbi", NCBI identifier number
   id.study = "tb.identifier.study", TreeBASE study ID
