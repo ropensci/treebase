@@ -15,7 +15,8 @@
 \usepackage[pdftex, colorlinks]{hyperref}
 \usepackage{amsmath, amsfonts}  % extended mathematics
 \usepackage{booktabs} % book-quality tables
-\usepackage{breakurl}
+\usepackage[hyphens]{url}
+%\usepackage{breakurl}
 
 \textwidth 6.75in
 \oddsidemargin -0.15in
@@ -26,7 +27,7 @@
 
 
 %% Looks like a comment but it isn't! This is setting the default behavior for the Sweave chunk options,  
-% \SweaveOpts{fig=TRUE, external=TRUE, cache=FALSE, message=FALSE, warning=FALSE, include=FALSE, tidy=FALSE, dev=pdf}
+% \SweaveOpts{fig=TRUE, external=TRUE, cache=TRUE, message=FALSE, warning=FALSE, tidy=TRUE, dev=pdf, echo=TRUE}
 
                    
 
@@ -51,7 +52,7 @@
   \end{abstract}
 
   \begin{keyword}
-   R  \sep vignette \sep API \sep TreeBASE
+   R  \sep software \sep API \sep TreeBASE \sep tools \sep e-science
    \end{keyword}
  \end{frontmatter}
 
@@ -123,12 +124,18 @@ hist(dates, main="TreeBase growth", xlab="Year")
 \caption{Histogram of publication dates by year, with the code required to generate the figure.}\label{fig:1}
 \end{center}
 \end{figure}
-We can then look at the distribution of publication years for phylogenies depositied in TreeBASE and see if there is any trend, Fig~\ref{fig:1}. We can also look for patterns among publishers, such as comparing the number of submissions of two different publishers:
+We can then look at the distribution of publication years for phylogenies depositied in TreeBASE and see if there is any trend, Fig~\ref{fig:1}. 
+We can also look for patterns among publishers, 
+such as how many different journals have contributed: 
 <<journals>>=
-nature <- sapply(metadata, function(x) length(grep("Nature", x$publisher))>0)
-science <- sapply(metadata, function(x) length(grep("^Science$", x$publisher))>0)
+pub <- sapply(metadata, `[[`, "publisher")
+pub_table <- sort(table(pub), decreasing=TRUE)
+length(pub_table)
 @
-Summing the returned lists in each we find \Sexpr{sum(nature)} phylogenies in \emph{Nature} and \Sexpr{sum(science)} in \emph{Science}. Many more such exercises are possible, and several examples are included in the demo files provided with the package.  
+and which are responsible for the most phylogenies:  
+<<topjournals>>=
+head(pub_table)
+@
 
 \subsection{Reproducible research \& education}
 Reproducible research has become a topic of increasing concern in recent years~\citep{Schwab2000, Keiding2010a, Peng2011b}.  Access to data and executable scripts that reproduce the results presented are two central elements of this process which are addressed by the \texttt{treebase} package.   
@@ -153,17 +160,17 @@ data(derryberry)
 
 
 For instance, we can replicate the model choice methods they perform to select the most likely branching model candidate.  
-<<RR, cache=TRUE>>=
+<<RR, tidy=FALSE>>=
 require(laser)
 tt <- branching.times(derryberry)
-models <-  list(pb = pureBirth(tt), # yule model
-                bdfit = bd(tt), # birth-death model 
+models <-  list(pb = pureBirth(tt),  # yule model
+                bdfit = bd(tt),      # birth-death model 
                 y2r = yule2rate(tt), # yule model with single shift pt
-                ddl = DDL(tt), # linear, diversity-dependent
-                ddx = DDX(tt), #exponential diversity-dendent
-                sv = fitSPVAR(tt), # vary speciation in time
-                ev = fitEXVAR(tt), # vary extinction in time
-                bv = fitBOTHVAR(tt) # vary both
+                ddl = DDL(tt),       # linear, diversity-dependent
+                ddx = DDX(tt),       # exponential diversity-dendent
+                sv = fitSPVAR(tt),   # vary speciation in time
+                ev = fitEXVAR(tt),   # vary extinction in time
+                bv = fitBOTHVAR(tt)  # vary both
                 ) 
 aics <- sapply(models, function(x) x$aic)
 # name of the winning model
@@ -180,17 +187,15 @@ rm(list="locale") # clean up
 @
 
 We can easily re-analyze these results using the TreePar software,
-<<treepar, cache=TRUE, message=FALSE, warning=FALSE, include=FALSE>>=
+<<treepar, message=FALSE, warning=FALSE, include=FALSE>>=
 require(TreePar)
 ## TreePar must furst reformat the phylogeny data:
 x<-sort(getx(derryberry), decreasing=TRUE)
 # look for shifts occuring at times between 0 & 60 with interval of 5
 # consider yule models, allow up to 3 shifts (4 different rates) 
-estimated_shifts <- bd.shifts.optim(x, sampling = c(1,1,1,1), 
-  grid = 5, start = 0, end = 60, ME = FALSE, yule = TRUE)
+estimated_shifts <- bd.shifts.optim(x, sampling = c(1,1,1,1), grid = 5, start = 0, end = 60, ME = FALSE, yule = TRUE)
 ## TreePar happens to return the model parameters in the second return element:
 models <- estimated_shifts[[2]]
-
 aic <- sapply(model, function(x) 2 * (length(x) - 1) + 2 * x[1] ) 
 which.min(aic)
 @
@@ -243,7 +248,7 @@ tt <- drop_errors(sapply(branchlengths, timetree))
 
 
 The central question of many of meta-analyses mentioned above has been whether or not phylogenies show a changing rates of evolution.  A standard test of this is the $\gamma$ statistic of~\citet{Pybus2000} which tests the null hypothesis that the rates of speciation and extinction are constant.  Applying this test to all of the currently available trees in TreeBASE,
-<<gamma>>=
+<<gamma, echo=TRUE>>=
 # gamma statistic
 gammas <- sapply(tt,  gammaStat)
 # associated p-value
@@ -256,7 +261,7 @@ it is not only easier to perform this analysis but also to update it to reflect 
 For instance, this paper is written using R's Sweave tool, where the results and figures are generated on the fly as the paper is compiled.  
 Consequently the analyses presented here can be updated to reflect the latest information in TreeBASE by the click of a button.  
 
-
+\section{Conclusion}
 
  \section{Acknowledgements}
  CB wishes to thank the TreeBASE developer team for building and supporting the repository, and all contributers to TreeBASE.
