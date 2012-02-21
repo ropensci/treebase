@@ -7,8 +7,8 @@
 #' @return saves a cached file of treebase
 #' @details a good idea to let this run overnight
 #'
-cache_treebase <- function(file=paste("treebase-", Sys.Date(), ".rda",sep=""), pause1=2, pause2=2, attempts=20){
-  treebase <- search_treebase("Consensus", "type.tree", pause1=pause1, pause2=pause2, attempts=attempts)
+cache_treebase <- function(file=paste("treebase-", Sys.Date(), ".rda",sep=""), pause1=2, pause2=2, attempts=20, max_trees=Inf){
+  treebase <- search_treebase("Consensus", "type.tree", max_trees=max_trees, pause1=pause1, pause2=pause2, attempts=attempts)
   save("treebase", file=file)
 }
 
