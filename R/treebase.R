@@ -13,6 +13,9 @@
 #' @param curl the handle to the curl web utility for repeated calls, see
 #'  the getCurlHandle() function in RCurl package for details.  
 #' @param verbose logical indicating level of progress reporting
+#' @param pause1 number of seconds to hesitate between requests
+#' @param pause2 number of seconds to hesitate between individual files
+#' @param attempts number of attempts to access a particular resource
 #' @return either a list of trees (multiphylo) or a list of character matrices
 #' @keywords utility
 #' @details Choose the search type.  Options are: \itemize{
@@ -199,9 +202,10 @@ search_treebase <- function(input, by, returns=c("tree", "matrix"),
   out
 }
 
-#' drop errors
+#' drop errors from the search
 #' @param tr a list of phylogenetic trees returned by search_treebase
 #' @return the list of phylogenetic trees returned successfully
+#' @details primarily for the internal use of search_treebase, but may be useful
 #' @export
 drop_nontrees <- function(tr){
   tt <- tr[sapply(tr, function(x) is(x, "phylo"))]
@@ -221,6 +225,9 @@ drop_nontrees <- function(tr){
 #' @param returns should return the tree object or the matrix (of sequences)
 #' @param curl the handle to the curl 
 #' @param verbose a logical indicating if output should be printed to screen
+#' @param pause1 number of seconds to hesitate between requests
+#' @param pause2 number of seconds to hesitate between individual files
+#' @param attempts number of attempts to access a particular resource
 #' @return A list object containing all the trees matching the search 
 #'    (of class phylo)
 #' @import XML
@@ -238,8 +245,12 @@ get_nex <- function(query, max_trees = "last()", branch_lengths=FALSE,
   xml_hits <- xmlParse(page1)
   message("Query resolved, looking at each matching resource...")
 
+  message(paste(
+    length(
+      getNodeSet(xml_hits,paste("//rdf:li[position()<= ", max_trees, "]", sep=""))
+    ), "resources found matching query"))
 
- namespaces <- c(rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#", 
+  namespaces <- c(rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#", 
                  dcterms="http://purl.org/dc/terms/", 
                  dc="http://purl.org/dc/elements/1.1/")
 
@@ -252,6 +263,10 @@ get_nex <- function(query, max_trees = "last()", branch_lengths=FALSE,
   out
 }
 
+#' Simple function to identify which trees have branch lengths
+#' @param a list of phylogenetic trees (ape/phylo format)
+#' @return logical string indicating which have branch length data
+#' @export
 have_branchlength <- function(trees){
  sapply(trees, function(x) !is.null(x[["edge.length"]]))
 }
@@ -259,7 +274,7 @@ have_branchlength <- function(trees){
 
 
 
-
+## an internal function which descends through the pages to get the nexus resources
 dig <- function(x, returns="tree", curl=getCurlHandle(), pause1=1, pause2=1){
 # Get the URL to the actual resource on that page 
   thepage <- xmlAttrs(x, "rdf:resource")
@@ -328,11 +343,13 @@ try_thrice <- function(x,returns, curl, pause1, pause2){
 }
 
 
-# Helper function to make multiple trys of dig, increasing the patience timing
+# Helper function to make a specified number of attempts to access a resource
+
+#' @keywords internal
 try_recursive <- function(x,returns, curl, pause1, pause2, attempts=3){
   try <- 1
   while(try <= attempts){
-    message(paste("Query failed, attempting try", try))
+    message(paste("Attempting try", try))
     out <- try(dig(x,returns, curl, pause1, pause2))
     try <- try + 1
     if(!is(out, "try-error"))
