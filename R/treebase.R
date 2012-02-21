@@ -1,110 +1,3 @@
-#' imports phylogenetic trees from treebase. internal function
-#' @param query : a phylows formatted search, 
-#'     see https://sourceforge.net/apps/mediawiki/treebase/index.php?title=API
-#' @param max_trees limits the number of trees returned
-#' @param branch_lengths logical indicating if only trees with branch lengths 
-#'  should be kept.  
-#' @param returns should return the tree object or the matrix (of sequences)
-#' @param curl the handle to the curl 
-#' @param verbose a logical indicating if output should be printed to screen
-#' @return A list object containing all the trees matching the search 
-#'    (of class phylo)
-#' @import XML
-#' @import RCurl
-#' @import ape
-#' @import utils
-#' @import methods
-#' @keywords internal
-get_nexus <- function(query, max_trees = Inf, branch_lengths=FALSE, 
-                      returns="tree", curl=getCurlHandle(), verbose=TRUE){
-  n_trees <- 0
-  tt <- try(getURLContent(query, followlocation=TRUE, curl=curl))
-  search_returns <- try(xmlParse(tt))
-
-  if(is(search_returns, "try-error")){
-    print("failed to parse query")
-  } else {
-    if(max_trees == Inf){
-      max_trees <- "last()+1"
-    } else {
-      max_trees <- max_trees+1
-    }
-    try(xpathApply(search_returns, paste("//rdf:li[position()< ",
-                                          max_trees, "]", sep=""),
-             function(x){
-               # Open the page on each resource 
-               thepage <- xmlAttrs(x, "rdf:resource")
-               target <- try(getURLContent(thepage, followlocation=TRUE, curl=curl))
-               seconddoc <- try(xmlParse(target))
-               # Get the tree ID
-               Tr.id <- gsub(".*Tr([1-9]+)+", "\\1", as.character(thepage))
-               # Get the study ID  
-               if(is(seconddoc, "try-error")){
-                 warning("failed to parse")
-                 node <- "try-error"
-                 class(node)  <- "try-error"
-               } else {
-               ## use xpathApply to find and return the nexus files
-               S.id <- xpathSApply(seconddoc, "//x:isDefinedBy", xmlValue, 
-                    namespaces=c(x="http://www.w3.org/2000/01/rdf-schema#"))[2]
-               S.id <- gsub(".*TB2:S([1-9]+)+", "\\1", S.id)
-               node <- try(xpathApply(seconddoc, "//x:item[x:title='Nexus file']", 
-                                namespaces=c(x="http://purl.org/rss/1.0/"),
-                                function(x){
-                                  if(is.list(x))
-                                    x = x[[1]]
-                                  con <- url(xmlValue(x[["link"]]))
-                                  if(returns=="tree"){
-                                    nex <- try(read.nexus(con))
-                                  } else if (returns=="matrix"){
-#                                 print(xmlValue(x[["link"]])) # print resource location
-                                    nex <- try(read.nexus.data(xmlValue(x[["link"]])))
-                                  }
-                                  if(is(nex, "try-error")){
-                                    print("Resource unavailable")
-                                    nex <- NULL
-                                  }
-                                  close(con)
-                                  nex
-                                }))
-               }
-             if(!is(node, "try-error") && !is(try(node[[1]]), "try-error")){
-               if(returns == "tree"){
-                 node[[1]]$Tr.id <- Tr.id # tree id, for metadata queries
-                 node[[1]]$S.id <- S.id # study id, for metadata queries 
-               }
-
-               if(is(node[[1]], "phylo")){
-                 if(verbose) message("phylogeny obtained")
-               } else if(is(node[[1]], "list")) {
-                 if(verbose) print("alignment obtained")
-               } else if(is.null(node[[1]])) {
-                 if(verbose) print("phylogeny unaccessible")
-               }
-
-               ## Return only trees that have branch lengths if asked to. cannot apply to matrices 
-               if(branch_lengths & returns=="tree"){
-                 if(verbose) print("Checking for branch lengths")
-                 if(is.null(node[[1]]$edge.length)){
-                   out <- NULL 
-                   if(verbose) print("no branch lengths")
-                 } else {
-                   out <- node[[1]]
-                   if(verbose) print("has branch lengths")
-                 }
-               } else {
-                 out <- node[[1]]
-               }
-             } else {
-               out <- "err"
-               class(out) <- "try-error"
-             }
-
-               out
-            }))
-  }
-}     
-
 #' A function to pull in the phyologeny/phylogenies matching a search query
 #' 
 #' @param input a search query (character string)
@@ -122,33 +15,35 @@ get_nexus <- function(query, max_trees = Inf, branch_lengths=FALSE,
 #' @param verbose logical indicating level of progress reporting
 #' @return either a list of trees (multiphylo) or a list of character matrices
 #' @keywords utility
-#' @details Choose the search type.  Options are:
-#'   abstract="dcterms.abtract", search terms in the publication abstract
-#'   citation="dcterms.bibliographicCitation", 
-#'   author = "dcterms.contributor", match authors in the publication
-#'   subject = "dcterms.subject",  match subject
-#'   id.matrix = "tb.identifier.matrix",
-#'   id.matrix.tb1 = "tb.identifer.matrix.tb1", (TreeBASE 1 id #s, legacy)
-#'   ncbi = "tb.identifier.ncbi", NCBI identifier number
-#'   id.study = "tb.identifier.study", TreeBASE study ID
-#'   id.study.tb1 = "tb.identifier.study.tb1", (legacy id) 
-#'   id.taxon = "tb.identifer.taxon",
-#'   taxon.tb1 = "tb.identifier.taxon.tb1", (legacy taxon)
-#'   taxonVariant.tb1 = "tb.identifier.taxonVarient.tb1", (legacy)
-#'   id.tree = "tb.identifier.tree", TreeBASE tree identifier
-#'   ubio = "tb.identifier.ubio",
-#'   kind.tree = "tb.kind.tree", 
-#'   nchar = "tb.nchar.matrix", number of characters in the matrix
-#'   ntax = "tb.ntax.matrix",  number of taxa in the matrix
-#'   quality="tb.quality.tree", 
-#'   matrix = "tb.title.matrix", 
-#'   study = "tb.title.study", study title
-#'   taxon = "tb.title.taxon", taxon name
-#'   taxonLabel = "tb.title.taxonLabel", 
-#'   taxonVariant = "tb.title.taxonVariant",
-#'   tree = "tb.title.tree",
-#'   type.matrix="tb.type.matrix",
-#'   type.tree = "tb.type.tree")
+#' @details Choose the search type.  Options are: \itemize{
+#'   \item{abstract}{ "dcterms.abtract", search terms in the publication abstract}
+#'   \item{citation}{ "dcterms.bibliographicCitation", }
+#'   \item{author }{ "dcterms.contributor", match authors in the publication}
+#'   \item{subject }{ "dcterms.subject",  match subject}
+#'   \item{id.matrix }{ "tb.identifier.matrix",}
+#'   \item{id.matrix.tb1 }{ "tb.identifer.matrix.tb1", (TreeBASE 1 id #s, legacy)}
+#'   \item{ncbi }{ "tb.identifier.ncbi", NCBI identifier number}
+#'   \item{id.study }{ "tb.identifier.study", TreeBASE study ID}
+#'   \item{id.study.tb1 }{ "tb.identifier.study.tb1", (legacy id) }
+#'   \item{id.taxon }{ "tb.identifer.taxon",}
+#'   \item{taxon.tb1 }{ "tb.identifier.taxon.tb1", (legacy taxon)}
+#'   \item{taxonVariant.tb1 }{ "tb.identifier.taxonVarient.tb1", (legacy)}
+#'   \item{id.tree }{ "tb.identifier.tree", TreeBASE tree identifier}
+#'   \item{ubio }{ "tb.identifier.ubio",}
+#'   \item{kind.tree }{ "tb.kind.tree", }
+#'   \item{nchar }{ "tb.nchar.matrix", number of characters in the matrix}
+#'   \item{ntax }{ "tb.ntax.matrix",  number of taxa in the matrix}
+#'   \item{quality}{ "tb.quality.tree", }
+#'   \item{matrix }{ "tb.title.matrix", }
+#'   \item{study }{ "tb.title.study", study title}
+#'   \item{taxon }{ "tb.title.taxon", taxon name}
+#'   \item{taxonLabel }{ "tb.title.taxonLabel", }
+#'   \item{taxonVariant }{ "tb.title.taxonVariant",}
+#'   \item{tree }{ "tb.title.tree",}
+#'   \item{type.matrix}{ "tb.type.matrix",}
+#'   \item{type.tree }{ "tb.type.tree"}
+#'   \item{doi}{ "prism.doi" a unique object identifier}
+#' }
 #'   for a description of all possible search options, see
 #'   https://spreadsheets.google.com/pub?key=rL--O7pyhR8FcnnG5-ofAlw. 
 #' 
@@ -186,7 +81,7 @@ get_nexus <- function(query, max_trees = Inf, branch_lengths=FALSE,
 search_treebase <- function(input, by, returns=c("tree", "matrix"),   
                             exact_match=FALSE, max_trees = Inf,
                             branch_lengths=FALSE, curl=getCurlHandle(),
-                            verbose=TRUE){
+                            verbose=TRUE, pause1=1, pause2=1, attempts=3){
 
   nterms <- length(by)
   search_term <- character(nterms)
@@ -219,8 +114,10 @@ search_treebase <- function(input, by, returns=c("tree", "matrix"),
                        taxonVariant = "tb.title.taxonVariant",
                        tree = "tb.title.tree",
                        type.matrix="tb.type.matrix",
-                       type.tree = "tb.type.tree")
+                       type.tree = "tb.type.tree",
+                       doi="prism.doi")
 
+  # Section specifies what kind of resource the above id refers to, a tree, matrix, or study
   section[i] <- switch(by[i],
                        abstract= "study",
                        citation= "study",
@@ -247,7 +144,8 @@ search_treebase <- function(input, by, returns=c("tree", "matrix"),
                        taxonVariant = "taxon", 
                        tree = "tree", 
                        type.matrix= "matrix",
-                       type.tree = "tree")
+                       type.tree = "tree",
+                       doi="study")
   }
   if(!all(section == section[1]))
     stop("Multiple queries must belong to the same section (study/taxon/tree/matrix)")
@@ -263,14 +161,14 @@ search_treebase <- function(input, by, returns=c("tree", "matrix"),
   input <- gsub(" +", "%20\\1", input) # whitespace to html space symbol
   input <- gsub("\"", "%22", input) # html quote code at start
   input <- gsub("'", "%22", input) # html quote code at start
+  if(by %in% c("doi")) # list of search types that need to be quoted
+    input <- paste("%22", input,"%22", sep="")
   if(exact_match){
     search_term <- gsub("=", "==", search_term) # exact match uses (==) 
   }
 
   returns <- match.arg(returns)
-  schema <- switch(returns,
-    tree = "tree",
-    matrix = "matrix")
+  schema <- switch(returns, tree = "tree", matrix = "matrix")
 
 # We'll always use rss1 as the machine-readable format 
 # could attempt to open a webpage instead with html format to allow manual user search
@@ -280,20 +178,23 @@ search_treebase <- function(input, by, returns=c("tree", "matrix"),
   # Should eventually update to allow for multiple query terms with booleans
   query <- paste("http://purl.org/phylo/treebase/phylows/", search_type, 
                  search_term[1], input, format, "&recordSchema=", schema, sep="")
+  ## display the constructed query to the user
   message(query)
 
+  if(max_trees == Inf)
+    max_trees <- "last()"
 
-    out <- get_nexus(query, max_trees = max_trees, branch_lengths =
-                     branch_lengths, returns=returns, curl=curl)
-    out <- out[!sapply(out, is.null)] # drop nulls
+  out <- get_nex(query, max_trees = max_trees, branch_lengths =
+                 branch_lengths, returns=returns, curl=curl,
+                 pause1=pause1, pause2=pause2, attempts=attempts)
 
   if(schema=="tree"){
-    class(out) <- "multiPhylo"
-    # if returning one tree, don't make it a multiphylo list -- nice gesture but not good practice to vary output type
-    # if(length(out) == 1) 
-    #  out <- out[[1]]  
-  } else if(schema=="matrix"){
-    
+    out <- drop_nontrees(out)
+    if(branch_lengths){
+      have <- have_branchlength(out)
+      out <- out[have]
+    }
+#  class(out) <- "multiPhylo"
   }
   out
 }
@@ -302,11 +203,142 @@ search_treebase <- function(input, by, returns=c("tree", "matrix"),
 #' @param tr a list of phylogenetic trees returned by search_treebase
 #' @return the list of phylogenetic trees returned successfully
 #' @export
-drop_errors <- function(tr){
-  tt <- tr[!sapply(tr, is.null)]
-  tt <- tt[!sapply(tt, function(x) is(x, "try-error"))]
-  print(paste("dropped", length(tr)-length(tt), "trees"))
+drop_nontrees <- function(tr){
+  tt <- tr[sapply(tr, function(x) is(x, "phylo"))]
+  print(paste("dropped", length(tr)-length(tt), "objects"))
   tt
+}
+
+
+
+
+#' imports phylogenetic trees from treebase. internal function
+#' @param query : a phylows formatted search, 
+#'     see https://sourceforge.net/apps/mediawiki/treebase/index.php?title=API
+#' @param max_trees limits the number of trees returned
+#' @param branch_lengths logical indicating if only trees with branch lengths 
+#'  should be kept.  
+#' @param returns should return the tree object or the matrix (of sequences)
+#' @param curl the handle to the curl 
+#' @param verbose a logical indicating if output should be printed to screen
+#' @return A list object containing all the trees matching the search 
+#'    (of class phylo)
+#' @import XML
+#' @import RCurl
+#' @import ape
+#' @import utils
+#' @import methods
+#' @keywords internal
+get_nex <- function(query, max_trees = "last()", branch_lengths=FALSE, 
+                      returns="tree", curl=getCurlHandle(), verbose=TRUE,
+                      pause1=1, pause2=1, attempts=5){
+  n_trees <- 0
+  ## Note the need for followlocation -- the actual url just resolves to a page that forwards us on
+  page1 <- getURLContent(query, followlocation=TRUE, curl=curl)
+  xml_hits <- xmlParse(page1)
+  message("Query resolved, looking at each matching resource...")
+
+
+ namespaces <- c(rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#", 
+                 dcterms="http://purl.org/dc/terms/", 
+                 dc="http://purl.org/dc/elements/1.1/")
+
+  out <- xpathApply(xml_hits, 
+    paste("//rdf:li[position()<= ", max_trees, "]", sep=""),
+    try_recursive, returns=returns, curl=curl, pause1=pause1, 
+    pause2=pause2, attempts=attempts,
+    namespaces=namespaces)
+
+  out
+}
+
+have_branchlength <- function(trees){
+ sapply(trees, function(x) !is.null(x[["edge.length"]]))
+}
+
+
+
+
+
+dig <- function(x, returns="tree", curl=getCurlHandle(), pause1=1, pause2=1){
+# Get the URL to the actual resource on that page 
+  thepage <- xmlAttrs(x, "rdf:resource")
+
+  ## being patient will let the server get the resource ready
+  Sys.sleep(pause1)
+  target <- getURLContent(thepage, followlocation=TRUE, curl=curl)
+  seconddoc <- xmlParse(target) ## This fails if we rush
+
+  message("Resource resolved, looking up ID numbers...")
+
+  # Get the tree ID and study ID
+  Tr.id <- gsub(".*Tr([1-9]+)+", "\\1", as.character(thepage))
+  S.id <- xpathSApply(seconddoc, "//x:isDefinedBy", xmlValue, 
+  namespaces=c(x="http://www.w3.org/2000/01/rdf-schema#"))[2]
+  S.id <- gsub(".*TB2:S([1-9]+)+", "\\1", S.id)
+  
+  message(paste("Study ID is ", S.id, "Tree ID is", Tr.id))
+  message("Looking for nexus files...")
+
+  ### Here we sometimes get 304 errors, and want to try again
+  node <- xpathApply(seconddoc, "//x:item[x:title='Nexus file']", 
+            namespaces=c(x="http://purl.org/rss/1.0/"),
+            function(x){
+              if(is.list(x))
+                x = x[[1]]
+
+              ## being patient will let the server get the resource ready
+              Sys.sleep(pause2)
+              con <- url(xmlValue(x[["link"]]))
+              if(returns=="tree"){
+                nex <- read.nexus(con) ## fails if we rush
+                message("Tree read in successfully")
+              } else if (returns=="matrix"){
+                 nex <- read.nexus.data(xmlValue(x[["link"]]))
+              }
+            nex
+            })
+  node[[1]] # One tree per seconddoc 
+}
+
+
+# Helper function to make multiple trys of dig, increasing the patience timing
+try_thrice <- function(x,returns, curl, pause1, pause2){
+  W <- NULL
+  w.handler <- function(w){ # warning handler
+    W <<- w
+    invokeRestart("muffleWarning")
+  }
+  retry <- function(e){
+    message("Query failed, attempting a second call")
+    tryCatch(dig(x,returns, curl, pause1+2, pause2+2), 
+      error = retry2)
+  }
+
+  retry2 <- function(e){
+    message("Query failed, attempting a third call")
+    tryCatch(dig(x,returns, curl, pause1+5, pause2+5), 
+      error = function(e){
+        message("Resource cannot be reached")
+        "Retry failed"})
+  }
+  withCallingHandlers(
+       tryCatch(dig(x, returns, curl, pause1, pause2),
+       error = retry))
+}
+
+
+# Helper function to make multiple trys of dig, increasing the patience timing
+try_recursive <- function(x,returns, curl, pause1, pause2, attempts=3){
+  try <- 1
+  while(try <= attempts){
+    message(paste("Query failed, attempting try", try))
+    out <- try(dig(x,returns, curl, pause1, pause2))
+    try <- try + 1
+    if(!is(out, "try-error"))
+      try <- attempts+1
+  }
+  out
 }
 
 

@@ -63,9 +63,14 @@ inferring phylogenies from this molecular information have helped spur this incr
 
 
 The R statistical environment has become a dominant platform for researchers applying these phylogenies to rapidly growing set of questions.
-While the task of inferring phylogenies from genomic data remains dominated by dedicated compiled software such as MrBayes~\citep{Huelsenbeck2001b}, BEAST~\citep{Drummond2007}, RAXML~\citep{Stamatakis2006}, much of the analysis based %% DESCRIBE applied phylogenetics with citations! 
+While the task of inferring phylogenies from genomic data remains dominated by dedicated compiled software such as MrBayes~\citep{Huelsenbeck2001b}, BEAST~\citep{Drummond2007}, RAXML~\citep{Stamatakis2006},
+the research methods that make use of these phylogenies are largely based in R through dedicated packages.  
+These methods include tasks such as ancestral state reconstruction~\citep{Paradis2004, Butler2004}, diversification analysis~\citep{Stadler2011, FitzJohn2011, Rabosky2009}, trait evolution~\citep{Revell2011, Eastman2011, Butler2004, Paradis2004, Hipp2009, Jombart2010}, community ecology~\citet{Webb2008, Kembel2010}, phyloclimatic modelling~\citep{Evans2009, Warren2008}, simulation of phylogenies, as well as various manipulation and visualization of phylogenetic data~\citet{Revell2011, Paradis2004}.  
 
-(27 are listed on the taskview on Phylogenetic Methods of the Comprehensive R Archive Network) 
+
+much of the analysis based %% DESCRIBE applied phylogenetics with citations! 
+
+27 are listed on the taskview on Phylogenetic Methods of the Comprehensive R Archive Network (CRAN) 
 and new methods are added every year.  
 
 TreeBASE (\href{http://treebase.org}{http://treebase.org}) is an online repository of phylogenies~\citep{Sanderson1994b, Morell1996, }.  
@@ -217,7 +222,7 @@ rm(list="locale") # clean up
 We can easily re-analyze these results using the TreePar software,
 <<treepar, message=FALSE, warning=FALSE, include=FALSE>>=
 require(TreePar)
-## TreePar must furst reformat the phylogeny data:
+## TreePar must first reformat the phylogeny data:
 x<-sort(getx(derryberry), decreasing=TRUE)
 # look for shifts occuring at times between 0 & 60 with interval of 5
 # consider yule models, allow up to 3 shifts (4 different rates) 
