@@ -323,7 +323,7 @@ dig <- function(tree_url, returns="tree", curl=getCurlHandle(), pause1=1, pause2
 
 
 # Helper function to make multiple trys of dig, increasing the patience timing
-try_thrice <- function(x,returns, curl, pause1, pause2){
+try_thrice <- function(x,returns, curl, pause1, pause2, attempts){
   W <- NULL
   w.handler <- function(w){ # warning handler
     W <<- w
