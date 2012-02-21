@@ -245,22 +245,34 @@ get_nex <- function(query, max_trees = "last()", branch_lengths=FALSE,
   xml_hits <- xmlParse(page1)
   message("Query resolved, looking at each matching resource...")
 
-  message(paste(
-    length(
-      getNodeSet(xml_hits,paste("//rdf:li[position()<= ", max_trees, "]", sep=""))
-    ), "resources found matching query"))
+  resources <- getNodeSet(xml_hits, paste("//rdf:li[position()<= ", max_trees, "]", sep=""))
 
-  namespaces <- c(rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#", 
-                 dcterms="http://purl.org/dc/terms/", 
-                 dc="http://purl.org/dc/elements/1.1/")
+  ## process some metadata
+  metadata <- getNodeSet(xml_hits, "//@rdf:about/./..")
+  metadata <- metadata[-1] # first value is for the search
+  Studies <- sapply(metadata, function(x) xmlValue(x[["isDefinedBy"]]))
+  Trees <- sapply(metadata, function(x) xmlValue(x[["link"]]))
+  Study.ids <- gsub(".*TB2:S([1-9]+)+", "\\1", Studies)
+  Tree.ids <- gsub(".*Tr([1-9]+)+", "\\1", Trees)
+  kind <- sapply(metadata, function(x) xmlValue(x[["kind.tree"]]))
+  quality <- sapply(metadata, function(x) xmlValue(x[["quality.tree"]]))
+  type <- sapply(metadata, function(x) xmlValue(x[["type.tree"]]))
 
-  out <- xpathApply(xml_hits, 
-    paste("//rdf:li[position()<= ", max_trees, "]", sep=""),
+  #all_metadata <- sapply(metadata, xmlToList)
+
+  message(paste(length(resources), "resources found matching query"))
+
+  out <- lapply(Trees, 
     try_recursive, returns=returns, curl=curl, pause1=pause1, 
-    pause2=pause2, attempts=attempts,
-    namespaces=namespaces)
+    pause2=pause2, attempts=attempts)
 
-  out
+  out <- lapply(1:length(out), function(i){ 
+    out[[i]]$S.id <- Study.ids[i]
+    out[[i]]$Tr.id <- Tree.ids[i]
+    out[[i]]$type <- type[i]
+    out[[i]]$kind <- kind[i]
+    out[[i]]$quality <- quality[i]
+    out[[i]] })
 }
 
 #' Simple function to identify which trees have branch lengths
@@ -275,24 +287,15 @@ have_branchlength <- function(trees){
 
 
 ## an internal function which descends through the pages to get the nexus resources
-dig <- function(x, returns="tree", curl=getCurlHandle(), pause1=1, pause2=1){
+dig <- function(tree_url, returns="tree", curl=getCurlHandle(), pause1=1, pause2=1){
 # Get the URL to the actual resource on that page 
-  thepage <- xmlAttrs(x, "rdf:resource")
+  #thepage <- xmlAttrs(x, "rdf:resource")
 
   ## being patient will let the server get the resource ready
   Sys.sleep(pause1)
-  target <- getURLContent(thepage, followlocation=TRUE, curl=curl)
+  target <- getURLContent(tree_url, followlocation=TRUE, curl=curl)
   seconddoc <- xmlParse(target) ## This fails if we rush
 
-  message("Resource resolved, looking up ID numbers...")
-
-  # Get the tree ID and study ID
-  Tr.id <- gsub(".*Tr([1-9]+)+", "\\1", as.character(thepage))
-  S.id <- xpathSApply(seconddoc, "//x:isDefinedBy", xmlValue, 
-  namespaces=c(x="http://www.w3.org/2000/01/rdf-schema#"))[2]
-  S.id <- gsub(".*TB2:S([1-9]+)+", "\\1", S.id)
-  
-  message(paste("Study ID is ", S.id, "Tree ID is", Tr.id))
   message("Looking for nexus files...")
 
   ### Here we sometimes get 304 errors, and want to try again
@@ -313,7 +316,9 @@ dig <- function(x, returns="tree", curl=getCurlHandle(), pause1=1, pause2=1){
               }
             nex
             })
-  node[[1]] # One tree per seconddoc 
+  node <- node[[1]] # will fail if above has errored
+  node
+  # One tree per seconddoc 
 }
 
 
