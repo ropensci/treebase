@@ -8,7 +8,7 @@
 #' @details a good idea to let this run overnight
 #' @export
 cache_treebase <- function(file=paste("treebase-", Sys.Date(), ".rda",sep=""), pause1=2, pause2=2, attempts=20, max_trees=Inf){
-  treebase <- search_treebase("Consensus", "type.tree", max_trees=max_trees, pause1=pause1, pause2=pause2, attempts=attempts)
+  treebase <- search_treebase(c("Consensus or Single"), by=c("type.tree", "type.tree"), max_trees=max_trees, pause1=pause1, pause2=pause2, attempts=attempts)
   save("treebase", file=file)
 }
 
