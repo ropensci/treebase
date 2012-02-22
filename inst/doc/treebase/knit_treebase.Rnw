@@ -1,4 +1,5 @@
-\documentclass{elsarticle}
+\documentclass[authoryear, preprint]{elsarticle}
+%\documentclass[authoryear, 5p]{elsarticle}
 
 %\VignetteIndexEntry{treebase}
 %% Redefines the elsarticle footer
@@ -11,12 +12,11 @@
 \makeatother
 
 \bibliographystyle{elsarticle-harv}
+\biboptions{sort&compress}
 \usepackage{graphicx}
 \usepackage[pdftex, colorlinks]{hyperref}
 \usepackage{amsmath, amsfonts}  % extended mathematics
 \usepackage{booktabs} % book-quality tables
-\usepackage{breakurl}
-
 \textwidth 6.75in
 \oddsidemargin -0.15in
 \evensidemargin -0.15in
@@ -26,8 +26,7 @@
 
 
 %% Looks like a comment but it isn't! This is setting the default behavior for the Sweave chunk options,  
-% \SweaveOpts{fig=TRUE, external=TRUE, cache=TRUE, message=FALSE, warning=FALSE, tidy=TRUE, dev=pdf, echo=TRUE}
-
+% \SweaveOpts{fig=TRUE, external=TRUE, cache=FALSE, message=FALSE, warning=FALSE, tidy=FALSE, dev=pdf, echo=TRUE}
                    
 
 \begin{document}
@@ -43,7 +42,7 @@
   \begin{abstract}
   \begin{enumerate}
   \item TreeBASE is an important and rapidly growing repository of phylogenetic data.  The R statistical environment has become a primary tool for the applied phylogenetic analyses that use this kind of data for across a range of questions, from comparative evolution to community ecology to conservation planning.  
-  \item We have developed \texttt{treebase}, an open-source package (freely available from \href{http://cran.r-project.org/web/packages/treebase}{http://cran.r-project.org/web/packages/treebase}) for the R environment.  \texttt{treebase} provides simplified and programmatic access to phylogenetic data that provides a bridge between the repository and the rapidly growing ecosystem of R packages for phylogenetics with which many researchers are already familiar.  
+  \item We have developed \texttt{treebase}, an open-source package (freely available from\\ \href{http://cran.r-project.org/web/packages/treebase}{http://cran.r-project.org/web/packages/treebase}) for the R environment.  \texttt{treebase} provides simplified and programmatic access to phylogenetic data that provides a bridge between the repository and the rapidly growing ecosystem of R packages for phylogenetics with which many researchers are already familiar.  
   \item We illustrate how such programmatic access has important ramifications for research, including making scientific results easier to reproduce and update,
   \item and also facilitate exploratory analysis, longitudinal studies and meta-analyses at a scale that would hither-to be daunting for most research teams.  
   \end{enumerate}
@@ -65,22 +64,26 @@ inferring phylogenies from this molecular information have helped spur this incr
 The R statistical environment has become a dominant platform for researchers applying these phylogenies to rapidly growing set of questions.
 While the task of inferring phylogenies from genomic data remains dominated by dedicated compiled software such as MrBayes~\citep{Huelsenbeck2001b}, BEAST~\citep{Drummond2007}, RAXML~\citep{Stamatakis2006},
 the research methods that make use of these phylogenies are largely based in R through dedicated packages.  
-These methods include tasks such as ancestral state reconstruction~\citep{Paradis2004, Butler2004}, diversification analysis~\citep{Stadler2011, FitzJohn2011, Rabosky2009}, trait evolution~\citep{Revell2011, Eastman2011, Butler2004, Paradis2004, Hipp2009, Jombart2010}, community ecology~\citet{Webb2008, Kembel2010}, phyloclimatic modelling~\citep{Evans2009, Warren2008}, simulation of phylogenies, as well as various manipulation and visualization of phylogenetic data~\citet{Revell2011, Paradis2004}.  
+These methods include tasks such as ancestral state reconstruction~\citep{Paradis2004, Butler2004}, 
+diversification analysis~\citep{Paradis2004, Rabosky2006b, Harmon2008, FitzJohn2009, FitzJohn2010, Goldberg2011, Stadler2011}, 
+trait evolution~\citep{Butler2004, Paradis2004, Harmon2008, Hipp2010, Revell2011, Eastman2011}, 
+community ecology~\citet{Webb2008, Kembel2010}, 
+phyloclimatic modelling~\citep{Warren2008, Evans2009b}, 
+simulation of phylogenies and character evolution~\citep{Harmon2008, Stadler2011a, Boettiger2012}, 
+as well as various manipulation and visualization of phylogenetic data~\citet{Paradis2004, Schliep2010, Jombart2010, Revell2011}.  
 
-
-much of the analysis based %% DESCRIBE applied phylogenetics with citations! 
 
 27 are listed on the taskview on Phylogenetic Methods of the Comprehensive R Archive Network (CRAN) 
 and new methods are added every year.  
 
-TreeBASE (\href{http://treebase.org}{http://treebase.org}) is an online repository of phylogenies~\citep{Sanderson1994b, Morell1996, }.  
+TreeBASE (\href{http://treebase.org}{http://treebase.org}) is an online repository of phylogenies~\citep{Sanderson1994b, Morell1996}.  
 With the recent advent of mandatory data archiving in many of the major journals publishing phylognetics-based research~\citep[\emph{e.g.}][]{Fairbairn2010, Piwowar2011, Whitlock2010}, such resources can expect to become increasingly prominent.  
 TreeBASE provides an application programming interface (API), that lets applications make queries to the database.  
 We have implemented an R package that plugs into this interface to provide direct access to this data.  
 
 \section{Examples \& Results}
 
-<<libs, echo=FALSE, cache=FALSE>>=
+<<libs, echo=FALSE>>=
 library(methods)
 library(utils)
 library(treebase)
@@ -111,9 +114,11 @@ This can help the user discover phylogenies of interest and also allows the user
 on the data deposition itself. 
 While the metadata can be searched within a given date range,
 it is most straight-forward to import the full meta-data records first, with the command 
-<<getmetadata, cache=FALSE>>=
+
+<<getmetadata>>=
 metadata <- search_metadata("", by="all") 
 @
+
 %For convience, it is possible to load the copy of this data cached at the time the package was compiled.  
 %<<cache, echo=FALSE>>=
 %#data(metadata)
@@ -122,7 +127,7 @@ metadata <- search_metadata("", by="all")
 \setkeys{Gin}{width=0.75\textwidth}
 \begin{figure}
 \begin{center}
-<<dates, cache=FALSE>>=
+<<dates>>=
 require(ggplot2)
 dates <- sapply(metadata, `[[`, "date")
 hist(dates, main="TreeBase growth", xlab="Year")
@@ -133,13 +138,14 @@ hist(dates, main="TreeBase growth", xlab="Year")
 We can then look at the distribution of publication years for phylogenies depositied in TreeBASE and see if there is any trend, Fig~\ref{fig:1}. 
 We can also look for patterns among publishers, 
 such as how many different journals have contributed: 
-<<journals, cache=FALSE>>=
+
+<<journals>>=
 pub <- sapply(metadata, `[[`, "publisher")
 pub_table <- sort(table(unlist(pub)), decreasing=TRUE)
 length(pub_table)
 @
 and which are responsible for the most phylogenies:  
-<<topjournals, cache=FALSE>>=
+<<topjournals>>=
 head(pub_table)
 @
 
@@ -164,7 +170,7 @@ By drawing on the rich data manipulation tools available in R (and thus familiar
 the \texttt{treebase} package allows us to construct richer queries than are possible through TreeBASE alone.
 We begin our search by asking for a phylogenies by one of the paper's authors:  
 
-<<findderryberry, cache=FALSE>>= 
+<<findderryberry>>= 
 derryberry_results <- search_treebase("Derryberry", "author")
 derryberry_results
 @
@@ -179,7 +185,7 @@ meta <- lapply(ids, metadata)
 @
 
 We can then look through the metadata to find the study matching our description.  
-<<matchderryberry, cache=FALSE>>=
+<<matchderryberry>>=
 i <- which( sapply(meta, function(x) x$publisher == "Evolution" && x$date=="2011") )
 derryberry <- derryberry_results[[i]]
 @
@@ -293,6 +299,13 @@ Because \texttt{treebase} makes it possible to perform this analysis entirely by
 it is not only easier to perform this analysis but also to update it to reflect the latest data. 
 For instance, this paper is written using R's Sweave tool, where the results and figures are generated on the fly as the paper is compiled.  
 Consequently the analyses presented here can be updated to reflect the latest information in TreeBASE by the click of a button.  
+
+
+
+<<save, echo=FALSE>>=
+save(list=ls(), file="knit_treebase.rda")
+@
+
 
 \section{Conclusion}
 

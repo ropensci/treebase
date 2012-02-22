@@ -145,7 +145,7 @@ dryad_metadata <- function(study.id, curl=getCurlHandle()){
 #' @keywords internal
 #' @seealso \code{\link{dryad_metadata}}
 oai_metadata <- function(query, curl=curl){
-  print(query)
+  message(query)
   tt <- getURLContent(query, followlocation=TRUE, curl=curl)
   doc <- xmlParse(tt)
   dc = getNodeSet(doc, "//dc:dc", namespaces=c(dc="http://www.openarchives.org/OAI/2.0/oai_dc/"))

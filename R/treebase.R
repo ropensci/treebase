@@ -209,7 +209,7 @@ search_treebase <- function(input, by, returns=c("tree", "matrix"),
 #' @export
 drop_nontrees <- function(tr){
   tt <- tr[sapply(tr, function(x) is(x, "phylo"))]
-  print(paste("dropped", length(tr)-length(tt), "objects"))
+  message(paste("dropped", length(tr)-length(tt), "objects"))
   tt
 }
 
