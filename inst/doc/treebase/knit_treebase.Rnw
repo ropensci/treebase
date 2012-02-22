@@ -116,7 +116,7 @@ While the metadata can be searched within a given date range,
 it is most straight-forward to import the full meta-data records first, with the command 
 
 <<getmetadata>>=
-metadata <- search_metadata("", by="all") 
+metadata <- search_metadata() 
 @
 
 %For convience, it is possible to load the copy of this data cached at the time the package was compiled.  

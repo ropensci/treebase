@@ -68,7 +68,7 @@ metadata <- function(study.id, curl=getCurlHandle()){
 #' text(b, names(J), srt=70, pos=4, xpd=T)
 #' }
 #' @export
-search_metadata <- function(query, by=c("until", "from", "all"),
+search_metadata <- function(query="", by=c("all", "until", "from"),
                             curl=getCurlHandle()){
   by = match.arg(by)
   oai_url <- "http://treebase.org/treebase-web/top/oai?verb=" 
