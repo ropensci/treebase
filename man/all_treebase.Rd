@@ -4,12 +4,12 @@
 \title{treebase.rda}
 \description{
   Contains a cache of all phylogenies search_treebase()
-  function was able to pull down when run on 2011-12-12.
+  function was able to pull down when run on 2012-02-23.
 }
 \details{
-  recreate with: \code{ all_treebase <-
-  search_treebase("Consensus", "type.tree") }
+  recreate
+
+  with: \code{ cache_treebase() }
 }
 \keyword{data}
-\keyword{datasets}
 

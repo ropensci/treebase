@@ -84,8 +84,6 @@ We have implemented an R package that plugs into this interface to provide direc
 \section{Examples \& Results}
 
 <<libs, echo=FALSE>>=
-library(methods)
-library(utils)
 library(treebase)
 @
 
@@ -124,13 +122,13 @@ metadata <- search_metadata()
 %#data(metadata)
 %@
 
-\setkeys{Gin}{width=0.75\textwidth}
+\setkeys{Gin}{width=0.95\textwidth}
 \begin{figure}
 \begin{center}
 <<dates>>=
 require(ggplot2)
 dates <- sapply(metadata, `[[`, "date")
-hist(dates, main="TreeBase growth", xlab="Year")
+qplot(dates, asp = 0.5) 
 @
 \caption{Histogram of publication dates by year, with the code required to generate the figure.}\label{fig:1}
 \end{center}
@@ -138,16 +136,21 @@ hist(dates, main="TreeBase growth", xlab="Year")
 We can then look at the distribution of publication years for phylogenies depositied in TreeBASE and see if there is any trend, Fig~\ref{fig:1}. 
 We can also look for patterns among publishers, 
 such as how many different journals have contributed: 
-
 <<journals>>=
 pub <- sapply(metadata, `[[`, "publisher")
 pub_table <- sort(table(unlist(pub)), decreasing=TRUE)
-length(pub_table)
 @
+
 and which are responsible for the most phylogenies:  
 <<topjournals>>=
 head(pub_table)
 @
+
+
+<<<treestats>>=
+@
+
+
 
 \subsection{Reproducible research \& education}
 Reproducible research has become a topic of increasing concern in recent years~\citep{Schwab2000, Gentleman2004, Peng2011b}.  

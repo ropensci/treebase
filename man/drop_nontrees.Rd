@@ -1,6 +1,6 @@
 \name{drop_nontrees}
 \alias{drop_nontrees}
-\title{drop errors}
+\title{drop errors from the search}
 \usage{
   drop_nontrees(tr)
 }
@@ -12,6 +12,12 @@
   the list of phylogenetic trees returned successfully
 }
 \description{
-  drop errors
+  drop errors from the search
+}
+\details{
+  primarily
+
+  for the internal use of search_treebase, but may be
+  useful
 }
 

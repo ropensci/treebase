@@ -15,8 +15,10 @@
   return the study.id from the search results.
 }
 \details{
-  this function is commonly used to get trees corresponding
-  to the metadata search.
+  this
+
+  function is commonly used to get trees corresponding to
+  the metadata search.
 }
 \examples{
 \dontrun{

@@ -2,8 +2,9 @@
 \alias{cache_treebase}
 \title{A function to cache the phylogenies in treebase locally}
 \usage{
-  cache_treebase(file = paste("treebase-", Sys.Date(), ".rda", sep = ""),
-    pause1 = 2, pause2 = 2, attempts = 20)
+  cache_treebase(file = paste("treebase-", Sys.Date(),
+  ".rda", sep = ""), pause1 = 3, pause2 = 3, attempts = 10,
+  max_trees = Inf)
 }
 \arguments{
   \item{file}{filename for the cache, otherwise created
@@ -25,6 +26,8 @@
   A function to cache the phylogenies in treebase locally
 }
 \details{
-  a good idea to let this run overnight
+  a
+
+  good idea to let this run overnight
 }
 

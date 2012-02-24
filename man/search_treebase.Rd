@@ -3,9 +3,9 @@
 \title{A function to pull in the phyologeny/phylogenies matching a search query}
 \usage{
   search_treebase(input, by, returns = c("tree", "matrix"),
-    exact_match = FALSE, max_trees = Inf,
-    branch_lengths = FALSE, curl = getCurlHandle(),
-    verbose = TRUE, pause1 = 1, pause2 = 1, attempts = 3)
+  exact_match = FALSE, max_trees = Inf, branch_lengths =
+  FALSE, curl = getCurlHandle(), verbose = TRUE, pause1 =
+  1, pause2 = 1, attempts = 3)
 }
 \arguments{
   \item{input}{a search query (character string)}
@@ -17,7 +17,7 @@
   character matrix?}
 
   \item{exact_match}{force exact matching for author name,
-  taxon, etc.  Otherwise does partial matching}
+  taxon, etc. Otherwise does partial matching}
 
   \item{max_trees}{Upper bound for the number of trees
   returned, good for keeping possibly large initial queries
@@ -32,6 +32,15 @@
 
   \item{verbose}{logical indicating level of progress
   reporting}
+
+  \item{pause1}{number of seconds to hesitate between
+  requests}
+
+  \item{pause2}{number of seconds to hesitate between
+  individual files}
+
+  \item{attempts}{number of attempts to access a particular
+  resource}
 }
 \value{
   either a list of trees (multiphylo) or a list of
@@ -42,9 +51,11 @@
   a search query
 }
 \details{
-  Choose the search type.  Options are: \itemize{
-  \item{abstract}{ "dcterms.abtract", search terms in the
-  publication abstract} \item{citation}{
+  Choose
+
+  the search type.  Options are: \itemize{ \item{abstract}{
+  "dcterms.abtract", search terms in the publication
+  abstract} \item{citation}{
   "dcterms.bibliographicCitation", } \item{author }{
   "dcterms.contributor", match authors in the publication}
   \item{subject }{ "dcterms.subject", match subject}
@@ -104,7 +115,7 @@ c("TreeID" = tree$Tr.id, "StudyID" = tree$S.id)
 ## Only results with branch lengths
 ## Has to grab all the trees first, then toss out ones without branch_lengths
 Near <- search_treebase("Near", "author", branch_lengths=TRUE)
- }
+}
 }
 \keyword{utility}
 

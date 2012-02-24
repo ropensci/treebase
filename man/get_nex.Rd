@@ -2,10 +2,9 @@
 \alias{get_nex}
 \title{imports phylogenetic trees from treebase. internal function}
 \usage{
-  get_nex(query, max_trees = "last()",
-    branch_lengths = FALSE, returns = "tree",
-    curl = getCurlHandle(), verbose = TRUE, pause1 = 1,
-    pause2 = 1, attempts = 5)
+  get_nex(query, max_trees = "last()", branch_lengths =
+  FALSE, returns = "tree", curl = getCurlHandle(), verbose
+  = TRUE, pause1 = 1, pause2 = 1, attempts = 5)
 }
 \arguments{
   \item{query}{: a phylows formatted search, see
@@ -23,6 +22,15 @@
 
   \item{verbose}{a logical indicating if output should be
   printed to screen}
+
+  \item{pause1}{number of seconds to hesitate between
+  requests}
+
+  \item{pause2}{number of seconds to hesitate between
+  individual files}
+
+  \item{attempts}{number of attempts to access a particular
+  resource}
 }
 \value{
   A list object containing all the trees matching the
