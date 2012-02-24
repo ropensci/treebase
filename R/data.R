@@ -9,27 +9,16 @@
 #' }
 NULL
 
-#' branchlengths.rda
-#' 
-#' All treebase trees with branch length data, created 2011-12-12
-#' @name branchlengths
-#' @docType data
-#' @keywords data
-#' @details recreate with code: \code{
-#' all_trees <- search_treebase("Consensus", "type.tree", branch_lengths=TRUE)
-#' }
-
-NULL
 
 #' treebase.rda
 #'
 #' Contains a cache of all phylogenies search_treebase() function was able
-#' to pull down when run  on 2011-12-12.  
+#' to pull down when run  on 2012-02-23.  
 #' @name all_treebase
 #' @docType data
 #' @keywords data
 #' @details recreate with: \code{
-#' all_treebase <- search_treebase("Consensus", "type.tree")
+#'  cache_treebase() 
 #' }
 #'
 NULL
