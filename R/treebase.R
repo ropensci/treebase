@@ -16,6 +16,9 @@
 #' @param pause1 number of seconds to hesitate between requests
 #' @param pause2 number of seconds to hesitate between individual files
 #' @param attempts number of attempts to access a particular resource
+#' @param only_metadata option to only return metadata about matching trees 
+#' which lists study.id, tree.id, kind (gene,species,barcode) type (single, consensus)
+#' number of taxa, and possible quality score.  
 #' @return either a list of trees (multiphylo) or a list of character matrices
 #' @keywords utility
 #' @details Choose the search type.  Options are: \itemize{
@@ -81,10 +84,11 @@
 #'Near <- search_treebase("Near", "author", branch_lengths=TRUE)
 #'  }
 #' @export
-search_treebase <- function(input, by, returns=c("tree", "matrix"),   
-                            exact_match=FALSE, max_trees = Inf,
-                            branch_lengths=FALSE, curl=getCurlHandle(),
-                            verbose=TRUE, pause1=1, pause2=1, attempts=3){
+search_treebase <- function(input, by, returns = c("tree", "matrix"),   
+                            exact_match = FALSE, max_trees = Inf,
+                            branch_lengths = FALSE, curl = getCurlHandle(),
+                            verbose = TRUE, pause1 = 2, pause2 = 1, attempts = 3,
+                            only_metadata = FALSE){
 
   nterms <- length(by)
   search_term <- character(nterms)
@@ -188,10 +192,11 @@ search_treebase <- function(input, by, returns=c("tree", "matrix"),
     max_trees <- "last()"
 
   out <- get_nex(query, max_trees = max_trees, branch_lengths =
-                 branch_lengths, returns=returns, curl=curl,
-                 pause1=pause1, pause2=pause2, attempts=attempts)
+                 branch_lengths, returns = returns, curl = curl,
+                 pause1 = pause1, pause2 = pause2, attempts = attempts,
+                 only_metadata = only_metadata)
 
-  if(schema=="tree"){
+  if(schema == "tree"){
     out <- drop_nontrees(out)
     if(branch_lengths){
       have <- have_branchlength(out)
@@ -220,7 +225,6 @@ drop_nontrees <- function(tr){
 #' @param query : a phylows formatted search, 
 #'     see https://sourceforge.net/apps/mediawiki/treebase/index.php?title=API
 #' @param max_trees limits the number of trees returned
-#' @param branch_lengths logical indicating if only trees with branch lengths 
 #'  should be kept.  
 #' @param returns should return the tree object or the matrix (of sequences)
 #' @param curl the handle to the curl 
@@ -236,9 +240,10 @@ drop_nontrees <- function(tr){
 #' @import utils
 #' @import methods
 #' @keywords internal
-get_nex <- function(query, max_trees = "last()", branch_lengths=FALSE, 
-                      returns="tree", curl=getCurlHandle(), verbose=TRUE,
-                      pause1=1, pause2=1, attempts=5){
+get_nex <- function(query, max_trees = "last()", returns = "tree", 
+                    curl = getCurlHandle(), verbose = TRUE,
+                    pause1 = 1, pause2 = 1, attempts = 5,
+                    only_metadata = FALSE){
   n_trees <- 0
   ## Note the need for followlocation -- the actual url just resolves to a page that forwards us on
   page1 <- getURLContent(query, followlocation=TRUE, curl=curl)
@@ -257,22 +262,30 @@ get_nex <- function(query, max_trees = "last()", branch_lengths=FALSE,
   kind <- sapply(metadata, function(x) xmlValue(x[["kind.tree"]]))
   quality <- sapply(metadata, function(x) xmlValue(x[["quality.tree"]]))
   type <- sapply(metadata, function(x) xmlValue(x[["type.tree"]]))
+  ntax <- sapply(metadata, function(x) xmlValue(x[["ntax.tree"]]))
 
   #all_metadata <- sapply(metadata, xmlToList)
 
   message(paste(length(resources), "resources found matching query"))
 
-  out <- lapply(Trees, 
-    try_recursive, returns=returns, curl=curl, pause1=pause1, 
-    pause2=pause2, attempts=attempts)
 
-  out <- lapply(1:length(out), function(i){ 
-    out[[i]]$S.id <- Study.ids[i]
-    out[[i]]$Tr.id <- Tree.ids[i]
-    out[[i]]$type <- type[i]
-    out[[i]]$kind <- kind[i]
-    out[[i]]$quality <- quality[i]
-    out[[i]] })
+  if(only_metadata){
+    out <- vector("list", length=length(Trees))
+  } else {
+    out <- lapply(Trees, 
+      try_recursive, returns=returns, curl=curl, pause1=pause1, 
+      pause2=pause2, attempts=attempts)
+  }
+    out <- lapply(1:length(out), function(i){ 
+      out[[i]]$S.id <- Study.ids[i]
+      out[[i]]$Tr.id <- Tree.ids[i]
+      out[[i]]$type <- type[i]
+      out[[i]]$kind <- kind[i]
+      out[[i]]$quality <- quality[i]
+      out[[i]] })
+
+  
+  out
 }
 
 #' Simple function to identify which trees have branch lengths

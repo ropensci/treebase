@@ -122,32 +122,44 @@ metadata <- search_metadata()
 %#data(metadata)
 %@
 
-\setkeys{Gin}{width=0.95\textwidth}
-\begin{figure}
-\begin{center}
-<<dates>>=
-require(ggplot2)
-dates <- sapply(metadata, `[[`, "date")
-qplot(dates, asp = 0.5) 
-@
-\caption{Histogram of publication dates by year, with the code required to generate the figure.}\label{fig:1}
-\end{center}
-\end{figure}
-We can then look at the distribution of publication years for phylogenies depositied in TreeBASE and see if there is any trend, Fig~\ref{fig:1}. 
-We can also look for patterns among publishers, 
-such as how many different journals have contributed: 
+R provides a rich statistical environment in which we can extract and visualize the data we have just obtained. 
+For instance, we may wish to obtain a list of all the dates of publication \& names of the journals (publishers) that have submitted data:
 <<journals>>=
+dates <- sapply(metadata, `[[`, "date")
 pub <- sapply(metadata, `[[`, "publisher")
-pub_table <- sort(table(unlist(pub)), decreasing=TRUE)
+pub_table <- sort(table(as.character(pub)), decreasing=TRUE)
 @
-
-and which are responsible for the most phylogenies:  
-<<topjournals>>=
+The last line creates a table of publishers, showing which have the most submissions:
+<<head_pub, comment=NA>>=
 head(pub_table)
 @
 
 
+Many journals have only a few submissions, so we will group them together as "Other."  
+<<top_journals>>=
+top_contributors <- names(head(pub_table,10))
+pub[!(pub %in% top_contributors)] <- "Other"
+@
+
+We can then look at the distribution of publication years for phylogenies depositied in TreeBASE,
+color coding by publisher in Fig~\ref{fig:1}.  
+
+\setkeys{Gin}{width=0.95\textwidth}
+\begin{figure}
+\begin{center}
+<<dates, fig.width=7, fig.height=3>>=
+meta <- data.frame(publisher=as.character(pub), dates=dates)
+require(ggplot2)
+ggplot(meta) + geom_bar(aes(dates, fill=publisher))
+@
+\caption{Histogram of publication dates by year, with the code required to generate the figure.}\label{fig:1}
+\end{center}
+\end{figure}
+
+% How fast is tree size growing as a function of publication date?  
 <<<treestats>>=
+data(treebase)
+
 @
 
 
