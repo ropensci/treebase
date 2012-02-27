@@ -110,32 +110,32 @@ The package and online documentation provide many examples of other possible que
 The package also provides access to the metadata of all publications containing trees deposited in TreeBASE.
 This can help the user discover phylogenies of interest and also allows the user to perform statistical analyses
 on the data deposition itself. 
-While the metadata can be searched within a given date range,
-it is most straight-forward to import the full meta-data records first, with the command 
 
-<<getmetadata>>=
+
+While the metadata can be searched within a given date range,
+by specifying no function argument we can get metadata from the entire database: 
+<<getmetadata, eval=FALSE>>=
 metadata <- search_metadata() 
 @
-
-%For convience, it is possible to load the copy of this data cached at the time the package was compiled.  
-%<<cache, echo=FALSE>>=
-%#data(metadata)
-%@
+For convience, it is possible to load the copy of this data cached at the time the package was compiled.  
+<<cache, echo=FALSE>>=
+data(metadata)
+@
 
 R provides a rich statistical environment in which we can extract and visualize the data we have just obtained. 
 For instance, we may wish to obtain a list of all the dates of publication \& names of the journals (publishers) that have submitted data:
 <<journals>>=
 dates <- sapply(metadata, `[[`, "date")
 pub <- sapply(metadata, `[[`, "publisher")
-pub_table <- sort(table(as.character(pub)), decreasing=TRUE)
 @
-The last line creates a table of publishers, showing which have the most submissions:
+
+Here are the top several contributing journals:
 <<head_pub, comment=NA>>=
+pub_table <- sort(table(as.character(pub)), decreasing=TRUE)
 head(pub_table)
 @
 
-
-Many journals have only a few submissions, so we will group them together as "Other."  
+Many journals have only a few submissions, so we will group them together as ``Other'':  
 <<top_journals>>=
 top_contributors <- names(head(pub_table,10))
 pub[!(pub %in% top_contributors)] <- "Other"
@@ -156,10 +156,26 @@ ggplot(meta) + geom_bar(aes(dates, fill=publisher))
 \end{center}
 \end{figure}
 
+
+
 % How fast is tree size growing as a function of publication date?  
 <<<treestats>>=
 data(treebase)
+Ntaxa <- sapply(treebase,`[[`, 'Nnode') + 1
+@
 
+<<find_years>>=
+studyid <- sapply(treebase,`[[`, 'S.id')
+sid <- sapply(metadata, `[[`, 'identifier')
+sid <- gsub(".*TB2:S(\\d*)", "\\1", sid)
+matches <- sapply(studyid, match, sid)
+years <- sapply(matches, function(i)  metadata[[i]]$date)
+years[sapply(years, is.null)] <- NA
+@
+
+<<taxagrowth, fig.width=7, fig.height=4>>=
+taxa <- data.frame(Ntaxa= Ntaxa, years = as.numeric(unlist(years)))
+ggplot(taxa) + geom_point(aes(years, Ntaxa), position='jitter')
 @
 
 
@@ -187,7 +203,6 @@ We begin our search by asking for a phylogenies by one of the paper's authors:
 
 <<findderryberry>>= 
 derryberry_results <- search_treebase("Derryberry", "author")
-derryberry_results
 @
 
 This shows several results. 
@@ -204,6 +219,7 @@ We can then look through the metadata to find the study matching our description
 i <- which( sapply(meta, function(x) x$publisher == "Evolution" && x$date=="2011") )
 derryberry <- derryberry_results[[i]]
 @
+
 
 This is simply one possible path to identify the correct study.   
 
@@ -277,7 +293,13 @@ one can not only take advantage of the existing data with substantially less eff
 but also provide a script that can be automatically updated as more phylogenies are deposited in the TreeBASE repository.  
 
 <<meta_harvest, eval=FALSE>>=
-all_trees <- search_treebase("Consensus", "type.tree", branch_lengths=TRUE)
+all_trees <- cache_treebase()
+@
+
+<<branchlengthfilter>>=
+      have <- have_branchlength(treebase)
+      out <- out[have]
+
 @
 
 %For convience and testing purposes, we could just load the cached set of all phylogenetic trees with branchlengths in TreeBASE at the time the package was built:

@@ -191,8 +191,7 @@ search_treebase <- function(input, by, returns = c("tree", "matrix"),
   if(max_trees == Inf)
     max_trees <- "last()"
 
-  out <- get_nex(query, max_trees = max_trees, branch_lengths =
-                 branch_lengths, returns = returns, curl = curl,
+  out <- get_nex(query, max_trees = max_trees, returns = returns, curl = curl,
                  pause1 = pause1, pause2 = pause2, attempts = attempts,
                  only_metadata = only_metadata)
 
