@@ -298,7 +298,7 @@ all_trees <- cache_treebase()
 
 <<branchlengthfilter>>=
       have <- have_branchlength(treebase)
-      out <- out[have]
+      branchlengths <- treebase[have]
 
 @
 
@@ -319,7 +319,7 @@ timetree <- function(tree){
     else
     try( chronoMPL(multi2di(tree)) )
 }
-tt <- drop_errors(sapply(branchlengths, timetree))
+tt <- drop_nontrees(sapply(branchlengths, timetree))
 @
 
 
