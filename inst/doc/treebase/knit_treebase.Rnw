@@ -259,18 +259,22 @@ and confirm that the Yule 2-rate %\Sexpr{#which.min(aic)}-rate
 model is the best fitting by AIC score, 
 even when allowing for up to four different shifts.  
 
-\subsection{The self-updating meta-analysis}
-Meta-analyses are becoming increasingly common in phylogenetic methods~\citep[\emph{e.g}][]{McPeek2007, Phillimore2008, McPeek2008,Quental2010, Davies2011a}.  
-Accessing many phylogenies can be difficult, 
-and researchers have gone through heroic efforts to extract phylogenetic information from the literature, 
-such as~\citet{McPeek2007}, who report that 
-``All branch lengths were measured by hand from these printed sheets using dial calipers'' 
-on 163 phylogenies printed out from pdfs in which they appeared in the literature.  
+\subsection{A new kind of meta-analysis}
+Large scale comparative analyses that seek to characterize evolutionary patterns across many phylogenies increasingly common in phylogenetic methods~\citep[\emph{e.g}][]{McPeek2007, Phillimore2008, McPeek2008,Quental2010, Davies2011a}.  
+Often referred to by their authors as meta-analyses, these approaches have focused on re-analyzing phylogenetic trees collected from many different earlier publications.  This is a more direct approach than the traditional concept of meta-analysis where statistical results from earlier studies are weighted by their sample size without actually repeating the statistical analyses of those papers, and avoids some of the statistical challenges inherent in summarizing results that may differ in methodology, etc.  
+
 Researchers may focus their meta-analysis on particular taxa~\citep{Phillimore2008}, 
 leaving us to wonder if the conclusions hold in other groups.  
 Other studies may use a single empirical tree accompanied by a a collection of simulated phylogenies~\citet{Cusimano2010}.  
 Some already turn to TreeBASE to provide a more extensive collection of phylogenies~\citep{Davies2011a}.  
 The analysis in many of these studies already uses or can use methods available in R.  
+
+While potentially valuable, these researchers have often gone through heroic efforts simply to assemble these data sets from the literature.  As described in \citet{McPeek2007}, (emphasis added)
+\begin{quote}
+A PDF format file of each article was obtained, and a digital snapshot of the figure was taken in Adobe Acrobat 7.0. This image was transferred to a PowerPoint (Microsoft) file and printed on a laser printer. The phylogenies included in this study are listed in the appendix. \emph{All branch lengths were measured by hand from these  printed sheets using dial calipers.}
+\end{quote}
+for each of 163 phylogenies appearing in the literature. While several digital tools are now available to make these kind of measurements without the calipers, it is immensely easier and less error-prone to pull properly formatted phylogenies from the database for this purpose.   
+
 
 By building such meta-analyses around the \texttt{treebase} package, 
 one can not only take advantage of the existing data with substantially less effort, 
