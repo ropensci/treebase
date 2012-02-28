@@ -15,9 +15,7 @@
   drop errors from the search
 }
 \details{
-  primarily
-
-  for the internal use of search_treebase, but may be
-  useful
+  primarily for the internal use of search_treebase, but
+  may be useful
 }
 

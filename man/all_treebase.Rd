@@ -7,9 +7,8 @@
   function was able to pull down when run on 2012-02-23.
 }
 \details{
-  recreate
-
-  with: \code{ cache_treebase() }
+  recreate with: \code{ cache_treebase() }
 }
 \keyword{data}
+\keyword{datasets}
 

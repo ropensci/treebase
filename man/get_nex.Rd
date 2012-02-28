@@ -2,18 +2,16 @@
 \alias{get_nex}
 \title{imports phylogenetic trees from treebase. internal function}
 \usage{
-  get_nex(query, max_trees = "last()", branch_lengths =
-  FALSE, returns = "tree", curl = getCurlHandle(), verbose
-  = TRUE, pause1 = 1, pause2 = 1, attempts = 5)
+  get_nex(query, max_trees = "last()", returns = "tree",
+    curl = getCurlHandle(), verbose = TRUE, pause1 = 1,
+    pause2 = 1, attempts = 5, only_metadata = FALSE)
 }
 \arguments{
   \item{query}{: a phylows formatted search, see
   https://sourceforge.net/apps/mediawiki/treebase/index.php?title=API}
 
-  \item{max_trees}{limits the number of trees returned}
-
-  \item{branch_lengths}{logical indicating if only trees
-  with branch lengths should be kept.}
+  \item{max_trees}{limits the number of trees returned
+  should be kept.}
 
   \item{returns}{should return the tree object or the
   matrix (of sequences)}

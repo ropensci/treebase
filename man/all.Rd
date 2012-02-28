@@ -7,9 +7,9 @@
   2011-12-12
 }
 \details{
-  recreate
-
-  with \code{ all <- search_metadata("", by="all") }
+  recreate with \code{ all <- search_metadata("", by="all")
+  }
 }
 \keyword{data}
+\keyword{datasets}
 

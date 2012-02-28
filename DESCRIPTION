@@ -1,12 +1,12 @@
 Package: treebase
 Type: Package
-Title: R interface to TreeBASE 
+Title: R interface to TreeBASE
 Version: 0.0-5
 Date: 2011-04-25
 Author: Carl Boettiger, Duncan Temple-Lang
 Maintainer: Carl Boettiger <cboettig@gmail.com>
 Description: Interface to the API for TreeBASE
-License: CC0 
+License: CC0
 URL: http://www.github.com/ropensci/treebase
 Imports:
     XML,
@@ -16,7 +16,7 @@ Imports:
 Depends:
     R (>= 2.12),
     ape
-Suggests: 
+Suggests:
     TreePar
 Collate:
     'data.R'

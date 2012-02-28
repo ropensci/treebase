@@ -291,43 +291,52 @@ A PDF format file of each article was obtained, and a digital snapshot of the fi
 \end{quote}
 for each of 163 phylogenies appearing in the literature. While several digital tools are now available to make these kind of measurements without the calipers, it is immensely easier and less error-prone to pull properly formatted phylogenies from the database for this purpose.   
 
-
 By building such meta-analyses around the \texttt{treebase} package, 
 one can not only take advantage of the existing data with substantially less effort, 
-but also provide a script that can be automatically updated as more phylogenies are deposited in the TreeBASE repository.  
+but also provide a script that can be automatically updated as more phylogenies are deposited in the TreeBASE repository. 
 
+The central question of many of meta-analyses mentioned above has been whether or not phylogenies show a changing rates of evolution. 
+This question is imporant for several reasons.  %% ADD STUFF & CITE 
+A standard test of this is the $\gamma$ statistic of~\citet{Pybus2000} which tests the null hypothesis that the rates of speciation and extinction are constant. 
+
+In this section we illustrate how we can perform a similar meta-analysis to the studies such as~\citet[\emph{e.g}][]{McPeek2007, Phillimore2008, McPeek2008,Quental2010, Davies2011a} across a much larger set of phylogenies and with just a few lines of R code.   Because the entire analysis, including the access of the data, is scriptable, we could simply recompile this document some time in the future and see how the pattern we find has changed with the addition of more data.  
+
+\subsubsection*{Testing for constant speciation and extinction rates across all of treebase}
+The \texttt{treebase} package provides a compressed cache of the phylogenies available in treebase.  This cache can be automatically updated with the \verb|cache_treebase| function,
 <<meta_harvest, eval=FALSE>>=
-all_trees <- cache_treebase()
+treebase <- cache_treebase()
+@
+which may require a day or so to complete, and will save a file in the working directory named with ``treebase'' and the date obtained.  For convience, we can load the cached copy distributed with the \texttt{treebase} package:
+
+<<cachedcopy>>=
+data(treebase)
 @
 
+% future versions should be able to update only those records that have changed or been added.  Should be easy script of metadata + search by study id.  
+
+We will only be able to use those phylogenies that include branch length data.  We drop those that do not from the data set, 
 <<branchlengthfilter>>=
       have <- have_branchlength(treebase)
       branchlengths <- treebase[have]
 
 @
 
-%For convience and testing purposes, we could just load the cached set of all phylogenetic trees with branchlengths in TreeBASE at the time the package was built:
-<<meta_cache, echo=FALSE>>=
-data(branchlengths)
-@
-
-
-Many meta-analyses require ultrametric trees (branch lengths proportional to time, rather than to mutational steps). 
+Like most comparative methods, this analysis will require ultrametric trees (branch lengths proportional to time, rather than to mutational steps). As most of these phylogenies are calibrated with branch length proportional to mutational step, we must time-calibrate each of them first.  This is a simple function 
 This function is just an elementary example to illustrate the process of time-calibrating a tree;
 more sophisticated methods could be chosen instead.  
 <<timetree, cache=TRUE>>=
 timetree <- function(tree){
-    check.na <- try(sum(is.na(tree$edge.length))>0)
-    if(is(check.na, "try-error") || check.na)
-      NULL
-    else
+#    check.na <- try(sum(is.na(tree$edge.length))>0)
+#    if(is(check.na, "try-error") || check.na)
+#      NULL
+#    else
     try( chronoMPL(multi2di(tree)) )
 }
 tt <- drop_nontrees(sapply(branchlengths, timetree))
 @
 
 
-The central question of many of meta-analyses mentioned above has been whether or not phylogenies show a changing rates of evolution.  A standard test of this is the $\gamma$ statistic of~\citet{Pybus2000} which tests the null hypothesis that the rates of speciation and extinction are constant.  Applying this test to all of the currently available trees in TreeBASE,
+ Applying this test to all of the currently available trees in TreeBASE,
 <<gamma, echo=TRUE>>=
 # gamma statistic
 gammas <- sapply(tt,  gammaStat)
