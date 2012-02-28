@@ -321,28 +321,24 @@ We will only be able to use those phylogenies that include branch length data.  
 
 @
 
-Like most comparative methods, this analysis will require ultrametric trees (branch lengths proportional to time, rather than to mutational steps). As most of these phylogenies are calibrated with branch length proportional to mutational step, we must time-calibrate each of them first.  This is a simple function 
-This function is just an elementary example to illustrate the process of time-calibrating a tree;
-more sophisticated methods could be chosen instead.  
+Like most comparative methods, this analysis will require ultrametric trees (branch lengths proportional to time, rather than to mutational steps). As most of these phylogenies are calibrated with branch length proportional to mutational step, we must time-calibrate each of them first.  
+%This function is just an elementary example to illustrate the process of time-calibrating a tree;
+%more sophisticated methods could be chosen instead.  
 <<timetree, cache=TRUE>>=
 timetree <- function(tree){
-#    check.na <- try(sum(is.na(tree$edge.length))>0)
-#    if(is(check.na, "try-error") || check.na)
-#      NULL
-#    else
     try( chronoMPL(multi2di(tree)) )
 }
 tt <- drop_nontrees(sapply(branchlengths, timetree))
 @
 
 
- Applying this test to all of the currently available trees in TreeBASE,
+Applying this test to all of the currently available trees with branchlengths in TreeBASE,
 <<gamma, echo=TRUE>>=
 # gamma statistic
 gammas <- sapply(tt,  gammaStat)
 # associated p-value
 p_gammas <- 2 * (1 - pnorm(abs(gammas)))
-non_const <- sum(p_gammas < 0.025)/length(gammas)
+non_const <- sum(p_gammas < 0.025, na.rm=TRUE)/length(gammas)
 @
 we find that \Sexpr{round(non_const, 2)*100}\% of the trees can reject the constant-rates model at the 95\% confidence level. 
 Because \texttt{treebase} makes it possible to perform this analysis entirely by scripts using the latest treebase data, 
