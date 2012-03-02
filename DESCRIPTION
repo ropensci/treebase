@@ -1,7 +1,7 @@
 Package: treebase
 Type: Package
 Title: R interface to TreeBASE
-Version: 0.0-5
+Version: 0.0-6
 Date: 2011-04-25
 Author: Carl Boettiger, Duncan Temple-Lang
 Maintainer: Carl Boettiger <cboettig@gmail.com>
