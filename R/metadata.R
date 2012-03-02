@@ -118,7 +118,7 @@ get_study_id <- function(search_results){
 #' }
 #' @export
 get_study <- function(search_results, curl=getCurlHandle(), ...){
-  sapply(s, function(x) search_treebase(x, input="id.study", curl=curl, ...))
+  sapply(search_results, function(x) search_treebase(x, input="id.study", curl=curl, ...))
 }
 
 #' Search the dryad metadata archive

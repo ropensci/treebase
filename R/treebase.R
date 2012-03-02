@@ -288,7 +288,7 @@ get_nex <- function(query, max_trees = "last()", returns = "tree",
 }
 
 #' Simple function to identify which trees have branch lengths
-#' @param a list of phylogenetic trees (ape/phylo format)
+#' @param trees a list of phylogenetic trees (ape/phylo format)
 #' @return logical string indicating which have branch length data
 #' @export
 have_branchlength <- function(trees){

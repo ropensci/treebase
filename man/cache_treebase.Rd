@@ -17,6 +17,9 @@
 
   \item{attempts}{number of attempts to access a particular
   resource}
+
+  \item{max_trees}{maximum number of trees to return
+  (default is Inf)}
 }
 \value{
   saves a cached file of treebase

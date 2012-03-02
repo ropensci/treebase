@@ -5,7 +5,8 @@
   have_branchlength(trees)
 }
 \arguments{
-  \item{a}{list of phylogenetic trees (ape/phylo format)}
+  \item{trees}{a list of phylogenetic trees (ape/phylo
+  format)}
 }
 \value{
   logical string indicating which have branch length data

@@ -5,6 +5,9 @@ Version: 0.0-5
 Date: 2011-04-25
 Author: Carl Boettiger, Duncan Temple-Lang
 Maintainer: Carl Boettiger <cboettig@gmail.com>
+Authors@R: c(person("Carl", "Boettiger", role = c("aut", "cre"),
+    email = "cboettig@gmail.com"),
+    person("Duncan", "Temple Lang", role = "aut"))
 Description: Interface to the API for TreeBASE
 License: CC0
 URL: http://www.github.com/ropensci/treebase

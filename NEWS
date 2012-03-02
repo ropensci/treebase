@@ -1,0 +1,10 @@
+
+version 0.0-5
+============
+
+ * Improved error handling
+ * Will allow multiple attempts if fails to access resource
+ * Search now supports query by doi
+ * updated caches
+ * outdated demos removed
+

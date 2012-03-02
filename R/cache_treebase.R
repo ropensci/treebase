@@ -4,6 +4,7 @@
 #' @param pause1 number of seconds to hesitate between requests
 #' @param pause2 number of seconds to hesitate between individual files
 #' @param attempts number of attempts to access a particular resource
+#' @param max_trees maximum number of trees to return (default is Inf)
 #' @return saves a cached file of treebase
 #' @details a good idea to let this run overnight
 #' @export
