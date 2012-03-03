@@ -26,7 +26,7 @@
 
 
 %% Looks like a comment but it isn't! This is setting the default behavior for the Sweave chunk options,  
-% \SweaveOpts{fig=TRUE, external=TRUE, cache=FALSE, message=FALSE, warning=FALSE, tidy=FALSE, dev='pdf'}
+% \SweaveOpts{fig=TRUE, cache=FALSE, message=FALSE, warning=FALSE, tidy=FALSE, dev='pdf'}
                    
 
 \begin{document}
@@ -169,7 +169,7 @@ ggplot(meta) + geom_bar(aes(dates, fill=publisher))
 
 
 % How fast is tree size growing as a function of publication date?  
-<<<treestats>>=
+<<treestats>>=
 data(treebase)
 Ntaxa <- sapply(treebase,`[[`, 'Nnode') + 1
 @
@@ -288,18 +288,18 @@ a question that was not possible to address using the tools provided in~\texttt{
 The previous analysis also considers a birth-death model that allowed speciation and extinction rates to 
 be estimated seperately, but did not allow for a shift in the rate of such a model.  
 Here we consider models that have up to 4 different rates in yule models,
-<<<treepar_yule, include=FALSE, cache=TRUE>>=
+<<treepar_yule, include=FALSE, cache=TRUE>>=
 yule_models <- bd.shifts.optim(x, sampling = c(1,1,1,1), grid = 5, start = 0, end = 60, yule = TRUE)[[2]]
 @
 (The syntax in \texttt{TreePar} is slightly cumbersome, the [[2]] indicates 
 We also want to compare the performance of models which allow up to four shifts and also 
 estimate extinction and speciation seperately:
-<<<treepar_birthdeath, include=FALSE, cache=TRUE>>=
+<<treepar_birthdeath, include=FALSE, cache=TRUE>>=
 birth_death_models <- bd.shifts.optim(x, sampling = c(1,1,1,1), grid = 5, start = 0, end = 60, yule = FALSE)[[2]]
 @
 The models output by these functions are ordered by increasing number of shifts.  
 We can select the best-fitting model by AIC score,
-<<<aic_yule>>=
+<<aic_yule>>=
 yule_aic <- sapply(yule_models, function(pars) 2 * (length(pars) - 1) + 2 * pars[1] )
 birth_death_aic <- sapply(birth_death_models, function(pars) 2 * (length(pars) - 1) + 2 * pars[1] )
 which.min(c(yule_aic, birth_death_aic))
