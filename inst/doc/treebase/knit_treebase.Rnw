@@ -247,11 +247,11 @@ require(laser)
 tt <- branching.times(derryberry)
 models <- list(             yule = pureBirth(tt),  
                      birth_death = bd(tt),     
-                     yule_2_rate = yule2rate(tt),
-      linear_diversity_dependent = DDL(tt),    
- exponential_diversity_dependent = DDX(tt),
-         varying_speciation_rate = fitSPVAR(tt),  
-         varying_extinction_rate = fitEXVAR(tt),  
+                     yule.2.rate = yule2rate(tt),
+      linear.diversity.dependent = DDL(tt),    
+ exponential.diversity.dependent = DDX(tt),
+         varying.speciation_rate = fitSPVAR(tt),  
+         varying.extinction_rate = fitEXVAR(tt),  
                     varying_both = fitBOTHVAR(tt)  
               )
 @
@@ -262,7 +262,7 @@ We ask R to tell us which model has the lowest AIC score,
 aics <- sapply(models, function(x) x$aic)
 best_fit <- names(models[which.min(aics)])
 @ 
-and confirm the result presented in~\citet{Derryberry2011}, that the \Sexpr{best_fit} model is the best fit to the data.  
+and confirm the result presented in~\citet{Derryberry2011}, that the \texttt{\Sexpr{best_fit}} model is the best fit to the data.  
 
 
 In this fast-moving field, new methods often become available within the time-frame 
