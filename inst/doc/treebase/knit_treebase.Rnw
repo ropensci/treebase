@@ -166,15 +166,19 @@ pub[!(pub %in% top_contributors)] <- "Other"
 @
 
 We can then look at the distribution of publication years for phylogenies deposited in TreeBASE,
-color coding by publisher in Fig~\ref{fig:1}.  
+color coding by publisher in Fig~\ref{fig:1}.
+It is encouraging to see that no single journal dominates the submissions, 
+and taxa-specific publications and more broad-scope journals share the top ten spots. 
+It will be interesting to watch these trends as more journals extend mandatory archiving requirements
+over the coming years.  
 
 \setkeys{Gin}{width=\linewidth}
 \begin{figure}
 \begin{center}
 <<dates, fig.width=16, fig.height=6, cache=FALSE>>=
-meta <- data.frame(publisher=as.character(pub), dates=dates)
+meta <- data.frame(publisher = as.character(pub), dates = dates)
 require(ggplot2)
-ggplot(meta) + geom_bar(aes(dates, fill=publisher))
+ggplot(meta) + geom_bar(aes(dates, fill = publisher))
 @
 \caption{Histogram of publication dates by year, with the code required to generate the figure.}\label{fig:1}
 \end{center}
@@ -205,38 +209,33 @@ tree_metadata <- cache_treebase(only_metadata=TRUE)
 @
 
 Having access to both the metadata from the studies and from the phylogenies in R lets us quickly combine these data sources in interesting ways.  For instance, with a few commands we can visualize how the number of taxa on submitted phylogenies has increasing over time, Figure~\ref{fig:2}.  
-
 % How fast is tree size growing as a function of publication date?  
 % Color code by journal?   by author?
+
+%first_author <- sapply(metadata, `[[`, 'creator') 
+%author_table <- sort(table(as.character(first_author)), decreasing=TRUE)
+%top_contributors <- names(head(author_table,10))
+%first_author[!(first_author %in% top_contributors)] <- "Other"
+
 \begin{figure}
 <<treestats>>=
 <<taxagrowth, fig.width=7, fig.height=4>>=
-Ntaxa <- sapply(tree_metadata,`[[`, 'ntax') 
-
-first_author <- sapply(metadata, `[[`, 'creator') 
-author_table <- sort(table(as.character(first_author)), decreasing=TRUE)
-top_contributors <- names(head(author_table,10))
-first_author[!(first_author %in% top_contributors)] <- "Other"
-
 studyid <- sapply(tree_metadata,`[[`, 'S.id')
 sid <- sapply(metadata, `[[`, 'identifier')
 sid <- gsub(".*TB2:S(\\d*)", "\\1", sid)
 matches <- sapply(sid, match, studyid)
 Ntaxa <- sapply(matches, function(i)  tree_metadata[[i]]$ntax)
 Ntaxa[sapply(Ntaxa, is.null)] <- NA
-taxa <- data.frame(Ntaxa=as.numeric(unlist(Ntaxa)), meta, author=first_author)
-ggplot(taxa) + geom_point(aes(dates, Ntaxa, col='author'), position = 'jitter')
-
-
-
-matches <- sapply(studyid, match, sid)
-years <- sapply(matches, function(i)  metadata[[i]]$date)
-years[sapply(years, is.null)] <- NA
-taxa <- data.frame(Ntaxa = Ntaxa, years = as.numeric(unlist(years)))
-ggplot(taxa) + geom_point(aes(years, Ntaxa), position = 'jitter')
+taxa <- data.frame(Ntaxa=as.numeric(unlist(Ntaxa)), meta)
+ggplot(taxa, aes(dates, Ntaxa)) + 
+  geom_point(position = 'jitter', alpha = .8) + 
+  scale_y_log10() + stat_smooth(aes(group = 1))
 @
 \caption{Combining the metadata avialable from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies.  Note that the maximum size tree deposited each year is growing far faster than the average number.}\label{fig:2}
 \end{figure}
+The promise of this exponential growth in the sizes of available phylogenies, with some trees representing~\Sexpr{max(Ntaxa)} taxa motivates the more and more ambitious inference methods being developed which require large trees to have adequate signal~\citep{Boettiger2012, FitzJohn2009}.  It will be interesting to see how long into the future this trend is maintained.  
+
+Visualizations and analyses of this metadata help identify research trends and also potential datasets for analyses.  In this next section we highlight a few ways in which programatic access can be leveraged for various research objectives.  
 
 
 \subsection{Reproducible research \& education}
@@ -245,7 +244,7 @@ Access to data and executable scripts that reproduce the results presented
 are two central elements of this process which are addressed by the \texttt{treebase} package.   
 
 
-Imagine we are reading the recent phylogenetics paper,~\citet{Derryberry2011}. 
+Imagine reading the recent phylogenetics paper,~\citet{Derryberry2011}. 
 The paper analyzes speciation models on a phylogeny of bird taxa to identify if the rate of speciation shows
 a substantial shift among any of the groups, using the R package~\texttt{laser}~\citep{Rabosky2006b}.  
 We recall that more recent methods for identifying these rate shifts were presented in~\citet{Stadler2011},
@@ -278,17 +277,17 @@ We can then look through the metadata to find the study matching our description
 i <- which( sapply(meta, function(x) x$publisher == "Evolution" && x$date=="2011") )
 derryberry <- derryberry_results[[i]]
 @
+This is simply one possible path to identify the correct study, certainly this query could be constructed in other ways, including direct access by the study identifer.   
 
+%<<loadderryberry, echo=FALSE>>=
+%# connection may fail on first try, so instead of evaluating this, just load cached copy
+%data(derryberry)
+%@
 
-This is simply one possible path to identify the correct study.   
-
-<<loadderryberry, echo=FALSE>>=
-# connection may fail on first try, so instead of evaluating this, just load cached copy
-data(derryberry)
-@
-
-
-For instance, we can replicate the model choice methods they perform to select the most likely branching model candidate.
+Having successfuly imported the phylogenetic tree corresponding to this study,
+we can quickly replicate their analysis of which diversification process best fits the data.
+Different diversification models make different assumptions about the rate of speciation, extinction,
+and how these rates may be changing over time.  
 The authors consider eight different models, implemented in the \texttt{laser}~package \citep{Rabosky2006b}.
 This code fits each of the eight models to that data:
 <<RR, tidy=FALSE>>=
