@@ -195,7 +195,7 @@ search_treebase <- function(input, by, returns = c("tree", "matrix"),
                  pause1 = pause1, pause2 = pause2, attempts = attempts,
                  only_metadata = only_metadata)
 
-  if(schema == "tree"){
+  if(schema == "tree" && only_metadata == FALSE){
     out <- drop_nontrees(out)
     if(branch_lengths){
       have <- have_branchlength(out)
@@ -281,6 +281,7 @@ get_nex <- function(query, max_trees = "last()", returns = "tree",
       out[[i]]$type <- type[i]
       out[[i]]$kind <- kind[i]
       out[[i]]$quality <- quality[i]
+      out[[i]]$ntax <- ntax[i]
       out[[i]] })
 
   

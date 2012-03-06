@@ -26,7 +26,7 @@
 
 
 %% Looks like a comment but it isn't! This is setting the default behavior for the Sweave chunk options,  
-% \SweaveOpts{fig=TRUE, cache=FALSE, message=FALSE, warning=FALSE, tidy=FALSE, dev='pdf'}
+% \SweaveOpts{fig=TRUE, cache=TRUE, message=FALSE, warning=FALSE, tidy=FALSE, dev='pdf'}
                    
 
 \begin{document}
@@ -58,14 +58,18 @@
 Applications that use phylogenetic information as part of their analyses 
 are becoming increasingly central to both evolutionary and ecological research. 
 The explosion of genomic data, followed by methodological advances for 
-inferring phylogenies from this molecular information have helped spur this increase.  
+inferring phylogenies from this molecular information have helped spur this increase. 
+% . . . 
 
 
 The R statistical environment has become a dominant platform for researchers using this phylogenetic data 
 to address a rapidly expanding set of questions in ecological and evolutionary processes.
-While the task of inferring phylogenies from genomic data remains dominated by dedicated compiled software such as MrBayes~\citep{Huelsenbeck2001b}, BEAST~\citep{Drummond2007}, RAXML~\citep{Stamatakis2006},
-the research methods that make use of these phylogenies inferred from those programs are largely based in R, 
-through over 30 dedicated packages that provide implementations of an ever-growing list of methods.  
+While the task of inferring phylogenies from sequence data remains dominated by dedicated compiled software such as MrBayes~\citep{Huelsenbeck2001b}, BEAST~\citep{Drummond2007}, RAXML~\citep{Stamatakis2006},
+the research methods that make use of the phylogenies they infer are largely based in R. 
+To distinguish between the processes of inferring the phylogeny and these applications,
+We will refer collectively to this area of research which uses phylogenetic relationships as input data as applied phylogenetics.  
+
+
 These methods include tasks such as ancestral state reconstruction~\citep{Paradis2004, Butler2004}, 
 diversification analysis~\citep{Paradis2004, Rabosky2006b, Harmon2008, FitzJohn2009, FitzJohn2010, Goldberg2011, Stadler2011}, 
 quantifying the rate and tempo of trait evolution~\citep{Butler2004, Paradis2004, Harmon2008, Hipp2010, Revell2011, Eastman2011}, 
@@ -73,6 +77,7 @@ identifying evolutionary influences and proxies for community ecology~\citet{Web
 performing phyloclimatic modelling~\citep{Warren2008, Evans2009b}, 
 and simulation of speciation and character evolution~\citep{Harmon2008, Stadler2011a, Boettiger2012}, 
 as well as various manipulation and visualization of phylogenetic data~\citet{Paradis2004, Schliep2010, Jombart2010, Revell2011}.  
+
 While several programs exist for applied phylogenetic methods in languages such as 
 Java~\citep{Maddison2011}, MATLAB~\citep{Blomberg2003} and Python~\citep{Sukumaran2010} as well as through online servers~\citep{Martins2004}, 
 today, none offer the same breadth in methods or number of users, 
@@ -105,34 +110,43 @@ The basic functions of the TreeBASE API allow search queries of the phylogenetic
 These interfaces are well-documented on the TreeBASE website.
 The \texttt{treebase} package allows these queries to be made directly from R,
 just as a user would make them from the browser.
-The real advantage of the capacity to automate these tasks in R is shown in the later examples on replicating results and performing meta-analyses, but first, we introduce the package with some simple examples.  
-
+Because the queries can be implemented programmatically in R,
+a user can construct more complicated filters than permitted by the web interface, 
+and can maintain a record of the queries they used to collect their data as an R script.  
+The ability to script this data-gathering step of research can go a long way to reducing errors
+and ensuring that an analysis can be replicated later, by the author or other groups~\citep{Peng2011a}.  
 
 \subsection{Basic Queries}
 Any of the basic queries available on the web interface can now be made directly from R,
 including downloading and importing the phylogeny into the R interface.  
-For instance, the following command searches for phylogenies containing dolphin taxa,
+For instance, one can search for phylogenies containing dolphin taxa,
 or all phylogenies submitted by a given author
 <<basicQueries, eval=FALSE>>=
 search_treebase("Delphinus", by="taxon")
 search_treebase("Huelsenbeck", by="author")
 @
 These functions loads the matching phylogenies into R, ready for analysis.  
-The package and online documentation provide many examples of other possible queries.  
-The package also provides access to the metadata of all publications containing trees deposited in TreeBASE.
-This can help the user discover phylogenies of interest and also allows the user to perform statistical analyses
-on the data deposition itself. 
+The package documentation provides many examples of possible queries. 
+The \verb|search_treebase| function is the heart of the \texttt{treebase} package.  
+While basic queries such as these seem simple,
+we present several use-cases of how this programmatic access can be leveraged to allow rapid exploration of phylogenetic data
+that opens doors to faster and easier verification of results and also new kinds of analysis and new scales of analysis. 
+
+To illustrate this potential, we first introduce the second core function, \verb|search_metadata|, which provides metadata about the resources available in the TreeBASE repository.  Using programmatic access to this metadata and standard analysis tools available in R, we can quickly paint an up-to-the-minute picture of the data currently available TreeBASE.  We will then return our \verb|search_treebase| function to illustrate several ways we can take advantage of the programmatic access to the data.  
+
+\subsection{Quantifying TreeBASE}
+The \texttt{treebase} package provides access to the metadata of all publications containing trees
+deposited in TreeBASE using a seperate API for metadata.  
+This can help the user discover phylogenies of interest
+and also allows the user to perform statistical analyses
+on the data deposition itself, which could identify trends or biases in the phylogenetics literature.  
 
 
-While the metadata can be searched within a given date range,
-by specifying no function argument we can get metadata from the entire database: 
-<<getmetadata, eval=FALSE>>=
+While the metadata can search for all entries before or after a given date.  If no argument is given, it will return the entire avialable database.  
+<<getmetadata>>=
 metadata <- search_metadata() 
 @
-For convenience, it is possible to load the copy of this data cached at the time the package was compiled.  
-<<cache, echo=FALSE>>=
-data(metadata)
-@
+The returned object is a list, in which each element is an entry with bibliographic information corresponding to a published study that has deposited data in TreeBASE.  Asking for the list length tells us there are \Sexpr{length(metadata)} published studies currently in the database.  
 
 R provides a rich statistical environment in which we can extract and visualize the data we have just obtained. 
 For instance, we may wish to obtain a list of all the dates of publication \& names of the journals (publishers) that have submitted data:
@@ -154,10 +168,10 @@ pub[!(pub %in% top_contributors)] <- "Other"
 We can then look at the distribution of publication years for phylogenies deposited in TreeBASE,
 color coding by publisher in Fig~\ref{fig:1}.  
 
-\setkeys{Gin}{width=0.95\textwidth}
+\setkeys{Gin}{width=\linewidth}
 \begin{figure}
 \begin{center}
-<<dates, fig.width=12, fig.height=6>>=
+<<dates, fig.width=16, fig.height=6, cache=FALSE>>=
 meta <- data.frame(publisher=as.character(pub), dates=dates)
 require(ggplot2)
 ggplot(meta) + geom_bar(aes(dates, fill=publisher))
@@ -166,28 +180,63 @@ ggplot(meta) + geom_bar(aes(dates, fill=publisher))
 \end{center}
 \end{figure}
 
+In addition to this information about the publications, we can obtain metadata about the phylogenies themselves from the \verb|search_treebase| function.  While this information is always returned by the query, we can request \verb|only_metadata| for a quick look at the data matching any search
+
+<<only_metadata>>=
+genetrees <- search_treebase( "'Gene Tree'", by='kind.tree', only_metadata=TRUE )
+@
+This query returns just the metadata for the \Sexpr{length(genetrees)} gene trees in the database, including the study identifier number of where they were published, the number of taxa in the tree, a quality score, (if available), kind of tree (gene tree, species tree, or barcode tree) and whether the phylogeny represents a single or consensus type.  
 
 
-% How fast is tree size growing as a function of publication date?  
-<<treestats>>=
-data(treebase)
-Ntaxa <- sapply(treebase,`[[`, 'Nnode') + 1
+
+For certain applications a user may wish to download all the available phylogenies from TreeBASE. Using the \verb|cache_treebase| function allows a user to download a local copy of all trees.  Because direct database dumps are not available, this function has intentional delays to avoid overtaxing the TreeBASE servers, and should be allowed a full day to run.  
+<<bulidcache, eval=FALSE>>=
+treebase <- cache_treebase()
 @
 
-<<find_years>>=
-studyid <- sapply(treebase,`[[`, 'S.id')
+Once run, the cache is saved compactly in memory where it can be easily and quickly restored.  For convience, the \texttt{treebase} package comes with a copy already cached, which can be loaded into memory.
+<<loadcachedtreebase>>=
+data(treebase)
+@
+
+It is possible to use this function with the \verb|only_metadata| option as well, which should run in minutes and return the metadata we just mentioned for all available phylogenies.  
+<<tree_metadata_cache>>=
+tree_metadata <- cache_treebase(only_metadata=TRUE)
+@
+
+Having access to both the metadata from the studies and from the phylogenies in R lets us quickly combine these data sources in interesting ways.  For instance, with a few commands we can visualize how the number of taxa on submitted phylogenies has increasing over time, Figure~\ref{fig:2}.  
+
+% How fast is tree size growing as a function of publication date?  
+% Color code by journal?   by author?
+\begin{figure}
+<<treestats>>=
+<<taxagrowth, fig.width=7, fig.height=4>>=
+Ntaxa <- sapply(tree_metadata,`[[`, 'ntax') 
+
+first_author <- sapply(metadata, `[[`, 'creator') 
+author_table <- sort(table(as.character(first_author)), decreasing=TRUE)
+top_contributors <- names(head(author_table,10))
+first_author[!(first_author %in% top_contributors)] <- "Other"
+
+studyid <- sapply(tree_metadata,`[[`, 'S.id')
 sid <- sapply(metadata, `[[`, 'identifier')
 sid <- gsub(".*TB2:S(\\d*)", "\\1", sid)
+matches <- sapply(sid, match, studyid)
+Ntaxa <- sapply(matches, function(i)  tree_metadata[[i]]$ntax)
+Ntaxa[sapply(Ntaxa, is.null)] <- NA
+taxa <- data.frame(Ntaxa=as.numeric(unlist(Ntaxa)), meta, author=first_author)
+ggplot(taxa) + geom_point(aes(dates, Ntaxa, col='author'), position = 'jitter')
+
+
+
 matches <- sapply(studyid, match, sid)
 years <- sapply(matches, function(i)  metadata[[i]]$date)
 years[sapply(years, is.null)] <- NA
+taxa <- data.frame(Ntaxa = Ntaxa, years = as.numeric(unlist(years)))
+ggplot(taxa) + geom_point(aes(years, Ntaxa), position = 'jitter')
 @
-
-<<taxagrowth, fig.width=7, fig.height=4>>=
-taxa <- data.frame(Ntaxa= Ntaxa, years = as.numeric(unlist(years)))
-ggplot(taxa) + geom_point(aes(years, Ntaxa), position='jitter')
-@
-
+\caption{Combining the metadata avialable from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies.  Note that the maximum size tree deposited each year is growing far faster than the average number.}\label{fig:2}
+\end{figure}
 
 
 \subsection{Reproducible research \& education}
