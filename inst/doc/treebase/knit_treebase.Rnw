@@ -26,7 +26,7 @@
 
 
 %% Looks like a comment but it isn't! This is setting the default behavior for the Sweave chunk options,  
-% \SweaveOpts{fig=TRUE, cache=TRUE, message=FALSE, warning=FALSE, tidy=FALSE, dev='pdf'}
+% \SweaveOpts{fig=TRUE, cache=FALSE, message=FALSE, warning=FALSE, tidy=FALSE, dev='pdf'}
                    
 
 \begin{document}
@@ -219,7 +219,7 @@ Having access to both the metadata from the studies and from the phylogenies in 
 
 \begin{figure}
 <<treestats>>=
-<<taxagrowth, fig.width=7, fig.height=4>>=
+<<taxagrowth, fig.width=16, fig.height=6>>=
 studyid <- sapply(tree_metadata,`[[`, 'S.id')
 sid <- sapply(metadata, `[[`, 'identifier')
 sid <- gsub(".*TB2:S(\\d*)", "\\1", sid)
@@ -231,11 +231,17 @@ ggplot(taxa, aes(dates, Ntaxa)) +
   geom_point(position = 'jitter', alpha = .8) + 
   scale_y_log10() + stat_smooth(aes(group = 1))
 @
-\caption{Combining the metadata avialable from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies.  Note that the maximum size tree deposited each year is growing far faster than the average number.}\label{fig:2}
+\caption{Combining the metadata avialable from publications and from phylogenies themselves,
+we can visualize the growth in taxa on published phylogenies. 
+Note that the maximum size tree deposited each year is growing far faster than the average number.}\label{fig:2}
 \end{figure}
-The promise of this exponential growth in the sizes of available phylogenies, with some trees representing~\Sexpr{max(Ntaxa)} taxa motivates the more and more ambitious inference methods being developed which require large trees to have adequate signal~\citep{Boettiger2012, FitzJohn2009}.  It will be interesting to see how long into the future this trend is maintained.  
-
-Visualizations and analyses of this metadata help identify research trends and also potential datasets for analyses.  In this next section we highlight a few ways in which programatic access can be leveraged for various research objectives.  
+The promise of this exponential growth in the sizes of available phylogenies,
+with some trees representing~\Sexpr{max(taxa$Ntaxa, na.rm=TRUE)} taxa motivates
+the more and more ambitious inference methods being developed
+which require large trees to have adequate signal~\citep{Boettiger2012, FitzJohn2009}.
+It will be interesting to see how long into the future this trend is maintained.
+These visualizations help identify research trends and can also help identify potential data sets for analyses. 
+In this next section we highlight a few ways in which programatic access can be leveraged for various research objectives.  
 
 
 \subsection{Reproducible research \& education}
@@ -336,13 +342,13 @@ a question that was not possible to address using the tools provided in~\texttt{
 The previous analysis also considers a birth-death model that allowed speciation and extinction rates to 
 be estimated seperately, but did not allow for a shift in the rate of such a model.  
 Here we consider models that have up to 4 different rates in yule models,
-<<treepar_yule, include=FALSE, cache=TRUE>>=
+<<treepar_yule, include=FALSE>>=
 yule_models <- bd.shifts.optim(x, sampling = c(1,1,1,1), grid = 5, start = 0, end = 60, yule = TRUE)[[2]]
 @
 (The syntax in \texttt{TreePar} is slightly cumbersome, the [[2]] indicates 
 We also want to compare the performance of models which allow up to four shifts and also 
 estimate extinction and speciation seperately:
-<<treepar_birthdeath, include=FALSE, cache=TRUE>>=
+<<treepar_birthdeath, include=FALSE>>=
 birth_death_models <- bd.shifts.optim(x, sampling = c(1,1,1,1), grid = 5, start = 0, end = 60, yule = FALSE)[[2]]
 @
 The models output by these functions are ordered by increasing number of shifts.  
@@ -364,13 +370,19 @@ By being able to access the phylogenentic data programmatically, as shown in thi
 replicating an analysis can become a matter of minutes instead of hours or days.  
 
 
-\subsection{A new kind of meta-analysis}
+\subsection{A self-updating meta-analysis?}
 Large scale comparative analyses that seek to characterize evolutionary patterns across many phylogenies increasingly common in phylogenetic methods~\citep[\emph{e.g}][]{McPeek2007, Phillimore2008, McPeek2008, Quental2010, Davies2011a}.  
-Often referred to by their authors as meta-analyses, these approaches have focused on re-analyzing phylogenetic trees collected from many different earlier publications.  This is a more direct approach than the traditional concept of meta-analysis where statistical results from earlier studies are weighted by their sample size without actually repeating the statistical analyses of those papers, and avoids some of the statistical challenges inherent in summarizing results that may differ in methodology.  While potentially valuable, these researchers have often gone through heroic efforts simply to assemble these data sets from the literature.  As described in \citet{McPeek2007}, (emphasis added)
+Often referred to by their authors as meta-analyses,
+these approaches have focused on re-analyzing phylogenetic trees collected from many different earlier publications.  
+This is a more direct approach than the traditional concept of meta-analysis
+where statistical results from earlier studies are weighted by their sample size
+without actually repeating the statistical analyses of those papers.
+
+and avoids some of the statistical challenges inherent in summarizing results that may differ in methodology.  While potentially valuable, these researchers have often gone through heroic efforts simply to assemble these data sets from the literature.  As described in \citet{McPeek2007}, (emphasis added)
 \begin{quote}
 One data set was based on 163 published species-level molecular phylogenies of arthropods, chordates, and mollusks. [\dots] A PDF format file of each article was obtained, and a digital snapshot of the figure was taken in Adobe Acrobat 7.0. This image was transferred to a PowerPoint (Microsoft) file and printed on a laser printer. The phylogenies included in this study are listed in the appendix. \emph{All branch lengths were measured by hand from these  printed sheets using dial calipers.}
 \end{quote}
-While several digital tools are available to make these kind of measurements without the calipers~\citep[\emph{e.g.}][]{Lauback2007},
+While several digital tools are available to make these kind of measurements without the calipers~\citep[\emph{e.g.}][]{Laubach2007},
 it is immensely easier and less error-prone to pull properly formatted phylogenies from the database for this purpose.   
 
 %By building such meta-analyses around the \texttt{treebase} package, 

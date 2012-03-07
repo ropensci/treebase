@@ -16,9 +16,22 @@ clean:
 	rm -f index.html
 	rm -f *.tex *.bbl *.blg *.aux *.out *.log *.spl *tikzDictionary
 
+
+# Custom command for my local compile
+failknit: 
+	knit knit_treebase.Rnw treebase.Rnw
+	R CMD Sweave treebase.Rnw
+	pdflatex treebase
+	bibtool -s -d -x treebase.aux ~/Documents/Mendeley/bib/library.bib > treebase.bib
+	bibtex treebase # make the bibliography 
+	pdflatex treebase
+	pdflatex treebase
+	rm -f *.bbl *blg *.aux *.out *.log *.spl
+	cp -f treebase.Rnw treebase.tex treebase.bib *.pdf ../../../vignettes/
+
 # Custom command for my local compile
 knit:
-	$(RSCRIPT) -e ".libPaths(c('~/R', .libPaths())); require(knitr); knit( 'knit_treebase.Rnw', 'treebase.Rnw');"
+	$(RSCRIPT) -e ".libPaths(c('~/R', .libPaths())); require(knitr); require(methods); require(utils); knit( 'knit_treebase.Rnw', 'treebase.Rnw');"
 	$(RPROG) CMD Sweave treebase.Rnw
 	pdflatex treebase
 	bibtool -s -d -x treebase.aux ~/Documents/Mendeley/bib/library.bib > treebase.bib
