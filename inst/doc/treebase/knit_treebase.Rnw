@@ -343,7 +343,7 @@ The previous analysis also considers a birth-death model that allowed speciation
 be estimated seperately, but did not allow for a shift in the rate of such a model.  
 Here we consider models that have up to 4 different rates in yule models,
 
-<<treepar_yule, echo=FALSE>>=
+<<treepar_yule, include=FALSE>>=
 yule_models <- bd.shifts.optim(x, sampling = c(1,1,1,1), grid = 5, start = 0, end = 60, yule = TRUE)[[2]]
 @
 <<treepar_yule_show, eval=FALSE>>=
@@ -354,7 +354,7 @@ yule_models <- bd.shifts.optim(x, sampling = c(1,1,1,1), grid = 5, start = 0, en
 We also want to compare the performance of models which allow up to four shifts and also 
 estimate extinction and speciation seperately:
 
-<<treepar_birthdeath, echo=FALSE>>=
+<<treepar_birthdeath, include=FALSE>>=
 birth_death_models <- bd.shifts.optim(x, sampling = c(1,1,1,1), grid = 5, start = 0, end = 60, yule = FALSE)[[2]]
 @
 <<treepar_birthdeath_show, eval=FALSE>>=
@@ -369,7 +369,7 @@ birth_death_aic <- sapply(birth_death_models, function(pars) 2 * (length(pars) -
 best_no_of_rates <- list(Yule = which.min(yule_aic), birth.death = which.min(birth_death_aic))
 best_model <- which.min(c(min(yule_aic), min(birth_death_aic)))
 @
-which confirms that the \texttt{\Sexpr{names(best_no_of_rates[best_model])}} Yule \Sexpr{best_no_of_rates[best_model][[1]]}-rate  
+which confirms that the \texttt{\Sexpr{names(best_no_of_rates[best_model])}} \Sexpr{best_no_of_rates[best_model][[1]]}-rate  
 model is still the best choice based on AIC score.  
 Of the eight models in this second analysis, only three were in the original set considered
 (Yule 1-rate and 2-rate, and birth-death without a shift),
