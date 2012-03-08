@@ -331,7 +331,7 @@ rm(list="locale") # clean up
 @
 
 We load the new method and format the data as its manual instructs us
-<<treepar, include=FALSE>>=
+<<treepar>>=
 require(TreePar)
 x<-sort(getx(derryberry), decreasing=TRUE)
 @
@@ -342,24 +342,39 @@ a question that was not possible to address using the tools provided in~\texttt{
 The previous analysis also considers a birth-death model that allowed speciation and extinction rates to 
 be estimated seperately, but did not allow for a shift in the rate of such a model.  
 Here we consider models that have up to 4 different rates in yule models,
-<<treepar_yule, include=FALSE>>=
+
+<<treepar_yule, echo=FALSE>>=
 yule_models <- bd.shifts.optim(x, sampling = c(1,1,1,1), grid = 5, start = 0, end = 60, yule = TRUE)[[2]]
 @
+<<treepar_yule_show, eval=FALSE>>=
+yule_models <- bd.shifts.optim(x, sampling = c(1,1,1,1), grid = 5, start = 0, end = 60, yule = TRUE)[[2]]
+@
+
 (The syntax in \texttt{TreePar} is slightly cumbersome, the [[2]] indicates 
 We also want to compare the performance of models which allow up to four shifts and also 
 estimate extinction and speciation seperately:
-<<treepar_birthdeath, include=FALSE>>=
+
+<<treepar_birthdeath, echo=FALSE>>=
 birth_death_models <- bd.shifts.optim(x, sampling = c(1,1,1,1), grid = 5, start = 0, end = 60, yule = FALSE)[[2]]
 @
+<<treepar_birthdeath_show, eval=FALSE>>=
+birth_death_models <- bd.shifts.optim(x, sampling = c(1,1,1,1), grid = 5, start = 0, end = 60, yule = FALSE)[[2]]
+@
+
 The models output by these functions are ordered by increasing number of shifts.  
 We can select the best-fitting model by AIC score,
 <<aic_yule>>=
 yule_aic <- sapply(yule_models, function(pars) 2 * (length(pars) - 1) + 2 * pars[1] )
 birth_death_aic <- sapply(birth_death_models, function(pars) 2 * (length(pars) - 1) + 2 * pars[1] )
-which.min(c(yule_aic, birth_death_aic))
+best_no_of_rates <- list(Yule = which.min(yule_aic), birth.death = which.min(birth_death_aic))
+best_model <- which.min(c(min(yule_aic), min(birth_death_aic)))
 @
-which confirms that the original Yule 2-rate %\Sexpr{#which.min(aic)}-rate 
+which confirms that the \texttt{\Sexpr{names(best_no_of_rates[best_model])}} Yule \Sexpr{best_no_of_rates[best_model][[1]]}-rate  
 model is still the best choice based on AIC score.  
+Of the eight models in this second analysis, only three were in the original set considered
+(Yule 1-rate and 2-rate, and birth-death without a shift),
+so we could by no means have been sure ahead of time that a birth death with a shift,
+or a Yule model with a greater number of shifts, would not have fitted better.  
 
 This kind of verification of results and validation against alternate methods
 will not occur regularly as long as the time required to do so is not negligible.  
@@ -367,11 +382,15 @@ While this kind of analysis already enjoys the benefits of scripted software imp
 of the methods being employed, access to the actual data has become the rate-limiting step.  
 
 By being able to access the phylogenentic data programmatically, as shown in this example,
-replicating an analysis can become a matter of minutes instead of hours or days.  
+replicating an analysis can become a matter of several minutes of casual investigation rather
+than a more tedious correspondance to get access to the data.  While this example has focused
+on a case involving a single tree for simplicity of presentation, this same script could be applied
+to verify studies involving many phylogenies, or to apply the same checks across a collection of papers
+using a particular question.  
 
 
 \subsection{A self-updating meta-analysis?}
-Large scale comparative analyses that seek to characterize evolutionary patterns across many phylogenies increasingly common in phylogenetic methods~\citep[\emph{e.g}][]{McPeek2007, Phillimore2008, McPeek2008, Quental2010, Davies2011a}.  
+Large scale comparative analyses that seek to characterize evolutionary patterns across many phylogenies increasingly common in phylogenetic methods~\citep[\emph{e.g.}][]{McPeek2007, Phillimore2008, McPeek2008, Quental2010, Davies2011a}.  
 Often referred to by their authors as meta-analyses,
 these approaches have focused on re-analyzing phylogenetic trees collected from many different earlier publications.  
 This is a more direct approach than the traditional concept of meta-analysis
@@ -453,7 +472,9 @@ Consequently the analyses presented here can be updated to reflect the latest in
 
 \section{Conclusion}
 
-The recent advent of mandatory data archiving in many of the major journals publishing phylognetics-based research~\citep[\emph{e.g.}][]{Fairbairn2010, Piwowar2011, Whitlock2010}, is a particularly promising development that should continue to fuel trend of submissions seen in Fig.~\ref{fig:1}.  Faced with such a rapidly growing supply, programmatic access to data becomes not only increasingly powerful but an increasingly necessary way to ensure we can see the forest for the trees.   
+While we have focused on examples that require no additional data beyond the phylogeny, a wide array of methods combine this data with information about the traits, geography, or ecological community of the taxa represented.  In such cases we would need programmatic access to the trait data as well as the phylogeny.  The Dryad digital repository (\href{http://datadryad.org}{http://datadryad.org}) is a popular host for such data to support the data archiving requirements mentioned above.  While programmatic access to the repository is possible through the \texttt{rdryad} package~\citep{Chamberlain2012}, variation in data formatting must first be overcome.  Dedicated databases such as FishBASE (\href{http://fishbase.org}{http://fishbase.org}) may be another alternative, where morphological data can be queried for a list of species using the \texttt{rfishbase} package~\citep{Boettiger2011}.  The development of similar software for programmatic data access will rapidly extend the space and scale of possible analyses.  
+
+The recent advent of mandatory data archiving in many of the major journals publishing phylognetics-based research~\citep[\emph{e.g.}][]{Fairbairn2010, Piwowar2011, Whitlock2010}, is a particularly promising development that should continue to fuel trend of submissions seen in Fig.~\ref{fig:1}.  Accompanied by faster and more inexpensive techniques of NextGen sequencing, and the rapid expansion in phylogenetic applications, we anticipate this rapid growth in available phylogenies will continue.  Faced with this flood of data, programmatic access becomes not only increasingly powerful but an increasingly necessary way to ensure we can still see the forest for all the trees.   
 
  \section{Acknowledgements}
  CB wishes to thank the TreeBASE developer team for building and supporting the repository, and all contributers to TreeBASE.
