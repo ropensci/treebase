@@ -1,0 +1,1250 @@
+\documentclass[authoryear, preprint]{elsarticle}
+\usepackage{graphicx, color}
+\newcommand{\hlnumber}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlfunctioncall}[1]{\textcolor[rgb]{.5,0,.33}{\textbf{#1}}}%
+\newcommand{\hlstring}[1]{\textcolor[rgb]{.6,.6,1}{#1}}%
+\newcommand{\hlkeyword}[1]{\textbf{#1}}%
+\newcommand{\hlargument}[1]{\textcolor[rgb]{.69,.25,.02}{#1}}%
+\newcommand{\hlcomment}[1]{\textcolor[rgb]{.18,.6,.34}{#1}}%
+\newcommand{\hlroxygencomment}[1]{\textcolor[rgb]{.44,.48,.7}{#1}}%
+\newcommand{\hlformalargs}[1]{\hlargument{#1}}%
+\newcommand{\hleqformalargs}[1]{\hlargument{#1}}%
+\newcommand{\hlassignement}[1]{\textbf{#1}}%
+\newcommand{\hlpackage}[1]{\textcolor[rgb]{.59,.71,.145}{#1}}%
+\newcommand{\hlslot}[1]{\textit{#1}}%
+\newcommand{\hlsymbol}[1]{#1}%
+\newcommand{\hlprompt}[1]{\textcolor[rgb]{.5,.5,.5}{#1}}%
+
+\usepackage{color}%
+ 
+\newsavebox{\hlnormalsizeboxclosebrace}%
+\newsavebox{\hlnormalsizeboxopenbrace}%
+\newsavebox{\hlnormalsizeboxbackslash}%
+\newsavebox{\hlnormalsizeboxlessthan}%
+\newsavebox{\hlnormalsizeboxgreaterthan}%
+\newsavebox{\hlnormalsizeboxdollar}%
+\newsavebox{\hlnormalsizeboxunderscore}%
+\newsavebox{\hlnormalsizeboxand}%
+\newsavebox{\hlnormalsizeboxhash}%
+\newsavebox{\hlnormalsizeboxat}%
+\newsavebox{\hlnormalsizeboxpercent}% 
+\newsavebox{\hlnormalsizeboxhat}%
+\newsavebox{\hlnormalsizeboxsinglequote}%
+\newsavebox{\hlnormalsizeboxbacktick}%
+
+\setbox\hlnormalsizeboxopenbrace=\hbox{\begin{normalsize}\verb.{.\end{normalsize}}%
+\setbox\hlnormalsizeboxclosebrace=\hbox{\begin{normalsize}\verb.}.\end{normalsize}}%
+\setbox\hlnormalsizeboxlessthan=\hbox{\begin{normalsize}\verb.<.\end{normalsize}}%
+\setbox\hlnormalsizeboxdollar=\hbox{\begin{normalsize}\verb.$.\end{normalsize}}%
+\setbox\hlnormalsizeboxunderscore=\hbox{\begin{normalsize}\verb._.\end{normalsize}}%
+\setbox\hlnormalsizeboxand=\hbox{\begin{normalsize}\verb.&.\end{normalsize}}%
+\setbox\hlnormalsizeboxhash=\hbox{\begin{normalsize}\verb.#.\end{normalsize}}%
+\setbox\hlnormalsizeboxat=\hbox{\begin{normalsize}\verb.@.\end{normalsize}}%
+\setbox\hlnormalsizeboxbackslash=\hbox{\begin{normalsize}\verb.\.\end{normalsize}}%
+\setbox\hlnormalsizeboxgreaterthan=\hbox{\begin{normalsize}\verb.>.\end{normalsize}}%
+\setbox\hlnormalsizeboxpercent=\hbox{\begin{normalsize}\verb.%.\end{normalsize}}%
+\setbox\hlnormalsizeboxhat=\hbox{\begin{normalsize}\verb.^.\end{normalsize}}%
+\setbox\hlnormalsizeboxsinglequote=\hbox{\begin{normalsize}\verb.'.\end{normalsize}}%
+\setbox\hlnormalsizeboxbacktick=\hbox{\begin{normalsize}\verb.`.\end{normalsize}}%
+\setbox\hlnormalsizeboxhat=\hbox{\begin{normalsize}\verb.^.\end{normalsize}}%
+
+
+
+\newsavebox{\hltinyboxclosebrace}%
+\newsavebox{\hltinyboxopenbrace}%
+\newsavebox{\hltinyboxbackslash}%
+\newsavebox{\hltinyboxlessthan}%
+\newsavebox{\hltinyboxgreaterthan}%
+\newsavebox{\hltinyboxdollar}%
+\newsavebox{\hltinyboxunderscore}%
+\newsavebox{\hltinyboxand}%
+\newsavebox{\hltinyboxhash}%
+\newsavebox{\hltinyboxat}%
+\newsavebox{\hltinyboxpercent}% 
+\newsavebox{\hltinyboxhat}%
+\newsavebox{\hltinyboxsinglequote}%
+\newsavebox{\hltinyboxbacktick}%
+
+\setbox\hltinyboxopenbrace=\hbox{\begin{tiny}\verb.{.\end{tiny}}%
+\setbox\hltinyboxclosebrace=\hbox{\begin{tiny}\verb.}.\end{tiny}}%
+\setbox\hltinyboxlessthan=\hbox{\begin{tiny}\verb.<.\end{tiny}}%
+\setbox\hltinyboxdollar=\hbox{\begin{tiny}\verb.$.\end{tiny}}%
+\setbox\hltinyboxunderscore=\hbox{\begin{tiny}\verb._.\end{tiny}}%
+\setbox\hltinyboxand=\hbox{\begin{tiny}\verb.&.\end{tiny}}%
+\setbox\hltinyboxhash=\hbox{\begin{tiny}\verb.#.\end{tiny}}%
+\setbox\hltinyboxat=\hbox{\begin{tiny}\verb.@.\end{tiny}}%
+\setbox\hltinyboxbackslash=\hbox{\begin{tiny}\verb.\.\end{tiny}}%
+\setbox\hltinyboxgreaterthan=\hbox{\begin{tiny}\verb.>.\end{tiny}}%
+\setbox\hltinyboxpercent=\hbox{\begin{tiny}\verb.%.\end{tiny}}%
+\setbox\hltinyboxhat=\hbox{\begin{tiny}\verb.^.\end{tiny}}%
+\setbox\hltinyboxsinglequote=\hbox{\begin{tiny}\verb.'.\end{tiny}}%
+\setbox\hltinyboxbacktick=\hbox{\begin{tiny}\verb.`.\end{tiny}}%
+\setbox\hltinyboxhat=\hbox{\begin{tiny}\verb.^.\end{tiny}}%
+
+
+
+\newsavebox{\hlscriptsizeboxclosebrace}%
+\newsavebox{\hlscriptsizeboxopenbrace}%
+\newsavebox{\hlscriptsizeboxbackslash}%
+\newsavebox{\hlscriptsizeboxlessthan}%
+\newsavebox{\hlscriptsizeboxgreaterthan}%
+\newsavebox{\hlscriptsizeboxdollar}%
+\newsavebox{\hlscriptsizeboxunderscore}%
+\newsavebox{\hlscriptsizeboxand}%
+\newsavebox{\hlscriptsizeboxhash}%
+\newsavebox{\hlscriptsizeboxat}%
+\newsavebox{\hlscriptsizeboxpercent}% 
+\newsavebox{\hlscriptsizeboxhat}%
+\newsavebox{\hlscriptsizeboxsinglequote}%
+\newsavebox{\hlscriptsizeboxbacktick}%
+
+\setbox\hlscriptsizeboxopenbrace=\hbox{\begin{scriptsize}\verb.{.\end{scriptsize}}%
+\setbox\hlscriptsizeboxclosebrace=\hbox{\begin{scriptsize}\verb.}.\end{scriptsize}}%
+\setbox\hlscriptsizeboxlessthan=\hbox{\begin{scriptsize}\verb.<.\end{scriptsize}}%
+\setbox\hlscriptsizeboxdollar=\hbox{\begin{scriptsize}\verb.$.\end{scriptsize}}%
+\setbox\hlscriptsizeboxunderscore=\hbox{\begin{scriptsize}\verb._.\end{scriptsize}}%
+\setbox\hlscriptsizeboxand=\hbox{\begin{scriptsize}\verb.&.\end{scriptsize}}%
+\setbox\hlscriptsizeboxhash=\hbox{\begin{scriptsize}\verb.#.\end{scriptsize}}%
+\setbox\hlscriptsizeboxat=\hbox{\begin{scriptsize}\verb.@.\end{scriptsize}}%
+\setbox\hlscriptsizeboxbackslash=\hbox{\begin{scriptsize}\verb.\.\end{scriptsize}}%
+\setbox\hlscriptsizeboxgreaterthan=\hbox{\begin{scriptsize}\verb.>.\end{scriptsize}}%
+\setbox\hlscriptsizeboxpercent=\hbox{\begin{scriptsize}\verb.%.\end{scriptsize}}%
+\setbox\hlscriptsizeboxhat=\hbox{\begin{scriptsize}\verb.^.\end{scriptsize}}%
+\setbox\hlscriptsizeboxsinglequote=\hbox{\begin{scriptsize}\verb.'.\end{scriptsize}}%
+\setbox\hlscriptsizeboxbacktick=\hbox{\begin{scriptsize}\verb.`.\end{scriptsize}}%
+\setbox\hlscriptsizeboxhat=\hbox{\begin{scriptsize}\verb.^.\end{scriptsize}}%
+
+
+
+\newsavebox{\hlfootnotesizeboxclosebrace}%
+\newsavebox{\hlfootnotesizeboxopenbrace}%
+\newsavebox{\hlfootnotesizeboxbackslash}%
+\newsavebox{\hlfootnotesizeboxlessthan}%
+\newsavebox{\hlfootnotesizeboxgreaterthan}%
+\newsavebox{\hlfootnotesizeboxdollar}%
+\newsavebox{\hlfootnotesizeboxunderscore}%
+\newsavebox{\hlfootnotesizeboxand}%
+\newsavebox{\hlfootnotesizeboxhash}%
+\newsavebox{\hlfootnotesizeboxat}%
+\newsavebox{\hlfootnotesizeboxpercent}% 
+\newsavebox{\hlfootnotesizeboxhat}%
+\newsavebox{\hlfootnotesizeboxsinglequote}%
+\newsavebox{\hlfootnotesizeboxbacktick}%
+
+\setbox\hlfootnotesizeboxopenbrace=\hbox{\begin{footnotesize}\verb.{.\end{footnotesize}}%
+\setbox\hlfootnotesizeboxclosebrace=\hbox{\begin{footnotesize}\verb.}.\end{footnotesize}}%
+\setbox\hlfootnotesizeboxlessthan=\hbox{\begin{footnotesize}\verb.<.\end{footnotesize}}%
+\setbox\hlfootnotesizeboxdollar=\hbox{\begin{footnotesize}\verb.$.\end{footnotesize}}%
+\setbox\hlfootnotesizeboxunderscore=\hbox{\begin{footnotesize}\verb._.\end{footnotesize}}%
+\setbox\hlfootnotesizeboxand=\hbox{\begin{footnotesize}\verb.&.\end{footnotesize}}%
+\setbox\hlfootnotesizeboxhash=\hbox{\begin{footnotesize}\verb.#.\end{footnotesize}}%
+\setbox\hlfootnotesizeboxat=\hbox{\begin{footnotesize}\verb.@.\end{footnotesize}}%
+\setbox\hlfootnotesizeboxbackslash=\hbox{\begin{footnotesize}\verb.\.\end{footnotesize}}%
+\setbox\hlfootnotesizeboxgreaterthan=\hbox{\begin{footnotesize}\verb.>.\end{footnotesize}}%
+\setbox\hlfootnotesizeboxpercent=\hbox{\begin{footnotesize}\verb.%.\end{footnotesize}}%
+\setbox\hlfootnotesizeboxhat=\hbox{\begin{footnotesize}\verb.^.\end{footnotesize}}%
+\setbox\hlfootnotesizeboxsinglequote=\hbox{\begin{footnotesize}\verb.'.\end{footnotesize}}%
+\setbox\hlfootnotesizeboxbacktick=\hbox{\begin{footnotesize}\verb.`.\end{footnotesize}}%
+\setbox\hlfootnotesizeboxhat=\hbox{\begin{footnotesize}\verb.^.\end{footnotesize}}%
+
+
+
+\newsavebox{\hlsmallboxclosebrace}%
+\newsavebox{\hlsmallboxopenbrace}%
+\newsavebox{\hlsmallboxbackslash}%
+\newsavebox{\hlsmallboxlessthan}%
+\newsavebox{\hlsmallboxgreaterthan}%
+\newsavebox{\hlsmallboxdollar}%
+\newsavebox{\hlsmallboxunderscore}%
+\newsavebox{\hlsmallboxand}%
+\newsavebox{\hlsmallboxhash}%
+\newsavebox{\hlsmallboxat}%
+\newsavebox{\hlsmallboxpercent}% 
+\newsavebox{\hlsmallboxhat}%
+\newsavebox{\hlsmallboxsinglequote}%
+\newsavebox{\hlsmallboxbacktick}%
+
+\setbox\hlsmallboxopenbrace=\hbox{\begin{small}\verb.{.\end{small}}%
+\setbox\hlsmallboxclosebrace=\hbox{\begin{small}\verb.}.\end{small}}%
+\setbox\hlsmallboxlessthan=\hbox{\begin{small}\verb.<.\end{small}}%
+\setbox\hlsmallboxdollar=\hbox{\begin{small}\verb.$.\end{small}}%
+\setbox\hlsmallboxunderscore=\hbox{\begin{small}\verb._.\end{small}}%
+\setbox\hlsmallboxand=\hbox{\begin{small}\verb.&.\end{small}}%
+\setbox\hlsmallboxhash=\hbox{\begin{small}\verb.#.\end{small}}%
+\setbox\hlsmallboxat=\hbox{\begin{small}\verb.@.\end{small}}%
+\setbox\hlsmallboxbackslash=\hbox{\begin{small}\verb.\.\end{small}}%
+\setbox\hlsmallboxgreaterthan=\hbox{\begin{small}\verb.>.\end{small}}%
+\setbox\hlsmallboxpercent=\hbox{\begin{small}\verb.%.\end{small}}%
+\setbox\hlsmallboxhat=\hbox{\begin{small}\verb.^.\end{small}}%
+\setbox\hlsmallboxsinglequote=\hbox{\begin{small}\verb.'.\end{small}}%
+\setbox\hlsmallboxbacktick=\hbox{\begin{small}\verb.`.\end{small}}%
+\setbox\hlsmallboxhat=\hbox{\begin{small}\verb.^.\end{small}}%
+
+
+
+\newsavebox{\hllargeboxclosebrace}%
+\newsavebox{\hllargeboxopenbrace}%
+\newsavebox{\hllargeboxbackslash}%
+\newsavebox{\hllargeboxlessthan}%
+\newsavebox{\hllargeboxgreaterthan}%
+\newsavebox{\hllargeboxdollar}%
+\newsavebox{\hllargeboxunderscore}%
+\newsavebox{\hllargeboxand}%
+\newsavebox{\hllargeboxhash}%
+\newsavebox{\hllargeboxat}%
+\newsavebox{\hllargeboxpercent}% 
+\newsavebox{\hllargeboxhat}%
+\newsavebox{\hllargeboxsinglequote}%
+\newsavebox{\hllargeboxbacktick}%
+
+\setbox\hllargeboxopenbrace=\hbox{\begin{large}\verb.{.\end{large}}%
+\setbox\hllargeboxclosebrace=\hbox{\begin{large}\verb.}.\end{large}}%
+\setbox\hllargeboxlessthan=\hbox{\begin{large}\verb.<.\end{large}}%
+\setbox\hllargeboxdollar=\hbox{\begin{large}\verb.$.\end{large}}%
+\setbox\hllargeboxunderscore=\hbox{\begin{large}\verb._.\end{large}}%
+\setbox\hllargeboxand=\hbox{\begin{large}\verb.&.\end{large}}%
+\setbox\hllargeboxhash=\hbox{\begin{large}\verb.#.\end{large}}%
+\setbox\hllargeboxat=\hbox{\begin{large}\verb.@.\end{large}}%
+\setbox\hllargeboxbackslash=\hbox{\begin{large}\verb.\.\end{large}}%
+\setbox\hllargeboxgreaterthan=\hbox{\begin{large}\verb.>.\end{large}}%
+\setbox\hllargeboxpercent=\hbox{\begin{large}\verb.%.\end{large}}%
+\setbox\hllargeboxhat=\hbox{\begin{large}\verb.^.\end{large}}%
+\setbox\hllargeboxsinglequote=\hbox{\begin{large}\verb.'.\end{large}}%
+\setbox\hllargeboxbacktick=\hbox{\begin{large}\verb.`.\end{large}}%
+\setbox\hllargeboxhat=\hbox{\begin{large}\verb.^.\end{large}}%
+
+
+
+\newsavebox{\hlLargeboxclosebrace}%
+\newsavebox{\hlLargeboxopenbrace}%
+\newsavebox{\hlLargeboxbackslash}%
+\newsavebox{\hlLargeboxlessthan}%
+\newsavebox{\hlLargeboxgreaterthan}%
+\newsavebox{\hlLargeboxdollar}%
+\newsavebox{\hlLargeboxunderscore}%
+\newsavebox{\hlLargeboxand}%
+\newsavebox{\hlLargeboxhash}%
+\newsavebox{\hlLargeboxat}%
+\newsavebox{\hlLargeboxpercent}% 
+\newsavebox{\hlLargeboxhat}%
+\newsavebox{\hlLargeboxsinglequote}%
+\newsavebox{\hlLargeboxbacktick}%
+
+\setbox\hlLargeboxopenbrace=\hbox{\begin{Large}\verb.{.\end{Large}}%
+\setbox\hlLargeboxclosebrace=\hbox{\begin{Large}\verb.}.\end{Large}}%
+\setbox\hlLargeboxlessthan=\hbox{\begin{Large}\verb.<.\end{Large}}%
+\setbox\hlLargeboxdollar=\hbox{\begin{Large}\verb.$.\end{Large}}%
+\setbox\hlLargeboxunderscore=\hbox{\begin{Large}\verb._.\end{Large}}%
+\setbox\hlLargeboxand=\hbox{\begin{Large}\verb.&.\end{Large}}%
+\setbox\hlLargeboxhash=\hbox{\begin{Large}\verb.#.\end{Large}}%
+\setbox\hlLargeboxat=\hbox{\begin{Large}\verb.@.\end{Large}}%
+\setbox\hlLargeboxbackslash=\hbox{\begin{Large}\verb.\.\end{Large}}%
+\setbox\hlLargeboxgreaterthan=\hbox{\begin{Large}\verb.>.\end{Large}}%
+\setbox\hlLargeboxpercent=\hbox{\begin{Large}\verb.%.\end{Large}}%
+\setbox\hlLargeboxhat=\hbox{\begin{Large}\verb.^.\end{Large}}%
+\setbox\hlLargeboxsinglequote=\hbox{\begin{Large}\verb.'.\end{Large}}%
+\setbox\hlLargeboxbacktick=\hbox{\begin{Large}\verb.`.\end{Large}}%
+\setbox\hlLargeboxhat=\hbox{\begin{Large}\verb.^.\end{Large}}%
+
+
+
+\newsavebox{\hlLARGEboxclosebrace}%
+\newsavebox{\hlLARGEboxopenbrace}%
+\newsavebox{\hlLARGEboxbackslash}%
+\newsavebox{\hlLARGEboxlessthan}%
+\newsavebox{\hlLARGEboxgreaterthan}%
+\newsavebox{\hlLARGEboxdollar}%
+\newsavebox{\hlLARGEboxunderscore}%
+\newsavebox{\hlLARGEboxand}%
+\newsavebox{\hlLARGEboxhash}%
+\newsavebox{\hlLARGEboxat}%
+\newsavebox{\hlLARGEboxpercent}% 
+\newsavebox{\hlLARGEboxhat}%
+\newsavebox{\hlLARGEboxsinglequote}%
+\newsavebox{\hlLARGEboxbacktick}%
+
+\setbox\hlLARGEboxopenbrace=\hbox{\begin{LARGE}\verb.{.\end{LARGE}}%
+\setbox\hlLARGEboxclosebrace=\hbox{\begin{LARGE}\verb.}.\end{LARGE}}%
+\setbox\hlLARGEboxlessthan=\hbox{\begin{LARGE}\verb.<.\end{LARGE}}%
+\setbox\hlLARGEboxdollar=\hbox{\begin{LARGE}\verb.$.\end{LARGE}}%
+\setbox\hlLARGEboxunderscore=\hbox{\begin{LARGE}\verb._.\end{LARGE}}%
+\setbox\hlLARGEboxand=\hbox{\begin{LARGE}\verb.&.\end{LARGE}}%
+\setbox\hlLARGEboxhash=\hbox{\begin{LARGE}\verb.#.\end{LARGE}}%
+\setbox\hlLARGEboxat=\hbox{\begin{LARGE}\verb.@.\end{LARGE}}%
+\setbox\hlLARGEboxbackslash=\hbox{\begin{LARGE}\verb.\.\end{LARGE}}%
+\setbox\hlLARGEboxgreaterthan=\hbox{\begin{LARGE}\verb.>.\end{LARGE}}%
+\setbox\hlLARGEboxpercent=\hbox{\begin{LARGE}\verb.%.\end{LARGE}}%
+\setbox\hlLARGEboxhat=\hbox{\begin{LARGE}\verb.^.\end{LARGE}}%
+\setbox\hlLARGEboxsinglequote=\hbox{\begin{LARGE}\verb.'.\end{LARGE}}%
+\setbox\hlLARGEboxbacktick=\hbox{\begin{LARGE}\verb.`.\end{LARGE}}%
+\setbox\hlLARGEboxhat=\hbox{\begin{LARGE}\verb.^.\end{LARGE}}%
+
+
+
+\newsavebox{\hlhugeboxclosebrace}%
+\newsavebox{\hlhugeboxopenbrace}%
+\newsavebox{\hlhugeboxbackslash}%
+\newsavebox{\hlhugeboxlessthan}%
+\newsavebox{\hlhugeboxgreaterthan}%
+\newsavebox{\hlhugeboxdollar}%
+\newsavebox{\hlhugeboxunderscore}%
+\newsavebox{\hlhugeboxand}%
+\newsavebox{\hlhugeboxhash}%
+\newsavebox{\hlhugeboxat}%
+\newsavebox{\hlhugeboxpercent}% 
+\newsavebox{\hlhugeboxhat}%
+\newsavebox{\hlhugeboxsinglequote}%
+\newsavebox{\hlhugeboxbacktick}%
+
+\setbox\hlhugeboxopenbrace=\hbox{\begin{huge}\verb.{.\end{huge}}%
+\setbox\hlhugeboxclosebrace=\hbox{\begin{huge}\verb.}.\end{huge}}%
+\setbox\hlhugeboxlessthan=\hbox{\begin{huge}\verb.<.\end{huge}}%
+\setbox\hlhugeboxdollar=\hbox{\begin{huge}\verb.$.\end{huge}}%
+\setbox\hlhugeboxunderscore=\hbox{\begin{huge}\verb._.\end{huge}}%
+\setbox\hlhugeboxand=\hbox{\begin{huge}\verb.&.\end{huge}}%
+\setbox\hlhugeboxhash=\hbox{\begin{huge}\verb.#.\end{huge}}%
+\setbox\hlhugeboxat=\hbox{\begin{huge}\verb.@.\end{huge}}%
+\setbox\hlhugeboxbackslash=\hbox{\begin{huge}\verb.\.\end{huge}}%
+\setbox\hlhugeboxgreaterthan=\hbox{\begin{huge}\verb.>.\end{huge}}%
+\setbox\hlhugeboxpercent=\hbox{\begin{huge}\verb.%.\end{huge}}%
+\setbox\hlhugeboxhat=\hbox{\begin{huge}\verb.^.\end{huge}}%
+\setbox\hlhugeboxsinglequote=\hbox{\begin{huge}\verb.'.\end{huge}}%
+\setbox\hlhugeboxbacktick=\hbox{\begin{huge}\verb.`.\end{huge}}%
+\setbox\hlhugeboxhat=\hbox{\begin{huge}\verb.^.\end{huge}}%
+
+
+
+\newsavebox{\hlHugeboxclosebrace}%
+\newsavebox{\hlHugeboxopenbrace}%
+\newsavebox{\hlHugeboxbackslash}%
+\newsavebox{\hlHugeboxlessthan}%
+\newsavebox{\hlHugeboxgreaterthan}%
+\newsavebox{\hlHugeboxdollar}%
+\newsavebox{\hlHugeboxunderscore}%
+\newsavebox{\hlHugeboxand}%
+\newsavebox{\hlHugeboxhash}%
+\newsavebox{\hlHugeboxat}%
+\newsavebox{\hlHugeboxpercent}% 
+\newsavebox{\hlHugeboxhat}%
+\newsavebox{\hlHugeboxsinglequote}%
+\newsavebox{\hlHugeboxbacktick}%
+
+\setbox\hlHugeboxopenbrace=\hbox{\begin{Huge}\verb.{.\end{Huge}}%
+\setbox\hlHugeboxclosebrace=\hbox{\begin{Huge}\verb.}.\end{Huge}}%
+\setbox\hlHugeboxlessthan=\hbox{\begin{Huge}\verb.<.\end{Huge}}%
+\setbox\hlHugeboxdollar=\hbox{\begin{Huge}\verb.$.\end{Huge}}%
+\setbox\hlHugeboxunderscore=\hbox{\begin{Huge}\verb._.\end{Huge}}%
+\setbox\hlHugeboxand=\hbox{\begin{Huge}\verb.&.\end{Huge}}%
+\setbox\hlHugeboxhash=\hbox{\begin{Huge}\verb.#.\end{Huge}}%
+\setbox\hlHugeboxat=\hbox{\begin{Huge}\verb.@.\end{Huge}}%
+\setbox\hlHugeboxbackslash=\hbox{\begin{Huge}\verb.\.\end{Huge}}%
+\setbox\hlHugeboxgreaterthan=\hbox{\begin{Huge}\verb.>.\end{Huge}}%
+\setbox\hlHugeboxpercent=\hbox{\begin{Huge}\verb.%.\end{Huge}}%
+\setbox\hlHugeboxhat=\hbox{\begin{Huge}\verb.^.\end{Huge}}%
+\setbox\hlHugeboxsinglequote=\hbox{\begin{Huge}\verb.'.\end{Huge}}%
+\setbox\hlHugeboxbacktick=\hbox{\begin{Huge}\verb.`.\end{Huge}}%
+\setbox\hlHugeboxhat=\hbox{\begin{Huge}\verb.^.\end{Huge}}%
+ 
+
+\def\urltilda{\kern -.15em\lower .7ex\hbox{\~{}}\kern .04em}%
+
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.16,0.16,1}{#1}}
+\newcommand{\hlesc}[1]{\textcolor[rgb]{1,0,1}{#1}}
+\newcommand{\hlstr}[1]{\textcolor[rgb]{1,0,0}{#1}}
+\newcommand{\hldstr}[1]{\textcolor[rgb]{0.51,0.51,0}{#1}}
+\newcommand{\hlslc}[1]{\textcolor[rgb]{0.51,0.51,0.51}{\it{#1}}}
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.51,0.51,0.51}{\it{#1}}}
+\newcommand{\hldir}[1]{\textcolor[rgb]{0,0.51,0}{#1}}
+\newcommand{\hlsym}[1]{\textcolor[rgb]{0,0,0}{#1}}
+\newcommand{\hlline}[1]{\textcolor[rgb]{0.33,0.33,0.33}{#1}}
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0,0,0}{\bf{#1}}}
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.51,0,0}{#1}}
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0,0,0}{\bf{#1}}}
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0,0,0.51}{#1}}
+
+\definecolor{fgcolor}{rgb}{0,0,0}
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed}
+\makeatother
+
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+%\documentclass[authoryear, 5p]{elsarticle}
+
+%\VignetteIndexEntry{treebase}
+%% Redefines the elsarticle footer
+\makeatletter
+\def\ps@pprintTitle{%
+ \let\@oddhead\@empty
+ \let\@evenhead\@empty
+ \def\@oddfoot{\it \hfill\today}%
+ \let\@evenfoot\@oddfoot}
+\makeatother
+
+\bibliographystyle{elsarticle-harv}
+\biboptions{sort&compress}
+\usepackage{graphicx}
+\usepackage[pdftex, colorlinks]{hyperref}
+\usepackage{amsmath, amsfonts}  % extended mathematics
+\usepackage{booktabs} % book-quality tables
+\textwidth 6.75in
+\oddsidemargin -0.15in
+\evensidemargin -0.15in
+\textheight 9in
+\topmargin -0.5in
+\newcommand{\ud}{\mathrm{d}}
+
+
+%% Looks like a comment but it isn't! This is setting the default behavior for the Sweave chunk options,  
+% 
+                   
+
+\begin{document}
+\begin{frontmatter}
+  \title{An introduction to the \texttt{treebase} Package}
+  \author[davis]{Carl Boettiger\corref{cor1}}
+  \ead{cboettig@ucdavis.edu}
+  \author[stats]{Duncan Temple Lang}
+  \cortext[cor1]{Corresponding author.}
+  \address[davis]{Center for Population Biology, University of California, Davis, United States}
+  \address[stats]{Department of Statistics, University of California, Davis, United States}
+
+  \begin{abstract}
+  \begin{enumerate}
+  \item TreeBASE is an important and rapidly growing repository of phylogenetic data.  The R statistical environment has become a primary tool for the applied phylogenetic analyses that use this kind of data for across a range of questions, from comparative evolution to community ecology to conservation planning.  
+  \item We have developed \texttt{treebase}, an open-source package (freely available from\\ \href{http://cran.r-project.org/web/packages/treebase}{http://cran.r-project.org/web/packages/treebase}) for the R environment, providing simplified, programmatic and interactive access to phylogenetic data.  
+  \item We illustrate how this package creates a bridge between the repository and the rapidly growing ecosystem of R packages for phylogenetics that can reduce barriers to discovery and integration across phylogenetic research. 
+  \item We provide several examples, including one that replicates and extends the results of an analysis on a single phylogeny, and one which includes an analysis of changes in diversification rate across over 1000 phylogenies.    
+  \end{enumerate}
+
+  \end{abstract}
+
+  \begin{keyword}
+   R  \sep software \sep API \sep TreeBASE \sep tools \sep e-science
+   \end{keyword}
+ \end{frontmatter}
+
+\section{Introduction}
+Applications that use phylogenetic information as part of their analyses 
+are becoming increasingly central to both evolutionary and ecological research. 
+The exponential growth in genetic sequence data available for all forms of life has 
+driven rapid advances in the methods that can infer the phylogenetic relationships and divergence times 
+across different taxa~\citep{Huelsenbeck2001b,Stamatakis2006, Drummond2007}.
+Just as this goldmine of available sequence data has led to the subsequent explosion of phylogenetic methods,
+and many other avenues of research, this rapid expanse of phylogenetic data now primes new innovations 
+across ecology and evolution.  Once again the product of one field has become the raw data of the next.  
+But while the discipline of bioinformatics has emerged to help harness and curate the wealth of genetic data
+with cutting edge computer science, statistics, and internet technology, its counterpart in evolutionary informatics
+remains ``scattered, poorly documented, and in formats that impede discovery and integration''~\citep{Parr2011a}.  
+The goal of this paper is to address this gap by illustrating how programmatic and interactive access between the repositories that
+store this phylogenetic data and the software tools most commonly used to analyze them can breach some of these barriers 
+to discovery and integration.  
+
+While the task of inferring phylogenies from sequence data remains dominated by dedicated compiled software such as MrBayes~\citep{Huelsenbeck2001b}, BEAST~\citep{Drummond2007}, RAXML~\citep{Stamatakis2006},
+the research methods that make use of the phylogenies they infer are largely based in R. 
+To distinguish between the processes of inferring the phylogeny and these applications,
+We will refer collectively to this area of research using phylogenetic relationships as input data as applied phylogenetics.  
+
+The R statistical environment~\citep{RTeam2012} has become a dominant platform for researchers using this phylogenetic data 
+to address a rapidly expanding set of questions in ecological and evolutionary processes.
+These methods include tasks such as ancestral state reconstruction~\citep{Paradis2004, Butler2004}, 
+diversification analysis~\citep{Paradis2004, Rabosky2006b, Harmon2008, FitzJohn2009, FitzJohn2010, Goldberg2011, Stadler2011}, 
+quantifying the rate and tempo of trait evolution~\citep{Butler2004, Paradis2004, Harmon2008, Hipp2010, Revell2011, Eastman2011}, 
+identifying evolutionary influences and proxies for community ecology~\citet{Webb2008, Kembel2010}, 
+performing phyloclimatic modelling~\citep{Warren2008, Evans2009b}, 
+and simulation of speciation and character evolution~\citep{Harmon2008, Stadler2011a, Boettiger2012}, 
+as well as various manipulation and visualization of phylogenetic data~\citet{Paradis2004, Schliep2010, Jombart2010, Revell2011}. 
+A more comprehensive list of R packages by analysis type is available on the phylogenetics taskview, \href{http://cran.r-project.org/web/views/Phylogenetics.html}{http://cran.r-project.org/web/views/Phylogenetics.html}.  
+Several programs exist outside the R language for applied phylogenetic methods, incuding 
+Java~\citep{Maddison2011}, MATLAB~\citep{Blomberg2003} and Python~\citep{Sukumaran2010} and online interfaces~\citep{Martins2004}.  
+
+
+This paper describes the purpose and use of the \texttt{treebase} software package for the R language,
+which provides a programmatic link between these programs and TreeBASE.
+TreeBASE (\href{http://treebase.org}{http://treebase.org})
+is an online repository of phylogenetic data (e.g. trees of species, populations, or genes) 
+that have been published in a peer-reviewed academic journal, book, thesis or conference proceedings~\citep{Sanderson1994b, Morell1996}. 
+The database can be searched through an online interface which 
+allows users to find a phylogenetic tree from a particular publication, author or taxa of interest.  
+TreeBASE provides an application programming interface (API) 
+that lets computer applications make queries to the database.  
+Our \texttt{treebase} package uses this API to create a direct link between this data and the R language, 
+making it easier for users and developers to take advantage of this data.  
+
+We provide three kinds of examples to illustrate what such programmatic and
+interactive access could mean for applied phylogenetics research. 
+The first illustrates the process of exploration and discovery of available data
+to characterize the kind of data available in TreeBASE and illustrate its rapid increase
+in both the number and size of phylogenies provided.  The second example focuses on 
+reproducible research using a more detailed analysis of a single phylogeny, 
+in which we replicate some results from an existing paper and extend the analysis
+to more recently developed methods.  In the third example we take all of TreeBASE
+as our scope for a meta-analysis on diversification rates, illustrating full potential
+of interactive and programmatic access to the repository. 
+
+\subsection{Basic Queries}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}
+\end{knitrout}
+
+
+The basic functions of the TreeBASE API allow search queries 
+through two separate interfaces.  The \texttt{OAI-MPH} interface 
+provides the metadata associated with the publications from which the 
+phylogenies have been taken, whiel the \texttt{Phylo-WS} interface provides
+information and access to the phylogenetic data itself.
+These interfaces are well-documented on the TreeBASE website.
+The \texttt{treebase} package allows these queries to be made directly from R,
+just as a user would make them from the browser.
+Because the queries can be implemented programmatically in R,
+a user can construct more complicated filters than permitted by the web interface, 
+and can maintain a record of the queries they used to collect their data as an R script.  
+The ability to script this data-gathering step of research can go a long way to reducing errors
+and ensuring that an analysis can be replicated later, by the author or other groups~\citep{Peng2011a}.  
+
+Any of the queries available on the web interface can now be made directly from R,
+including downloading and importing the phylogeny into the R interface.  
+For instance, one can search for phylogenies containing dolphin taxa,
+or all phylogenies submitted by a given author
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{search\usebox{\hlnormalsizeboxunderscore}treebase}\hlkeyword{(}\hlstring{"{}Delphinus"{}}\hlkeyword{,}{\ }\hlargument{by}\hlargument{=}\hlstring{"{}taxon"{}}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{search\usebox{\hlnormalsizeboxunderscore}treebase}\hlkeyword{(}\hlstring{"{}Huelsenbeck"{}}\hlkeyword{,}{\ }\hlargument{by}\hlargument{=}\hlstring{"{}author"{}}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}
+\end{knitrout}
+
+These functions loads the matching phylogenies into R, ready for analysis.  
+The package documentation provides many examples of possible queries. 
+The \verb|search_treebase| function is the heart of the \texttt{treebase} package.  
+While basic queries such as these seem simple,
+we present several use-cases of how this programmatic access can be leveraged to allow rapid exploration of phylogenetic data
+that opens doors to faster and easier verification of results and also new kinds of analysis and new scales of analysis. 
+
+To illustrate this potential, we introduce the second core function, \verb|search_metadata|, which provides metadata about the resources available in the TreeBASE repository.  Using programmatic access to this metadata and standard analysis tools available in R, we can quickly paint an up-to-the-minute picture of the data currently available TreeBASE.  We will then return to our \verb|search_treebase| function to illustrate several ways we can take advantage of the programmatic access to the data.  
+
+\section{Quantifying TreeBASE}
+The \texttt{treebase} package provides access to the metadata
+of all publications containing trees
+deposited in TreeBASE using a separate API for metadata.  
+This can help the user discover phylogenies of interest
+and also allows the user to perform statistical analyses
+on the data deposition itself, which could identify trends or biases in the phylogenetics literature.  
+
+
+  
+The following command downloads the metadata for all publications associated with TreeBASE.  (An optional argument can restrict searches to a given date range)
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{metadata}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{search\usebox{\hlnormalsizeboxunderscore}metadata}\hlkeyword{(}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}
+\end{knitrout}
+
+This returns an R list object, in which each element is an entry with bibliographic information corresponding to a published study that has deposited data in TreeBASE.  From the length of this list we see that there are currently 3056 published studies in the database.  
+
+R provides a rich statistical environment in which we can extract and visualize the data we have just obtained. 
+For instance, we may wish to obtain a list of all the dates of publication \& names of the journals (publishers) that have submitted data:
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{dates}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{sapply}\hlkeyword{(}\hlsymbol{metadata}\hlkeyword{,}{\ }\hlsymbol{\usebox{\hlnormalsizeboxbacktick}[[\usebox{\hlnormalsizeboxbacktick}}\hlkeyword{,}{\ }\hlstring{"{}date"{}}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{pub}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{sapply}\hlkeyword{(}\hlsymbol{metadata}\hlkeyword{,}{\ }\hlsymbol{\usebox{\hlnormalsizeboxbacktick}[[\usebox{\hlnormalsizeboxbacktick}}\hlkeyword{,}{\ }\hlstring{"{}publisher"{}}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}
+\end{knitrout}
+
+which we organize into a table,
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{pub\usebox{\hlnormalsizeboxunderscore}table}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{sort}\hlkeyword{(}\hlfunctioncall{table}\hlkeyword{(}\hlfunctioncall{as.character}\hlkeyword{(}\hlsymbol{pub}\hlkeyword{)}\hlkeyword{)}\hlkeyword{,}{\ }\hlargument{decreasing}\hlargument{=}\hlnumber{TRUE}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}
+\end{knitrout}
+
+
+Many journals have only a few submissions, so we will group them together as ``Other'':  
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{top\usebox{\hlnormalsizeboxunderscore}contributors}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{names}\hlkeyword{(}\hlfunctioncall{head}\hlkeyword{(}\hlsymbol{pub\usebox{\hlnormalsizeboxunderscore}table}\hlkeyword{,}\hlnumber{10}\hlkeyword{)}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{pub}\hlkeyword{[}\hlkeyword{!}\hlkeyword{(}\hlsymbol{pub}{\ }\hlkeyword{\usebox{\hlnormalsizeboxpercent}in\usebox{\hlnormalsizeboxpercent}}{\ }\hlsymbol{top\usebox{\hlnormalsizeboxunderscore}contributors}\hlkeyword{)}\hlkeyword{]}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlstring{"{}Other"{}}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}
+\end{knitrout}
+
+
+We can then look at the distribution of publication years for phylogenies deposited in TreeBASE,
+color coding by publisher in Fig~\ref{fig:1}.
+It is encouraging to see that no single journal dominates the submissions, 
+and taxa-specific publications and more broad-scope journals share the top ten spots. 
+It will be interesting to watch these trends as more journals extend mandatory archiving requirements
+over the coming years.  
+
+\setkeys{Gin}{width=\linewidth}
+\begin{figure}
+\begin{center}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{meta}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{data.frame}\hlkeyword{(}\hlargument{publisher}{\ }\hlargument{=}{\ }\hlfunctioncall{as.character}\hlkeyword{(}\hlsymbol{pub}\hlkeyword{)}\hlkeyword{,}{\ }\hlargument{dates}{\ }\hlargument{=}{\ }\hlsymbol{dates}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{require}\hlkeyword{(}\hlsymbol{ggplot2}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{ggplot}\hlkeyword{(}\hlsymbol{meta}\hlkeyword{)}{\ }\hlkeyword{+}{\ }\hlfunctioncall{geom\usebox{\hlnormalsizeboxunderscore}bar}\hlkeyword{(}\hlfunctioncall{aes}\hlkeyword{(}\hlsymbol{dates}\hlkeyword{,}{\ }\hlargument{fill}{\ }\hlargument{=}{\ }\hlsymbol{publisher}\hlkeyword{)}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\includegraphics{dates} \end{kframe}
+\end{knitrout}
+
+\caption{Histogram of publication dates by year, with the code required to generate the figure.}\label{fig:1}
+\end{center}
+\end{figure}
+
+In addition to this information about the publications, we can obtain metadata about the phylogenies themselves, including the study identifier number of where they were published, the number of taxa in the tree, a quality score, (if available), kind of tree (gene tree, species tree, or barcode tree) and whether the phylogeny represents a single or consensus type.  
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{tree\usebox{\hlnormalsizeboxunderscore}metadata}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{cache\usebox{\hlnormalsizeboxunderscore}treebase}\hlkeyword{(}\hlargument{only\usebox{\hlnormalsizeboxunderscore}metadata}\hlargument{=}\hlnumber{TRUE}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}
+\end{knitrout}
+
+
+For instance, we can summarize how the~$1.0365\times 10^{4}$ trees break out by kind or type:
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{kind}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{table}\hlkeyword{(}\hlfunctioncall{sapply}\hlkeyword{(}\hlsymbol{tree\usebox{\hlnormalsizeboxunderscore}metadata}\hlkeyword{,}{\ }\hlsymbol{\usebox{\hlnormalsizeboxbacktick}[[\usebox{\hlnormalsizeboxbacktick}}\hlkeyword{,}{\ }\hlstring{"{}kind"{}}\hlkeyword{)}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlpackage{xtable}\hlkeyword{::}\hlfunctioncall{xtable}\hlkeyword{(}\hlsymbol{kind}\hlkeyword{)}{\ }\hlcomment{\usebox{\hlnormalsizeboxhash}pretty{\ }print}\mbox{}
+\normalfont
+\end{flushleft}
+% latex table generated in R 2.14.2 by xtable 1.7-0 package
+% Mon Mar 19 17:10:49 2012
+\end{kframe}\begin{table}[ht]
+\begin{center}
+\begin{tabular}{rr}
+  \hline
+ & V1 \\ 
+  \hline
+Barcode Tree &  11 \\ 
+  Gene Tree & 290 \\ 
+  Species Tree & 10049 \\ 
+   \hline
+\end{tabular}
+\end{center}
+\end{table}\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}
+\end{knitrout}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{type}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{table}\hlkeyword{(}\hlfunctioncall{sapply}\hlkeyword{(}\hlsymbol{tree\usebox{\hlnormalsizeboxunderscore}metadata}\hlkeyword{,}{\ }\hlsymbol{\usebox{\hlnormalsizeboxbacktick}[[\usebox{\hlnormalsizeboxbacktick}}\hlkeyword{,}{\ }\hlstring{"{}type"{}}\hlkeyword{)}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlpackage{xtable}\hlkeyword{::}\hlfunctioncall{xtable}\hlkeyword{(}\hlsymbol{type}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+% latex table generated in R 2.14.2 by xtable 1.7-0 package
+% Mon Mar 19 17:10:49 2012
+\end{kframe}\begin{table}[ht]
+\begin{center}
+\begin{tabular}{rr}
+  \hline
+ & V1 \\ 
+  \hline
+Consensus & 3011 \\ 
+  Single & 7354 \\ 
+   \hline
+\end{tabular}
+\end{center}
+\end{table}\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}
+\end{knitrout}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{quality}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{table}\hlkeyword{(}\hlfunctioncall{sapply}\hlkeyword{(}\hlsymbol{tree\usebox{\hlnormalsizeboxunderscore}metadata}\hlkeyword{,}{\ }\hlsymbol{\usebox{\hlnormalsizeboxbacktick}[[\usebox{\hlnormalsizeboxbacktick}}\hlkeyword{,}{\ }\hlstring{"{}quality"{}}\hlkeyword{)}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlpackage{xtable}\hlkeyword{::}\hlfunctioncall{xtable}\hlkeyword{(}\hlsymbol{quality}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+% latex table generated in R 2.14.2 by xtable 1.7-0 package
+% Mon Mar 19 17:10:49 2012
+\end{kframe}\begin{table}[ht]
+\begin{center}
+\begin{tabular}{rr}
+  \hline
+ & V1 \\ 
+  \hline
+Alternative Tree &  76 \\ 
+  Preferred Tree & 270 \\ 
+  Suboptimal Tree &  15 \\ 
+  Unrated & 9989 \\ 
+   \hline
+\end{tabular}
+\end{center}
+\end{table}\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}
+\end{knitrout}
+
+
+It is possible to use the \verb|only_metadata| option with \verb|search_treebase| as well.  While this information is always returned by the query, this is useful for a quick look at the data matching any search, such as
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{genetrees}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{search\usebox{\hlnormalsizeboxunderscore}treebase}\hlkeyword{(}{\ }\hlstring{"{}\usebox{\hlnormalsizeboxsinglequote}Gene{\ }Tree\usebox{\hlnormalsizeboxsinglequote}"{}}\hlkeyword{,}{\ }\hlargument{by}\hlargument{=}\hlstring{\usebox{\hlnormalsizeboxsinglequote}kind.tree\usebox{\hlnormalsizeboxsinglequote}}\hlkeyword{,}{\ }\hlargument{only\usebox{\hlnormalsizeboxunderscore}metadata}\hlargument{=}\hlnumber{TRUE}{\ }\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}
+\end{knitrout}
+
+which returns just the metadata for the 296 gene trees in the database, from which we can look up the corresponding publication information, etc.  For certain applications a user may wish to download all the available phylogenies from TreeBASE. Using the \verb|cache_treebase| function allows a user to download a local copy of all trees.  Because direct database dumps are not available, this function has intentional delays to avoid overtaxing the TreeBASE servers, and should be allowed a full day to run.  
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{treebase}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{cache\usebox{\hlnormalsizeboxunderscore}treebase}\hlkeyword{(}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}
+\end{knitrout}
+
+
+Once run, the cache is saved compactly in memory where it can be easily and quickly restored.  For convenience, the \texttt{treebase} package comes with a copy already cached, which can be loaded into memory.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{data}\hlkeyword{(}\hlsymbol{treebase}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}
+\end{knitrout}
+
+Having access to both the metadata from the studies and from the phylogenies in R lets us quickly combine these data sources in interesting ways.  For instance, with a few commands we can visualize how the number of taxa on submitted phylogenies has increasing over time, Figure~\ref{fig:2}.  
+% How fast is tree size growing as a function of publication date?  
+% Color code by journal?   by author?
+
+%first_author <- sapply(metadata, `[[`, 'creator') 
+%author_table <- sort(table(as.character(first_author)), decreasing=TRUE)
+%top_contributors <- names(head(author_table,10))
+%first_author[!(first_author %in% top_contributors)] <- "Other"
+
+\setkeys{Gin}{width=\linewidth}
+\begin{figure}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{studyid}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{sapply}\hlkeyword{(}\hlsymbol{tree\usebox{\hlnormalsizeboxunderscore}metadata}\hlkeyword{,}\hlsymbol{\usebox{\hlnormalsizeboxbacktick}[[\usebox{\hlnormalsizeboxbacktick}}\hlkeyword{,}{\ }\hlstring{\usebox{\hlnormalsizeboxsinglequote}S.id\usebox{\hlnormalsizeboxsinglequote}}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{sid}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{sapply}\hlkeyword{(}\hlsymbol{metadata}\hlkeyword{,}{\ }\hlsymbol{\usebox{\hlnormalsizeboxbacktick}[[\usebox{\hlnormalsizeboxbacktick}}\hlkeyword{,}{\ }\hlstring{\usebox{\hlnormalsizeboxsinglequote}identifier\usebox{\hlnormalsizeboxsinglequote}}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{sid}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{gsub}\hlkeyword{(}\hlstring{"{}.*TB2:S(\usebox{\hlnormalsizeboxbackslash}\usebox{\hlnormalsizeboxbackslash}d*)"{}}\hlkeyword{,}{\ }\hlstring{"{}\usebox{\hlnormalsizeboxbackslash}\usebox{\hlnormalsizeboxbackslash}1"{}}\hlkeyword{,}{\ }\hlsymbol{sid}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{matches}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{sapply}\hlkeyword{(}\hlsymbol{sid}\hlkeyword{,}{\ }\hlsymbol{match}\hlkeyword{,}{\ }\hlsymbol{studyid}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{Ntaxa}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{sapply}\hlkeyword{(}\hlsymbol{matches}\hlkeyword{,}{\ }\hlkeyword{function}\hlkeyword{(}\hlformalargs{i}\hlkeyword{)}{\ }{\ }\hlsymbol{tree\usebox{\hlnormalsizeboxunderscore}metadata}\hlkeyword{[[}\hlsymbol{i}\hlkeyword{]}\hlkeyword{]}\hlkeyword{\usebox{\hlnormalsizeboxdollar}}\hlsymbol{ntax}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{Ntaxa}\hlkeyword{[}\hlfunctioncall{sapply}\hlkeyword{(}\hlsymbol{Ntaxa}\hlkeyword{,}{\ }\hlsymbol{is.null}\hlkeyword{)}\hlkeyword{]}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlnumber{NA}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{taxa}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{data.frame}\hlkeyword{(}\hlargument{Ntaxa}\hlargument{=}\hlfunctioncall{as.numeric}\hlkeyword{(}\hlfunctioncall{unlist}\hlkeyword{(}\hlsymbol{Ntaxa}\hlkeyword{)}\hlkeyword{)}\hlkeyword{,}{\ }\hlsymbol{meta}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{ggplot}\hlkeyword{(}\hlsymbol{taxa}\hlkeyword{,}{\ }\hlfunctioncall{aes}\hlkeyword{(}\hlsymbol{dates}\hlkeyword{,}{\ }\hlsymbol{Ntaxa}\hlkeyword{)}\hlkeyword{)}{\ }\hlkeyword{+}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }\hlfunctioncall{geom\usebox{\hlnormalsizeboxunderscore}point}\hlkeyword{(}\hlargument{position}{\ }\hlargument{=}{\ }\hlstring{\usebox{\hlnormalsizeboxsinglequote}jitter\usebox{\hlnormalsizeboxsinglequote}}\hlkeyword{,}{\ }\hlargument{alpha}{\ }\hlargument{=}{\ }\hlnumber{.8}\hlkeyword{)}{\ }\hlkeyword{+}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }\hlfunctioncall{scale\usebox{\hlnormalsizeboxunderscore}y\usebox{\hlnormalsizeboxunderscore}log10}\hlkeyword{(}\hlkeyword{)}{\ }\hlkeyword{+}{\ }\hlfunctioncall{stat\usebox{\hlnormalsizeboxunderscore}smooth}\hlkeyword{(}\hlfunctioncall{aes}\hlkeyword{(}\hlargument{group}{\ }\hlargument{=}{\ }\hlnumber{1}\hlkeyword{)}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\includegraphics{taxagrowth} \end{kframe}
+\end{knitrout}
+
+\caption{Combining the metadata available from publications and from phylogenies themselves,
+we can visualize the growth in taxa on published phylogenies. 
+Note that the maximum size tree deposited each year is growing far faster than the average number.}\label{fig:2}
+\end{figure}
+The promise of this exponential growth in the sizes of available phylogenies,
+with some trees representing~2957 taxa motivates
+the more and more ambitious inference methods being developed
+which require large trees to have adequate signal~\citep{Boettiger2012, FitzJohn2009}.
+It will be interesting to see how long into the future this trend is maintained.
+These visualizations help identify research trends and can also help identify potential data sets for analyses. 
+In this next section we highlight a few ways in which programmatic access can be leveraged for various research objectives.  
+
+
+\section{Reproducible research}
+Reproducible research has become a topic of increasing concern in recent years~\citep{Schwab2000, Gentleman2004, Peng2011b}.  
+Access to data and executable scripts that reproduce the results presented 
+are two central elements of this process which are addressed by the \texttt{treebase} package.   
+
+
+Imagine reading the recent phylogenetics paper,~\citet{Derryberry2011}. 
+The paper analyzes speciation models on a phylogeny of bird taxa to identify if the rate of speciation shows
+a substantial shift among any of the groups, using the R package~\texttt{laser}~\citep{Rabosky2006b}.  
+We recall that more recent methods for identifying these rate shifts were presented in~\citet{Stadler2011},
+and would like to see if the results presented hold up under the newer approach.  
+The \texttt{treebase} package can help us both verify the results presented and test the data against the newer method with minimal effort.  
+Further, because the process can be entirely scripted in R, from accessing the data to performing the analyses,
+it can be easily replicated \& extended to additional datasets or methods.  
+
+
+
+\subsubsection*{Obtaining the tree}
+By drawing on the rich data manipulation tools available in R (and thus familiar to the large R phylogenetics community),
+the \texttt{treebase} package allows us to construct richer queries than are possible through TreeBASE alone.
+We begin our search by asking for a phylogenies by one of the paper's authors:  
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{derryberry\usebox{\hlnormalsizeboxunderscore}results}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{search\usebox{\hlnormalsizeboxunderscore}treebase}\hlkeyword{(}\hlstring{"{}Derryberry"{}}\hlkeyword{,}{\ }\hlstring{"{}author"{}}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}
+\end{knitrout}
+
+
+This shows several results. 
+We would like the phylogeny appearing in \emph{Evolution} in 2011.
+Each phylogeny includes a TreeBASE study id number, stored in the ``S.id'' element, 
+which we use to look up the metadata for each paper.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{ids}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{lapply}\hlkeyword{(}\hlsymbol{derryberry\usebox{\hlnormalsizeboxunderscore}results}\hlkeyword{,}{\ }\hlsymbol{\usebox{\hlnormalsizeboxbacktick}[[\usebox{\hlnormalsizeboxbacktick}}\hlkeyword{,}{\ }\hlstring{"{}S.id"{}}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{meta}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{lapply}\hlkeyword{(}\hlsymbol{ids}\hlkeyword{,}{\ }\hlsymbol{metadata}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}
+\end{knitrout}
+
+
+We can then look through the metadata to find the study matching our description.  
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{i}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{which}\hlkeyword{(}{\ }\hlfunctioncall{sapply}\hlkeyword{(}\hlsymbol{meta}\hlkeyword{,}{\ }\hlkeyword{function}\hlkeyword{(}\hlformalargs{x}\hlkeyword{)}{\ }\hlsymbol{x}\hlkeyword{\usebox{\hlnormalsizeboxdollar}}\hlsymbol{publisher}{\ }=={\ }\hlstring{"{}Evolution"{}}{\ }\hlkeyword{\usebox{\hlnormalsizeboxand}\usebox{\hlnormalsizeboxand}}{\ }\hlsymbol{x}\hlkeyword{\usebox{\hlnormalsizeboxdollar}}\hlsymbol{date}==\hlstring{"{}2011"{}}\hlkeyword{)}{\ }\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{derryberry}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlsymbol{derryberry\usebox{\hlnormalsizeboxunderscore}results}\hlkeyword{[[}\hlsymbol{i}\hlkeyword{]}\hlkeyword{]}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}
+\end{knitrout}
+
+This is simply one possible path to identify the correct study, certainly this query could be constructed in other ways, including direct access by the study identifier.   
+
+%<<loadderryberry, echo=FALSE>>=
+%# connection may fail on first try, so instead of evaluating this, just load cached copy
+%data(derryberry)
+%@
+
+Having successfully imported the phylogenetic tree corresponding to this study,
+we can quickly replicate their analysis of which diversification process best fits the data.
+Different diversification models make different assumptions about the rate of speciation, extinction,
+and how these rates may be changing over time.  
+The authors consider eight different models, implemented in the \texttt{laser}~package \citep{Rabosky2006b}.
+This code fits each of the eight models to that data:
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{require}\hlkeyword{(}\hlsymbol{laser}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{tt}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{branching.times}\hlkeyword{(}\hlsymbol{derryberry}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{models}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{list}\hlkeyword{(}{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }\hlargument{yule}{\ }\hlargument{=}{\ }\hlfunctioncall{pureBirth}\hlkeyword{(}\hlsymbol{tt}\hlkeyword{)}\hlkeyword{,}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }\hlargument{birth\usebox{\hlnormalsizeboxunderscore}death}{\ }\hlargument{=}{\ }\hlfunctioncall{bd}\hlkeyword{(}\hlsymbol{tt}\hlkeyword{)}\hlkeyword{,}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }\hlargument{yule.2.rate}{\ }\hlargument{=}{\ }\hlfunctioncall{yule2rate}\hlkeyword{(}\hlsymbol{tt}\hlkeyword{)}\hlkeyword{,}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }{\ }{\ }\hlargument{linear.diversity.dependent}{\ }\hlargument{=}{\ }\hlfunctioncall{DDL}\hlkeyword{(}\hlsymbol{tt}\hlkeyword{)}\hlkeyword{,}\hspace*{\fill}\\
+\hlstd{}{\ }\hlargument{exponential.diversity.dependent}{\ }\hlargument{=}{\ }\hlfunctioncall{DDX}\hlkeyword{(}\hlsymbol{tt}\hlkeyword{)}\hlkeyword{,}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }\hlargument{varying.speciation\usebox{\hlnormalsizeboxunderscore}rate}{\ }\hlargument{=}{\ }\hlfunctioncall{fitSPVAR}\hlkeyword{(}\hlsymbol{tt}\hlkeyword{)}\hlkeyword{,}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }\hlargument{varying.extinction\usebox{\hlnormalsizeboxunderscore}rate}{\ }\hlargument{=}{\ }\hlfunctioncall{fitEXVAR}\hlkeyword{(}\hlsymbol{tt}\hlkeyword{)}\hlkeyword{,}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }\hlargument{varying\usebox{\hlnormalsizeboxunderscore}both}{\ }\hlargument{=}{\ }\hlfunctioncall{fitBOTHVAR}\hlkeyword{(}\hlsymbol{tt}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }{\ }\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}
+\end{knitrout}
+
+Each of the model estimate includes an AIC score indicating the goodness of fit, 
+penalized by model complexity (lower scores indicate better fits)
+We ask R to tell us which model has the lowest AIC score,
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{aics}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{sapply}\hlkeyword{(}\hlsymbol{models}\hlkeyword{,}{\ }\hlsymbol{\usebox{\hlnormalsizeboxbacktick}[[\usebox{\hlnormalsizeboxbacktick}}\hlkeyword{,}{\ }\hlstring{\usebox{\hlnormalsizeboxsinglequote}aic\usebox{\hlnormalsizeboxsinglequote}}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{best\usebox{\hlnormalsizeboxunderscore}fit}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{names}\hlkeyword{(}\hlsymbol{models}\hlkeyword{[}\hlfunctioncall{which.min}\hlkeyword{(}\hlsymbol{aics}\hlkeyword{)}\hlkeyword{]}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}
+\end{knitrout}
+
+and confirm the result presented in~\citet{Derryberry2011}, that the \texttt{yule.2.rate} model is the best fit to the data.  
+
+
+In this fast-moving field, new methods often become available within the time-frame 
+that another manuscript is submitted by its authors and the time at which if first appears in print.  
+For instance, the more sophisticated methods available in the more recent package, \texttt{TreePar}, 
+introduced in~\citet{Stadler2011} were not used in this study.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}
+\end{knitrout}
+
+
+We load the new method and format the data as its manual instructs us
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{require}\hlkeyword{(}\hlsymbol{TreePar}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{x}\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}\hlfunctioncall{sort}\hlkeyword{(}\hlfunctioncall{getx}\hlkeyword{(}\hlsymbol{derryberry}\hlkeyword{)}\hlkeyword{,}{\ }\hlargument{decreasing}\hlargument{=}\hlnumber{TRUE}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}
+\end{knitrout}
+
+
+The best-fit model in the laser analysis was a yule (net diversification rate) models with two separate rates.  
+We can ask \texttt{TreePar} to see if a model with more rate shifts is favored over this single shift,
+a question that was not possible to address using the tools provided in~\texttt{laser}. 
+The previous analysis also considers a birth-death model that allowed speciation and extinction rates to 
+be estimated separately, but did not allow for a shift in the rate of such a model.  
+Here we consider models that have up to 4 different rates in Yule models,\footnote{The syntax in \texttt{TreePar} is slightly cumbersome, the [[2]] indicates where this command happens to store the output models.}
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{yule\usebox{\hlnormalsizeboxunderscore}models}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{bd.shifts.optim}\hlkeyword{(}\hlsymbol{x}\hlkeyword{,}{\ }\hlargument{sampling}{\ }\hlargument{=}{\ }\hlfunctioncall{c}\hlkeyword{(}\hlnumber{1}\hlkeyword{,}\hlnumber{1}\hlkeyword{,}\hlnumber{1}\hlkeyword{,}\hlnumber{1}\hlkeyword{)}\hlkeyword{,}{\ }\hlargument{grid}{\ }\hlargument{=}{\ }\hlnumber{5}\hlkeyword{,}{\ }\hlargument{start}{\ }\hlargument{=}{\ }\hlnumber{0}\hlkeyword{,}{\ }\hlargument{end}{\ }\hlargument{=}{\ }\hlnumber{60}\hlkeyword{,}{\ }\hlargument{yule}{\ }\hlargument{=}{\ }\hlnumber{TRUE}\hlkeyword{)}\hlkeyword{[[}\hlnumber{2}\hlkeyword{]}\hlkeyword{]}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}
+\end{knitrout}
+
+
+  
+We also want to compare the performance of models which allow up to four shifts and also 
+estimate extinction and speciation separately:
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{birth\usebox{\hlnormalsizeboxunderscore}death\usebox{\hlnormalsizeboxunderscore}models}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{bd.shifts.optim}\hlkeyword{(}\hlsymbol{x}\hlkeyword{,}{\ }\hlargument{sampling}{\ }\hlargument{=}{\ }\hlfunctioncall{c}\hlkeyword{(}\hlnumber{1}\hlkeyword{,}\hlnumber{1}\hlkeyword{,}\hlnumber{1}\hlkeyword{,}\hlnumber{1}\hlkeyword{)}\hlkeyword{,}{\ }\hlargument{grid}{\ }\hlargument{=}{\ }\hlnumber{5}\hlkeyword{,}{\ }\hlargument{start}{\ }\hlargument{=}{\ }\hlnumber{0}\hlkeyword{,}{\ }\hlargument{end}{\ }\hlargument{=}{\ }\hlnumber{60}\hlkeyword{,}{\ }\hlargument{yule}{\ }\hlargument{=}{\ }\hlnumber{FALSE}\hlkeyword{)}\hlkeyword{[[}\hlnumber{2}\hlkeyword{]}\hlkeyword{]}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}
+\end{knitrout}
+
+
+The models output by these functions are ordered by increasing number of shifts.  
+We can select the best-fitting model by AIC score,
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{yule\usebox{\hlnormalsizeboxunderscore}aic}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{sapply}\hlkeyword{(}\hlsymbol{yule\usebox{\hlnormalsizeboxunderscore}models}\hlkeyword{,}{\ }\hlkeyword{function}\hlkeyword{(}\hlformalargs{pars}\hlkeyword{)}{\ }\hlnumber{2}{\ }\hlkeyword{*}{\ }\hlkeyword{(}\hlfunctioncall{length}\hlkeyword{(}\hlsymbol{pars}\hlkeyword{)}{\ }\hlkeyword{-}{\ }\hlnumber{1}\hlkeyword{)}{\ }\hlkeyword{+}{\ }\hlnumber{2}{\ }\hlkeyword{*}{\ }\hlsymbol{pars}\hlkeyword{[}\hlnumber{1}\hlkeyword{]}{\ }\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{birth\usebox{\hlnormalsizeboxunderscore}death\usebox{\hlnormalsizeboxunderscore}aic}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{sapply}\hlkeyword{(}\hlsymbol{birth\usebox{\hlnormalsizeboxunderscore}death\usebox{\hlnormalsizeboxunderscore}models}\hlkeyword{,}{\ }\hlkeyword{function}\hlkeyword{(}\hlformalargs{pars}\hlkeyword{)}{\ }\hlnumber{2}{\ }\hlkeyword{*}{\ }\hlkeyword{(}\hlfunctioncall{length}\hlkeyword{(}\hlsymbol{pars}\hlkeyword{)}{\ }\hlkeyword{-}{\ }\hlnumber{1}\hlkeyword{)}{\ }\hlkeyword{+}{\ }\hlnumber{2}{\ }\hlkeyword{*}{\ }\hlsymbol{pars}\hlkeyword{[}\hlnumber{1}\hlkeyword{]}{\ }\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{best\usebox{\hlnormalsizeboxunderscore}no\usebox{\hlnormalsizeboxunderscore}of\usebox{\hlnormalsizeboxunderscore}rates}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{list}\hlkeyword{(}\hlargument{Yule}{\ }\hlargument{=}{\ }\hlfunctioncall{which.min}\hlkeyword{(}\hlsymbol{yule\usebox{\hlnormalsizeboxunderscore}aic}\hlkeyword{)}\hlkeyword{,}{\ }\hlargument{birth.death}{\ }\hlargument{=}{\ }\hlfunctioncall{which.min}\hlkeyword{(}\hlsymbol{birth\usebox{\hlnormalsizeboxunderscore}death\usebox{\hlnormalsizeboxunderscore}aic}\hlkeyword{)}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{best\usebox{\hlnormalsizeboxunderscore}model}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{which.min}\hlkeyword{(}\hlfunctioncall{c}\hlkeyword{(}\hlfunctioncall{min}\hlkeyword{(}\hlsymbol{yule\usebox{\hlnormalsizeboxunderscore}aic}\hlkeyword{)}\hlkeyword{,}{\ }\hlfunctioncall{min}\hlkeyword{(}\hlsymbol{birth\usebox{\hlnormalsizeboxunderscore}death\usebox{\hlnormalsizeboxunderscore}aic}\hlkeyword{)}\hlkeyword{)}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}
+\end{knitrout}
+
+which confirms that the Yule 2-rate  
+model is still the best choice based on AIC score.  
+Of the eight models in this second analysis, only three were in the original set considered
+(Yule 1-rate and 2-rate, and birth-death without a shift),
+so we could by no means have been sure ahead of time that a birth death with a shift,
+or a Yule model with a greater number of shifts, would not have fitted better.  
+
+This kind of verification of results and validation against alternate methods
+will not occur regularly as long as the time required to do so is not negligible.  
+While this kind of analysis already enjoys the benefits of scripted software implementations 
+of the methods being employed, access to the actual data has become the rate-limiting step.  
+
+Leverging the programmatic access to the phylogenetic data shown in this example,
+we can both verify the original result and extend the analysis to the new method in a few minutes,
+without waiting for a drawn-out correspondence to access the data.  No additional effort 
+would be required even if many different phylogenies were involved. If verification and validation 
+can be performed in minutes instead of days, they may become routine practices in settings such as journal clubs
+and peer-review. 
+
+
+\section{A self-updating meta-analysis?}
+Large scale comparative analyses that seek to characterize evolutionary patterns across many phylogenies increasingly common in phylogenetic methods~\citep[\emph{e.g.}][]{McPeek2007, Phillimore2008, McPeek2008, Quental2010, Davies2011a}.  
+Often referred to by their authors as meta-analyses,
+these approaches have focused on re-analyzing phylogenetic trees collected from many different earlier publications.  
+This is a more direct approach than the traditional concept of meta-analysis
+where statistical results from earlier studies are weighted by their sample size
+without actually repeating the statistical analyses of those papers.
+Because the identical analysis can be repeated on the original data from each study, this approach 
+avoids some of the statistical challenges inherent in traditional meta-analyses summarizing results across heterogeneous approaches.  
+
+To date, researchers have gone through heroic efforts simply to assemble these data sets from the literature.  
+As described in \citet{McPeek2007}, (emphasis added)
+\begin{quote}
+One data set was based on 163 published species-level molecular phylogenies of arthropods, chordates, and mollusks. [\dots] A PDF format file of each article was obtained, and a digital snapshot of the figure was taken in Adobe Acrobat 7.0. This image was transferred to a PowerPoint (Microsoft) file and printed on a laser printer. The phylogenies included in this study are listed in the appendix. \emph{All branch lengths were measured by hand from these  printed sheets using dial calipers.}
+\end{quote}
+Despite the recent appearance of digital tools that could now facilitate this analysis without mechanical calipers,~\citep[\emph{e.g.}][]{Laubach2007},
+it is immensely easier and less error-prone to pull properly formatted phylogenies from the database for this purpose. 
+In this section we describe how \texttt{treebase} can help overcome such barriers to discovery and integration at this large scale.   
+
+As the available data increases with subsequent publications, updating earlier meta-analyses 
+can become increasingly tedious. 
+
+%By building such meta-analyses around the \texttt{treebase} package, 
+%one can not only take advantage of the existing data with substantially less effort, 
+%but also provide a script that can be automatically updated as more phylogenies are deposited in the TreeBASE repository. 
+
+%Researchers may focus their meta-analysis on particular taxa~\citep{Phillimore2008}, 
+%leaving us to wonder if the conclusions hold in other groups.  
+%Other studies may use a single empirical tree accompanied by a collection of simulated phylogenies~\citet{Cusimano2010}.  
+%Some already turn to TreeBASE to provide a more extensive collection of phylogenies~\citep{Davies2011a}.  
+
+A central question in many studies that look across a large array of phylogenies
+has been to identify how often these trees show changing rates of speciation and extinction.
+Understanding these differences in diversification rates in different taxa is fundamental 
+to explaining the patterns of diversity we see today.  
+In this section we illustrate how we can perform a similar meta-analysis to the studies 
+such as~\citet[\emph{e.g.}][]{McPeek2007, Phillimore2008, McPeek2008,Quental2010, Davies2011a} 
+across a much larger set of phylogenies and with just a few lines of R code.   
+Because the entire analysis, including the access of the data, is scriptable,
+we could simply recompile this document some time in the future and see how the pattern we find has changed
+as more data has been added to TreeBASE.  
+
+
+\subsubsection*{Testing for constant speciation and extinction rates across all of treebase}
+A standard test of this is the $\gamma$ statistic of~\citet{Pybus2000}
+which tests the null hypothesis that the rates of speciation and extinction are constant. 
+The $\gamma$ statistic is normally distributed about 0 for a pure birth or birth-death process,
+values larger than 0 indicate that internal nodes are closer to the tip then expected, 
+while values smaller than 0 indicate nodes farther from the tip then expected.  
+In this section, we collect all phylogenetic trees from TreeBASE and select those 
+with branch length data that we can time-calibrate using tools available in R.
+We can then calculate the distribution of this statistic for all available trees, 
+and compare these results with those from the analyses mentioned above.  
+
+The \texttt{treebase} package provides a compressed cache of the phylogenies available in treebase.  
+This cache can be automatically updated with the \verb|cache_treebase| function,
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{treebase}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{cache\usebox{\hlnormalsizeboxunderscore}treebase}\hlkeyword{(}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}
+\end{knitrout}
+
+which may require a day or so to complete, 
+and will save a file in the working directory named with ``treebase'' and the date obtained.  
+For convenience, we can load the cached copy distributed with the \texttt{treebase} package:
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{data}\hlkeyword{(}\hlsymbol{treebase}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}
+\end{knitrout}
+
+
+% future versions should be able to update only those records that have changed or been added.  Should be easy script of metadata + search by study id.  
+We will only be able to use those phylogenies that include branch length data.  We drop those that do not from the data set, 
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+{\ }{\ }{\ }{\ }{\ }{\ }\hlsymbol{have}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{have\usebox{\hlnormalsizeboxunderscore}branchlength}\hlkeyword{(}\hlsymbol{treebase}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }{\ }{\ }\hlsymbol{branchlengths}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlsymbol{treebase}\hlkeyword{[}\hlsymbol{have}\hlkeyword{]}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}
+\end{knitrout}
+
+
+Like most comparative methods, this analysis will require ultrametric trees (branch lengths proportional to time, rather than to mutational steps). As most of these phylogenies are calibrated with branch length proportional to mutational step, we must time-calibrate each of them first.  
+%This function is just an elementary example to illustrate the process of time-calibrating a tree;
+%more sophisticated methods could be chosen instead.  
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{timetree}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlkeyword{function}\hlkeyword{(}\hlformalargs{tree}\hlkeyword{)}\hlkeyword{\usebox{\hlnormalsizeboxopenbrace}}\hspace*{\fill}\\
+\hlstd{}{\ }{\ }{\ }{\ }\hlfunctioncall{try}\hlkeyword{(}{\ }\hlfunctioncall{chronoMPL}\hlkeyword{(}\hlfunctioncall{multi2di}\hlkeyword{(}\hlsymbol{tree}\hlkeyword{)}\hlkeyword{)}{\ }\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlkeyword{\usebox{\hlnormalsizeboxclosebrace}}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{tt}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{drop\usebox{\hlnormalsizeboxunderscore}nontrees}\hlkeyword{(}\hlfunctioncall{sapply}\hlkeyword{(}\hlsymbol{branchlengths}\hlkeyword{,}{\ }\hlsymbol{timetree}\hlkeyword{)}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}
+\end{knitrout}
+
+At this point we have~1217 time-calibrated phylogenies over which we will apply the diversification rate analysis. 
+Computing the $\gamma$ test statistic to identify devations from the constant-rates model takes a single line,
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{gammas}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{sapply}\hlkeyword{(}\hlsymbol{tt}\hlkeyword{,}{\ }{\ }\hlsymbol{gammaStat}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}
+\end{knitrout}
+
+and the resulting distribution of the statistic across available trees is shown Fig~\ref{gammas}.
+
+\setkeys{Gin}{width=.5\linewidth}
+\begin{figure}
+  \begin{center}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlfunctioncall{qplot}\hlkeyword{(}\hlsymbol{gammas}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\includegraphics{gammadist} \end{kframe}
+\end{knitrout}
+
+  \caption{ Distribution of the gamma statistic across phylogenies in TreeBASE. Strongly positive values are indicative of an increasing
+  rate of evolution (excess of nodes near the tips), very negative values indicate an early burst of diversification (an excess of nodes
+  near the root).   Complete code for this anlysis is presented in the text, and the plotting command is shown above the figure.}\label{gammas}
+  \end{center}
+\end{figure}
+
+As the $\gamma$ statistic is normally distributed under the constant-rates model, 
+we can ask what fraction of trees can reject this model at a given confidence
+level by calculating the associated $p$ values,
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{p\usebox{\hlnormalsizeboxunderscore}values}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlnumber{2}{\ }\hlkeyword{*}{\ }\hlkeyword{(}\hlnumber{1}{\ }\hlkeyword{-}{\ }\hlfunctioncall{pnorm}\hlkeyword{(}\hlfunctioncall{abs}\hlkeyword{(}\hlsymbol{gammas}\hlkeyword{)}\hlkeyword{)}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{non\usebox{\hlnormalsizeboxunderscore}const}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{sum}\hlkeyword{(}\hlsymbol{p\usebox{\hlnormalsizeboxunderscore}values}{\ }\hlkeyword{\usebox{\hlnormalsizeboxlessthan}}{\ }\hlnumber{0.025}\hlkeyword{,}{\ }\hlargument{na.rm}\hlargument{=}\hlnumber{TRUE}\hlkeyword{)}\hlkeyword{/}\hlfunctioncall{length}\hlkeyword{(}\hlsymbol{gammas}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\end{kframe}
+\end{knitrout}
+
+wherein we find that 58\% of the trees can reject the constant-rates model at the 95\% confidence level. 
+This supports a broad pattern from the above literature that finds deviations from the constant-rates models in smaller phylogentic samples.  
+
+Following~\citet{McPeek2007} we can investigate if the species richness of a given phylogeny correlates with diversification rate~\citep{Nee1994a}.  Figure~\ref{lambda_ntaxa} shows this analysis, which supports the conclusion that species richness is not explained by increasing diversification rate.   
+\setkeys{Gin}{width=3in}
+\begin{figure}
+  \begin{center}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlsymbol{lambdas}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{sapply}\hlkeyword{(}\hlsymbol{tt}\hlkeyword{,}{\ }\hlkeyword{function}\hlkeyword{(}\hlformalargs{x}\hlkeyword{)}{\ }\hlfunctioncall{yule}\hlkeyword{(}\hlsymbol{x}\hlkeyword{)}\hlkeyword{\usebox{\hlnormalsizeboxdollar}}\hlsymbol{lambda}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{ntaxa}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{sapply}\hlkeyword{(}\hlsymbol{tt}\hlkeyword{,}{\ }\hlsymbol{Ntip}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlsymbol{dat}{\ }\hlassignement{\usebox{\hlnormalsizeboxlessthan}-}{\ }\hlfunctioncall{data.frame}\hlkeyword{(}\hlargument{taxa}\hlargument{=}\hlsymbol{ntaxa}\hlkeyword{,}\hlargument{lambda}\hlargument{=}\hlsymbol{lambdas}\hlkeyword{,}{\ }\hlargument{gammas}\hlargument{=}\hlsymbol{gammas}\hlkeyword{)}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{ggplot}\hlkeyword{(}\hlsymbol{dat}\hlkeyword{,}{\ }\hlfunctioncall{aes}\hlkeyword{(}\hlsymbol{taxa}\hlkeyword{,}{\ }\hlsymbol{lambda}\hlkeyword{)}\hlkeyword{)}{\ }\hlkeyword{+}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{geom\usebox{\hlnormalsizeboxunderscore}point}\hlkeyword{(}\hlkeyword{)}{\ }\hlkeyword{+}{\ }\hlfunctioncall{stat\usebox{\hlnormalsizeboxunderscore}smooth}\hlkeyword{(}\hlargument{method}\hlargument{=}\hlsymbol{lm}\hlkeyword{,}{\ }\hlargument{formula}\hlargument{=}\hlsymbol{y}{\ }\hlkeyword{\urltilda{}}{\ }\hlsymbol{x}\hlkeyword{)}{\ }\hlkeyword{+}\hspace*{\fill}\\
+\hlstd{}\hlfunctioncall{scale\usebox{\hlnormalsizeboxunderscore}x\usebox{\hlnormalsizeboxunderscore}log10}\hlkeyword{(}\hlkeyword{)}{\ }\hlkeyword{+}{\ }\hlfunctioncall{scale\usebox{\hlnormalsizeboxunderscore}y\usebox{\hlnormalsizeboxunderscore}log10}\hlkeyword{(}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+\includegraphics{diversification_rate} \end{kframe}
+\end{knitrout}
+
+  \caption{The species richness represented in a phylogeny shows no significant trend with increasing diversification rate. }\label{lambda_ntaxa}
+  \end{center}
+\end{figure}
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}\begin{kframe}
+\begin{flushleft}
+\ttfamily\noindent
+\hlpackage{xtable}\hlkeyword{::}\hlfunctioncall{xtable}\hlkeyword{(}\hlfunctioncall{summary}\hlkeyword{(}\hlfunctioncall{lm}\hlkeyword{(}\hlfunctioncall{log}\hlkeyword{(}\hlsymbol{lambda}\hlkeyword{)}{\ }\hlkeyword{\urltilda{}}{\ }\hlfunctioncall{log}\hlkeyword{(}\hlsymbol{taxa}\hlkeyword{)}\hlkeyword{,}{\ }\hlsymbol{dat}\hlkeyword{)}\hlkeyword{)}\hlkeyword{)}\mbox{}
+\normalfont
+\end{flushleft}
+% latex table generated in R 2.14.2 by xtable 1.7-0 package
+% Mon Mar 19 17:23:55 2012
+\end{kframe}\begin{table}[ht]
+\begin{center}
+\begin{tabular}{rrrrr}
+  \hline
+ & Estimate & Std. Error & t value & Pr($>$$|$t$|$) \\ 
+  \hline
+(Intercept) & 1.8239 & 0.4672 & 3.90 & 0.0001 \\ 
+  log(taxa) & -0.1771 & 0.1144 & -1.55 & 0.1220 \\ 
+   \hline
+\end{tabular}
+\end{center}
+\end{table}\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}
+\end{knitrout}
+
+%
+%\citet{Phillimore2008} investigates the pattern of the $\gamma$ statistic against clade richness in avian phylogenies, finding larger phylogenies tend to have more negative $\gamma$ values -- the pattern expected if a density-dependent speciation process slows the diversification rate.  In our sample from across TreeBASE we see evidence of slightly statistically significant increase 
+%\setkeys{Gin}{width=3in}
+%\begin{figure}
+%  \begin{center}
+%<<diversification_rate>>=
+%ggplot(dat, aes(taxa, gammas)) + 
+%geom_point() + stat_smooth(method=lm, formula=y ~ x) +
+%scale_x_log10() 
+%@
+%  \caption{More extreme values of gamma are increasingly common with greater species richness.}\label{gamma_ntaxa}
+%  \end{center}
+%\end{figure}
+%
+%<<results='tex'>>=
+%xtable::xtable(summary(lm(gammas ~ log(taxa), dat)))
+%@
+%
+Because \texttt{treebase} makes it possible to perform this analysis entirely by scripts using the latest treebase data, 
+it is not only easier to perform this analysis but also to update it to reflect the latest data.
+Note that in this example it is not our objective to provide a thorough analysis of diversification patterns and their possible interpretations, as in ~\citet{Pybus2000, McPeek2007, McPeek2008, Phillimore2008}, 
+but merely to illustrate how the similar calculations to these can be easily applied across the much larger datasets in the repository.  
+This example can be automatically updated to reflect the latest data in TreeBASE simply by rerunning the code we present above.  
+
+%\subsection{\texttt{treebase} for methods developers}
+%One advantage a common programming platform has brought 
+
+
+\section{Conclusion}
+
+While we have focused on examples that require no additional data beyond the phylogeny, a wide array of methods combine this data with information about the traits, geography, or ecological community of the taxa represented.  In such cases we would need programmatic access to the trait data as well as the phylogeny.  The Dryad digital repository (\href{http://datadryad.org}{http://datadryad.org}) is a popular host for such data to support the data archiving requirements mentioned above.  While programmatic access to the repository is possible through the \texttt{rdryad} package~\citep{Chamberlain2012}, variation in data formatting must first be overcome.  Dedicated databases such as FishBASE (\href{http://fishbase.org}{http://fishbase.org}) may be another alternative, where morphological data can be queried for a list of species using the \texttt{rfishbase} package~\citep{Boettiger2011}.  The development of similar software for programmatic data access will rapidly extend the space and scale of possible analyses.  
+
+The recent advent of mandatory data archiving in many of the major journals publishing phylognetics-based research~\citep[\emph{e.g.}][]{Fairbairn2010, Piwowar2011, Whitlock2010}, is a particularly promising development that should continue to fuel trend of submissions seen in Fig.~\ref{fig:1}.  Accompanied by faster and more inexpensive techniques of NextGen sequencing, and the rapid expansion in phylogenetic applications, we anticipate this rapid growth in available phylogenies will continue.  Faced with this flood of data, programmatic access becomes not only increasingly powerful but an increasingly necessary way to ensure we can still see the forest for all the trees.   
+
+ \section{Acknowledgements}
+ CB wishes to thank the TreeBASE developer team for building and supporting the repository, and all contributers to TreeBASE.
+ CB is supported by a Computational Sciences Graduate Fellowship from the Department of Energy under grant number DE-FG02-97ER25308.   
+ \section*{ }%bibliography
+% \bibliography{/home/cboettig/Documents/Mendeley/bib/library}
+  \bibliography{treebase}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.968627450980392, 0.968627450980392, 0.968627450980392}\color{fgcolor}
+\end{knitrout}
+
+
+
+\end{document}
+
+
