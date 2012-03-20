@@ -1,6 +1,6 @@
 ## Makefile to use knitr in the vignette
 
-all: knit
+all: clean postknit
 
 setvars:
 ifeq (${R_HOME},)
@@ -17,9 +17,8 @@ clean:
 	rm -f *.tex *.bbl *.blg *.aux *.out *.log *.spl *tikzDictionary
 
 
-# Custom command for my local compile
-failknit: 
-	knit knit_treebase.Rnw treebase.Rnw
+# having created an treebase.Rnw file from the command line R 
+postknit: 
 	R CMD Sweave treebase.Rnw
 	pdflatex treebase
 	bibtool -s -d -x treebase.aux ~/Documents/Mendeley/bib/library.bib > treebase.bib
