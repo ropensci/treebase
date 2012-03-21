@@ -583,7 +583,8 @@ While we have focused on examples that require no additional data beyond the phy
 The recent advent of mandatory data archiving in many of the major journals publishing phylognetics-based research~\citep[\emph{e.g.}][]{Fairbairn2010, Piwowar2011, Whitlock2010}, is a particularly promising development that should continue to fuel trend of submissions seen in Fig.~\ref{fig:1}.  Accompanied by faster and more inexpensive techniques of NextGen sequencing, and the rapid expansion in phylogenetic applications, we anticipate this rapid growth in available phylogenies will continue.  Faced with this flood of data, programmatic access becomes not only increasingly powerful but an increasingly necessary way to ensure we can still see the forest for all the trees.   
 
  \section{Acknowledgements}
- CB wishes to thank the TreeBASE developer team for building and supporting the repository, and all contributers to TreeBASE.
+ CB wishes to thank S. Price for feedback on the manuscript, 
+ the TreeBASE developer team for building and supporting the repository, and all contributers to TreeBASE.
  CB is supported by a Computational Sciences Graduate Fellowship from the Department of Energy under grant number DE-FG02-97ER25308.   
  \section*{ }%bibliography
 % \bibliography{/home/cboettig/Documents/Mendeley/bib/library}
