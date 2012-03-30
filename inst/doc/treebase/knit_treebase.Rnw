@@ -31,7 +31,7 @@
 
 \begin{document}
 \begin{frontmatter}
-  \title{An introduction to the \texttt{treebase} Package}
+  \title{\texttt{treebase}: explore, visualize, and integrate phylogenetic data in R}
   \author[davis]{Carl Boettiger\corref{cor1}}
   \ead{cboettig@ucdavis.edu}
   \author[stats]{Duncan Temple Lang}
@@ -118,7 +118,7 @@ library(treebase)
 @
 
 The basic functions of the TreeBASE API allow search queries 
-through two separate interfaces.  The \texttt{OAI-MPH} interface 
+through two separate interfaces.  The \texttt{OAI-PMH} interface 
 provides the metadata associated with the publications from which the 
 phylogenies have been taken, whiel the \texttt{Phylo-WS} interface provides
 information and access to the phylogenetic data itself.
@@ -133,8 +133,8 @@ and ensuring that an analysis can be replicated later, by the author or other gr
 
 Any of the queries available on the web interface can now be made directly from R,
 including downloading and importing the phylogeny into the R interface.  
-For instance, one can search for phylogenies containing dolphin taxa,
-or all phylogenies submitted by a given author
+For instance, one can search for phylogenies containing dolphin taxa, "Delphinus,"
+or all phylogenies submitted by a given author, "Huelsenbeck",
 <<basicQueries, eval=FALSE>>=
 search_treebase("Delphinus", by="taxon")
 search_treebase("Huelsenbeck", by="author")
