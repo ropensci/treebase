@@ -42,9 +42,9 @@
   \begin{abstract}
   \begin{enumerate}
   \item TreeBASE is an important and rapidly growing repository of phylogenetic data.  The R statistical environment has become a primary tool for the applied phylogenetic analyses that use this kind of data for across a range of questions, from comparative evolution to community ecology to conservation planning.  
-  \item We have developed \texttt{treebase}, an open-source package (freely available from\\ \href{http://cran.r-project.org/web/packages/treebase}{http://cran.r-project.org/web/packages/treebase}) for the R environment, providing simplified, programmatic and interactive access to phylogenetic data.  
+  \item We have developed \texttt{treebase}, an open-source package (freely available from\\ \href{http://cran.r-project.org/web/packages/treebase}{http://cran.r-project.org/web/packages/treebase}) for the R environment, providing simplified, programmatic and interactive access to phylogenetic data in the TreeBASE repository.  
   \item We illustrate how this package creates a bridge between the repository and the rapidly growing ecosystem of R packages for phylogenetics that can reduce barriers to discovery and integration across phylogenetic research. 
-  \item We provide several examples, including one that replicates and extends the results of an analysis on a single phylogeny, and one which includes an analysis of changes in diversification rate across over 1000 phylogenies.    
+  \item We provide examples of the utility of the \verb|treebase| package by replicating and extending  several previous phylogenetic comparative analyses on identifying shifts in lineage diversification rate and run these across 1000s of phylogenies automatically.  
   \end{enumerate}
 
   \end{abstract}
@@ -60,24 +60,22 @@ are becoming increasingly central to both evolutionary and ecological research.
 The exponential growth in genetic sequence data available for all forms of life has 
 driven rapid advances in the methods that can infer the phylogenetic relationships and divergence times 
 across different taxa~\citep{Huelsenbeck2001b,Stamatakis2006, Drummond2007}.
-Just as this goldmine of available sequence data has led to the subsequent explosion of phylogenetic methods,
+Just as the availability of sequence data has led to the subsequent explosion of phylogenetic methods,
 and many other avenues of research, this rapid expanse of phylogenetic data now primes new innovations 
 across ecology and evolution.  Once again the product of one field has become the raw data of the next.  
-But while the discipline of bioinformatics has emerged to help harness and curate the wealth of genetic data
+Unfortunately, while the discipline of bioinformatics has emerged to help harness and curate the wealth of genetic data
 with cutting edge computer science, statistics, and internet technology, its counterpart in evolutionary informatics
 remains ``scattered, poorly documented, and in formats that impede discovery and integration''~\citep{Parr2011a}.  
-The goal of this paper is to address this gap by illustrating how programmatic and interactive access between the repositories that
-store this phylogenetic data and the software tools most commonly used to analyze them can breach some of these barriers 
-to discovery and integration.  
+Our goal when developing the \verb|treebase| package was to address this gap by providing how programmatic and 
+interactive access between the repositories that store this data and the software tools commonly used to analyze them. 
 
+Our focus is primarily on such applications which use, rather than generate, phylogenetic data, and thus stand 
+to benefit the most from programmatic and interactive access to TreeBASE.  
 While the task of inferring phylogenies from sequence data remains dominated by dedicated compiled software such as MrBayes~\citep{Huelsenbeck2001b}, BEAST~\citep{Drummond2007}, RAXML~\citep{Stamatakis2006},
-the research methods that make use of the phylogenies they infer are largely based in R. 
-To distinguish between the processes of inferring the phylogeny and these applications,
-We will refer collectively to this area of research using phylogenetic relationships as input data as applied phylogenetics.  
-
-The R statistical environment~\citep{RTeam2012} has become a dominant platform for researchers using this phylogenetic data 
+the ever-growing suite of research methods that use these phylogenies as input data are largely based in R.
+The R statistical environment~\citep{RTeam2012} has become a dominant platform for researchers using phylogenetic data 
 to address a rapidly expanding set of questions in ecological and evolutionary processes.
-These methods include tasks such as ancestral state reconstruction~\citep{Paradis2004, Butler2004}, 
+These methods include but are not limited to tasks such as ancestral state reconstruction~\citep{Paradis2004, Butler2004}, 
 diversification analysis~\citep{Paradis2004, Rabosky2006b, Harmon2008, FitzJohn2009, FitzJohn2010, Goldberg2011, Stadler2011}, 
 quantifying the rate and tempo of trait evolution~\citep{Butler2004, Paradis2004, Harmon2008, Hipp2010, Revell2011, Eastman2011}, 
 identifying evolutionary influences and proxies for community ecology~\citet{Webb2008, Kembel2010}, 
@@ -89,8 +87,6 @@ Several programs exist outside the R language for applied phylogenetic methods, 
 Java~\citep{Maddison2011}, MATLAB~\citep{Blomberg2003} and Python~\citep{Sukumaran2010} and online interfaces~\citep{Martins2004}.  
 
 
-This paper describes the purpose and use of the \texttt{treebase} software package for the R language,
-which provides a programmatic link between these programs and TreeBASE.
 TreeBASE (\href{http://treebase.org}{http://treebase.org})
 is an online repository of phylogenetic data (e.g. trees of species, populations, or genes) 
 that have been published in a peer-reviewed academic journal, book, thesis or conference proceedings~\citep{Sanderson1994b, Morell1996}. 
@@ -101,6 +97,7 @@ that lets computer applications make queries to the database.
 Our \texttt{treebase} package uses this API to create a direct link between this data and the R language, 
 making it easier for users and developers to take advantage of this data.  
 
+%% UGH, Rewrite the whole section after reorganizing following Sam's advice
 We provide three kinds of examples to illustrate what such programmatic and
 interactive access could mean for applied phylogenetics research. 
 The first illustrates the process of exploration and discovery of available data
@@ -120,7 +117,7 @@ library(treebase)
 The basic functions of the TreeBASE API allow search queries 
 through two separate interfaces.  The \texttt{OAI-MPH} interface 
 provides the metadata associated with the publications from which the 
-phylogenies have been taken, whiel the \texttt{Phylo-WS} interface provides
+phylogenies have been taken, while the \texttt{Phylo-WS} interface provides
 information and access to the phylogenetic data itself.
 These interfaces are well-documented on the TreeBASE website.
 The \texttt{treebase} package allows these queries to be made directly from R,
