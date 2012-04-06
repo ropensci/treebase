@@ -24,7 +24,7 @@
 \topmargin -0.5in
 \newcommand{\ud}{\mathrm{d}}
 
-
+\usepackage{float}
 %% Looks like a comment but it isn't! This is setting the default behavior for the Sweave chunk options,  
 % \SweaveOpts{fig=TRUE, cache=TRUE, message=FALSE, warning=FALSE, tidy=FALSE, dev='pdf'}
                    
@@ -139,7 +139,7 @@ or all phylogenies submitted by a given author, "Huelsenbeck",
 search_treebase("Delphinus", by="taxon")
 search_treebase("Huelsenbeck", by="author")
 @
-These functions loads the matching phylogenies into R, ready for analysis.  
+This function loads the matching phylogenies into R, ready for analysis.  
 The package documentation provides many examples of possible queries. 
 The \verb|search_treebase| function is the heart of the \texttt{treebase} package.  
 While basic queries such as these seem simple,
@@ -151,7 +151,8 @@ To illustrate this potential, we introduce the second core function, \verb|searc
 \section{Quantifying TreeBASE}
 The \texttt{treebase} package provides access to the metadata
 of all publications containing trees
-deposited in TreeBASE using a separate API for metadata.  
+deposited in TreeBASE using a separate API built on the OAI-PMH
+protocol, an international web standard such data.  
 This can help the user discover phylogenies of interest
 and also allows the user to perform statistical analyses
 on the data deposition itself, which could identify trends or biases in the phylogenetics literature.  
@@ -183,8 +184,8 @@ pub[!(pub %in% top_contributors)] <- "Other"
 
 We can then look at the distribution of publication years for phylogenies deposited in TreeBASE,
 color coding by publisher in Fig~\ref{fig:1}.
-It is encouraging to see that no single journal dominates the submissions, 
-and taxa-specific publications and more broad-scope journals share the top ten spots. 
+Note that no single journal dominates the submissions, 
+and taxa-specific publications as well as more broad-scope journals share the top ten spots. 
 It will be interesting to watch these trends as more journals extend mandatory archiving requirements
 over the coming years.  
 
@@ -200,15 +201,19 @@ ggplot(meta) + geom_bar(aes(dates, fill = publisher))
 \end{center}
 \end{figure}
 
-In addition to this information about the publications, we can obtain metadata about the phylogenies themselves, including the study identifier number of where they were published, the number of taxa in the tree, a quality score, (if available), kind of tree (gene tree, species tree, or barcode tree) and whether the phylogeny represents a single or consensus type.  
+In addition to this information about the publications, we can obtain metadata about the phylogenies themselves, 
+including the study identifier number of where they were published, the number of taxa in the tree, 
+a quality score (if available), kind of tree (gene tree, species tree, or barcode tree) 
+and whether the phylogeny represents a single or consensus type.  
 <<tree_metadata_cache>>=
 tree_metadata <- cache_treebase(only_metadata=TRUE)
 @
 
-For instance, we can summarize how the~\Sexpr{length(tree_metadata)} trees break out by kind or type:
+For instance, we can summarize how the~\Sexpr{length(tree_metadata)} 
+trees break out by kind or type (The \verb|xtable| command formats this as a table):
 <<kind, results='tex'>>=
 kind <- table(sapply(tree_metadata, `[[`, "kind"))
-xtable::xtable(kind) #pretty print
+xtable::xtable(kind) 
 @
 <<type, results='tex'>>=
 type <- table(sapply(tree_metadata, `[[`, "type"))
@@ -224,7 +229,9 @@ It is possible to use the \verb|only_metadata| option with \verb|search_treebase
 <<only_metadata>>=
 genetrees <- search_treebase( "'Gene Tree'", by='kind.tree', only_metadata=TRUE )
 @
-which returns just the metadata for the \Sexpr{length(genetrees)} gene trees in the database, from which we can look up the corresponding publication information, etc.  For certain applications a user may wish to download all the available phylogenies from TreeBASE. Using the \verb|cache_treebase| function allows a user to download a local copy of all trees.  Because direct database dumps are not available, this function has intentional delays to avoid overtaxing the TreeBASE servers, and should be allowed a full day to run.  
+which returns just the metadata for the \Sexpr{length(genetrees)} gene trees in the database, from which we can look up the corresponding publication information.  
+
+For certain applications a user may wish to download all the available phylogenies from TreeBASE. Using the \verb|cache_treebase| function allows a user to download a local copy of all trees.  Because direct database dumps are not available, this function has intentional delays to avoid overtaxing the TreeBASE servers, and should be allowed a full day to run.  
 <<bulidcache, eval=FALSE>>=
 treebase <- cache_treebase()
 @
@@ -243,7 +250,7 @@ Having access to both the metadata from the studies and from the phylogenies in 
 %first_author[!(first_author %in% top_contributors)] <- "Other"
 
 \setkeys{Gin}{width=\linewidth}
-\begin{figure}
+\begin{figure}[H]
 <<treestats>>=
 <<taxagrowth, fig.width=16, fig.height=6>>=
 studyid <- sapply(tree_metadata,`[[`, 'S.id')
@@ -264,7 +271,7 @@ Note that the maximum size tree deposited each year is growing far faster than t
 The promise of this exponential growth in the sizes of available phylogenies,
 with some trees representing~\Sexpr{max(taxa$Ntaxa, na.rm=TRUE)} taxa motivates
 the more and more ambitious inference methods being developed
-which require large trees to have adequate signal~\citep{Boettiger2012, FitzJohn2009}.
+which require large trees to have adequate signal~\citep{Boettiger2012, FitzJohn2009, Beaulieu2012}.
 It will be interesting to see how long into the future this trend is maintained.
 These visualizations help identify research trends and can also help identify potential data sets for analyses. 
 In this next section we highlight a few ways in which programmatic access can be leveraged for various research objectives.  
@@ -275,22 +282,21 @@ Reproducible research has become a topic of increasing concern in recent years~\
 Access to data and executable scripts that reproduce the results presented 
 are two central elements of this process which are addressed by the \texttt{treebase} package.   
 
-
-Imagine reading the recent phylogenetics paper,~\citet{Derryberry2011}. 
-The paper analyzes speciation models on a phylogeny of bird taxa to identify if the rate of speciation shows
-a substantial shift among any of the groups, using the R package~\texttt{laser}~\citep{Rabosky2006b}.  
-We recall that more recent methods for identifying these rate shifts were presented in~\citet{Stadler2011},
-and would like to see if the results presented hold up under the newer approach.  
-The \texttt{treebase} package can help us both verify the results presented and test the data against the newer method with minimal effort.  
-Further, because the process can be entirely scripted in R, from accessing the data to performing the analyses,
-it can be easily replicated \& extended to additional datasets or methods.  
-
+For example, you may like to know whether the shifts in speciation rate 
+identified by Derryberry et al. generated using methods in the R package 
+\texttt{laser} \citep{Rabosky2006b} differ from those using the newer 
+methods presented in~\citet{Stadler2011}, which can include models of 
+shifts not available in the earlier package. % models -> patterns
+The \texttt{treebase} package can help us both verify the results presented
+and test the data against the newer method with little additional effort.  
 
 
 \subsubsection*{Obtaining the tree}
-By drawing on the rich data manipulation tools available in R (and thus familiar to the large R phylogenetics community),
-the \texttt{treebase} package allows us to construct richer queries than are possible through TreeBASE alone.
-We begin our search by asking for a phylogenies by one of the paper's authors:  
+By drawing on the rich data manipulation tools available in R 
+which should be familiar to the large R phylogenetics community,
+the \texttt{treebase} package allows us to construct richer queries
+than are possible through TreeBASE alone. We begin our search by 
+asking for a phylogenies by one of the paper's authors:  
 
 <<findderryberry>>= 
 derryberry_results <- search_treebase("Derryberry", "author")
@@ -323,27 +329,32 @@ Different diversification models make different assumptions about the rate of sp
 and how these rates may be changing over time.  
 The authors consider eight different models, implemented in the \texttt{laser}~package \citep{Rabosky2006b}.
 This code fits each of the eight models to that data:
+
 <<RR, tidy=FALSE>>=
-require(laser)
-tt <- branching.times(derryberry)
-models <- list(             yule = pureBirth(tt),  
-                     birth_death = bd(tt),     
-                     yule.2.rate = yule2rate(tt),
-      linear.diversity.dependent = DDL(tt),    
- exponential.diversity.dependent = DDX(tt),
-         varying.speciation_rate = fitSPVAR(tt),  
-         varying.extinction_rate = fitEXVAR(tt),  
-                    varying_both = fitBOTHVAR(tt)  
+library(ape)
+bt <- branching.times(derryberry)
+library(laser)
+models <- list(             yule = pureBirth(bt),  
+                     birth_death = bd(bt),     
+                     yule.2.rate = yule2rate(bt),
+      linear.diversity.dependent = DDL(bt),    
+ exponential.diversity.dependent = DDX(bt),
+         varying.speciation_rate = fitSPVAR(bt),  
+         varying.extinction_rate = fitEXVAR(bt),  
+                    varying_both = fitBOTHVAR(bt)  
               )
 @
 Each of the model estimate includes an AIC score indicating the goodness of fit, 
 penalized by model complexity (lower scores indicate better fits)
 We ask R to tell us which model has the lowest AIC score,
+
 <<extract_aic>>=
 aics <- sapply(models, `[[`, 'aic')
 best_fit <- names(models[which.min(aics)])
 @ 
-and confirm the result presented in~\citet{Derryberry2011}, that the \texttt{\Sexpr{best_fit}} model is the best fit to the data.  
+
+and confirm the result presented in~\citet{Derryberry2011}, 
+that the \texttt{\Sexpr{best_fit}} model is the best fit to the data.  
 
 
 In this fast-moving field, new methods often become available within the time-frame 
@@ -431,12 +442,14 @@ As described in \citet{McPeek2007}, (emphasis added)
 \begin{quote}
 One data set was based on 163 published species-level molecular phylogenies of arthropods, chordates, and mollusks. [\dots] A PDF format file of each article was obtained, and a digital snapshot of the figure was taken in Adobe Acrobat 7.0. This image was transferred to a PowerPoint (Microsoft) file and printed on a laser printer. The phylogenies included in this study are listed in the appendix. \emph{All branch lengths were measured by hand from these  printed sheets using dial calipers.}
 \end{quote}
-Despite the recent appearance of digital tools that could now facilitate this analysis without mechanical calipers,~\citep[\emph{e.g.}][]{Laubach2007},
-it is immensely easier and less error-prone to pull properly formatted phylogenies from the database for this purpose. 
-In this section we describe how \texttt{treebase} can help overcome such barriers to discovery and integration at this large scale.   
-
-As the available data increases with subsequent publications, updating earlier meta-analyses 
-can become increasingly tedious. 
+Despite the recent appearance of digital tools that could now facilitate this
+analysis without mechanical calipers,~\citep[\emph{e.g.} \textt{treesnatcher}][]{Laubach2007},
+it is  easier and less error-prone to pull properly formatted phylogenies from
+the database for this purpose. Moreover, as the available data increases with 
+subsequent publications, updating earlier meta-analyses 
+can become increasingly tedious.  In this section we describe how 
+\texttt{treebase} can help overcome such barriers to discovery and integration
+at this large scale.    
 
 %By building such meta-analyses around the \texttt{treebase} package, 
 %one can not only take advantage of the existing data with substantially less effort, 
@@ -472,18 +485,23 @@ and compare these results with those from the analyses mentioned above.
 
 The \texttt{treebase} package provides a compressed cache of the phylogenies available in treebase.  
 This cache can be automatically updated with the \verb|cache_treebase| function,
+
 <<meta_harvest, eval=FALSE>>=
 treebase <- cache_treebase()
 @
+
 which may require a day or so to complete, 
 and will save a file in the working directory named with ``treebase'' and the date obtained.  
 For convenience, we can load the cached copy distributed with the \texttt{treebase} package:
+
 <<cachedcopy>>=
 data(treebase)
 @
 
 % future versions should be able to update only those records that have changed or been added.  Should be easy script of metadata + search by study id.  
-We will only be able to use those phylogenies that include branch length data.  We drop those that do not from the data set, 
+We will only be able to use those phylogenies that include branch length data.  
+We drop those that do not from the data set, 
+
 <<branchlengthfilter>>=
       have <- have_branchlength(treebase)
       branchlengths <- treebase[have]
@@ -493,6 +511,7 @@ We will only be able to use those phylogenies that include branch length data.  
 Like most comparative methods, this analysis will require ultrametric trees (branch lengths proportional to time, rather than to mutational steps). As most of these phylogenies are calibrated with branch length proportional to mutational step, we must time-calibrate each of them first.  
 %This function is just an elementary example to illustrate the process of time-calibrating a tree;
 %more sophisticated methods could be chosen instead.  
+
 <<timetree, cache=TRUE>>=
 timetree <- function(tree){
     try( chronoMPL(multi2di(tree)) )
@@ -578,7 +597,7 @@ This example can be automatically updated to reflect the latest data in TreeBASE
 
 \section{Conclusion}
 
-While we have focused on examples that require no additional data beyond the phylogeny, a wide array of methods combine this data with information about the traits, geography, or ecological community of the taxa represented.  In such cases we would need programmatic access to the trait data as well as the phylogeny.  The Dryad digital repository (\href{http://datadryad.org}{http://datadryad.org}) is a popular host for such data to support the data archiving requirements mentioned above.  While programmatic access to the repository is possible through the \texttt{rdryad} package~\citep{Chamberlain2012}, variation in data formatting must first be overcome.  Dedicated databases such as FishBASE (\href{http://fishbase.org}{http://fishbase.org}) may be another alternative, where morphological data can be queried for a list of species using the \texttt{rfishbase} package~\citep{Boettiger2011}.  The development of similar software for programmatic data access will rapidly extend the space and scale of possible analyses.  
+While we have focused on examples that require no additional data beyond the phylogeny, a wide array of methods combine this data with information about the traits, geography, or ecological community of the taxa represented.  In such cases we would need programmatic access to the trait data as well as the phylogeny.  The Dryad digital repository (\href{http://datadryad.org}{http://datadryad.org}) is a popular host for such data to support the data archiving requirements mentioned above.  While programmatic access to the repository is possible through the \texttt{rdryad} package~\citep{Chamberlain2012}, variation in data formatting must first be overcome.  Dedicated databases such as FishBASE (\href{http://fishbase.org}{http://fishbase.org}) may be another alternative, where morphological data can be queried for a list of species using the \texttt{rfishbase} package~\citep{rfishbase}.  The development of similar software for programmatic data access will rapidly extend the space and scale of possible analyses.  
 
 The recent advent of mandatory data archiving in many of the major journals publishing phylognetics-based research~\citep[\emph{e.g.}][]{Fairbairn2010, Piwowar2011, Whitlock2010}, is a particularly promising development that should continue to fuel trend of submissions seen in Fig.~\ref{fig:1}.  Accompanied by faster and more inexpensive techniques of NextGen sequencing, and the rapid expansion in phylogenetic applications, we anticipate this rapid growth in available phylogenies will continue.  Faced with this flood of data, programmatic access becomes not only increasingly powerful but an increasingly necessary way to ensure we can still see the forest for all the trees.   
 
