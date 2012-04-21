@@ -1,50 +1,36 @@
-## Makefile to use knitr in the vignette
+all: 
 
-all: clean postknit
+github:
+	./knit github
+	pandoc -s -S --biblio treebase.bib treebase.md -o treebase_github.md
 
-setvars:
-ifeq (${R_HOME},)
-R_HOME= $(shell R RHOME)
-endif
-RPROG=  $(R_HOME)/bin/R
-RSCRIPT=$(R_HOME)/bin/Rscript
+md:
+	pandoc -s -S --biblio treebase.bib treebase.md -o treebase.md
 
-pdfclean:
-	rm -f *.pdf
+odt:
+	./knit docx
+	pandoc -s -S --biblio treebase.bib treebase.md --reference-odt=reference.odt -o treebase.odt
+
+
+docx:
+	./knit docx
+	pandoc -s -S --biblio treebase.bib treebase.md --reference-docx=reference.docx -o treebase.docx
+
+
+pdf:
+	./knit pdf
+	pandoc -s -S --biblio treebase.bib treebase.md --template=elsarticle.latex --latex-engine=xelatex -o treebase.tex
+	xelatex treebase.tex
+	xelatex treebase.tex
+	xelatex treebase.tex
+
+epub:
+	./knit epub
+	pandoc -s -S --biblio treebase.bib treebase.md -o treebase.epub
+
+bib:
+	bibtool -s -d -x citations.aux ~/Documents/Mendeley/bib/*.bib > treebase.bib
+
 
 clean:
-	rm -f index.html
-	rm -f *.tex *.bbl *.blg *.aux *.out *.log *.spl *tikzDictionary
-
-
-# having created an treebase.Rnw file from the command line R 
-postknit: 
-	R CMD Sweave treebase.Rnw
-	pdflatex treebase
-	bibtool -s -d -x treebase.aux ~/Documents/Mendeley/bib/library.bib > treebase.bib
-	bibtex treebase # make the bibliography 
-	pdflatex treebase
-	pdflatex treebase
-	rm -f *.bbl *blg *.aux *.out *.log *.spl
-	cp -f treebase.Rnw treebase.tex treebase.bib *.pdf ../../../vignettes/
-
-# Custom command for my local compile
-knit:
-	$(RSCRIPT) -e ".libPaths(c('~/R', .libPaths())); require(knitr); require(methods); require(utils); knit( 'knit_treebase.Rnw', 'treebase.Rnw');"
-	$(RPROG) CMD Sweave treebase.Rnw
-	pdflatex treebase
-	bibtool -s -d -x treebase.aux ~/Documents/Mendeley/bib/library.bib > treebase.bib
-	bibtex treebase # make the bibliography 
-	pdflatex treebase
-	pdflatex treebase
-	rm -f *.bbl *blg *.aux *.out *.log *.spl
-	cp -f treebase.Rnw treebase.tex treebase.bib *.pdf ../../../vignettes/
-
-## Traditional compile 
-treebase.pdf: treebase.Rnw
-	$(RPROG) CMD Sweave treebase.Rnw
-	$(RSCRIPT) -e "tools::texi2dvi( 'treebase.tex', pdf = TRUE, clean = FALSE )"
-	bibtex treebase # make the bibliography 
-	$(RSCRIPT) -e "tools::texi2dvi( 'treebase.tex', pdf = TRUE, clean = TRUE )" # compile and cleanup
-
-
+	rm -rf *.log *.bbl *.blg *.out *.spl
