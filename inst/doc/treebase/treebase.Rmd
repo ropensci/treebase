@@ -590,7 +590,7 @@ The species richness represented in a phylogeny shows no significant
 trend with increasing diversification rate
 
 ``` {r results='asis'}
-    xtable::xtable(summary(lm(log(lambda)   log(taxa), dat)))
+    xtable::xtable(summary(lm(log(lambda) ~ log(taxa), dat)))
 ````
 Because `treebase` makes it possible to perform this analysis entirely
 by scripts using the latest treebase data, it is not only easier to
