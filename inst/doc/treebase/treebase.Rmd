@@ -193,7 +193,7 @@ obtain a list of all the dates of publication & names of the journals
 which we organize into a table,
 
 
-``` {R head_pub, comment=NA }
+``` {r head_pub, comment=NA }
     pub_table <- sort(table(as.character(pub)), decreasing=TRUE)
 ````
 
@@ -277,7 +277,7 @@ dumps are not available, this function has intentional delays to avoid
 overtaxing the TreeBASE servers, and should be allowed a full day to
 run.
 
-``` {r blidcache, eval=FALSE }
+``` {r buildcache, eval=FALSE }
     treebase <- cache_treebase()
 ```
 
@@ -286,8 +286,7 @@ and quickly restored. For convenience, the `treebase` package comes with
 a copy already cached, which can be loaded into memory.
 
 
-``` {r }
-      loadcachedtreebase 
+``` {r loadcache}
     data(treebase)
 ````
 

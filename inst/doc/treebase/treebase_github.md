@@ -193,8 +193,11 @@ obtain a list of all the dates of publication & names of the journals
 
 which we organize into a table,
 
-\`\`\` {R head\_pub, comment=NA } pub\_table <-
-sort(table(as.character(pub)), decreasing=TRUE) \`\`\`\`
+~~~~ {.r}
+    pub_table <- sort(table(as.character(pub)), decreasing=TRUE)
+~~~~
+
+    Error: object 'pub' not found
 
 Many journals have only a few submissions, so we will group them
 together as “Other”:
@@ -259,7 +262,7 @@ table):
 ~~~~
 
 <!-- html table generated in R 2.15.0 by xtable 1.7-0 package -->
-<!-- Wed Apr 25 14:00:08 2012 -->
+<!-- Wed Apr 25 14:54:37 2012 -->
 <TABLE border=1>
 <TR> <TH>  </TH> <TH> 
 V1
@@ -291,7 +294,7 @@ Species Tree
 ~~~~
 
 <!-- html table generated in R 2.15.0 by xtable 1.7-0 package -->
-<!-- Wed Apr 25 14:00:08 2012 -->
+<!-- Wed Apr 25 14:54:38 2012 -->
 <TABLE border=1>
 <TR> <TH>  </TH> <TH> 
 V1
@@ -316,7 +319,7 @@ Single
 ~~~~
 
 <!-- html table generated in R 2.15.0 by xtable 1.7-0 package -->
-<!-- Wed Apr 25 14:00:09 2012 -->
+<!-- Wed Apr 25 14:54:38 2012 -->
 <TABLE border=1>
 <TR> <TH>  </TH> <TH> 
 V1
@@ -378,12 +381,6 @@ run.
 Once run, the cache is saved compactly in memory where it can be easily
 and quickly restored. For convenience, the `treebase` package comes with
 a copy already cached, which can be loaded into memory.
-
-~~~~ {.r}
-      loadcachedtreebase 
-~~~~
-
-    Error: object 'loadcachedtreebase' not found
 
 ~~~~ {.r}
     data(treebase)
@@ -745,7 +742,7 @@ qplot(gammas)
 ~~~~
 
 ![plot of chunk
-gammadist](http://farm8.staticflickr.com/7053/7113854271_7d0efd31de_o.png)
+gammadist](http://farm8.staticflickr.com/7138/7113992253_0e627605ac_o.png)
 
 As the gamma statistic is normally distributed under the constant-rates
 model, we can ask what fraction of trees can reject this model at a
@@ -756,7 +753,7 @@ p_values <- 2 * (1 - pnorm(abs(gammas)))
 non_const <- sum(p_values < 0.025, na.rm=TRUE)/length(gammas)
 ~~~~
 
-wherein we find that 58 % of the trees can reject the constant-rates
+wherein we find that 57 % of the trees can reject the constant-rates
 model at the 95% confidence level. This supports a broad pattern from
 the above literature that finds deviations from the constant-rates
 models in smaller phylogentic samples.
