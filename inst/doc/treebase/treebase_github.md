@@ -34,20 +34,20 @@ are becoming increasingly central to both evolutionary and ecological
 research. The exponential growth in genetic sequence data available for
 all forms of life has driven rapid advances in the methods that can
 infer the phylogenetic relationships and divergence times across
-different taxa (Huelsenbeck and Ronquist 2001, , ). just as the
-availability of sequence data has led to the subsequent explosion of
-phylogenetic methods, and many other avenues of research, this rapid
-expanse of phylogenetic data now primes new innovations across ecology
-and evolution. Once again the product of one field has become the raw
-data of the next. Unfortunately, while the discipline of bioinformatics
-has emerged to help harness and curate the wealth of genetic data with
-cutting edge computer science, statistics, and internet technology, its
-counterpart in evolutionary informatics remains “scattered, poorly
-documented, and in formats that impede discovery and integration” (Parr
-et al. 2011). Our goal when developing the `treebase` package was to
-address this gap by providing how programmatic and interactive access
-between the repositories that store this data and the software tools
-commonly used to analyze them.
+different taxa (Huelsenbeck and Ronquist 2001; Stamatakis 2006; Drummond
+and Rambaut 2007). just as the availability of sequence data has led to
+the subsequent explosion of phylogenetic methods, and many other avenues
+of research, this rapid expanse of phylogenetic data now primes new
+innovations across ecology and evolution. Once again the product of one
+field has become the raw data of the next. Unfortunately, while the
+discipline of bioinformatics has emerged to help harness and curate the
+wealth of genetic data with cutting edge computer science, statistics,
+and internet technology, its counterpart in evolutionary informatics
+remains “scattered, poorly documented, and in formats that impede
+discovery and integration” (Parr et al. 2011). Our goal when developing
+the `treebase` package was to address this gap by providing how
+programmatic and interactive access between the repositories that store
+this data and the software tools commonly used to analyze them.
 
 Our focus is primarily on such applications which use, rather than
 generate, phylogenetic data, and thus stand to benefit the most from
@@ -60,16 +60,21 @@ largely based in R. The R statistical environment (R Development Core
 Team 2012) has become a dominant platform for researchers using
 phylogenetic data to address a rapidly expanding set of questions in
 ecological and evolutionary processes. These methods include but are not
-limited to tasks such as ancestral state reconstruction (Paradis 2004,
-), diversification analysis (Paradis 2004, , , , , , ), quantifying the
-rate and tempo of trait evolution (Butler and King 2004, , , , , ),
-identifying evolutionary influences and proxies for community ecology
-(Webb, Ackerly, and Kembel 2008, ), performing phyloclimatic modelling
-(Warren, Glor, and Turelli 2008, ), and simulation of speciation and
-character evolution (Harmon et al. 2008, , ), as well as various
-manipulation and visualization of phylogenetic data (Paradis 2004, , ,
-). A more comprehensive list of R packages by analysis type is available
-on the phylogenetics taskview,
+limited to tasks such as ancestral state reconstruction (Paradis 2004;
+Butler and King 2004), diversification analysis (Paradis 2004; Rabosky
+2006; Harmon et al. 2008; FitzJohn, Maddison, and Otto 2009; Fitzjohn
+2010; Goldberg, Lancaster, and Ree 2011; Stadler 2011b), quantifying the
+rate and tempo of trait evolution (Butler and King 2004; Paradis 2004;
+Harmon et al. 2008; Hipp and Escudero 2010; Revell et al. 2011; Eastman
+et al. 2011), identifying evolutionary influences and proxies for
+community ecology (Webb, Ackerly, and Kembel 2008; Kembel et al. 2010),
+performing phyloclimatic modelling (Warren, Glor, and Turelli 2008;
+Evans et al. 2009), and simulation of speciation and character evolution
+(Harmon et al. 2008; Stadler 2011a; Boettiger, Coop, and Ralph 2012), as
+well as various manipulation and visualization of phylogenetic data
+(Paradis 2004; Schliep 2010; Jombart, Balloux, and Dray 2010; Revell et
+al. 2011). A more comprehensive list of R packages by analysis type is
+available on the phylogenetics taskview,
 [http://cran.r-project.org/web/views/Phylogenetics.html](http://cran.r-project.org/web/views/Phylogenetics.html).
 Several programs exist outside the R language for applied phylogenetic
 methods, incuding Java (Maddison and Maddison 2011), MATLAB (Blomberg,
@@ -79,14 +84,14 @@ online interfaces (Martins 2004).
 TreeBASE ([http://treebase.org](http://treebase.org)) is an online
 repository of phylogenetic data (e.g. trees of species, populations, or
 genes) that have been published in a peer-reviewed academic journal,
-book, thesis or conference proceedings (Sanderson et al. 1994, ). The
-database can be searched through an online interface which allows users
-to find a phylogenetic tree from a particular publication, author or
-taxa of interest. TreeBASE provides an application programming interface
-(API) that lets computer applications make queries to the database. Our
-`treebase` package uses this API to create a direct link between this
-data and the R language, making it easier for users and developers to
-take advantage of this data.
+book, thesis or conference proceedings (Sanderson et al. 1994; Morell
+1996). The database can be searched through an online interface which
+allows users to find a phylogenetic tree from a particular publication,
+author or taxa of interest. TreeBASE provides an application programming
+interface (API) that lets computer applications make queries to the
+database. Our `treebase` package uses this API to create a direct link
+between this data and the R language, making it easier for users and
+developers to take advantage of this data.
 
 We provide three kinds of examples to illustrate what such programmatic
 and interactive access could mean for applied phylogenetics research.
@@ -208,8 +213,7 @@ journals extend mandatory archiving requirements over the coming years.
     ggplot(meta) + geom_bar(aes(dates, fill = publisher))
 ~~~~
 
-![plot of chunk
-dates](http://farm6.staticflickr.com/5117/7116663395_12b146483c_o.png)
+![plot of chunk dates](figure/dates.pdf)
 
 Histogram of publication dates by year, with the code required to
 generate the figure.[fig:1]
@@ -238,94 +242,55 @@ table):
     xtable::xtable(kind) 
 ~~~~
 
-<!-- html table generated in R 2.15.0 by xtable 1.7-0 package -->
-<!-- Thu Apr 26 13:31:04 2012 -->
-<TABLE border=1>
-<TR> <TH>  </TH> <TH> 
-V1
-</TH>  </TR>
-  <TR> <TD align="right"> 
-Barcode Tree
-</TD> <TD align="right">  
-11
-</TD> </TR>
-  <TR> <TD align="right"> 
-Gene Tree
-</TD> <TD align="right"> 
-317
-</TD> </TR>
-  <TR> <TD align="right"> 
-Species Tree
-</TD> <TD align="right"> 
-10121
-</TD> </TR>
-   </TABLE>
-
-
-
-
-
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{rr}
+  \hline
+ & V1 \\ 
+  \hline
+Barcode Tree &  11 \\ 
+  Gene Tree & 317 \\ 
+  Species Tree & 10121 \\ 
+   \hline
+\end{tabular}
+\end{center}
+\end{table}
 ~~~~ {.r}
     type <- table(sapply(tree_metadata, `[[`, "type"))
     xtable::xtable(type) 
 ~~~~
 
-<!-- html table generated in R 2.15.0 by xtable 1.7-0 package -->
-<!-- Thu Apr 26 13:31:04 2012 -->
-<TABLE border=1>
-<TR> <TH>  </TH> <TH> 
-V1
-</TH>  </TR>
-  <TR> <TD align="right"> 
-Consensus
-</TD> <TD align="right"> 
-3058
-</TD> </TR>
-  <TR> <TD align="right"> 
-Single
-</TD> <TD align="right"> 
-7406
-</TD> </TR>
-   </TABLE>
-
-
-
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{rr}
+  \hline
+ & V1 \\ 
+  \hline
+Consensus & 3058 \\ 
+  Single & 7406 \\ 
+   \hline
+\end{tabular}
+\end{center}
+\end{table}
 ~~~~ {.r}
     quality <- table(sapply(tree_metadata, `[[`, "quality"))
     xtable::xtable(quality) 
 ~~~~
 
-<!-- html table generated in R 2.15.0 by xtable 1.7-0 package -->
-<!-- Thu Apr 26 13:31:04 2012 -->
-<TABLE border=1>
-<TR> <TH>  </TH> <TH> 
-V1
-</TH>  </TR>
-  <TR> <TD align="right"> 
-Alternative Tree
-</TD> <TD align="right">  
-78
-</TD> </TR>
-  <TR> <TD align="right"> 
-Preferred Tree
-</TD> <TD align="right"> 
-275
-</TD> </TR>
-  <TR> <TD align="right"> 
-Suboptimal Tree
-</TD> <TD align="right">  
-15
-</TD> </TR>
-  <TR> <TD align="right"> 
-Unrated
-</TD> <TD align="right"> 
-10081
-</TD> </TR>
-   </TABLE>
-
-
-
-
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{rr}
+  \hline
+ & V1 \\ 
+  \hline
+Alternative Tree &  78 \\ 
+  Preferred Tree & 275 \\ 
+  Suboptimal Tree &  15 \\ 
+  Unrated & 10081 \\ 
+   \hline
+\end{tabular}
+\end{center}
+\end{table}
 It is possible to use the `only_metadata` option with `search_treebase`
 as well. While this information is always returned by the query, this is
 useful for a quick look at the data matching any search, such as
@@ -382,8 +347,7 @@ Figure [fig:2].
       scale_y_log10() + stat_smooth(aes(group = 1))
 ~~~~
 
-![plot of chunk
-taxagrowth](http://farm8.staticflickr.com/7269/6970595308_3f8d2382a1_o.png)
+![plot of chunk taxagrowth](figure/taxagrowth.pdf)
 
 Combining the metadata available from publications and from phylogenies
 themselves, we can visualize the growth in taxa on published
@@ -393,8 +357,9 @@ growing far faster than the average number.[fig:2]
 The promise of this exponential growth in the sizes of available
 phylogenies, with some trees representing 2,957 taxa motivates the more
 and more ambitious inference methods being developed which require large
-trees to have adequate signal (Boettiger, Coop, and Ralph 2012). It will
-be interesting to see how long into the future this trend is maintained.
+trees to have adequate signal [Boettiger, Coop, and Ralph (2012);
+FitzJohn, Maddison, and Otto (2009); @beaulieu2012]. It will be
+interesting to see how long into the future this trend is maintained.
 These visualizations help identify research trends and can also help
 identify potential data sets for analyses. In this next section we
 highlight a few ways in which programmatic access can be leveraged for
@@ -404,7 +369,8 @@ Reproducible research
 =====================
 
 Reproducible research has become a topic of increasing concern in recent
-years (Schwab, Karrenbach, and Claerbout 2000, , ).\
+years (Schwab, Karrenbach, and Claerbout 2000; Gentleman and Temple Lang
+2004; Peng 2011).\
 access to data and executable scripts that reproduce the results
 presented are two central elements of this process which are addressed
 by the `treebase` package.
@@ -412,7 +378,7 @@ by the `treebase` package.
 For example, you may like to know whether the shifts in speciation rate
 identified by Derryberry et al. generated using methods in the R package
 `laser` (Rabosky 2006) differ from those using the newer methods
-presented in Stadler (2011b), which can include models of shifts not
+presented in Stadler (2011b); which can include models of shifts not
 available in the earlier package. The `treebase` package can help us
 both verify the results presented and test the data against the newer
 method with little additional effort.
@@ -486,7 +452,7 @@ aics <- sapply(models, `[[`, 'aic')
 best_fit <- names(models[which.min(aics)])
 ~~~~
 
-and confirm the result presented in Derryberry et al. (2011), that the
+and confirm the result presented in Derryberry et al. (2011); that the
 yule.2.rate model is the best fit to the data.
 
 In this fast-moving field, new methods often become available within the
@@ -566,7 +532,8 @@ A self-updating meta-analysis?
 
 Large scale comparative analyses that seek to characterize evolutionary
 patterns across many phylogenies increasingly common in phylogenetic
-methods p(*e.g.* McPeek and Brown 2007, , , , ).\
+methods p(*e.g.* McPeek and Brown 2007; Phillimore and Price 2008;
+McPeek 2008; Quental and Marshall 2010; Davies et al. 2011).\
 Often referred to by their authors as meta-analyses, these approaches
 have focused on re-analyzing phylogenetic trees collected from many
 different earlier publications.\
@@ -580,7 +547,7 @@ results across heterogeneous approaches.
 
 To date, researchers have gone through heroic efforts simply to assemble
 these data sets from the literature.\
-As described in McPeek and Brown (2007), (emphasis added) \>One data set
+As described in McPeek and Brown (2007); (emphasis added) \>One data set
 was based on 163 published species-level molecular phylogenies of
 arthropods, chordates, and mollusks. [\dots] A PDF format file of each
 article was obtained, and a digital snapshot of the figure was taken in
@@ -604,8 +571,8 @@ rates of speciation and extinction. Understanding these differences in
 diversification rates in different taxa is fundamental to explaining the
 patterns of diversity we see today.\
 In this section we illustrate how we can perform a similar meta-analysis
-to the studies such as McPeek and Brown (2007), Phillimore and Price
-(2008), McPeek (2008), Quental and Marshall (2010), Davies et al. (2011)
+to the studies such as McPeek and Brown (2007); Phillimore and Price
+(2008); McPeek (2008); Quental and Marshall (2010); Davies et al. (2011)
 across a much larger set of phylogenies and with just a few lines of R
 code.\
 Because the entire analysis, including the access of the data, is
@@ -685,8 +652,7 @@ is shown Fig 3.
 qplot(gammas)
 ~~~~
 
-![plot of chunk
-gammadist](http://farm8.staticflickr.com/7129/7116702767_bb13863637_o.png)
+![plot of chunk gammadist](figure/gammadist.pdf)
 
 As the gamma statistic is normally distributed under the constant-rates
 model, we can ask what fraction of trees can reject this model at a
@@ -725,8 +691,8 @@ by scripts using the latest treebase data, it is not only easier to
 perform this analysis but also to update it to reflect the latest data.
 Note that in this example it is not our objective to provide a thorough
 analysis of diversification patterns and their possible interpretations,
-as in Pybus and Harvey (2000), McPeek and Brown (2007), McPeek (2008),
-and Phillimore and Price (2008), but merely to illustrate how the
+as in Pybus and Harvey (2000); McPeek and Brown (2007); McPeek (2008);
+and Phillimore and Price (2008); but merely to illustrate how the
 similar calculations to these can be easily applied across the much
 larger datasets in the repository. This example can be automatically
 updated to reflect the latest data in TreeBASE simply by rerunning the
@@ -752,10 +718,11 @@ similar software for programmatic data access will rapidly extend the
 space and scale of possible analyses.
 
 The recent advent of mandatory data archiving in many of the major
-journals publishing phylognetics-based research (*e.g.* Fairbairn 2010,
-, ), is a particularly promising development that should continue to
-fuel trend of submissions seen in Fig. 1. Accompanied by faster and more
-inexpensive techniques of NextGen sequencing, and the rapid expansion in
+journals publishing phylognetics-based research (*e.g.* Fairbairn 2010;
+Piwowar, Vision, and Whitlock 2011; Whitlock et al. 2010), is a
+particularly promising development that should continue to fuel trend of
+submissions seen in Fig. 1. Accompanied by faster and more inexpensive
+techniques of NextGen sequencing, and the rapid expansion in
 phylogenetic applications, we anticipate this rapid growth in available
 phylogenies will continue. Faced with this flood of data, programmatic
 access becomes not only increasingly powerful but an increasingly

@@ -34,7 +34,7 @@ are becoming increasingly central to both evolutionary and ecological
 research. The exponential growth in genetic sequence data available for
 all forms of life has driven rapid advances in the methods that can
 infer the phylogenetic relationships and divergence times across
-different taxa [@huelsenbeck2001b, @stamatakis2006, @drummond2007].
+different taxa [@huelsenbeck2001b; @stamatakis2006; @drummond2007].
 just as the availability of sequence data has led to the subsequent
 explosion of phylogenetic methods, and many other avenues of research,
 this rapid expanse of phylogenetic data now primes new innovations
@@ -61,16 +61,16 @@ become a dominant platform for researchers using phylogenetic data to
 address a rapidly expanding set of questions in ecological and
 evolutionary processes. These methods include but are not limited to
 tasks such as ancestral state reconstruction
-[@paradis2004, @butler2004], diversification analysis
-[@paradis2004, @rabosky2006b, @harmon2008, @fitzjohn2009, @fitzjohn2010, @goldberg2011, @stadler2011],
+[@paradis2004; @butler2004], diversification analysis
+[@paradis2004; @rabosky2006b; @harmon2008; @fitzjohn2009; @fitzjohn2010; @goldberg2011; @stadler2011],
 quantifying the rate and tempo of trait evolution
-[@butler2004, @paradis2004, @harmon2008, @hipp2010, @revell2011, @eastman2011],
+[@butler2004; @paradis2004; @harmon2008; @hipp2010; @revell2011; @eastman2011],
 identifying evolutionary influences and proxies for community ecology
-[@webb2008, @kembel2010], performing phyloclimatic modelling
-[@warren2008, @evans2009b], and simulation of speciation and
-character evolution [@harmon2008, @stadler2011a, @boettiger2012], as
+[@webb2008; @kembel2010], performing phyloclimatic modelling
+[@warren2008; @evans2009b], and simulation of speciation and
+character evolution [@harmon2008; @stadler2011a; @boettiger2012], as
 well as various manipulation and visualization of phylogenetic data
-[@paradis2004, @schliep2010, @jombart2010, @revell2011]. A more
+[@paradis2004; @schliep2010; @jombart2010; @revell2011]. A more
 comprehensive list of R packages by analysis type is available on the
 phylogenetics taskview,
 [http://cran.r-project.org/web/views/Phylogenetics.html](http://cran.r-project.org/web/views/Phylogenetics.html).
@@ -83,7 +83,7 @@ TreeBASE ([http://treebase.org](http://treebase.org)) is an online
 repository of phylogenetic data (e.g. trees of species, populations, or
 genes) that have been published in a peer-reviewed academic journal,
 book, thesis or conference proceedings
-[@sanderson1994b, @morell1996]. The database can be searched through
+[@sanderson1994b; @morell1996]. The database can be searched through
 an online interface which allows users to find a phylogenetic tree from
 a particular publication, author or taxa of interest. TreeBASE provides
 an application programming interface (API) that lets computer
@@ -317,21 +317,27 @@ growing far faster than the average number.[fig:2]
 The promise of this exponential growth in the sizes of available
 phylogenies, with some trees representing `r max(taxa$Ntaxa, na.rm=TRUE)`
 taxa motivates the more and more ambitious inference methods being developed
-which require large trees to have adequate signal [@boettiger2012, @fitzjohn2009, @beaulieu2012].
-It will be interesting to see how long into the future this trend is maintained.
-These visualizations help identify research trends and can also help identify potential data sets for analyses. 
-In this next section we highlight a few ways in which programmatic access can be leveraged for various research objectives.  
+which require large trees to have adequate signal 
+[@boettiger2012; @fitzjohn2009; @beaulieu2012].
+It will be interesting to see how long into the future this trend is 
+maintained. These visualizations help identify research trends and can
+also help identify potential data sets for analyses. In this next section
+we highlight a few ways in which programmatic access can be leveraged for
+various research objectives.  
 
 # Reproducible research
-Reproducible research has become a topic of increasing concern in recent years [@schwab2000, @gentleman2004, @peng2011b].  
-access to data and executable scripts that reproduce the results presented 
-are two central elements of this process which are addressed by the ` treebase ` package.   
+Reproducible research has become a topic of increasing concern in 
+recent years [@schwab2000; @gentleman2004; @peng2011b].  
+Access to data and executable scripts that reproduce the results presented 
+are two central elements of this process which are addressed by the
+`treebase` package.   
 
 For example, you may like to know whether the shifts in speciation rate 
 identified by Derryberry et al. generated using methods in the R package 
 `laser` [@rabosky2006b] differ from those using the newer 
-methods presented in @stadler2011, which can include models of 
-shifts not available in the earlier package. The ` treebase ` package can help us both verify the results presented
+methods presented in @stadler2011; which can include models of 
+shifts not available in the earlier package. The ` treebase ` 
+package can help us both verify the results presented
 and test the data against the newer method with little additional effort.  
 
 
@@ -348,15 +354,16 @@ derryberry_results <- search_treebase("Derryberry", "author")
 
 This shows several results. 
 We would like the phylogeny appearing in _Evolution_ in 2011.
-Each phylogeny includes a TreeBASE study id number, stored in the `S.id` element, 
-which we use to look up the metadata for each paper.
+Each phylogeny includes a TreeBASE study id number, stored in the `S.id`
+element, which we use to look up the metadata for each paper.
 
 ``` {r   filter  }
 ids <- lapply(derryberry_results, `[[`, "S.id")
 meta <- lapply(ids, metadata)
 ````
 
-We can then look through the metadata to find the study matching our description.  
+We can then look through the metadata to find the study matching our 
+description.
 
 ``` {r   matchderryberry  }
 i <- which( sapply(meta, function(x) x$publisher == "Evolution" &&
@@ -364,15 +371,18 @@ x$date=="2011") )
 derryberry <- derryberry_results[[i]]
 ````
 
-This is simply one possible path to identify the correct study, certainly this query could be constructed in other ways, including direct access by the study identifier.   
+This is simply one possible path to identify the correct study,
+certainly this query could be constructed in other ways,
+including direct access by the study identifier.   
 
 
 Having successfully imported the phylogenetic tree corresponding to this study,
-we can quickly replicate their analysis of which diversification process best fits the data.
-Different diversification models make different assumptions about the rate of speciation, extinction,
-and how these rates may be changing over time.  
-The authors consider eight different models, implemented in the laser package [@rabosky2006b].
-This code fits each of the eight models to that data:
+we can quickly replicate their analysis of which diversification process best
+fits the data. Different diversification models make different assumptions 
+about the rate of speciation, extinction, and how these rates may be changing
+over time.  The authors consider eight different models, implemented in the 
+laser package [@rabosky2006b]. This code fits each of the eight models to that
+data:
 
 ``` {r   RR, tidy=FALSE  }
 library(ape)
@@ -389,8 +399,8 @@ models <- list(             yule = pureBirth(bt),
               )
 ````
 
-Each of the model estimate includes an AIC score indicating the goodness of fit, 
-penalized by model complexity (lower scores indicate better fits)
+Each of the model estimate includes an AIC score indicating the goodness of
+fit, penalized by model complexity (lower scores indicate better fits)
 We ask R to tell us which model has the lowest AIC score,
 
 ``` {r   extract_aic  }
@@ -398,14 +408,15 @@ aics <- sapply(models, `[[`, 'aic')
 best_fit <- names(models[which.min(aics)])
 ```` 
 
-and confirm the result presented in @derryberry2011, 
+and confirm the result presented in @derryberry2011; 
 that the `r best_fit` model is the best fit to the data.  
 
 
-In this fast-moving field, new methods often become available within the time-frame 
-that another manuscript is submitted by its authors and the time at which if first appears in print.  
-For instance, the more sophisticated methods available in the more recent package, ` TreePar `, 
-introduced in @stadler2011 were not used in this study.
+In this fast-moving field, new methods often become available within the 
+time-frame that another manuscript is submitted by its authors and the time
+at which if first appears in print.  For instance, the more sophisticated
+methods available in the more recent package, `TreePar`, introduced in
+@stadler2011 were not used in this study.
 
 ``` {r   TreeSimError, echo=FALSE  }
 # Locale settings to be safe
@@ -420,32 +431,41 @@ require(TreePar)
 x<-sort(getx(derryberry), decreasing=TRUE)
 ````
 
-The best-fit model in the laser analysis was a yule (net diversification rate) models with two separate rates.  
-We can ask ` TreePar ` to see if a model with more rate shifts is favored over this single shift,
-a question that was not possible to address using the tools provided in ` laser `. 
-The previous analysis also considers a birth-death model that allowed speciation and extinction rates to 
-be estimated separately, but did not allow for a shift in the rate of such a model.  
-Here we consider models that have up to 4 different rates in Yule models, (The syntax in `TreeParr` is slightly cumbersome, the [[2]] indicates where this command happens to store the output models. 
+The best-fit model in the laser analysis was a yule (net diversification
+rate) models with two separate rates.  We can ask ` TreePar ` to see if
+a model with more rate shifts is favored over this single shift,
+a question that was not possible to address using the tools provided in
+`laser`. The previous analysis also considers a birth-death model that 
+allowed speciation and extinction rates to be estimated separately, but 
+did not allow for a shift in the rate of such a model.  Here we consider
+models that have up to 4 different rates in Yule models, (The syntax in
+`TreeParr` is slightly cumbersome, the [[2]] indicates where this command
+happens to store the output models.)
 
 ``` {r   treepar_yule, include=FALSE  }
-yule_models <- bd.shifts.optim(x, sampling = c(1,1,1,1), grid = 5, start = 0, end = 60, yule = TRUE)[[2]]
+yule_models <- bd.shifts.optim(x, sampling = c(1,1,1,1), 
+  grid = 5, start = 0, end = 60, yule = TRUE)[[2]]
 ````
 
 
 ``` {r   treepar_yule_show, eval=FALSE  }
-yule_models <- bd.shifts.optim(x, sampling = c(1,1,1,1), grid = 5, start = 0, end = 60, yule = TRUE)[[2]]
+yule_models <- bd.shifts.optim(x, sampling = c(1,1,1,1), 
+  grid = 5, start = 0, end = 60, yule = TRUE)[[2]]
 ````
 
   
-We also want to compare the performance of models which allow up to four shifts and also 
+We also want to compare the performance of models which 
+allow up to four shifts and also 
 estimate extinction and speciation separately:
 
 ``` {r   treepar_birthdeath, include=FALSE  }
-birth_death_models <- bd.shifts.optim(x, sampling = c(1,1,1,1), grid = 5, start = 0, end = 60, yule = FALSE)[[2]]
+birth_death_models <- bd.shifts.optim(x, sampling = c(1,1,1,1), 
+  grid = 5, start = 0, end = 60, yule = FALSE)[[2]]
 ````
 
 ``` {r   treepar_birthdeath_show, eval=FALSE  }
-birth_death_models <- bd.shifts.optim(x, sampling = c(1,1,1,1), grid = 5, start = 0, end = 60, yule = FALSE)[[2]]
+birth_death_models <- bd.shifts.optim(x, sampling = c(1,1,1,1), 
+  grid = 5, start = 0, end = 60, yule = FALSE)[[2]]
 ````
 
 The models output by these functions are ordered by increasing number of shifts.  
@@ -457,39 +477,48 @@ birth_death_aic <- sapply(birth_death_models, function(pars) 2 * (length(pars) -
 best_no_of_rates <- list(Yule = which.min(yule_aic), birth.death = which.min(birth_death_aic))
 best_model <- which.min(c(min(yule_aic), min(birth_death_aic)))
 ````
-which confirms that the `r names(best_no_of_rates[best_model])` `r best_no_of_rates[best_model][[1]]`-rate  
+which confirms that the 
+`r names(best_no_of_rates[best_model])` `r best_no_of_rates[best_model][[1]]`-rate  
 model is still the best choice based on AIC score.  
-Of the eight models in this second analysis, only three were in the original set considered
-(Yule 1-rate and 2-rate, and birth-death without a shift),
-so we could by no means have been sure ahead of time that a birth death with a shift,
-or a Yule model with a greater number of shifts, would not have fitted better.  
+Of the eight models in this second analysis, only three were in the original
+set considered (Yule 1-rate and 2-rate, and birth-death without a shift),
+so we could by no means have been sure ahead of time that a birth death 
+with a shift, or a Yule model with a greater number of shifts, would not
+have fitted better.  
 
 This kind of verification of results and validation against alternate methods
-will not occur regularly as long as the time required to do so is not negligible.  
-While this kind of analysis already enjoys the benefits of scripted software implementations 
-of the methods being employed, access to the actual data has become the rate-limiting step.  
+will not occur regularly as long as the time required to do so is not 
+negligible.  While this kind of analysis already enjoys the benefits of 
+scripted software implementations of the methods being employed, access to the
+actual data has become the rate-limiting step.  
 
 Leverging the programmatic access to the phylogenetic data shown in this example,
-we can both verify the original result and extend the analysis to the new method in a few minutes,
-without waiting for a drawn-out correspondence to access the data.  No additional effort 
-would be required even if many different phylogenies were involved. If verification and validation 
-can be performed in minutes instead of days, they may become routine practices in settings such as journal clubs
+we can both verify the original result and extend the analysis to the new method
+in a few minutes, without waiting for a drawn-out correspondence to access the
+data.  No additional effort would be required even if many different phylogenies
+were involved. If verification and validation can be performed in minutes instead
+of days, they may become routine practices in settings such as journal clubs
 and peer-review. 
 
 
 # A self-updating meta-analysis?
-Large scale comparative analyses that seek to characterize evolutionary patterns across many phylogenies increasingly common in phylogenetic methods p[_e.g._ @mcpeek2007, @phillimore2008, @mcpeek2008, @quental2010, @davies2011a].  
+Large scale comparative analyses that seek to characterize evolutionary patterns
+across many phylogenies increasingly common in phylogenetic methods 
+[_e.g._ @mcpeek2007; @phillimore2008; @mcpeek2008; @quental2010; @davies2011a].  
 Often referred to by their authors as meta-analyses,
-these approaches have focused on re-analyzing phylogenetic trees collected from many different earlier publications.  
+these approaches have focused on re-analyzing phylogenetic trees collected from
+many different earlier publications.  
 This is a more direct approach than the traditional concept of meta-analysis
 where statistical results from earlier studies are weighted by their sample size
 without actually repeating the statistical analyses of those papers.
-Because the identical analysis can be repeated on the original data from each study, this approach 
-avoids some of the statistical challenges inherent in traditional meta-analyses summarizing results across heterogeneous approaches.  
+Because the identical analysis can be repeated on the original data from each study,
+this approach avoids some of the statistical challenges inherent in traditional 
+meta-analyses summarizing results across heterogeneous approaches.  
 
-To date, researchers have gone through heroic efforts simply to assemble these data sets from the literature.  
-As described in @mcpeek2007, (emphasis added)
->One data set was based on 163 published species-level molecular phylogenies of arthropods, chordates, and mollusks. [\dots] A PDF format file of each article was obtained, and a digital snapshot of the figure was taken in Adobe Acrobat 7.0. This image was transferred to a PowerPoint (Microsoft) file and printed on a laser printer. The phylogenies included in this study are listed in the appendix. \emph{All branch lengths were measured by hand from these  printed sheets using dial calipers.}
+To date, researchers have gone through heroic efforts simply to assemble these
+data sets from the literature.  
+As described in @mcpeek2007; (emphasis added)
+>One data set was based on 163 published species-level molecular phylogenies of arthropods, chordates, and mollusks. [\dots] A PDF format file of each article was obtained, and a digital snapshot of the figure was taken in Adobe Acrobat 7.0. This image was transferred to a PowerPoint (Microsoft) file and printed on a laser printer. The phylogenies included in this study are listed in the appendix. _All branch lengths were measured by hand from these  printed sheets using dial calipers._
 
 Despite the recent appearance of digital tools that could now facilitate this
 analysis without mechanical calipers, [_e.g._ treesnatcher, @laubach2007],
@@ -502,45 +531,49 @@ at this large scale.
 
 
 
-A central question in many studies that look across a large array of phylogenies
-has been to identify how often these trees show changing rates of speciation and extinction.
-Understanding these differences in diversification rates in different taxa is fundamental 
-to explaining the patterns of diversity we see today.  
-In this section we illustrate how we can perform a similar meta-analysis to the studies 
-such as @mcpeek2007, @phillimore2008, @mcpeek2008, @quental2010, @davies2011a 
+A central question in many studies that look across a large array of 
+phylogenies has been to identify how often these trees show changing rates
+of speciation and extinction. Understanding these differences in 
+diversification rates in different taxa is fundamental to explaining the 
+patterns of diversity we see today.  In this section we illustrate how we
+can perform a similar meta-analysis to the studies 
+such as @mcpeek2007; @phillimore2008; @mcpeek2008; @quental2010; @davies2011a 
 across a much larger set of phylogenies and with just a few lines of R code.   
 Because the entire analysis, including the access of the data, is scriptable,
-we could simply recompile this document some time in the future and see how the pattern we find has changed
-as more data has been added to TreeBASE.  
+we could simply recompile this document some time in the future and see how
+the pattern we find has changed as more data has been added to TreeBASE.  
 
 
-## Testing for constant speciation and extinction rates across all of treebase
+## Testing for constant speciation and extinction rates  
 A standard test of this is the gamma statistic of @pybus2000
-which tests the null hypothesis that the rates of speciation and extinction are constant. 
-The gamma statistic is normally distributed about 0 for a pure birth or birth-death process,
-values larger than 0 indicate that internal nodes are closer to the tip then expected, 
-while values smaller than 0 indicate nodes farther from the tip then expected.  
-In this section, we collect all phylogenetic trees from TreeBASE and select those 
-with branch length data that we can time-calibrate using tools available in R.
-We can then calculate the distribution of this statistic for all available trees, 
-and compare these results with those from the analyses mentioned above.  
+which tests the null hypothesis that the rates of speciation and extinction
+are constant. The gamma statistic is normally distributed about 0 for a pure
+birth or birth-death process, values larger than 0 indicate that internal 
+nodes are closer to the tip then expected, while values smaller than 0 indicate
+nodes farther from the tip then expected.  In this section, we collect all 
+phylogenetic trees from TreeBASE and select those with branch length data that 
+we can time-calibrate using tools available in R.  We can then calculate the 
+distribution of this statistic for all available trees, and compare these 
+results with those from the analyses mentioned above.  
 
-The ` treebase ` package provides a compressed cache of the phylogenies available in treebase.  
-This cache can be automatically updated with the `cache_treebase` function,
+The ` treebase ` package provides a compressed cache of the phylogenies
+available in treebase.  This cache can be automatically updated with the
+`cache_treebase` function,
 
 ``` {r   meta_harvest, eval=FALSE  }
 treebase <- cache_treebase()
 ````
 
 which may require a day or so to complete, 
-and will save a file in the working directory named with treebase and the date obtained.  
-For convenience, we can load the cached copy distributed with the ` treebase ` package:
+and will save a file in the working directory named with treebase and
+the date obtained.  For convenience, we can load the cached copy 
+distributed with the ` treebase ` package:
 
 ``` {r   cachedcopy  }
 data(treebase)
 ````
 
-We will only be able to use those phylogenies that include branch length data.  
+We will only be able to use those phylogenies that include branch length data.
 We drop those that do not from the data set, 
 
 ``` {r   branchlengthfilter  }
@@ -549,7 +582,10 @@ We drop those that do not from the data set,
 
 ````
 
-Like most comparative methods, this analysis will require ultrametric trees (branch lengths proportional to time, rather than to mutational steps). As most of these phylogenies are calibrated with branch length proportional to mutational step, we must time-calibrate each of them first.  
+Like most comparative methods, this analysis will require ultrametric trees
+(branch lengths proportional to time, rather than to mutational steps). 
+As most of these phylogenies are calibrated with branch length proportional
+to mutational step, we must time-calibrate each of them first.  
 
 ``` {r   timetree, cache=TRUE  }
 timetree <- function(tree){
@@ -557,8 +593,10 @@ timetree <- function(tree){
 }
 tt <- drop_nontrees(sapply(branchlengths, timetree))
 ````
-At this point we have `r length(tt)` time-calibrated phylogenies over which we will apply the diversification rate analysis. 
-Computing the gamma test statistic to identify devations from the constant-rates model takes a single line,
+At this point we have `r length(tt)` time-calibrated phylogenies over which
+we will apply the diversification rate analysis. 
+Computing the gamma test statistic to identify devations from the 
+constant-rates model takes a single line,
 
 ``` {r     }
 gammas <- sapply(tt,  gammaStat)
@@ -577,10 +615,15 @@ level by calculating the associated _p_ values,
 p_values <- 2 * (1 - pnorm(abs(gammas)))
 non_const <- sum(p_values < 0.025, na.rm=TRUE)/length(gammas)
 ````
-wherein we find that `r round(non_const, 2)*100` % of the trees can reject the constant-rates model at the 95% confidence level. 
-This supports a broad pattern from the above literature that finds deviations from the constant-rates models in smaller phylogentic samples.  
+wherein we find that `r round(non_const, 2)*100` % of the trees can reject 
+the constant-rates model at the 95% confidence level. 
+This supports a broad pattern from the above literature that finds deviations 
+from the constant-rates models in smaller phylogentic samples.  
 
-Following @mcpeek2007 we can investigate if the species richness of a given phylogeny correlates with diversification rate [@nee1994a].  Figure \ref{lambda_ntaxa} shows this analysis, which supports the conclusion that species richness is not explained by increasing diversification rate.   
+Following @mcpeek2007 we can investigate if the species richness of a given 
+phylogeny correlates with diversification rate [@nee1994a].  
+Figure \ref{lambda_ntaxa} shows this analysis, which supports the conclusion 
+that species richness is not explained by increasing diversification rate.   
 
 
 The species richness represented in a phylogeny shows no significant
@@ -594,7 +637,7 @@ by scripts using the latest treebase data, it is not only easier to
 perform this analysis but also to update it to reflect the latest data.
 Note that in this example it is not our objective to provide a thorough
 analysis of diversification patterns and their possible interpretations,
-as in @pybus2000, @mcpeek2007, @mcpeek2008, and @phillimore2008, but
+as in @pybus2000; @mcpeek2007; @mcpeek2008; and @phillimore2008; but
 merely to illustrate how the similar calculations to these can be easily
 applied across the much larger datasets in the repository. This example
 can be automatically updated to reflect the latest data in TreeBASE
@@ -621,7 +664,7 @@ scale of possible analyses.
 
 The recent advent of mandatory data archiving in many of the major
 journals publishing phylognetics-based research
-[_e.g._ @fairbairn2010, @piwowar2011, @whitlock2010], is a
+[_e.g._ @fairbairn2010; @piwowar2011; @whitlock2010], is a
 particularly promising development that should continue to fuel trend of
 submissions seen in Fig. 1. Accompanied by faster and more
 inexpensive techniques of NextGen sequencing, and the rapid expansion in

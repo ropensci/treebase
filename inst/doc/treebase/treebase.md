@@ -34,7 +34,7 @@ are becoming increasingly central to both evolutionary and ecological
 research. The exponential growth in genetic sequence data available for
 all forms of life has driven rapid advances in the methods that can
 infer the phylogenetic relationships and divergence times across
-different taxa [@huelsenbeck2001b, @stamatakis2006, @drummond2007].
+different taxa [@huelsenbeck2001b; @stamatakis2006; @drummond2007].
 just as the availability of sequence data has led to the subsequent
 explosion of phylogenetic methods, and many other avenues of research,
 this rapid expanse of phylogenetic data now primes new innovations
@@ -61,16 +61,16 @@ become a dominant platform for researchers using phylogenetic data to
 address a rapidly expanding set of questions in ecological and
 evolutionary processes. These methods include but are not limited to
 tasks such as ancestral state reconstruction
-[@paradis2004, @butler2004], diversification analysis
-[@paradis2004, @rabosky2006b, @harmon2008, @fitzjohn2009, @fitzjohn2010, @goldberg2011, @stadler2011],
+[@paradis2004; @butler2004], diversification analysis
+[@paradis2004; @rabosky2006b; @harmon2008; @fitzjohn2009; @fitzjohn2010; @goldberg2011; @stadler2011],
 quantifying the rate and tempo of trait evolution
-[@butler2004, @paradis2004, @harmon2008, @hipp2010, @revell2011, @eastman2011],
+[@butler2004; @paradis2004; @harmon2008; @hipp2010; @revell2011; @eastman2011],
 identifying evolutionary influences and proxies for community ecology
-[@webb2008, @kembel2010], performing phyloclimatic modelling
-[@warren2008, @evans2009b], and simulation of speciation and
-character evolution [@harmon2008, @stadler2011a, @boettiger2012], as
+[@webb2008; @kembel2010], performing phyloclimatic modelling
+[@warren2008; @evans2009b], and simulation of speciation and
+character evolution [@harmon2008; @stadler2011a; @boettiger2012], as
 well as various manipulation and visualization of phylogenetic data
-[@paradis2004, @schliep2010, @jombart2010, @revell2011]. A more
+[@paradis2004; @schliep2010; @jombart2010; @revell2011]. A more
 comprehensive list of R packages by analysis type is available on the
 phylogenetics taskview,
 [http://cran.r-project.org/web/views/Phylogenetics.html](http://cran.r-project.org/web/views/Phylogenetics.html).
@@ -83,7 +83,7 @@ TreeBASE ([http://treebase.org](http://treebase.org)) is an online
 repository of phylogenetic data (e.g. trees of species, populations, or
 genes) that have been published in a peer-reviewed academic journal,
 book, thesis or conference proceedings
-[@sanderson1994b, @morell1996]. The database can be searched through
+[@sanderson1994b; @morell1996]. The database can be searched through
 an online interface which allows users to find a phylogenetic tree from
 a particular publication, author or taxa of interest. TreeBASE provides
 an application programming interface (API) that lets computer
@@ -246,7 +246,7 @@ journals extend mandatory archiving requirements over the coming years.
     ggplot(meta) + geom_bar(aes(dates, fill = publisher))
 ```
 
-![plot of chunk dates](http://farm6.staticflickr.com/5117/7116663395_12b146483c_o.png) 
+![plot of chunk dates](figure/dates.pdf) 
 
 
 Histogram of publication dates by year, with the code required to
@@ -282,14 +282,19 @@ table):
     xtable::xtable(kind) 
 ```
 
-<!-- html table generated in R 2.15.0 by xtable 1.7-0 package -->
-<!-- Thu Apr 26 13:31:04 2012 -->
-<TABLE border=1>
-<TR> <TH>  </TH> <TH> V1 </TH>  </TR>
-  <TR> <TD align="right"> Barcode Tree </TD> <TD align="right">  11 </TD> </TR>
-  <TR> <TD align="right"> Gene Tree </TD> <TD align="right"> 317 </TD> </TR>
-  <TR> <TD align="right"> Species Tree </TD> <TD align="right"> 10121 </TD> </TR>
-   </TABLE>
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{rr}
+  \hline
+ & V1 \\ 
+  \hline
+Barcode Tree &  11 \\ 
+  Gene Tree & 317 \\ 
+  Species Tree & 10121 \\ 
+   \hline
+\end{tabular}
+\end{center}
+\end{table}
 
 
 
@@ -300,13 +305,18 @@ table):
     xtable::xtable(type) 
 ```
 
-<!-- html table generated in R 2.15.0 by xtable 1.7-0 package -->
-<!-- Thu Apr 26 13:31:04 2012 -->
-<TABLE border=1>
-<TR> <TH>  </TH> <TH> V1 </TH>  </TR>
-  <TR> <TD align="right"> Consensus </TD> <TD align="right"> 3058 </TD> </TR>
-  <TR> <TD align="right"> Single </TD> <TD align="right"> 7406 </TD> </TR>
-   </TABLE>
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{rr}
+  \hline
+ & V1 \\ 
+  \hline
+Consensus & 3058 \\ 
+  Single & 7406 \\ 
+   \hline
+\end{tabular}
+\end{center}
+\end{table}
 
 
 
@@ -315,15 +325,20 @@ table):
     xtable::xtable(quality) 
 ```
 
-<!-- html table generated in R 2.15.0 by xtable 1.7-0 package -->
-<!-- Thu Apr 26 13:31:04 2012 -->
-<TABLE border=1>
-<TR> <TH>  </TH> <TH> V1 </TH>  </TR>
-  <TR> <TD align="right"> Alternative Tree </TD> <TD align="right">  78 </TD> </TR>
-  <TR> <TD align="right"> Preferred Tree </TD> <TD align="right"> 275 </TD> </TR>
-  <TR> <TD align="right"> Suboptimal Tree </TD> <TD align="right">  15 </TD> </TR>
-  <TR> <TD align="right"> Unrated </TD> <TD align="right"> 10081 </TD> </TR>
-   </TABLE>
+\begin{table}[ht]
+\begin{center}
+\begin{tabular}{rr}
+  \hline
+ & V1 \\ 
+  \hline
+Alternative Tree &  78 \\ 
+  Preferred Tree & 275 \\ 
+  Suboptimal Tree &  15 \\ 
+  Unrated & 10081 \\ 
+   \hline
+\end{tabular}
+\end{center}
+\end{table}
 
 
 
@@ -408,7 +423,7 @@ Figure [fig:2].
       scale_y_log10() + stat_smooth(aes(group = 1))
 ```
 
-![plot of chunk taxagrowth](http://farm8.staticflickr.com/7269/6970595308_3f8d2382a1_o.png) 
+![plot of chunk taxagrowth](figure/taxagrowth.pdf) 
 
 
 Combining the metadata available from publications and from phylogenies
@@ -419,20 +434,20 @@ growing far faster than the average number.[fig:2]
 The promise of this exponential growth in the sizes of available
 phylogenies, with some trees representing 2,957
 taxa motivates the more and more ambitious inference methods being developed
-which require large trees to have adequate signal [@boettiger2012, @fitzjohn2009, @beaulieu2012].
+which require large trees to have adequate signal [@boettiger2012; @fitzjohn2009; @beaulieu2012].
 It will be interesting to see how long into the future this trend is maintained.
 These visualizations help identify research trends and can also help identify potential data sets for analyses. 
 In this next section we highlight a few ways in which programmatic access can be leveraged for various research objectives.  
 
 # Reproducible research
-Reproducible research has become a topic of increasing concern in recent years [@schwab2000, @gentleman2004, @peng2011b].  
-access to data and executable scripts that reproduce the results presented 
+Reproducible research has become a topic of increasing concern in recent years [@schwab2000; @gentleman2004; @peng2011b]. 
+Access to data and executable scripts that reproduce the results presented 
 are two central elements of this process which are addressed by the ` treebase ` package.   
 
 For example, you may like to know whether the shifts in speciation rate 
 identified by Derryberry et al. generated using methods in the R package 
 `laser` [@rabosky2006b] differ from those using the newer 
-methods presented in @stadler2011, which can include models of 
+methods presented in @stadler2011; which can include models of 
 shifts not available in the earlier package. The ` treebase ` package can help us both verify the results presented
 and test the data against the newer method with little additional effort.  
 
@@ -525,13 +540,13 @@ best_fit <- names(models[which.min(aics)])
 
 
 
-and confirm the result presented in @derryberry2011, 
+and confirm the result presented in @derryberry2011; 
 that the yule.2.rate model is the best fit to the data.  
 
 
 In this fast-moving field, new methods often become available within the time-frame 
 that another manuscript is submitted by its authors and the time at which if first appears in print.  
-For instance, the more sophisticated methods available in the more recent package, ` TreePar `, 
+For instance, the more sophisticated methods available in the more recent package, `TreePar`, 
 introduced in @stadler2011 were not used in this study.
 
 
@@ -620,7 +635,7 @@ and peer-review.
 
 
 # A self-updating meta-analysis?
-Large scale comparative analyses that seek to characterize evolutionary patterns across many phylogenies increasingly common in phylogenetic methods p[_e.g._ @mcpeek2007, @phillimore2008, @mcpeek2008, @quental2010, @davies2011a].  
+Large scale comparative analyses that seek to characterize evolutionary patterns across many phylogenies increasingly common in phylogenetic methods p[_e.g._ @mcpeek2007; @phillimore2008; @mcpeek2008; @quental2010; @davies2011a].  
 Often referred to by their authors as meta-analyses,
 these approaches have focused on re-analyzing phylogenetic trees collected from many different earlier publications.  
 This is a more direct approach than the traditional concept of meta-analysis
@@ -630,7 +645,7 @@ Because the identical analysis can be repeated on the original data from each st
 avoids some of the statistical challenges inherent in traditional meta-analyses summarizing results across heterogeneous approaches.  
 
 To date, researchers have gone through heroic efforts simply to assemble these data sets from the literature.  
-As described in @mcpeek2007, (emphasis added)
+As described in @mcpeek2007; (emphasis added)
 >One data set was based on 163 published species-level molecular phylogenies of arthropods, chordates, and mollusks. [\dots] A PDF format file of each article was obtained, and a digital snapshot of the figure was taken in Adobe Acrobat 7.0. This image was transferred to a PowerPoint (Microsoft) file and printed on a laser printer. The phylogenies included in this study are listed in the appendix. \emph{All branch lengths were measured by hand from these  printed sheets using dial calipers.}
 
 Despite the recent appearance of digital tools that could now facilitate this
@@ -649,7 +664,7 @@ has been to identify how often these trees show changing rates of speciation and
 Understanding these differences in diversification rates in different taxa is fundamental 
 to explaining the patterns of diversity we see today.  
 In this section we illustrate how we can perform a similar meta-analysis to the studies 
-such as @mcpeek2007, @phillimore2008, @mcpeek2008, @quental2010, @davies2011a 
+such as @mcpeek2007; @phillimore2008; @mcpeek2008; @quental2010; @davies2011a 
 across a much larger set of phylogenies and with just a few lines of R code.   
 Because the entire analysis, including the access of the data, is scriptable,
 we could simply recompile this document some time in the future and see how the pattern we find has changed
@@ -737,7 +752,7 @@ and the resulting distribution of the statistic across available trees is shown 
 qplot(gammas)
 ```
 
-![plot of chunk gammadist](http://farm8.staticflickr.com/7129/7116702767_bb13863637_o.png) 
+![plot of chunk gammadist](figure/gammadist.pdf) 
 
 
 As the gamma statistic is normally distributed under the constant-rates model, 
@@ -784,7 +799,7 @@ by scripts using the latest treebase data, it is not only easier to
 perform this analysis but also to update it to reflect the latest data.
 Note that in this example it is not our objective to provide a thorough
 analysis of diversification patterns and their possible interpretations,
-as in @pybus2000, @mcpeek2007, @mcpeek2008, and @phillimore2008, but
+as in @pybus2000; @mcpeek2007; @mcpeek2008; and @phillimore2008; but
 merely to illustrate how the similar calculations to these can be easily
 applied across the much larger datasets in the repository. This example
 can be automatically updated to reflect the latest data in TreeBASE
@@ -811,7 +826,7 @@ scale of possible analyses.
 
 The recent advent of mandatory data archiving in many of the major
 journals publishing phylognetics-based research
-[_e.g._ @fairbairn2010, @piwowar2011, @whitlock2010], is a
+[_e.g._ @fairbairn2010; @piwowar2011; @whitlock2010], is a
 particularly promising development that should continue to fuel trend of
 submissions seen in Fig. 1. Accompanied by faster and more
 inexpensive techniques of NextGen sequencing, and the rapid expansion in
