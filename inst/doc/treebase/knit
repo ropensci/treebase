@@ -3,6 +3,8 @@
 ## ./knit [epub|github|html|pdf|docx] to generate different types of output
 
 library(knitr)
+library(methods) # avoid "getClass" not found?
+
 
 ## use markdown as the output format: R code in ```r and ``` 
 render_markdown()
@@ -17,7 +19,7 @@ knit_hooks$set(inline = function(x) {
 
 ## global chunk options: default uses high quality Cairo PNG device
 pdf.options(pointsize = 10)  # smaller pointsize for recording plots
-opts_chunk$set(cache=TRUE, fig.path='figure/', dev='Cairo_png',
+opts_chunk$set(cache=TRUE, fig.path='figure/', dev='png',
   fig.width=5, fig.height=5, cache.path = 'cache-local/', par=TRUE)
 
 ## xtable html format for github/html output.  

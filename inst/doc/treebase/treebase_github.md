@@ -34,17 +34,17 @@ are becoming increasingly central to both evolutionary and ecological
 research. The exponential growth in genetic sequence data available for
 all forms of life has driven rapid advances in the methods that can
 infer the phylogenetic relationships and divergence times across
-different taxa [@Huelsenbeck2001b, @Stamatakis2006, @Drummond2007]. Just
-as the availability of sequence data has led to the subsequent explosion
-of phylogenetic methods, and many other avenues of research, this rapid
+different taxa (Huelsenbeck and Ronquist 2001, , ). just as the
+availability of sequence data has led to the subsequent explosion of
+phylogenetic methods, and many other avenues of research, this rapid
 expanse of phylogenetic data now primes new innovations across ecology
 and evolution. Once again the product of one field has become the raw
 data of the next. Unfortunately, while the discipline of bioinformatics
 has emerged to help harness and curate the wealth of genetic data with
 cutting edge computer science, statistics, and internet technology, its
 counterpart in evolutionary informatics remains “scattered, poorly
-documented, and in formats that impede discovery and integration”
-[@Parr2011a]. Our goal when developing the `treebase` package was to
+documented, and in formats that impede discovery and integration” (Parr
+et al. 2011). Our goal when developing the `treebase` package was to
 address this gap by providing how programmatic and interactive access
 between the repositories that store this data and the software tools
 commonly used to analyze them.
@@ -53,41 +53,40 @@ Our focus is primarily on such applications which use, rather than
 generate, phylogenetic data, and thus stand to benefit the most from
 programmatic and interactive access to TreeBASE. While the task of
 inferring phylogenies from sequence data remains dominated by dedicated
-compiled software such as MrBayes [@Huelsenbeck2001b], BEAST
-[@Drummond2007], RAXML [@Stamatakis2006], the ever-growing suite of
-research methods that use these phylogenies as input data are largely
-based in R. The R statistical environment [@RTeam2012] has become a
-dominant platform for researchers using phylogenetic data to address a
-rapidly expanding set of questions in ecological and evolutionary
-processes. These methods include but are not limited to tasks such as
-ancestral state reconstruction [@Paradis2004, @Butler2004],
-diversification analysis [@Paradis2004, @Rabosky2006b, @Harmon2008,
-@FitzJohn2009, @FitzJohn2010, @Goldberg2011, @Stadler2011], quantifying
-the rate and tempo of trait evolution [@Butler2004, @Paradis2004,
-@Harmon2008, @Hipp2010, @Revell2011, @Eastman2011], identifying
-evolutionary influences and proxies for community ecology [@Webb2008,
-@Kembel2010], performing phyloclimatic modelling [@Warren2008,
-@Evans2009b], and simulation of speciation and character evolution
-[@Harmon2008, @Stadler2011a, @Boettiger2012], as well as various
-manipulation and visualization of phylogenetic data [@Paradis2004,
-@Schliep2010, @Jombart2010, @Revell2011]. A more comprehensive list of R
-packages by analysis type is available on the phylogenetics taskview,
+compiled software such as MrBayes (Huelsenbeck and Ronquist 2001), BEAST
+(Drummond and Rambaut 2007), RAXML (Stamatakis 2006), the ever-growing
+suite of research methods that use these phylogenies as input data are
+largely based in R. The R statistical environment (R Development Core
+Team 2012) has become a dominant platform for researchers using
+phylogenetic data to address a rapidly expanding set of questions in
+ecological and evolutionary processes. These methods include but are not
+limited to tasks such as ancestral state reconstruction (Paradis 2004,
+), diversification analysis (Paradis 2004, , , , , , ), quantifying the
+rate and tempo of trait evolution (Butler and King 2004, , , , , ),
+identifying evolutionary influences and proxies for community ecology
+(Webb, Ackerly, and Kembel 2008, ), performing phyloclimatic modelling
+(Warren, Glor, and Turelli 2008, ), and simulation of speciation and
+character evolution (Harmon et al. 2008, , ), as well as various
+manipulation and visualization of phylogenetic data (Paradis 2004, , ,
+). A more comprehensive list of R packages by analysis type is available
+on the phylogenetics taskview,
 [http://cran.r-project.org/web/views/Phylogenetics.html](http://cran.r-project.org/web/views/Phylogenetics.html).
 Several programs exist outside the R language for applied phylogenetic
-methods, incuding Java [@Maddison2011], MATLAB [@Blomberg2003] and
-Python [@Sukumaran2010] and online interfaces [@Martins2004].
+methods, incuding Java (Maddison and Maddison 2011), MATLAB (Blomberg,
+Garland, and Ives 2003) and Python (Sukumaran and Holder 2010) and
+online interfaces (Martins 2004).
 
 TreeBASE ([http://treebase.org](http://treebase.org)) is an online
 repository of phylogenetic data (e.g. trees of species, populations, or
 genes) that have been published in a peer-reviewed academic journal,
-book, thesis or conference proceedings [@Sanderson1994b, @Morell1996].
-The database can be searched through an online interface which allows
-users to find a phylogenetic tree from a particular publication, author
-or taxa of interest. TreeBASE provides an application programming
-interface (API) that lets computer applications make queries to the
-database. Our `treebase` package uses this API to create a direct link
-between this data and the R language, making it easier for users and
-developers to take advantage of this data.
+book, thesis or conference proceedings (Sanderson et al. 1994, ). The
+database can be searched through an online interface which allows users
+to find a phylogenetic tree from a particular publication, author or
+taxa of interest. TreeBASE provides an application programming interface
+(API) that lets computer applications make queries to the database. Our
+`treebase` package uses this API to create a direct link between this
+data and the R language, making it easier for users and developers to
+take advantage of this data.
 
 We provide three kinds of examples to illustrate what such programmatic
 and interactive access could mean for applied phylogenetics research.
@@ -117,8 +116,8 @@ construct more complicated filters than permitted by the web interface,
 and can maintain a record of the queries they used to collect their data
 as an R script. The ability to script this data-gathering step of
 research can go a long way to reducing errors and ensuring that an
-analysis can be replicated later, by the author or other groups
-[@Peng2011a].
+analysis can be replicated later, by the author or other groups (Peng et
+al. 2011).
 
 Any of the queries available on the web interface can now be made
 directly from R, including downloading and importing the phylogeny into
@@ -166,8 +165,6 @@ a given date range)
     metadata <- search_metadata() 
 ~~~~
 
-    Error: could not find function "getClass"
-
 This returns an R list object, in which each element is an entry with
 bibliographic information corresponding to a published study that has
 deposited data in TreeBASE. From the length of this list we see that
@@ -181,15 +178,8 @@ obtain a list of all the dates of publication & names of the journals
 
 ~~~~ {.r}
     dates <- sapply(metadata, `[[`, "date")
-~~~~
-
-    Error: object of type 'symbol' is not subsettable
-
-~~~~ {.r}
     pub <- sapply(metadata, `[[`, "publisher")
 ~~~~
-
-    Error: object of type 'symbol' is not subsettable
 
 which we organize into a table,
 
@@ -197,22 +187,13 @@ which we organize into a table,
     pub_table <- sort(table(as.character(pub)), decreasing=TRUE)
 ~~~~
 
-    Error: object 'pub' not found
-
 Many journals have only a few submissions, so we will group them
 together as “Other”:
 
 ~~~~ {.r}
     top_contributors <- names(head(pub_table,10))
-~~~~
-
-    Error: object 'pub_table' not found
-
-~~~~ {.r}
     pub[!(pub %in% top_contributors)] <- "Other"
 ~~~~
-
-    Error: object 'pub' not found
 
 We can then look at the distribution of publication years for
 phylogenies deposited in TreeBASE, color coding by publisher in Fig
@@ -223,16 +204,12 @@ journals extend mandatory archiving requirements over the coming years.
 
 ~~~~ {.r}
     meta <- data.frame(publisher = as.character(pub), dates = dates)
-~~~~
-
-    Error: object 'pub' not found
-
-~~~~ {.r}
     require(ggplot2)
     ggplot(meta) + geom_bar(aes(dates, fill = publisher))
 ~~~~
 
-    Error: object 'meta' not found
+![plot of chunk
+dates](http://farm6.staticflickr.com/5117/7116663395_12b146483c_o.png)
 
 Histogram of publication dates by year, with the code required to
 generate the figure.[fig:1]
@@ -262,7 +239,7 @@ table):
 ~~~~
 
 <!-- html table generated in R 2.15.0 by xtable 1.7-0 package -->
-<!-- Wed Apr 25 14:54:37 2012 -->
+<!-- Thu Apr 26 13:31:04 2012 -->
 <TABLE border=1>
 <TR> <TH>  </TH> <TH> 
 V1
@@ -294,7 +271,7 @@ Species Tree
 ~~~~
 
 <!-- html table generated in R 2.15.0 by xtable 1.7-0 package -->
-<!-- Wed Apr 25 14:54:38 2012 -->
+<!-- Thu Apr 26 13:31:04 2012 -->
 <TABLE border=1>
 <TR> <TH>  </TH> <TH> 
 V1
@@ -319,7 +296,7 @@ Single
 ~~~~
 
 <!-- html table generated in R 2.15.0 by xtable 1.7-0 package -->
-<!-- Wed Apr 25 14:54:38 2012 -->
+<!-- Thu Apr 26 13:31:04 2012 -->
 <TABLE border=1>
 <TR> <TH>  </TH> <TH> 
 V1
@@ -395,47 +372,18 @@ Figure [fig:2].
 ~~~~ {.r}
     studyid <- sapply(tree_metadata,`[[`, 'S.id')
     sid <- sapply(metadata, `[[`, 'identifier')
-~~~~
-
-    Error: object of type 'symbol' is not subsettable
-
-~~~~ {.r}
     sid <- gsub(".*TB2:S(\\d*)", "\\1", sid)
-~~~~
-
-    Error: object 'sid' not found
-
-~~~~ {.r}
     matches <- sapply(sid, match, studyid)
-~~~~
-
-    Error: object 'sid' not found
-
-~~~~ {.r}
     Ntaxa <- sapply(matches, function(i)  tree_metadata[[i]]$ntax)
-~~~~
-
-    Error: object 'matches' not found
-
-~~~~ {.r}
     Ntaxa[sapply(Ntaxa, is.null)] <- NA
-~~~~
-
-    Error: object 'Ntaxa' not found
-
-~~~~ {.r}
     taxa <- data.frame(Ntaxa=as.numeric(unlist(Ntaxa)), meta)
-~~~~
-
-    Error: object 'Ntaxa' not found
-
-~~~~ {.r}
     ggplot(taxa, aes(dates, Ntaxa)) + 
       geom_point(position = 'jitter', alpha = .8) + 
       scale_y_log10() + stat_smooth(aes(group = 1))
 ~~~~
 
-    Error: object 'taxa' not found
+![plot of chunk
+taxagrowth](http://farm8.staticflickr.com/7269/6970595308_3f8d2382a1_o.png)
 
 Combining the metadata available from publications and from phylogenies
 themselves, we can visualize the growth in taxa on published
@@ -443,33 +391,28 @@ phylogenies. Note that the maximum size tree deposited each year is
 growing far faster than the average number.[fig:2]
 
 The promise of this exponential growth in the sizes of available
-phylogenies, with some trees representing
-
-
-    Error in eval(expr, envir, enclos) : object 'taxa' not found
-
-taxa motivates the more and more ambitious inference methods being
-developed which require large trees to have adequate signal
-[@Boettiger2012, @FitzJohn2009, @Beaulieu2012]. It will be interesting
-to see how long into the future this trend is maintained. These
-visualizations help identify research trends and can also help identify
-potential data sets for analyses. In this next section we highlight a
-few ways in which programmatic access can be leveraged for various
-research objectives.
+phylogenies, with some trees representing 2,957 taxa motivates the more
+and more ambitious inference methods being developed which require large
+trees to have adequate signal (Boettiger, Coop, and Ralph 2012). It will
+be interesting to see how long into the future this trend is maintained.
+These visualizations help identify research trends and can also help
+identify potential data sets for analyses. In this next section we
+highlight a few ways in which programmatic access can be leveraged for
+various research objectives.
 
 Reproducible research
 =====================
 
 Reproducible research has become a topic of increasing concern in recent
-years [@Schwab2000, @Gentleman2004, @Peng2011b].\
-Access to data and executable scripts that reproduce the results
+years (Schwab, Karrenbach, and Claerbout 2000, , ).\
+access to data and executable scripts that reproduce the results
 presented are two central elements of this process which are addressed
 by the `treebase` package.
 
 For example, you may like to know whether the shifts in speciation rate
 identified by Derryberry et al. generated using methods in the R package
-`laser` [@Rabosky2006b] differ from those using the newer methods
-presented in @Stadler2011, which can include models of shifts not
+`laser` (Rabosky 2006) differ from those using the newer methods
+presented in Stadler (2011b), which can include models of shifts not
 available in the earlier package. The `treebase` package can help us
 both verify the results presented and test the data against the newer
 method with little additional effort.
@@ -516,7 +459,7 @@ process best fits the data. Different diversification models make
 different assumptions about the rate of speciation, extinction, and how
 these rates may be changing over time.\
 The authors consider eight different models, implemented in the laser
-package [@Rabosky2006b]. This code fits each of the eight models to that
+package (Rabosky 2006). This code fits each of the eight models to that
 data:
 
 ~~~~ {.r}
@@ -543,15 +486,15 @@ aics <- sapply(models, `[[`, 'aic')
 best_fit <- names(models[which.min(aics)])
 ~~~~
 
-and confirm the result presented in @Derryberry2011, that the
+and confirm the result presented in Derryberry et al. (2011), that the
 yule.2.rate model is the best fit to the data.
 
 In this fast-moving field, new methods often become available within the
 time-frame that another manuscript is submitted by its authors and the
 time at which if first appears in print.\
 For instance, the more sophisticated methods available in the more
-recent package, `TreePar`, introduced in @Stadler2011 were not used in
-this study.
+recent package, `TreePar`, introduced in Stadler (2011b) were not used
+in this study.
 
 We load the new method and format the data as its manual instructs us
 
@@ -623,8 +566,7 @@ A self-updating meta-analysis?
 
 Large scale comparative analyses that seek to characterize evolutionary
 patterns across many phylogenies increasingly common in phylogenetic
-methods p[*e.g.* @McPeek2007, @Phillimore2008, @McPeek2008,
-@Quental2010, @Davies2011a].\
+methods p(*e.g.* McPeek and Brown 2007, , , , ).\
 Often referred to by their authors as meta-analyses, these approaches
 have focused on re-analyzing phylogenetic trees collected from many
 different earlier publications.\
@@ -638,23 +580,23 @@ results across heterogeneous approaches.
 
 To date, researchers have gone through heroic efforts simply to assemble
 these data sets from the literature.\
-As described in @McPeek2007, (emphasis added) \>One data set was based
-on 163 published species-level molecular phylogenies of arthropods,
-chordates, and mollusks. [\dots] A PDF format file of each article was
-obtained, and a digital snapshot of the figure was taken in Adobe
-Acrobat 7.0. This image was transferred to a PowerPoint (Microsoft) file
-and printed on a laser printer. The phylogenies included in this study
-are listed in the appendix.
+As described in McPeek and Brown (2007), (emphasis added) \>One data set
+was based on 163 published species-level molecular phylogenies of
+arthropods, chordates, and mollusks. [\dots] A PDF format file of each
+article was obtained, and a digital snapshot of the figure was taken in
+Adobe Acrobat 7.0. This image was transferred to a PowerPoint
+(Microsoft) file and printed on a laser printer. The phylogenies
+included in this study are listed in the appendix.
 \emph{All branch lengths were measured by hand from these  printed sheets using dial calipers.}
 
 Despite the recent appearance of digital tools that could now facilitate
-this analysis without mechanical calipers, [*e.g.* treesnatcher,
-@Laubach2007], it is easier and less error-prone to pull properly
-formatted phylogenies from the database for this purpose. Moreover, as
-the available data increases with subsequent publications, updating
-earlier meta-analyses can become increasingly tedious. In this section
-we describe how `treebase` can help overcome such barriers to discovery
-and integration at this large scale.
+this analysis without mechanical calipers, (*e.g.* treesnatcher, Laubach
+and von Haeseler 2007), it is easier and less error-prone to pull
+properly formatted phylogenies from the database for this purpose.
+Moreover, as the available data increases with subsequent publications,
+updating earlier meta-analyses can become increasingly tedious. In this
+section we describe how `treebase` can help overcome such barriers to
+discovery and integration at this large scale.
 
 A central question in many studies that look across a large array of
 phylogenies has been to identify how often these trees show changing
@@ -662,9 +604,10 @@ rates of speciation and extinction. Understanding these differences in
 diversification rates in different taxa is fundamental to explaining the
 patterns of diversity we see today.\
 In this section we illustrate how we can perform a similar meta-analysis
-to the studies such as @McPeek2007, @Phillimore2008, @McPeek2008,
-@Quental2010, @Davies2011a across a much larger set of phylogenies and
-with just a few lines of R code.\
+to the studies such as McPeek and Brown (2007), Phillimore and Price
+(2008), McPeek (2008), Quental and Marshall (2010), Davies et al. (2011)
+across a much larger set of phylogenies and with just a few lines of R
+code.\
 Because the entire analysis, including the access of the data, is
 scriptable, we could simply recompile this document some time in the
 future and see how the pattern we find has changed as more data has been
@@ -673,12 +616,13 @@ added to TreeBASE.
 Testing for constant speciation and extinction rates across all of treebase
 ---------------------------------------------------------------------------
 
-A standard test of this is the gamma statistic of @Pybus2000 which tests
-the null hypothesis that the rates of speciation and extinction are
-constant. The gamma statistic is normally distributed about 0 for a pure
-birth or birth-death process, values larger than 0 indicate that
-internal nodes are closer to the tip then expected, while values smaller
-than 0 indicate nodes farther from the tip then expected.\
+A standard test of this is the gamma statistic of Pybus and Harvey
+(2000) which tests the null hypothesis that the rates of speciation and
+extinction are constant. The gamma statistic is normally distributed
+about 0 for a pure birth or birth-death process, values larger than 0
+indicate that internal nodes are closer to the tip then expected, while
+values smaller than 0 indicate nodes farther from the tip then
+expected.\
 In this section, we collect all phylogenetic trees from TreeBASE and
 select those with branch length data that we can time-calibrate using
 tools available in R. We can then calculate the distribution of this
@@ -742,7 +686,7 @@ qplot(gammas)
 ~~~~
 
 ![plot of chunk
-gammadist](http://farm8.staticflickr.com/7138/7113992253_0e627605ac_o.png)
+gammadist](http://farm8.staticflickr.com/7129/7116702767_bb13863637_o.png)
 
 As the gamma statistic is normally distributed under the constant-rates
 model, we can ask what fraction of trees can reject this model at a
@@ -753,16 +697,16 @@ p_values <- 2 * (1 - pnorm(abs(gammas)))
 non_const <- sum(p_values < 0.025, na.rm=TRUE)/length(gammas)
 ~~~~
 
-wherein we find that 57 % of the trees can reject the constant-rates
+wherein we find that 58 % of the trees can reject the constant-rates
 model at the 95% confidence level. This supports a broad pattern from
 the above literature that finds deviations from the constant-rates
 models in smaller phylogentic samples.
 
-Following @McPeek2007 we can investigate if the species richness of a
-given phylogeny correlates with diversification rate [@Nee1994a]. Figure
-\ref{lambda_ntaxa} shows this analysis, which supports the conclusion
-that species richness is not explained by increasing diversification
-rate.
+Following McPeek and Brown (2007) we can investigate if the species
+richness of a given phylogeny correlates with diversification rate (Nee,
+May, and Harvey 1994). Figure \ref{lambda_ntaxa} shows this analysis,
+which supports the conclusion that species richness is not explained by
+increasing diversification rate.
 
 The species richness represented in a phylogeny shows no significant
 trend with increasing diversification rate
@@ -781,11 +725,12 @@ by scripts using the latest treebase data, it is not only easier to
 perform this analysis but also to update it to reflect the latest data.
 Note that in this example it is not our objective to provide a thorough
 analysis of diversification patterns and their possible interpretations,
-as in [@Pybus2000, @McPeek2007, @McPeek2008, @Phillimore2008], but
-merely to illustrate how the similar calculations to these can be easily
-applied across the much larger datasets in the repository. This example
-can be automatically updated to reflect the latest data in TreeBASE
-simply by rerunning the code we present above.
+as in Pybus and Harvey (2000), McPeek and Brown (2007), McPeek (2008),
+and Phillimore and Price (2008), but merely to illustrate how the
+similar calculations to these can be easily applied across the much
+larger datasets in the repository. This example can be automatically
+updated to reflect the latest data in TreeBASE simply by rerunning the
+code we present above.
 
 Conclusion
 ==========
@@ -798,24 +743,23 @@ trait data as well as the phylogeny. The Dryad digital repository
 ([http://datadryad.org](http://datadryad.org)) is a popular host for
 such data to support the data archiving requirements mentioned above.
 While programmatic access to the repository is possible through the
-`rdryad` package [@Chamberlain2012], variation in data formatting must
-first be overcome. Dedicated databases such as FishBASE
-([http://fishbase.org](http://fishbase.org)) may be another alternative,
-where morphological data can be queried for a list of species using the
-`rfishbase` package [@rfishbase]. The development of similar software
-for programmatic data access will rapidly extend the space and scale of
-possible analyses.
+`rdryad` package (Chamberlain, Boettiger, and Ram 2012), variation in
+data formatting must first be overcome. Dedicated databases such as
+FishBASE ([http://fishbase.org](http://fishbase.org)) may be another
+alternative, where morphological data can be queried for a list of
+species using the `rfishbase` package [@rfishbase]. The development of
+similar software for programmatic data access will rapidly extend the
+space and scale of possible analyses.
 
 The recent advent of mandatory data archiving in many of the major
-journals publishing phylognetics-based research [*e.g.* @Fairbairn2010,
-@Piwowar2011, @Whitlock2010], is a particularly promising development
-that should continue to fuel trend of submissions seen in Fig. [fig:1].
-Accompanied by faster and more inexpensive techniques of NextGen
-sequencing, and the rapid expansion in phylogenetic applications, we
-anticipate this rapid growth in available phylogenies will continue.
-Faced with this flood of data, programmatic access becomes not only
-increasingly powerful but an increasingly necessary way to ensure we can
-still see the forest for all the trees.
+journals publishing phylognetics-based research (*e.g.* Fairbairn 2010,
+, ), is a particularly promising development that should continue to
+fuel trend of submissions seen in Fig. 1. Accompanied by faster and more
+inexpensive techniques of NextGen sequencing, and the rapid expansion in
+phylogenetic applications, we anticipate this rapid growth in available
+phylogenies will continue. Faced with this flood of data, programmatic
+access becomes not only increasingly powerful but an increasingly
+necessary way to ensure we can still see the forest for all the trees.
 
 Acknowledgements
 ================
@@ -825,3 +769,248 @@ developer team for building and supporting the repository, and all
 contributers to TreeBASE. CB is supported by a Computational Sciences
 Graduate Fellowship from the Department of Energy under grant number
 DE-FG02-97ER25308.
+
+Blomberg, S. P., JR Theodore Garland, and A. R. Ives. 2003. “Testing for
+phylogenetic signal in comparative data: behavioral traits are more
+labile.” *Evolution* 57: 717–745.
+[http://www3.interscience.wiley.com/journal/118867878/abstract](http://www3.interscience.wiley.com/journal/118867878/abstract "http://www3.interscience.wiley.com/journal/118867878/abstract").
+
+Boettiger, Carl, Graham Coop, and Peter Ralph. 2012. “Is your phylogeny
+informative? Measuring the power of comparative methods.” *Evolution*
+(jan). doi:10.1111/j.1558-5646.2012.01574.x.
+[http://doi.wiley.com/10.1111/j.1558-5646.2012.01574.x](http://doi.wiley.com/10.1111/j.1558-5646.2012.01574.x "http://doi.wiley.com/10.1111/j.1558-5646.2012.01574.x").
+
+Butler, Marguerite A., and Aaron A. King. 2004. “Phylogenetic
+Comparative Analysis: A Modeling Approach for Adaptive Evolution.” *The
+American Naturalist* 164 (dec): 683–695. doi:10.1086/426002.
+[http://www.jstor.org/stable/10.1086/426002](http://www.jstor.org/stable/10.1086/426002 "http://www.jstor.org/stable/10.1086/426002").
+
+Chamberlain, Scott, Carl Boettiger, and Karthik Ram. 2012. “rdryad:
+Dryad API interface.” [http://www.github.com/ropensci/rdryad
+](http://www.github.com/ropensci/rdryad  "http://www.github.com/ropensci/rdryad ").
+
+Davies, T. Jonathan, Andrew P. Allen, Luís Borda-de-Água, Jim Regetz,
+and Carlos J. Melián. 2011. “NEUTRAL BIODIVERSITY THEORY CAN EXPLAIN THE
+IMBALANCE OF PHYLOGENETIC TREES BUT NOT THE TEMPO OF THEIR
+DIVERSIFICATION.” *Evolution* 65 (jul): 1841–1850.
+doi:10.1111/j.1558-5646.2011.01265.x.
+[http://doi.wiley.com/10.1111/j.1558-5646.2011.01265.x
+http://www.ncbi.nlm.nih.gov/pubmed/21729042](http://doi.wiley.com/10.1111/j.1558-5646.2011.01265.x http://www.ncbi.nlm.nih.gov/pubmed/21729042 "http://doi.wiley.com/10.1111/j.1558-5646.2011.01265.x http://www.ncbi.nlm.nih.gov/pubmed/21729042").
+
+Derryberry, Elizabeth P., Santiago Claramunt, Graham Derryberry, R.
+Terry Chesser, Joel Cracraft, Alexandre Aleixo, Jorge Pérez-Emán, J. V.
+Remsen Jr, and Robb T. Brumfield. 2011. “LINEAGE DIVERSIFICATION AND
+MORPHOLOGICAL EVOLUTION IN A LARGE-SCALE CONTINENTAL RADIATION: THE
+NEOTROPICAL OVENBIRDS AND WOODCREEPERS (AVES: FURNARIIDAE).” *Evolution*
+(jul). doi:10.1111/j.1558-5646.2011.01374.x.
+[http://doi.wiley.com/10.1111/j.1558-5646.2011.01374.x](http://doi.wiley.com/10.1111/j.1558-5646.2011.01374.x "http://doi.wiley.com/10.1111/j.1558-5646.2011.01374.x").
+
+Drummond, Alexei J., and Andrew Rambaut. 2007. “BEAST: Bayesian
+evolutionary analysis by sampling trees.” *BMC evolutionary biology* 7
+(jan): 214. doi:10.1186/1471-2148-7-214.
+[http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=2247476\\&tool=pmcentrez\\&rendertype=abstract](http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=2247476\&tool=pmcentrez\&rendertype=abstract "http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=2247476\&tool=pmcentrez\&rendertype=abstract").
+
+Eastman, Jonathan M., Michael E. Alfaro, Paul Joyce, Andrew L. Hipp, and
+Luke J. Harmon. 2011. “A NOVEL COMPARATIVE METHOD FOR IDENTIFYING SHIFTS
+IN THE RATE OF CHARACTER EVOLUTION ON TREES.” *Evolution* 65 (jul):
+3578–3589. doi:10.1111/j.1558-5646.2011.01401.x.
+[http://doi.wiley.com/10.1111/j.1558-5646.2011.01401.x](http://doi.wiley.com/10.1111/j.1558-5646.2011.01401.x "http://doi.wiley.com/10.1111/j.1558-5646.2011.01401.x").
+
+Evans, Margaret E. K., Stephen a Smith, Rachel S. Flynn, and Michael J.
+Donoghue. 2009. “Climate, niche evolution, and diversification of the
+‘bird-cage’ evening primroses (Oenothera, sections Anogra and Kleinia).”
+*The American naturalist* 173 (feb): 225–40. doi:10.1086/595757.
+[http://www.ncbi.nlm.nih.gov/pubmed/19072708](http://www.ncbi.nlm.nih.gov/pubmed/19072708 "http://www.ncbi.nlm.nih.gov/pubmed/19072708").
+
+Fairbairn, Daphne J. 2010. “THE ADVENT OF MANDATORY DATA ARCHIVING.”
+*Evolution* (nov). doi:10.1111/j.1558-5646.2010.01182.x.
+[http://doi.wiley.com/10.1111/j.1558-5646.2010.01182.x](http://doi.wiley.com/10.1111/j.1558-5646.2010.01182.x "http://doi.wiley.com/10.1111/j.1558-5646.2010.01182.x").
+
+FitzJohn, Richard G., Wayne P. Maddison, and Sarah P. Otto. 2009.
+“Estimating trait-dependent speciation and extinction rates from
+incompletely resolved phylogenies.” *Systematic biology* 58 (dec):
+595–611. doi:10.1093/sysbio/syp067.
+[http://www.ncbi.nlm.nih.gov/pubmed/20525612](http://www.ncbi.nlm.nih.gov/pubmed/20525612 "http://www.ncbi.nlm.nih.gov/pubmed/20525612").
+
+Fitzjohn, Richard G. 2010. “Quantitative Traits and Diversification.”
+*Systematic biology* 59 (sep): 619–633. doi:10.1093/sysbio/syq053.
+[http://www.ncbi.nlm.nih.gov/pubmed/20884813](http://www.ncbi.nlm.nih.gov/pubmed/20884813 "http://www.ncbi.nlm.nih.gov/pubmed/20884813").
+
+Gentleman, Robert, and D. Temple Lang. 2004. “Statistical analyses and
+reproducible research.” *Bioconductor Project Working Papers*: 2.
+[http://www.bepress.com/cgi/viewcontent.cgi?article=1001\\&amp;context=bioconductor](http://www.bepress.com/cgi/viewcontent.cgi?article=1001\&amp;context=bioconductor "http://www.bepress.com/cgi/viewcontent.cgi?article=1001\&amp;context=bioconductor").
+
+Goldberg, Emma E., Lesley T. Lancaster, and Richard H. Ree. 2011.
+“Phylogenetic Inference of Reciprocal Effects between Geographic Range
+Evolution and Diversification.” *Systematic biology* 60 (may): 451–465.
+doi:10.1093/sysbio/syr046.
+[http://www.ncbi.nlm.nih.gov/pubmed/21551125](http://www.ncbi.nlm.nih.gov/pubmed/21551125 "http://www.ncbi.nlm.nih.gov/pubmed/21551125").
+
+Harmon, Luke J., Jason T. Weir, Chad D. Brock, Richard E. Glor, and
+Wendell Challenger. 2008. “Geiger: investigating evolutionary
+radiations.” *Bioinformatics* 24: 129–131.
+doi:10.1093/bioinformatics/btm538.
+
+Hipp, Andrew L., and Marcial Escudero. 2010. “MATICCE: mapping
+transitions in continuous character evolution.” *Bioinformatics* 26:
+132–3. doi:10.1093/bioinformatics/btp625.
+[http://www.ncbi.nlm.nih.gov/pubmed/19880368](http://www.ncbi.nlm.nih.gov/pubmed/19880368 "http://www.ncbi.nlm.nih.gov/pubmed/19880368").
+
+Huelsenbeck, John P., and Fredrik Ronquist. 2001. “MRBAYES: Bayesian
+inference of phylogenetic trees.” *Bioinformatics (Oxford, England)* 17
+(aug): 754–5. doi:10.1093/bioinformatics/17.8.754.
+[http://www.ncbi.nlm.nih.gov/pubmed/11524383](http://www.ncbi.nlm.nih.gov/pubmed/11524383 "http://www.ncbi.nlm.nih.gov/pubmed/11524383").
+
+Jombart, Thibaut, François Balloux, and Stéphane Dray. 2010. “Adephylo:
+New Tools for Investigating the Phylogenetic Signal in Biological
+Traits.” *Bioinformatics (Oxford, England)* 26 (aug): 1907–9.
+doi:10.1093/bioinformatics/btq292.
+[http://www.ncbi.nlm.nih.gov/pubmed/20525823](http://www.ncbi.nlm.nih.gov/pubmed/20525823 "http://www.ncbi.nlm.nih.gov/pubmed/20525823").
+
+Kembel, Steven W., Peter D. Cowan, Matthew R. Helmus, William K.
+Cornwell, Helene Morlon, David D. Ackerly, Simon P. Blomberg, and
+Campbell O. Webb. 2010. “Picante: R tools for integrating phylogenies
+and ecology.” *Bioinformatics (Oxford, England)* 26 (jun): 1463–4.
+doi:10.1093/bioinformatics/btq166.
+[http://www.ncbi.nlm.nih.gov/pubmed/20395285](http://www.ncbi.nlm.nih.gov/pubmed/20395285 "http://www.ncbi.nlm.nih.gov/pubmed/20395285").
+
+Laubach, Thomas, and Arndt von Haeseler. 2007. “TreeSnatcher: coding
+trees from images.” *Bioinformatics (Oxford, England)* 23 (dec): 3384–5.
+doi:10.1093/bioinformatics/btm438.
+[http://www.ncbi.nlm.nih.gov/pubmed/17893085](http://www.ncbi.nlm.nih.gov/pubmed/17893085 "http://www.ncbi.nlm.nih.gov/pubmed/17893085").
+
+Maddison, W. P., and D. R. Maddison. 2011. “Mesquite: a modular system
+for evolutionary analysis.”
+[http://mesquiteproject.org](http://mesquiteproject.org "http://mesquiteproject.org").
+
+Martins, E. P. 2004. “COMPARE, version Computer programs for the
+statistical analysis of comparative data.” Bloomington IN.: Department
+of Biology, Indiana University.
+[http://compare.bio.indiana.edu/](http://compare.bio.indiana.edu/ "http://compare.bio.indiana.edu/").
+
+McPeek, Mark a. 2008. “The ecological dynamics of clade diversification
+and community assembly.” *The American naturalist* 172 (dec): 270.
+doi:10.1086/593137.
+[http://www.ncbi.nlm.nih.gov/pubmed/18851684](http://www.ncbi.nlm.nih.gov/pubmed/18851684 "http://www.ncbi.nlm.nih.gov/pubmed/18851684").
+
+McPeek, Mark a, and Jonathan M. Brown. 2007. “Clade age and not
+diversification rate explains species richness among animal taxa.” *The
+American naturalist* 169 (apr): 97. doi:10.1086/512135.
+[http://www.ncbi.nlm.nih.gov/pubmed/17427118](http://www.ncbi.nlm.nih.gov/pubmed/17427118 "http://www.ncbi.nlm.nih.gov/pubmed/17427118").
+
+Morell, V. 1996. “TreeBASE: the roots of phylogeny.” *Science* 273: 569.
+doi:10.1126/science.273.5275.569.
+[http://www.sciencemag.org/cgi/doi/10.1126/science.273.5275.569](http://www.sciencemag.org/cgi/doi/10.1126/science.273.5275.569 "http://www.sciencemag.org/cgi/doi/10.1126/science.273.5275.569").
+
+Nee, Sean, Robert M. May, and Paul H. Harvey. 1994. “The reconstructed
+evolutionary process.” *Philosophical Transactions of the Royal Society
+of London. Series B, Biological Sciences* 344: 305–311.
+
+Paradis, Emmanuel. 2004. “APE: Analyses of Phylogenetics and Evolution
+in R language.” *Bioinformatics* 20: 289–290.
+doi:10.1093/bioinformatics/btg412.
+[http://www.bioinformatics.oupjournals.org/cgi/doi/10.1093/bioinformatics/btg412](http://www.bioinformatics.oupjournals.org/cgi/doi/10.1093/bioinformatics/btg412 "http://www.bioinformatics.oupjournals.org/cgi/doi/10.1093/bioinformatics/btg412").
+
+Parr, Cynthia S., Robert Guralnick, Nico Cellinese, and Roderic D. M.
+Page. 2011. “Evolutionary informatics: unifying knowledge about the
+diversity of life.” *Trends in ecology & evolution* 27 (dec): 94–103.
+doi:10.1016/j.tree.2011.11.001.
+[http://www.ncbi.nlm.nih.gov/pubmed/22154516](http://www.ncbi.nlm.nih.gov/pubmed/22154516 "http://www.ncbi.nlm.nih.gov/pubmed/22154516").
+
+Peng, Changhui, Joel Guiot, Haibin Wu, Hong Jiang, and Yiqi Luo. 2011.
+“Integrating models with data in ecology and palaeoecology: advances
+towards a model-data fusion approach.” *Ecology letters* (mar).
+doi:10.1111/j.1461-0248.2011.01603.x.
+[http://www.ncbi.nlm.nih.gov/pubmed/21366814](http://www.ncbi.nlm.nih.gov/pubmed/21366814 "http://www.ncbi.nlm.nih.gov/pubmed/21366814").
+
+Peng, R. D. 2011. “Reproducible Research in Computational Science.”
+*Science* 334 (dec): 1226–1227. doi:10.1126/science.1213847.
+[http://www.sciencemag.org/cgi/doi/10.1126/science.1213847](http://www.sciencemag.org/cgi/doi/10.1126/science.1213847 "http://www.sciencemag.org/cgi/doi/10.1126/science.1213847").
+
+Phillimore, Albert B., and Trevor D. Price. 2008. “Density-dependent
+cladogenesis in birds.” *PLoS biology* 6 (mar): 71.
+doi:10.1371/journal.pbio.0060071.
+[http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=2270327\\&tool=pmcentrez\\&rendertype=abstract](http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=2270327\&tool=pmcentrez\&rendertype=abstract "http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=2270327\&tool=pmcentrez\&rendertype=abstract").
+
+Piwowar, Heather A., Todd J. Vision, and Michael C. Whitlock. 2011.
+“Data archiving is a good investment.” *Nature* 473 (may): 285–285.
+doi:10.1038/473285a.
+[http://www.nature.com/doifinder/10.1038/473285a](http://www.nature.com/doifinder/10.1038/473285a "http://www.nature.com/doifinder/10.1038/473285a").
+
+Pybus, O. G., and P. H. Harvey. 2000. “Testing macro-evolutionary models
+using incomplete molecular phylogenies.” *Proceedings of The Royal
+Society B* 267 (nov): 2267–72. doi:10.1098/rspb.2000.1278.
+[http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=1690817\\&tool=pmcentrez\\&rendertype=abstract](http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=1690817\&tool=pmcentrez\&rendertype=abstract "http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=1690817\&tool=pmcentrez\&rendertype=abstract").
+
+Quental, Tiago B., and Charles R. Marshall. 2010. “Diversity dynamics:
+molecular phylogenies need the fossil record.” *Trends in Ecology &
+Evolution* (jun): 1–8. doi:10.1016/j.tree.2010.05.002.
+[http://linkinghub.elsevier.com/retrieve/pii/S0169534710001011](http://linkinghub.elsevier.com/retrieve/pii/S0169534710001011 "http://linkinghub.elsevier.com/retrieve/pii/S0169534710001011").
+
+R Development Core Team, The. 2012. “R: A language and environment for
+statistical computing.” Vienna, Austria: R Foundation for Statistical
+Computing.
+[http://www.r-project.org/](http://www.r-project.org/ "http://www.r-project.org/").
+
+Rabosky, Daniel L. 2006. “LASER: a maximum likelihood toolkit for
+detecting temporal shifts in diversification rates from molecular
+phylogenies.” *Evolutionary bioinformatics online* 2 (jan): 273–6.
+[http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=2674670\\&tool=pmcentrez\\&rendertype=abstract](http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=2674670\&tool=pmcentrez\&rendertype=abstract "http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=2674670\&tool=pmcentrez\&rendertype=abstract").
+
+Revell, Liam J., D. Luke Mahler, Pedro R. Peres-Neto, and Benjamin D.
+Redelings. 2011. “a New Phylogenetic Method for Identifying Exceptional
+Phenotypic Diversification.” *Evolution* (aug).
+doi:10.1111/j.1558-5646.2011.01435.x.
+[http://doi.wiley.com/10.1111/j.1558-5646.2011.01435.x](http://doi.wiley.com/10.1111/j.1558-5646.2011.01435.x "http://doi.wiley.com/10.1111/j.1558-5646.2011.01435.x").
+
+Sanderson, M. J., M. J. Donoghue, W. Piel, and T. Eriksson. 1994.
+“TreeBASE: a prototype database of phylogenetic analyses and an
+interactive tool for browsing the phylogeny of life.” *American Journal
+of Botany* 81: 183.
+
+Schliep, Klaus Peter. 2010. “phangorn: Phylogenetic analysis in R.”
+*Bioinformatics (Oxford, England)* 27 (dec): 592–593.
+doi:10.1093/bioinformatics/btq706.
+[http://www.ncbi.nlm.nih.gov/pubmed/21169378](http://www.ncbi.nlm.nih.gov/pubmed/21169378 "http://www.ncbi.nlm.nih.gov/pubmed/21169378").
+
+Schwab, M., N. Karrenbach, and J. Claerbout. 2000. “Making scientific
+computations reproducible.” *Computing in Science & Engineering* 2:
+61–67.
+[http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=881708](http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=881708 "http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=881708").
+
+Stadler, Tanja. 2011a. “Simulating Trees with a Fixed Number of Extant
+Species.” *Systematic biology* (apr). doi:10.1093/sysbio/syr029.
+[http://www.ncbi.nlm.nih.gov/pubmed/21482552](http://www.ncbi.nlm.nih.gov/pubmed/21482552 "http://www.ncbi.nlm.nih.gov/pubmed/21482552").
+
+———. 2011b. “Mammalian phylogeny reveals recent diversification rate
+shifts.” *Proceedings of the National Academy of Sciences* 2011 (mar).
+doi:10.1073/pnas.1016876108.
+[http://www.pnas.org/cgi/doi/10.1073/pnas.1016876108](http://www.pnas.org/cgi/doi/10.1073/pnas.1016876108 "http://www.pnas.org/cgi/doi/10.1073/pnas.1016876108").
+
+Stamatakis, Alexandros. 2006. “RAxML-VI-HPC: maximum likelihood-based
+phylogenetic analyses with thousands of taxa and mixed models.”
+*Bioinformatics (Oxford, England)* 22 (nov): 2688–90.
+doi:10.1093/bioinformatics/btl446.
+[http://www.ncbi.nlm.nih.gov/pubmed/16928733](http://www.ncbi.nlm.nih.gov/pubmed/16928733 "http://www.ncbi.nlm.nih.gov/pubmed/16928733").
+
+Sukumaran, Jeet, and Mark T. Holder. 2010. “DendroPy: A Python Library
+for Phylogenetic Computing.” *Bioinformatics* 26 (apr): 1569–1571.
+doi:10.1093/bioinformatics/btq228.
+[http://www.ncbi.nlm.nih.gov/pubmed/20421198](http://www.ncbi.nlm.nih.gov/pubmed/20421198 "http://www.ncbi.nlm.nih.gov/pubmed/20421198").
+
+Warren, Dan L., Richard E. Glor, and Michael Turelli. 2008.
+“Environmental niche equivalency versus conservatism: quantitative
+approaches to niche evolution.” *Evolution* 62 (nov): 2868–83.
+doi:10.1111/j.1558-5646.2008.00482.x.
+[http://www.ncbi.nlm.nih.gov/pubmed/18752605](http://www.ncbi.nlm.nih.gov/pubmed/18752605 "http://www.ncbi.nlm.nih.gov/pubmed/18752605").
+
+Webb, Campbell O., David D. Ackerly, and Steven W. Kembel. 2008.
+“Phylocom: software for the analysis of phylogenetic community structure
+and trait evolution.” *Bioinformatics (Oxford, England)* 24 (sep):
+2098–100. doi:10.1093/bioinformatics/btn358.
+[http://www.ncbi.nlm.nih.gov/pubmed/18678590](http://www.ncbi.nlm.nih.gov/pubmed/18678590 "http://www.ncbi.nlm.nih.gov/pubmed/18678590").
+
+Whitlock, Michael C., Mark a McPeek, Mark D. Rausher, Loren Rieseberg,
+and Allen J. Moore. 2010. “Data archiving.” *The American naturalist*
+175 (mar): 145–6. doi:10.1086/650340.
+[http://www.ncbi.nlm.nih.gov/pubmed/20073990](http://www.ncbi.nlm.nih.gov/pubmed/20073990 "http://www.ncbi.nlm.nih.gov/pubmed/20073990").
