@@ -62,7 +62,8 @@ address a rapidly expanding set of questions in ecological and
 evolutionary processes. These methods include but are not limited to
 tasks such as ancestral state reconstruction
 [@paradis2004; @butler2004], diversification analysis
-[@paradis2004; @rabosky2006b; @harmon2008; @fitzjohn2009; @fitzjohn2010; @goldberg2011; @stadler2011],
+[@paradis2004; @rabosky2006b; @harmon2008; @fitzjohn2009;
+@fitzjohn2010; @goldberg2011; @stadler2011],
 quantifying the rate and tempo of trait evolution
 [@butler2004; @paradis2004; @harmon2008; @hipp2010; @revell2011; @eastman2011],
 identifying evolutionary influences and proxies for community ecology
@@ -91,6 +92,9 @@ applications make queries to the database. Our `treebase` package uses
 this API to create a direct link between this data and the R language,
 making it easier for users and developers to take advantage of this
 data.
+
+We illustrate the purpose and use of this package in three ways:
+exploring and quantifying the kind of data available
 
 We provide three kinds of examples to illustrate what such programmatic
 and interactive access could mean for applied phylogenetics research.
@@ -170,7 +174,7 @@ associated with TreeBASE. (An optional argument can restrict searches to
 a given date range)
 
 ``` {r   getmetadata }
-    metadata <- search_metadata() 
+    oai.md <- search_metadata() 
 ````
 
 This returns an R list object, in which each element is an entry with
@@ -186,8 +190,8 @@ obtain a list of all the dates of publication & names of the journals
 
 
 ``` {r   journals }
-    dates <- sapply(metadata, `[[`, "date")
-    pub <- sapply(metadata, `[[`, "publisher")
+    dates <- oai_metadata("date", oai.md) 
+    pub <- oai_metadata("publisher", oai.md) 
 ````
 
 which we organize into a table,
@@ -232,7 +236,7 @@ species tree, or barcode tree) and whether the phylogeny represents a
 single or consensus type.
 
 ``` {r  tree_metadata_cache }
-    tree_metadata <- cache_treebase(only_metadata=TRUE)
+    phylo.md <- cache_treebase(only_metadata=TRUE)
 ````
 
 For instance, we can summarize how the length(tree~m~etadata) trees
@@ -240,20 +244,10 @@ break out by kind or type (The `xtable` command formats this as a
 table):
 
 
-<!-- change to multifactor tables at least -->
 
 ``` {r  kind, results='asis' }
-    kind <- table(sapply(tree_metadata, `[[`, "kind"))
-    xtable::xtable(kind) 
-````
-
-``` {r type, results='asis'} 
-    type <- table(sapply(tree_metadata, `[[`, "type"))
-    xtable::xtable(type) 
-
-``` {r quality, results='asis'} 
-    quality <- table(sapply(tree_metadata, `[[`, "quality"))
-    xtable::xtable(quality) 
+ output <- table(phylo_metadata("kind", phylo.md), phylo_metadata("type", phylo.md))
+ xtable::xtable(output)
 ````
 
 
@@ -297,11 +291,10 @@ the number of taxa on submitted phylogenies has increasing over time,
 Figure [fig:2]. 
 
 ``` {r   taxagrowth, fig.width=16, fig.height=6  }
-    studyid <- sapply(tree_metadata,`[[`, 'S.id')
-    sid <- sapply(metadata, `[[`, 'identifier')
-    sid <- gsub(".*TB2:S(\\d*)", "\\1", sid)
-    matches <- sapply(sid, match, studyid)
-    Ntaxa <- sapply(matches, function(i)  tree_metadata[[i]]$ntax)
+    phylo.id <- phylo_metadata("Study.id", phylo.md)
+    oai.id <- oai_metadata("Study.id", oai.md)
+    matches <- sapply(oai.id, match, phylo.id)
+    Ntaxa <- phylo_metadata("ntaxa",  phylo.md[matches])
     Ntaxa[sapply(Ntaxa, is.null)] <- NA
     taxa <- data.frame(Ntaxa=as.numeric(unlist(Ntaxa)), meta)
     ggplot(taxa, aes(dates, Ntaxa)) + 
