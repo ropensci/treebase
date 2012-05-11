@@ -19,11 +19,11 @@
 #'   metadata(tree$S.id)
 #' }
 #' @export
-metadata <- function(study.id, curl=getCurlHandle()){
+show_metadata <- function(study.id, curl=getCurlHandle()){
   oai_url <- "http://treebase.org/treebase-web/top/oai?verb=" 
   get_record <- "GetRecord&metadataPrefix=oai_dc&identifier=" 
   query <- paste(oai_url, get_record, "TB:s", study.id, sep="")
-  out <- oai_metadata(query, curl=curl)
+  out <- metadata_from_oai(query, curl=curl)
   out[[1]]
 }
 
@@ -75,7 +75,7 @@ search_metadata <- function(query="", by=c("all", "until", "from"),
   list_record <- "ListRecords&metadataPrefix=oai_dc&"
   midnight <- "T00:00:00Z"
   query <- paste(oai_url, list_record, by, "=", query, midnight, sep="")
-  oai_metadata(query, curl=curl)
+  metadata_from_oai(query, curl=curl)
 }
 
 
@@ -134,7 +134,7 @@ dryad_metadata <- function(study.id, curl=getCurlHandle()){
   oai_url <- "http://www.datadryad.org/oai/request?verb=" 
   get_record <- "GetRecord&metadataPrefix=oai_dc&identifier=" 
   query <- paste(oai_url, get_record, "oai:datadryad.org:", study.id, sep="")
-  oai_metadata(query, curl=curl)
+  metadata_from_oai(query, curl=curl)
 }
 
 
@@ -144,7 +144,7 @@ dryad_metadata <- function(study.id, curl=getCurlHandle()){
 #'  then pass the return value in here. Avoids repeated handshakes with server.
 #' @keywords internal
 #' @seealso \code{\link{dryad_metadata}}
-oai_metadata <- function(query, curl=curl){
+metadata_from_oai <- function(query, curl=curl){
   message(query)
   tt <- getURLContent(query, followlocation=TRUE, curl=curl)
   doc <- xmlParse(tt)

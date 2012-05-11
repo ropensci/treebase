@@ -22,8 +22,9 @@ Depends:
 Suggests:
     TreePar
 Collate:
+    'analysis.R'
+    'cache_treebase.R'
+    'clean_metadata.R'
     'data.R'
     'metadata.R'
     'treebase.R'
-    'clean_metadata.R'
-    'cache_treebase.R'

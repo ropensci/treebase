@@ -1,22 +1,34 @@
 \name{oai_metadata}
 \alias{oai_metadata}
-\title{Internal function for OAI-MPH interface to the Dryad database}
+\title{Search the OAI-PMH metadata by date, publisher, or identifier}
 \usage{
-  oai_metadata(query, curl = curl)
+  oai_metadata(x = c("date", "publisher", "author", "title", "Study.id", "attributes"),
+    metadata = NULL, ...)
 }
 \arguments{
-  \item{query}{a properly formed url query to dryad}
+  \item{x}{one of "date", "publisher", "identifier" for the
+  study}
 
-  \item{curl}{if calling in series many times, call
-  getCurlHandle() first and then pass the return value in
-  here. Avoids repeated handshakes with server.}
+  \item{metadata}{returned from \code{search_metadata}
+  function. if not specified will download latest copy from
+  treebase.  Pass in the value during repeated calls to
+  speed function runtime substantially}
+
+  \item{...}{additional arguments to
+  \code{search_metadata}}
+}
+\value{
+  a list of values matching the query
 }
 \description{
-  Internal function for OAI-MPH interface to the Dryad
-  database
+  Search the OAI-PMH metadata by date, publisher, or
+  identifier
 }
-\seealso{
-  \code{\link{dryad_metadata}}
+\examples{
+\dontrun{
+    dates <- oai_metadata("date")
+    pub <- oai_metadata("publisher")
+    table(dates, pub)
 }
-\keyword{internal}
+}
 
