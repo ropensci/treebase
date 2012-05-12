@@ -1,31 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta http-equiv="Content-Style-Type" content="text/css" />
-  <meta name="generator" content="pandoc" />
-  <title></title>
-  <style type="text/css">
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; }
-code > span.dt { color: #902000; }
-code > span.dv { color: #40a070; }
-code > span.bn { color: #40a070; }
-code > span.fl { color: #40a070; }
-code > span.ch { color: #4070a0; }
-code > span.st { color: #4070a0; }
-code > span.co { color: #60a0b0; font-style: italic; }
-code > span.ot { color: #007020; }
-code > span.al { color: #ff0000; font-weight: bold; }
-code > span.fu { color: #06287e; }
-code > span.er { color: #ff0000; font-weight: bold; }
-  </style>
-</head>
-<body>
 <p>cboettig@ucdavis.edu</p>
 <p>[cor1]Corresponding author.</p>
 <ol style="list-style-type: decimal">
@@ -39,7 +11,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <h1 id="introduction">Introduction</h1>
 <p>Applications that use phylogenetic information as part of their analyses are becoming increasingly central to both evolutionary and ecological research. The exponential growth in genetic sequence data available for all forms of life has driven rapid advances in the methods that can infer the phylogenetic relationships and divergence times across different taxa <span class="citation">(Huelsenbeck and Ronquist 2001; Stamatakis 2006; Drummond and Rambaut 2007)</span>. just as the availability of sequence data has led to the subsequent explosion of phylogenetic methods, and many other avenues of research, this rapid expanse of phylogenetic data now primes new innovations across ecology and evolution. Once again the product of one field has become the raw data of the next. Unfortunately, while the discipline of bioinformatics has emerged to help harness and curate the wealth of genetic data with cutting edge computer science, statistics, and internet technology, its counterpart in evolutionary informatics remains “scattered, poorly documented, and in formats that impede discovery and integration” <span class="citation">(Parr et al. 2011)</span>. Our goal when developing the <code>treebase</code> package was to address this gap by providing how programmatic and interactive access between the repositories that store this data and the software tools commonly used to analyze them.</p>
 <p>In this paper we focus on applications which use rather than generate phylogenetic data. Such approaches stand to benefit substantially from this programmatic and interactive access to TreeBASE. While the task of inferring phylogenies from sequence data remains dominated by dedicated compiled software such as MrBayes <span class="citation">(Huelsenbeck and Ronquist 2001)</span>, BEAST <span class="citation">(Drummond and Rambaut 2007)</span>, RAXML <span class="citation">(Stamatakis 2006)</span>, the ever-growing suite of research methods that use these phylogenies as input data are largely based in R. The R statistical environment <span class="citation">(R Development Core Team 2012)</span> has become a dominant platform for researchers using phylogenetic data to address a rapidly expanding set of questions in ecological and evolutionary processes. These methods include but are not limited to ancestral state reconstruction <span class="citation">(Paradis 2004; Butler and King 2004)</span>, diversification analysis <span class="citation">(Paradis 2004; Rabosky 2006; Harmon et al. 2008; FitzJohn, Maddison, and Otto 2009; Fitzjohn 2010; Goldberg, Lancaster, and Ree 2011; Stadler 2011b)</span>, quantifying the rate and tempo of trait evolution <span class="citation">(Butler and King 2004; Paradis 2004; Harmon et al. 2008; Hipp and Escudero 2010; Revell et al. 2011; Eastman et al. 2011)</span>, identifying evolutionary influences and proxies for community ecology <span class="citation">(Webb, Ackerly, and Kembel 2008; Kembel et al. 2010)</span>, performing phyloclimatic modelling <span class="citation">(Warren, Glor, and Turelli 2008; Evans et al. 2009)</span>, and simulation of speciation and character evolution <span class="citation">(Harmon et al. 2008; Stadler 2011a; Boettiger, Coop, and Ralph 2012)</span>, as well as various manipulation and visualization of phylogenetic data <span class="citation">(Paradis 2004; Schliep 2010; Jombart, Balloux, and Dray 2010; Revell et al. 2011)</span>. A more comprehensive list of R packages by analysis type is available on the phylogenetics taskview, <a href="http://cran.r-project.org/web/views/Phylogenetics.html">http://cran.r-project.org/web/views/Phylogenetics.html</a>. Several programs exist outside the R language for applied phylogenetic methods, incuding Java <span class="citation">(Maddison and Maddison 2011)</span>, MATLAB <span class="citation">(Blomberg, Garland, and Ives 2003)</span> and Python <span class="citation">(sukumaran and holder 2010)</span> and online interfaces <span class="citation">(Martins 2004)</span>.</p>
-<p>TreeBASE (<a href="http://treebase.org">http://treebase.org</a>) is an online repository of phylogenetic data (e.g. trees of species, populations, or genes) that have been published in a peer-reviewed academic journal, book, thesis or conference proceedings <span class="citation">(Sanderson et al. 1994; Morell 1996)</span>. The database can be searched through an online interface which allows users to find a phylogenetic tree from a particular publication, author or taxa of interest. TreeBASE provides an application programming interface (API) that lets computer applications make queries to the database. Our <code>treebase</code> package uses this API to create a direct link between this data and the R language. This has several immediate and important benefits:</p>
+<p>TreeBASE (<a href="http://treebase.org">http://treebase.org</a>) is an online repository of phylogenetic data (e.g. trees of species, populations, or genes) that have been published in a peer-reviewed academic journal, book, thesis or conference proceedings <span class="citation">(Sanderson et al. 1994; Morell 1996)</span>. The database can be searched through an online interface which allows users to find a phylogenetic tree from a particular publication, author or taxa of interest. TreeBASE provides an application programming interface (API) that lets computer applications make queries to the database. Our <code>treebase</code> package uses this API to create a direct link between this data and the R language. This has several immediate and important benefits:</p>
 <ol style="list-style-type: decimal">
 <li><p><em>Data discovery.</em> Users can leverage the rich statstical environment provided by the R language to better identify data sets appropriate for their research.</p></li>
 <li><p><em>Programmatic data access.</em> Many tasks that are theoretically made possible by the creation of the TreeBASE repository are not pursued because they would be too laborious for an exploratory analysis. The ability to use loops to automatically download and perform a systematic analysis using the rich set of tools available in R opens up new avenues for research.</p></li>
@@ -47,7 +19,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 </ol>
 <h2 id="basic-queries">Basic queries</h2>
 <p>The basic functions of the TreeBASE API allow search queries through two separate interfaces. The <code>OAI-PMH</code> interface provides the metadata associated with the publications from which the phylogenies have been taken, while the <code>Phylo-WS</code> interface provides information and access to the phylogenetic data itself. These interfaces are well-documented on the TreeBASE website. The <code>treebase</code> package allows these queries to be made directly from R, just as a user would make them from the browser. Because the queries can be implemented programmatically in R, a user can construct more complicated filters than permitted by the web interface, and can maintain a record of the queries they used to collect their data as an R script. The ability to script this data-gathering step of research can go a long way to reducing errors and ensuring that an analysis can be replicated later, by the author or other groups <span class="citation">(Peng et al. 2011)</span>.</p>
-<p>Any of the queries available on the web interface can now be made directly from R, including downloading and importing the phylogeny into the R interface. For instance, one can search for phylogenies containing dolphin taxa, “Delphinus,” or all phylogenies submitted by a given author, “Huelsenbeck”,</p>
+<p>Any of the queries available on the web interface can now be made directly from R, including downloading and importing the phylogeny into the R interface. For instance, one can search for phylogenies containing dolphin taxa, &quot;Delphinus,&quot; or all phylogenies submitted by a given author, &quot;Huelsenbeck&quot;,</p>
 <pre class="sourceCode r"><code class="sourceCode r">    <span class="kw">search_treebase</span>(<span class="st">&quot;Delphinus&quot;</span>, <span class="dt">by=</span><span class="st">&quot;taxon&quot;</span>)
     <span class="kw">search_treebase</span>(<span class="st">&quot;Huelsenbeck&quot;</span>, <span class="dt">by=</span><span class="st">&quot;author&quot;</span>)</code></pre>
 <p>This function loads the matching phylogenies into R, ready for analysis. The package documentation provides many examples of possible queries. The <code>search_treebase</code> function is the heart of the <code>treebase</code> package. Table 1 lists each of the types of queries available through the <code>search_treebase</code> function. This list can also be found in the function documentation, <code>?search_treebase</code>.</p>
@@ -55,7 +27,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <caption>Queries available in <code>search_treebase</code></caption>
 <thead>
 <tr class="header">
-<th align="left">search “by=”</th>
+<th align="left">search &quot;by=&quot;</th>
 <th align="left">description</th>
 </tr>
 </thead>
@@ -110,7 +82,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 </tr>
 <tr class="odd">
 <td align="left">id.tree</td>
-<td align="left">TreeBASE’s unique tree identifier (Tr.id)</td>
+<td align="left">TreeBASE's unique tree identifier (Tr.id)</td>
 </tr>
 <tr class="even">
 <td align="left">id.taxon</td>
@@ -214,7 +186,7 @@ Rooted; includes branch lengths.
 </code></pre>
 <p>In this case the single item in the list is the one we want:</p>
 <pre class="sourceCode r"><code class="sourceCode r">derryberry &lt;- results[[<span class="dv">1</span>]]</code></pre>
-<p>Having successfully imported the phylogenetic tree corresponding to this study, we can quickly replicate their analysis of which diversification process best fits the data. These steps can be easily implemented using the phylogenetics packages we have just mentioned. As a comparison of speciation models is not the focus of this paper, the complete code and explanation for these steps is provided as an appendix. Happily, this analysis confirms the author’s original conclusions, even when the more general model of Stadler <span class="citation">(2011b)</span> is considered.</p>
+<p>Having successfully imported the phylogenetic tree corresponding to this study, we can quickly replicate their analysis of which diversification process best fits the data. These steps can be easily implemented using the phylogenetics packages we have just mentioned. As a comparison of speciation models is not the focus of this paper, the complete code and explanation for these steps is provided as an appendix. Happily, this analysis confirms the author's original conclusions, even when the more general model of Stadler <span class="citation">(2011b)</span> is considered.</p>
 <h1 id="analyses-across-many-phylogenies">Analyses across many phylogenies</h1>
 <p>Large scale comparative analyses that seek to characterize evolutionary patterns across many phylogenies increasingly common in phylogenetic methods <span class="citation">(<em>e.g.</em> McPeek and Brown 2007; Phillimore and Price 2008; McPeek 2008; Quental and Marshall 2010; Davies et al. 2011)</span>.<br />Sometimes referred to by their authors as meta-analyses, these approaches have focused on re-analyzing phylogenetic trees collected from many different earlier publications.<br />This is a more direct approach than the traditional concept of meta-analysis where statistical results from earlier studies are weighted by their sample size without actually repeating the statistical analyses of those papers. Because the identical analysis can be repeated on the original data from each study, this approach avoids some of the statistical challenges inherent in traditional meta-analyses summarizing results across heterogeneous approaches.</p>
 <p>To date, researchers have gone through heroic efforts simply to assemble these data sets from the literature.<br />As described in McPeek and Brown <span class="citation">(2007)</span>; (emphasis added) &gt; One data set was based on 163 published species-level molecular phylogenies &gt; of arthropods, chordates, and mollusks. A PDF format file of each article &gt; was obtained, and a digital snapshot of the figure was taken in Adobe Acrobat &gt; 7.0. This image was transferred to a PowerPoint (Microsoft) file and printed &gt; on a laser printer. The phylogenies included in this study are listed in the &gt; appendix. <em>All branch lengths were measured by hand from these printed sheets &gt; using dial calipers.</em></p>
@@ -338,5 +310,3 @@ tt &lt;- <span class="kw">drop_nontrees</span>(<span class="kw">sapply</span>(br
 <p>Webb, Campbell O., David D. Ackerly, and Steven W. Kembel. 2008. “Phylocom: software for the analysis of phylogenetic community structure and trait evolution.” <em>Bioinformatics (Oxford, England)</em> 24 (sep): 2098–100. doi:10.1093/bioinformatics/btn358. <a href="http://www.ncbi.nlm.nih.gov/pubmed/18678590" title="http://www.ncbi.nlm.nih.gov/pubmed/18678590">http://www.ncbi.nlm.nih.gov/pubmed/18678590</a>.</p>
 <p>Whitlock, Michael C., Mark a McPeek, Mark D. Rausher, Loren Rieseberg, and Allen J. Moore. 2010. “Data archiving.” <em>The American naturalist</em> 175 (mar): 145–6. doi:10.1086/650340. <a href="http://www.ncbi.nlm.nih.gov/pubmed/20073990" title="http://www.ncbi.nlm.nih.gov/pubmed/20073990">http://www.ncbi.nlm.nih.gov/pubmed/20073990</a>.</p>
 <p>sukumaran, and mark t holder. 2010. “DendroPy: A Python Library for Phylogenetic Computing.” <em>Bioinformatics</em> 26 (apr): 1569–1571. doi:10.1093/bioinformatics/btq228. <a href="http://www.ncbi.nlm.nih.gov/pubmed/20421198" title="http://www.ncbi.nlm.nih.gov/pubmed/20421198">http://www.ncbi.nlm.nih.gov/pubmed/20421198</a>.</p>
-</body>
-</html>

@@ -7,7 +7,7 @@ github:
 
 github2:
 	./knit github
-	pandoc -s -S --biblio treebase.bib treebase.md -o treebase_github.html
+	pandoc --biblio treebase.bib treebase.md -o treebase_github.html
 	cp treebase_github.html treebase_github.md
 
 
