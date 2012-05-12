@@ -554,20 +554,18 @@ best_model <- which.min(c(min(yule_aic), min(birth_death_aic)))
 ````
 
 
-which confirms that the 
-`r names(best_no_of_rates[best_model])` `r best_no_of_rates[best_model][[1]]`-rate  
-model is still the best choice based on AIC score.  
-Of the eight models in this second analysis, only three were in the original
-set considered (Yule 1-rate and 2-rate, and birth-death without a shift),
-so we could by no means have been sure ahead of time that a birth death 
-with a shift, or a Yule model with a greater number of shifts, would not
-have fitted better.  
+which confirms that the `r names(best_no_of_rates[best_model])` `r best_no_of_rates[best_model][[1]]`-rate  
+model is still the best choice based on AIC score.  Of the eight models 
+in this second analysis, only three were in the original set considered 
+(Yule 1-rate and 2-rate, and birth-death without a shift), so we could by
+no means have been sure ahead of time that a birth death with a shift, or
+a Yule model with a greater number of shifts, would not have fitted better.  
 
 
 
 
 Testing for constant speciation and extinction rates across many phylogenies  
-----------------------------------------------------------------------------
+-------------------------------------------------------------------------
 
 A standard test of this is the gamma statistic of @pybus2000
 which tests the null hypothesis that the rates of speciation and extinction
@@ -627,7 +625,7 @@ gammas <- sapply(tt,  gammaStat)
 ````
 and the resulting distribution of the statistic across available trees is shown Fig 3.
 
-``` {r   gammadist, caption="Distribution of the gamma statistic across phylogenies in TreeBASE. Strongly positive values are indicative of an increasing rate of evolution (excess of nodes near the tips), very negative values indicate an early burst of diversification (an excess of nodes near the root)."   }
+``` {r   gammadist, fig.cap="Distribution of the gamma statistic across phylogenies in TreeBASE. Strongly positive values are indicative of an increasing rate of evolution (excess of nodes near the tips), very negative values indicate an early burst of diversification (an excess of nodes near the root)."   }
 qplot(gammas)
 ````
 
