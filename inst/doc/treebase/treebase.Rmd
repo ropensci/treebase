@@ -561,7 +561,7 @@ in this second analysis, only three were in the original set considered
 no means have been sure ahead of time that a birth death with a shift, or
 a Yule model with a greater number of shifts, would not have fitted better.  
 
-Tests across many phylogenies  
+Tests across many phylogenies
 -----------------------------
 
 A standard test of this is the gamma statistic of @pybus2000
