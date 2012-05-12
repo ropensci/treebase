@@ -129,8 +129,7 @@ construct more complicated filters than permitted by the web interface,
 and can maintain a record of the queries they used to collect their data
 as an R script. The ability to script this data-gathering step of
 research can go a long way to reducing errors and ensuring that an
-analysis can be replicated later, by the author or other groups
-[@peng2011a].
+analysis can be replicated later, by the author or other groups [@peng2011a].
 
 Any of the queries available on the web interface can now be made
 directly from R, including downloading and importing the phylogeny into
@@ -155,42 +154,80 @@ Table 1 lists each of the types of queries available through the
 `search_treebase` function.  This list can also be found in the function 
 documentation, `?search_treebase`.  
 
+<table>
+<tbody>
+<tr>
+<th>search "by="</th>
+<th>description</th>
+</tr>
+<tr>
+<td>abstract</td>
+<td>search terms in the publication abstract</td>
+</tr>
+<tr>
+<td>author</td>
+<td>match authors in the publication</td>
+</tr>
+<tr>
+<td>subject</td>
+<td>match subject</td>
+</tr>
+<tr>
+<td>doi</td>
+<td>the unique object identifier for the publication</td>
+</tr>
+<tr>
+<td>ncbi</td>
+<td>NCBI identifier number for the taxon</td>
+</tr>
+<tr>
+<td>ubio</td>
+<td>"tb.identifier.ubio",</td>
+</tr>
+<tr>
+<td>kind.tree</td>
+<td>Kind of tree (Gene tree, species tree, barcode tree)</td>
+</tr>
+<tr>
+<td>type.tree</td>
+<td>type of tree (Consensus or Single)</td>
+</tr>
+<tr>
+<td>ntax</td>
+<td>number of taxa in the matrix</td>
+</tr>
+<tr>
+<td>quality</td>
+<td>A quality score for the tree, if it has been rated.</td>
+</tr>
+<tr>
+<td>study</td>
+<td>match words in the title of the study or publication</td>
+</tr>
+<tr>
+<td>taxon</td>
+<td>taxon scientific name</td>
+</tr>
+<tr>
+<td>id.study</td>
+<td>TreeBASE study ID</td>
+</tr>
+<tr>
+<td>id.tree</td>
+<td>TreeBASE's unique tree identifier (Tr.id)</td>
+</tr>
+<tr>
+<td>id.taxon</td>
+<td>taxon identifier number from TreeBase</td>
+</tr>
+<tr>
+<td>tree</td>
+<td>The title for the tree</td>
+</tr>
+</tbody>
+</table>
 
-
- search "by="     description
- ---------------   -----------------------------------------------------
- abstract          search terms in the publication abstract
- author            match authors in the publication
- subject           match subject
- doi               the unique object identifier for the publication 
- ncbi              NCBI identifier number for the taxon
- ubio              "tb.identifier.ubio",
- kind.tree         Kind of tree (Gene tree, species tree, barcode tree)  
- type.tree         type of tree (Consensus or Single)
- ntax              number of taxa in the matrix
- quality           A quality score for the tree, if it has been rated.  
- study             match words in the title of the study or publication
- taxon             taxon scientific name 
- id.study          TreeBASE study ID
- id.tree           TreeBASE's unique tree identifier (Tr.id)
- id.taxon          taxon identifier number from TreeBase 
- tree              The title for the tree
-
- Table 1: Queries available in search_treebase
-
- The package provides partial support for character matrices provided by TreeBASE.
- At the time of writing, TreeBASE permits ambiguous DNA characters in these matrices,
- such as `{CG}` indicating either a C or G, which is not supported by any R interpreter,
- and thus may lead to errors.  
-
-
- search "by="       description
- ---------------   -----------------
- type.matrix       Type of matrix 
- matrix            Name given the the matrix 
- id.matrix         TreeBASE's unique matrix identifier
- nchar             number of characters in the matrix
-
+Table 1: Queries available in `search_treebase`
 
 
 
@@ -306,7 +343,7 @@ table) using the `phylo_metadata` function to extract the kind of tree
 ```
 
 <!-- html table generated in R 2.15.0 by xtable 1.7-0 package -->
-<!-- Sat May 12 13:17:06 2012 -->
+<!-- Sat May 12 14:33:29 2012 -->
 <TABLE border=1>
 <TR> <TH>  </TH> <TH> Consensus </TH> <TH> Single </TH>  </TR>
   <TR> <TD align="right"> Barcode Tree </TD> <TD align="right">   1 </TD> <TD align="right">  11 </TD> </TR>
@@ -367,7 +404,7 @@ Figure [fig:2].
       scale_y_log10() + stat_smooth(aes(group = 1))
 ```
 
-![Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number.](http://farm8.staticflickr.com/7096/7183849782_2e09c697c6_o.png) 
+![Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number.](http://farm8.staticflickr.com/7242/7184238818_6564ca0e1c_o.png) 
 
 
 The promise of this exponential growth in the sizes of available
@@ -384,7 +421,7 @@ Reproducible research
 Reproducible research has become a topic of increasing concern in 
 recent years, and facilitating access to data and using scripts that 
 can replicate analyses can help lower barriers to the replication 
-of statistical and computational results [@schwab2000; @gentleman2004; @peng2011b].  
+of statistical and computational results [@schwab2000; @gentleman2004; @peng2011b]. 
 The `treebase` package facilitates this process, as we illustrate in 
 a simple example.  
 
@@ -401,81 +438,54 @@ Obtaining the tree
 By drawing on the rich data manipulation tools available in R 
 which should be familiar to the large R phylogenetics community,
 the ` treebase ` package allows us to construct richer queries
-than are possible through TreeBASE alone. We begin our search by 
-asking for a phylogenies by one of the paper's authors:  
+than are possible through TreeBASE alone. 
+
+The fastest way to identify the data uses the digital object identifer (doi)
+printed on the top of the article, 
 
 
 
 ```r
-derryberry_results <- search_treebase("Derryberry", "author")
+results <- search_treebase("10.1111/j.1558-5646.2011.01374.x", "doi")
 ```
 
 
 
 
-This shows several results. 
-We would like the phylogeny appearing in _Evolution_ in 2011.
-Each phylogeny includes a TreeBASE study id number, stored in the `S.id`
-element, which we use to look up the metadata for each paper.
+The search returns a list, since some studies contain many trees
+
 
 
 
 ```r
-ids <- lapply(derryberry_results, `[[`, "S.id")
-meta <- lapply(ids, metadata)
+results 
 ```
 
 
 
 ```
-Error: object 'metadata' not found
+[[1]]
+
+Phylogenetic tree with 297 tips and 296 internal nodes.
+
+Tip labels:
+	Formicarius_colma, Glyphorynchus_spirurus, Dendrocolaptes_platyrostris, Dendrocolaptes_picumnus, Dendrocolaptes_hoffmannsi, Dendrocolaptes_certhia_concolor, ...
+
+Rooted; includes branch lengths.
+
 ```
 
 
 
-
-We can then look through the metadata to find the study matching our 
-description.
+In this case the single item in the list is the one we want:
 
 
 
 ```r
-i <- which( sapply(meta, function(x) x$publisher == "Evolution" &&
-x$date=="2011") )
+derryberry <- results[[1]]
 ```
 
 
-
-```
-recover called non-interactively; frames dumped, use debugger() to view
-```
-
-
-
-```
-Error: error in evaluating the argument 'x' in selecting a method for function 'which': Error in x$publisher : $ operator is invalid for atomic vectors
-Calls: sapply -> lapply -> FUN
-
-```
-
-
-
-```r
-derryberry <- derryberry_results[[i]]
-```
-
-
-
-```
-Error: object 'i' not found
-```
-
-
-
-
-This is simply one possible path to identify the correct study,
-certainly this query could be constructed in other ways,
-including direct access by the study identifier.   
 
 
 Having successfully imported the phylogenetic tree corresponding to this study,
@@ -508,7 +518,13 @@ meta-analyses summarizing results across heterogeneous approaches.
 To date, researchers have gone through heroic efforts simply to assemble these
 data sets from the literature.  
 As described in @mcpeek2007; (emphasis added)
->One data set was based on 163 published species-level molecular phylogenies of arthropods, chordates, and mollusks. [\dots] A PDF format file of each article was obtained, and a digital snapshot of the figure was taken in Adobe Acrobat 7.0. This image was transferred to a PowerPoint (Microsoft) file and printed on a laser printer. The phylogenies included in this study are listed in the appendix. _All branch lengths were measured by hand from these  printed sheets using dial calipers._
+> One data set was based on 163 published species-level molecular phylogenies
+> of arthropods, chordates, and mollusks.  A PDF format file of each article 
+> was obtained, and a digital snapshot of the figure was taken in Adobe Acrobat
+> 7.0. This image was transferred to a PowerPoint (Microsoft) file and printed 
+> on a laser printer. The phylogenies included in this study are listed in the 
+> appendix. _All branch lengths were measured by hand from these  printed sheets
+> using dial calipers._
 
 Despite the recent appearance of digital tools that could now facilitate this
 analysis without mechanical calipers, [_e.g._ treesnatcher, @laubach2007],
@@ -591,17 +607,6 @@ data:
 ```r
 library(ape)
 bt <- branching.times(derryberry)
-```
-
-
-
-```
-Error: object 'derryberry' not found
-```
-
-
-
-```r
 library(laser)
 models <- list(             yule = pureBirth(bt),  
                      birth_death = bd(bt),     
@@ -616,12 +621,6 @@ models <- list(             yule = pureBirth(bt),
 
 
 
-```
-Error: object 'bt' not found
-```
-
-
-
 
 Each of the model estimate includes an AIC score indicating the goodness of
 fit, penalized by model complexity (lower scores indicate better fits)
@@ -631,39 +630,14 @@ We ask R to tell us which model has the lowest AIC score,
 
 ```r
 aics <- sapply(models, `[[`, 'aic')
-```
-
-
-
-```
-Error: object 'models' not found
-```
-
-
-
-```r
 best_fit <- names(models[which.min(aics)])
-```
-
-
-
-```
-Error: object 'models' not found
 ```
 
 
 
 
 and confirm the result presented in @derryberry2011; 
-that the 
-
-```
-
-Error in eval(expr, envir, enclos) : object 'best_fit' not found
-
-```
-
- model is the best fit to the data.  
+that the yule.2.rate model is the best fit to the data.  
 
 
 In this fast-moving field, new methods often become available within the 
@@ -682,12 +656,6 @@ We load the new method and format the data as its manual instructs us
 ```r
 require(TreePar)
 x<-sort(getx(derryberry), decreasing=TRUE)
-```
-
-
-
-```
-Error: object 'derryberry' not found
 ```
 
 
@@ -743,48 +711,9 @@ We can select the best-fitting model by AIC score,
 
 ```r
 yule_aic <- sapply(yule_models, function(pars) 2 * (length(pars) - 1) + 2 * pars[1] )
-```
-
-
-
-```
-Error: object 'yule_models' not found
-```
-
-
-
-```r
 birth_death_aic <- sapply(birth_death_models, function(pars) 2 * (length(pars) - 1) + 2 * pars[1] )
-```
-
-
-
-```
-Error: object 'birth_death_models' not found
-```
-
-
-
-```r
 best_no_of_rates <- list(Yule = which.min(yule_aic), birth.death = which.min(birth_death_aic))
-```
-
-
-
-```
-Error: object 'yule_aic' not found
-```
-
-
-
-```r
 best_model <- which.min(c(min(yule_aic), min(birth_death_aic)))
-```
-
-
-
-```
-Error: object 'yule_aic' not found
 ```
 
 
@@ -792,23 +721,7 @@ Error: object 'yule_aic' not found
 
 
 which confirms that the 
-
-
-```
-
-Error in eval(expr, envir, enclos) : object 'best_no_of_rates' not found
-
-```
-
- 
-
-```
-
-Error in eval(expr, envir, enclos) : object 'best_no_of_rates' not found
-
-```
-
--rate  
+Yule 2-rate  
 model is still the best choice based on AIC score.  
 Of the eight models in this second analysis, only three were in the original
 set considered (Yule 1-rate and 2-rate, and birth-death without a shift),
@@ -889,21 +802,7 @@ tt <- drop_nontrees(sapply(branchlengths, timetree))
 
 
 
-```
-Error: invalid subscript type 'list'
-```
-
-
-
-At this point we have 
-
-```
-
-Error in eval(expr, envir, enclos) : object 'tt' not found
-
-```
-
- time-calibrated phylogenies over which
+At this point we have 1,217 time-calibrated phylogenies over which
 we will apply the diversification rate analysis. 
 Computing the gamma test statistic to identify devations from the 
 constant-rates model takes a single line,
@@ -916,12 +815,6 @@ gammas <- sapply(tt,  gammaStat)
 
 
 
-```
-Error: object 'tt' not found
-```
-
-
-
 and the resulting distribution of the statistic across available trees is shown Fig 3.
 
 
@@ -930,13 +823,7 @@ and the resulting distribution of the statistic across available trees is shown 
 qplot(gammas)
 ```
 
-
-
-```
-Error: object 'gammas' not found
-```
-
-
+![plot of chunk gammadist](http://farm9.staticflickr.com/8025/7184300690_57eb8fff25_o.png) 
 
 
 
