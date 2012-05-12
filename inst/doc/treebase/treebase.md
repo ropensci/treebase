@@ -242,17 +242,12 @@ phylogenies deposited in TreeBASE, color coding by publisher in Fig
 
 
 ```r
+    library(ggplot2)
     meta <- data.frame(pub = pub, dates = dates)
-    ggplot(meta) + geom_bar(aes(dates, fill = publisher))
+    ggplot(meta) + geom_bar(aes(dates, fill = pub))
 ```
 
-
-
-```
-Error: could not find function "ggplot"
-```
-
-
+![Histogram of publication dates by year, with the code required to generate the figure.](http://farm8.staticflickr.com/7219/7184587978_d22312a3df_o.png) 
 
 
 Typically we are more interested in the metadata describing the phylogenies 

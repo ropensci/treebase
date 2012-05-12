@@ -106,9 +106,12 @@
 <pre class="sourceCode r"><code class="sourceCode r">    topten &lt;- <span class="kw">sort</span>(<span class="kw">table</span>(pub), <span class="dt">decreasing=</span><span class="ot">TRUE</span>)[<span class="dv">1</span>:<span class="dv">10</span>]
     pub[!(pub %in% <span class="kw">names</span>(topten))] &lt;- <span class="st">&quot;Other&quot;</span></code></pre>
 <p>We plot the distribution of publication years for phylogenies deposited in TreeBASE, color coding by publisher in Fig [fig:1].</p>
-<pre class="sourceCode r"><code class="sourceCode r">    meta &lt;- <span class="kw">data.frame</span>(<span class="dt">pub =</span> pub, <span class="dt">dates =</span> dates)
-    <span class="kw">ggplot</span>(meta) + <span class="kw">geom_bar</span>(<span class="kw">aes</span>(dates, <span class="dt">fill =</span> publisher))</code></pre>
-<pre><code>Error: could not find function &quot;ggplot&quot;</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">    <span class="kw">library</span>(ggplot2)
+    meta &lt;- <span class="kw">data.frame</span>(<span class="dt">pub =</span> pub, <span class="dt">dates =</span> dates)
+    <span class="kw">ggplot</span>(meta) + <span class="kw">geom_bar</span>(<span class="kw">aes</span>(dates, <span class="dt">fill =</span> pub))</code></pre>
+<div class="figure">
+<img src="http://farm8.staticflickr.com/7219/7184587978_d22312a3df_o.png" alt="Histogram of publication dates by year, with the code required to generate the figure." /><p class="caption">Histogram of publication dates by year, with the code required to generate the figure.</p>
+</div>
 <p>Typically we are more interested in the metadata describing the phylogenies themselves rather than the publications in which they appeared, such as the number of taxa in the tree, a quality score (if available), kind of tree (gene tree, species tree, or barcode tree) or whether the phylogeny represents a consensus tree from a distribution or just a single estimate. The <code>cache_treebase</code> function is used to download all available phylogenies from TreeBASE. Here, we call the function with an optional argument that will return only the metadata just listed for all available phylogenies, which runs much more quickly.</p>
 <pre class="sourceCode r"><code class="sourceCode r">    phylo.md &lt;- <span class="kw">cache_treebase</span>(<span class="dt">only_metadata=</span><span class="ot">TRUE</span>)</code></pre>
 <p>We can summarize how these 10,555 trees break out by kind or type (The <code>xtable</code> command formats this as a table) using the <code>phylo_metadata</code> function to extract the kind of tree (gene/species/barcode) and type (single or consensus):</p>
