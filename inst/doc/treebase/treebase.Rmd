@@ -116,6 +116,7 @@ Basic queries
 
 ``` {r  libs, echo=FALSE}
     library(treebase)
+    library(ggplot2)
 ````
 
 The basic functions of the TreeBASE API allow search queries through two
@@ -152,26 +153,27 @@ Table 1 lists each of the types of queries available through the
 documentation, `?search_treebase`.  
 
 
-Table 1: Queries available in search_treebase
 
-  search "by="    |  description
- ---------------  | -----------------------------------------------------
- abstract         | search terms in the publication abstract
- author           | match authors in the publication
- subject          | match subject
- doi              | the unique object identifier for the publication 
- ncbi             | NCBI identifier number for the taxon
- ubio             | "tb.identifier.ubio",
- kind.tree        | Kind of tree (Gene tree, species tree, barcode tree)  
- type.tree        | type of tree (Consensus or Single)
- ntax             | number of taxa in the matrix
- quality          | A quality score for the tree, if it has been rated.  
- study            | match words in the title of the study or publication
- taxon            | taxon scientific name 
- id.study         | TreeBASE study ID
- id.tree          | TreeBASE's unique tree identifier (Tr.id)
- id.taxon         | taxon identifier number from TreeBase 
- tree             | The title for the tree
+ search "by="     description
+ ---------------   -----------------------------------------------------
+ abstract          search terms in the publication abstract
+ author            match authors in the publication
+ subject           match subject
+ doi               the unique object identifier for the publication 
+ ncbi              NCBI identifier number for the taxon
+ ubio              "tb.identifier.ubio",
+ kind.tree         Kind of tree (Gene tree, species tree, barcode tree)  
+ type.tree         type of tree (Consensus or Single)
+ ntax              number of taxa in the matrix
+ quality           A quality score for the tree, if it has been rated.  
+ study             match words in the title of the study or publication
+ taxon             taxon scientific name 
+ id.study          TreeBASE study ID
+ id.tree           TreeBASE's unique tree identifier (Tr.id)
+ id.taxon          taxon identifier number from TreeBase 
+ tree              The title for the tree
+
+ Table 1: Queries available in search_treebase
 
  The package provides partial support for character matrices provided by TreeBASE.
  At the time of writing, TreeBASE permits ambiguous DNA characters in these matrices,
@@ -179,12 +181,12 @@ Table 1: Queries available in search_treebase
  and thus may lead to errors.  
 
 
-  search "by="    |  description
- ---------------  | -----------------------------------------------------
- type.matrix      | Type of matrix 
- matrix           | Name given the the matrix 
- id.matrix        | TreeBASE's unique matrix identifier
- nchar            | number of characters in the matrix
+ search "by="       description
+ ---------------   -----------------
+ type.matrix       Type of matrix 
+ matrix            Name given the the matrix 
+ id.matrix         TreeBASE's unique matrix identifier
+ nchar             number of characters in the matrix
 
 
 
@@ -210,7 +212,7 @@ associated with TreeBASE.
 This returns an R list object, in which each element is an entry with
 bibliographic information corresponding to a published study that has
 deposited data in TreeBASE. From the length of this list we see that
-there are currently `r prettyNum(length(metadata)) ` published studies in the
+there are currently `r prettyNum(length(oai.md)) ` published studies in the
 database.
 
 The `oai_metadata` function facilitates extracting the different meta-data fields. 
@@ -236,12 +238,9 @@ We plot the distribution of publication years for
 phylogenies deposited in TreeBASE, color coding by publisher in Fig
 [fig:1]. 
 
-``` {r dates, fig.width=16, fig.height=6, cache=FALSE, fig.cap="Histogram of publication dates by year, with the code required to
-generate the figure."}
+``` {r dates, fig.width=16, fig.height=6, cache=FALSE, fig.cap="Histogram of publication dates by year, with the code required to generate the figure."}
     meta <- data.frame(pub = pub, dates = dates)
-    require(ggplot2)
     ggplot(meta) + geom_bar(aes(dates, fill = publisher))
-
 ````
 
 Typically we are more interested in the metadata describing the phylogenies 

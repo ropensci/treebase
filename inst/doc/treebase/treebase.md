@@ -156,26 +156,27 @@ Table 1 lists each of the types of queries available through the
 documentation, `?search_treebase`.  
 
 
-Table 1: Queries available in search_treebase
 
-  search "by="    |  description
- ---------------  | -----------------------------------------------------
- abstract         | search terms in the publication abstract
- author           | match authors in the publication
- subject          | match subject
- doi              | the unique object identifier for the publication 
- ncbi             | NCBI identifier number for the taxon
- ubio             | "tb.identifier.ubio",
- kind.tree        | Kind of tree (Gene tree, species tree, barcode tree)  
- type.tree        | type of tree (Consensus or Single)
- ntax             | number of taxa in the matrix
- quality          | A quality score for the tree, if it has been rated.  
- study            | match words in the title of the study or publication
- taxon            | taxon scientific name 
- id.study         | TreeBASE study ID
- id.tree          | TreeBASE's unique tree identifier (Tr.id)
- id.taxon         | taxon identifier number from TreeBase 
- tree             | The title for the tree
+ search "by="     description
+ ---------------   -----------------------------------------------------
+ abstract          search terms in the publication abstract
+ author            match authors in the publication
+ subject           match subject
+ doi               the unique object identifier for the publication 
+ ncbi              NCBI identifier number for the taxon
+ ubio              "tb.identifier.ubio",
+ kind.tree         Kind of tree (Gene tree, species tree, barcode tree)  
+ type.tree         type of tree (Consensus or Single)
+ ntax              number of taxa in the matrix
+ quality           A quality score for the tree, if it has been rated.  
+ study             match words in the title of the study or publication
+ taxon             taxon scientific name 
+ id.study          TreeBASE study ID
+ id.tree           TreeBASE's unique tree identifier (Tr.id)
+ id.taxon          taxon identifier number from TreeBase 
+ tree              The title for the tree
+
+ Table 1: Queries available in search_treebase
 
  The package provides partial support for character matrices provided by TreeBASE.
  At the time of writing, TreeBASE permits ambiguous DNA characters in these matrices,
@@ -183,12 +184,12 @@ Table 1: Queries available in search_treebase
  and thus may lead to errors.  
 
 
-  search "by="    |  description
- ---------------  | -----------------------------------------------------
- type.matrix      | Type of matrix 
- matrix           | Name given the the matrix 
- id.matrix        | TreeBASE's unique matrix identifier
- nchar            | number of characters in the matrix
+ search "by="       description
+ ---------------   -----------------
+ type.matrix       Type of matrix 
+ matrix            Name given the the matrix 
+ id.matrix         TreeBASE's unique matrix identifier
+ nchar             number of characters in the matrix
 
 
 
@@ -219,15 +220,7 @@ associated with TreeBASE.
 This returns an R list object, in which each element is an entry with
 bibliographic information corresponding to a published study that has
 deposited data in TreeBASE. From the length of this list we see that
-there are currently 
-
-```
-
-Error in prettyNum(length(metadata)) : object 'metadata' not found
-
-```
-
- published studies in the
+there are currently 3105 published studies in the
 database.
 
 The `oai_metadata` function facilitates extracting the different meta-data fields. 
@@ -263,13 +256,21 @@ We plot the distribution of publication years for
 phylogenies deposited in TreeBASE, color coding by publisher in Fig
 [fig:1]. 
 
-``` {r dates, fig.width=16, fig.height=6, cache=FALSE, fig.cap="Histogram of publication dates by year, with the code required to
-generate the figure."}
-    meta <- data.frame(pub = pub, dates = dates)
-    require(ggplot2)
-    ggplot(meta) + geom_bar(aes(dates, fill = publisher))
 
-````
+
+```r
+    meta <- data.frame(pub = pub, dates = dates)
+    ggplot(meta) + geom_bar(aes(dates, fill = publisher))
+```
+
+
+
+```
+Error: could not find function "ggplot"
+```
+
+
+
 
 Typically we are more interested in the metadata describing the phylogenies 
 themselves rather than the publications in which they appeared, such as
@@ -305,7 +306,7 @@ table) using the `phylo_metadata` function to extract the kind of tree
 ```
 
 <!-- html table generated in R 2.15.0 by xtable 1.7-0 package -->
-<!-- Sat May 12 12:12:28 2012 -->
+<!-- Sat May 12 13:17:06 2012 -->
 <TABLE border=1>
 <TR> <TH>  </TH> <TH> Consensus </TH> <TH> Single </TH>  </TR>
   <TR> <TD align="right"> Barcode Tree </TD> <TD align="right">   1 </TD> <TD align="right">  11 </TD> </TR>
@@ -361,41 +362,16 @@ Figure [fig:2].
     Ntaxa <- phylo_metadata("ntaxa",  phylo.md[matches])
     Ntaxa[sapply(Ntaxa, is.null)] <- NA
     taxa <- data.frame(Ntaxa=as.numeric(unlist(Ntaxa)), meta)
-```
-
-
-
-```
-Error: object 'meta' not found
-```
-
-
-
-```r
     ggplot(taxa, aes(dates, Ntaxa)) + 
       geom_point(position = 'jitter', alpha = .8) + 
       scale_y_log10() + stat_smooth(aes(group = 1))
 ```
 
-
-
-```
-Error: could not find function "ggplot"
-```
-
-
+![Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number.](http://farm8.staticflickr.com/7096/7183849782_2e09c697c6_o.png) 
 
 
 The promise of this exponential growth in the sizes of available
-phylogenies, with some trees representing 
-
-```
-
-Error in eval(expr, envir, enclos) : object 'taxa' not found
-
-```
-
-
+phylogenies, with some trees representing 2,957
 taxa motivates the more and more ambitious inference methods being developed
 which require large trees to have adequate signal 
 [@boettiger2012; @fitzjohn2009; @beaulieu2012].
@@ -471,7 +447,15 @@ x$date=="2011") )
 
 
 ```
-Error: object 'meta' not found
+recover called non-interactively; frames dumped, use debugger() to view
+```
+
+
+
+```
+Error: error in evaluating the argument 'x' in selecting a method for function 'which': Error in x$publisher : $ operator is invalid for atomic vectors
+Calls: sapply -> lapply -> FUN
+
 ```
 
 
@@ -949,7 +933,7 @@ qplot(gammas)
 
 
 ```
-Error: could not find function "qplot"
+Error: object 'gammas' not found
 ```
 
 
