@@ -154,34 +154,37 @@ documentation, `?search_treebase`.
 
 Table 1: Queries available in search_treebase
 
-#'   \item{abstract}{ "dcterms.abtract", search terms in the publication abstract}
-#'   \item{citation}{ "dcterms.bibliographicCitation", }
-#'   \item{author }{ "dcterms.contributor", match authors in the publication}
-#'   \item{subject }{ "dcterms.subject",  match subject}
-#'   \item{id.matrix }{ "tb.identifier.matrix",}
-#'   \item{id.matrix.tb1 }{ "tb.identifer.matrix.tb1", (TreeBASE 1 id #s, legacy)}
-#'   \item{ncbi }{ "tb.identifier.ncbi", NCBI identifier number}
-#'   \item{id.study }{ "tb.identifier.study", TreeBASE study ID}
-#'   \item{id.study.tb1 }{ "tb.identifier.study.tb1", (legacy id) }
-#'   \item{id.taxon }{ "tb.identifer.taxon",}
-#'   \item{taxon.tb1 }{ "tb.identifier.taxon.tb1", (legacy taxon)}
-#'   \item{taxonVariant.tb1 }{ "tb.identifier.taxonVarient.tb1", (legacy)}
-#'   \item{id.tree }{ "tb.identifier.tree", TreeBASE tree identifier}
-#'   \item{ubio }{ "tb.identifier.ubio",}
-#'   \item{kind.tree }{ "tb.kind.tree", }
-#'   \item{nchar }{ "tb.nchar.matrix", number of characters in the matrix}
-#'   \item{ntax }{ "tb.ntax.matrix",  number of taxa in the matrix}
-#'   \item{quality}{ "tb.quality.tree", }
-#'   \item{matrix }{ "tb.title.matrix", }
-#'   \item{study }{ "tb.title.study", study title}
-#'   \item{taxon }{ "tb.title.taxon", taxon name}
-#'   \item{taxonLabel }{ "tb.title.taxonLabel", }
-#'   \item{taxonVariant }{ "tb.title.taxonVariant",}
-#'   \item{tree }{ "tb.title.tree",}
-#'   \item{type.matrix}{ "tb.type.matrix",}
-#'   \item{type.tree }{ "tb.type.tree"}
-#'   \item{doi}{ "prism.doi" a unique object identifier}
-#
+  search "by="    |  description
+ ---------------  | -----------------------------------------------------
+ abstract         | search terms in the publication abstract
+ author           | match authors in the publication
+ subject          | match subject
+ doi              | the unique object identifier for the publication 
+ ncbi             | NCBI identifier number for the taxon
+ ubio             | "tb.identifier.ubio",
+ kind.tree        | Kind of tree (Gene tree, species tree, barcode tree)  
+ type.tree        | type of tree (Consensus or Single)
+ ntax             | number of taxa in the matrix
+ quality          | A quality score for the tree, if it has been rated.  
+ study            | match words in the title of the study or publication
+ taxon            | taxon scientific name 
+ id.study         | TreeBASE study ID
+ id.tree          | TreeBASE's unique tree identifier (Tr.id)
+ id.taxon         | taxon identifier number from TreeBase 
+ tree             | The title for the tree
+
+ The package provides partial support for character matrices provided by TreeBASE.
+ At the time of writing, TreeBASE permits ambiguous DNA characters in these matrices,
+ such as `{CG}` indicating either a C or G, which is not supported by any R interpreter,
+ and thus may lead to errors.  
+
+
+  search "by="    |  description
+ ---------------  | -----------------------------------------------------
+ type.matrix      | Type of matrix 
+ matrix           | Name given the the matrix 
+ id.matrix        | TreeBASE's unique matrix identifier
+ nchar            | number of characters in the matrix
 
 
 
