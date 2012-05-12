@@ -3,7 +3,7 @@ all:
 github:
 	./knit github
 	pandoc --biblio treebase.bib treebase.md -o treebase_github.html
-	cp treebase_github.html treebase_github.md
+	mv treebase_github.html treebase_github.md
 
 
 md:
