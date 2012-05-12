@@ -151,80 +151,26 @@ Table 1 lists each of the types of queries available through the
 `search_treebase` function.  This list can also be found in the function 
 documentation, `?search_treebase`.  
 
-<table>
-<tbody>
-<tr>
-<th>search "by="</th>
-<th>description</th>
-</tr>
-<tr>
-<td>abstract</td>
-<td>search terms in the publication abstract</td>
-</tr>
-<tr>
-<td>author</td>
-<td>match authors in the publication</td>
-</tr>
-<tr>
-<td>subject</td>
-<td>match subject</td>
-</tr>
-<tr>
-<td>doi</td>
-<td>the unique object identifier for the publication</td>
-</tr>
-<tr>
-<td>ncbi</td>
-<td>NCBI identifier number for the taxon</td>
-</tr>
-<tr>
-<td>ubio</td>
-<td>"tb.identifier.ubio",</td>
-</tr>
-<tr>
-<td>kind.tree</td>
-<td>Kind of tree (Gene tree, species tree, barcode tree)</td>
-</tr>
-<tr>
-<td>type.tree</td>
-<td>type of tree (Consensus or Single)</td>
-</tr>
-<tr>
-<td>ntax</td>
-<td>number of taxa in the matrix</td>
-</tr>
-<tr>
-<td>quality</td>
-<td>A quality score for the tree, if it has been rated.</td>
-</tr>
-<tr>
-<td>study</td>
-<td>match words in the title of the study or publication</td>
-</tr>
-<tr>
-<td>taxon</td>
-<td>taxon scientific name</td>
-</tr>
-<tr>
-<td>id.study</td>
-<td>TreeBASE study ID</td>
-</tr>
-<tr>
-<td>id.tree</td>
-<td>TreeBASE's unique tree identifier (Tr.id)</td>
-</tr>
-<tr>
-<td>id.taxon</td>
-<td>taxon identifier number from TreeBase</td>
-</tr>
-<tr>
-<td>tree</td>
-<td>The title for the tree</td>
-</tr>
-</tbody>
-</table>
 
-Table 1: Queries available in `search_treebase`
+  search "by="     description
+  ---------------  -----------------------------------------------------
+  abstract         search terms in the publication abstract
+  author           match authors in the publication
+  subject          Matches in the subject terms
+  doi              The unique object identifier for the publication 
+  ncbi             NCBI identifier number for the taxon
+  kind.tree        Kind of tree (Gene tree, species tree, barcode tree)  
+  type.tree        Type of tree (Consensus or Single)
+  ntax             Number of taxa in the matrix
+  quality          A quality score for the tree, if it has been rated.  
+  study            Match words in the title of the study or publication
+  taxon            Taxon scientific name 
+  id.study         TreeBASE study ID
+  id.tree          TreeBASE's unique tree identifier (Tr.id)
+  id.taxon         Taxon identifier number from TreeBase 
+  tree             The title for the tree
+
+Table: Queries available in `search_treebase`
 
 
 
