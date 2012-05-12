@@ -451,7 +451,7 @@ Appendix
 ========
 
 Reproducible Research: A diversification rate analysis
------------------------------------------------------
+------------------------------------------------------
 
 Different diversification models make different assumptions 
 about the rate of speciation, extinction, and how these rates may be changing
@@ -561,11 +561,8 @@ in this second analysis, only three were in the original set considered
 no means have been sure ahead of time that a birth death with a shift, or
 a Yule model with a greater number of shifts, would not have fitted better.  
 
-
-
-
-Testing for constant speciation and extinction rates across many phylogenies  
--------------------------------------------------------------------------
+Tests across many phylogenies  
+-----------------------------
 
 A standard test of this is the gamma statistic of @pybus2000
 which tests the null hypothesis that the rates of speciation and extinction

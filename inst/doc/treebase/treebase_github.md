@@ -110,7 +110,7 @@
     meta &lt;- <span class="kw">data.frame</span>(<span class="dt">pub =</span> pub, <span class="dt">dates =</span> dates)
     <span class="kw">ggplot</span>(meta) + <span class="kw">geom_bar</span>(<span class="kw">aes</span>(dates, <span class="dt">fill =</span> pub))</code></pre>
 <div class="figure">
-<img src="http://farm6.staticflickr.com/5458/7184680300_248a2882c7_o.png" alt="Histogram of publication dates by year, with the code required to generate the figure." /><p class="caption">Histogram of publication dates by year, with the code required to generate the figure.</p>
+<img src="http://farm8.staticflickr.com/7230/7184804986_419dac46d5_o.png" alt="Histogram of publication dates by year, with the code required to generate the figure." /><p class="caption">Histogram of publication dates by year, with the code required to generate the figure.</p>
 </div>
 <p>Typically we are more interested in the metadata describing the phylogenies themselves rather than the publications in which they appeared, such as the number of taxa in the tree, a quality score (if available), kind of tree (gene tree, species tree, or barcode tree) or whether the phylogeny represents a consensus tree from a distribution or just a single estimate. The <code>cache_treebase</code> function is used to download all available phylogenies from TreeBASE. Here, we call the function with an optional argument that will return only the metadata just listed for all available phylogenies, which runs much more quickly.</p>
 <pre class="sourceCode r"><code class="sourceCode r">    phylo.md &lt;- <span class="kw">cache_treebase</span>(<span class="dt">only_metadata=</span><span class="ot">TRUE</span>)</code></pre>
@@ -238,7 +238,7 @@ best_model &lt;- <span class="kw">which.min</span>(<span class="kw">c</span>(<sp
 <table>
 <thead>
 <tr class="header">
-<th align="left">Testing for constant speciation and extinction rates across many phylogenies</th>
+<th align="left">Tests across many phylogenies</th>
 </tr>
 </thead>
 <tbody>
