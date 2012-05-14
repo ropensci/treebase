@@ -8,7 +8,7 @@
 #' @param only_metadata  option to only return metadata about matching trees
 #' @param save logical indicating whether to save a file with the resuls.
 #' @return saves a cached file of treebase
-#' @details a good idea to let this run overnight
+#' @details it's a good idea to let this run overnight
 #' @export
 cache_treebase <- function(file=paste("treebase-", Sys.Date(), ".rda",sep=""),
                            pause1 = 3, pause2 = 3, attempts = 10, 

@@ -1,6 +1,6 @@
 Package: treebase
 Type: Package
-Title: R interface to TreeBASE
+Title: An R package for discovery, access and manipulation of online phylogenies 
 Version: 0.0-6
 Date: 2011-04-25
 Author: Carl Boettiger, Duncan Temple-Lang

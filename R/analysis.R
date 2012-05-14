@@ -11,7 +11,7 @@
 #' @return a list of the values matching the query
 #' @examples
 #' \dontrun{
-#'      # calls will work without a metadata object
+#'      # calls will work without a metadata object, but require longer to download data
 #'      kind <- phylo_metadata("kind")
 #'      type <- phylo_metadata("type") 
 #'      table(kind, type)
@@ -45,10 +45,16 @@ phylo_metadata <- function(x =  c("Study.id", "Tree.id", "kind", "type", "qualit
 #' @return a list of values matching the query
 #' @examples
 #' \dontrun{
+#'     # automatically search each time
 #'     dates <- oai_metadata("date") 
 #'     pub <- oai_metadata("publisher")
 #'     table(dates, pub)
 #' }
+#'    # Using cached data from an earlier download
+#'     data(metadata) #loads oai.md, a list of all metadata
+#'     dates <- oai_metadata("date", metadata=oai.md) 
+#'     pub <- oai_metadata("publisher", metadata=oai.md)
+#'     table(dates, pub)
 #' @export
 oai_metadata <- function(x = c("date", "publisher", "author", "title", "Study.id", "attributes"), metadata=NULL, ...){
   x = match.arg(x)

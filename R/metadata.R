@@ -79,48 +79,6 @@ search_metadata <- function(query="", by=c("all", "until", "from"),
 }
 
 
-#' return the study.id from the search results.  
-#' @param search_results the output of search_metadata, or a subset thereof
-#' @return the study id
-#' @details this function is commonly used to get trees corresponding
-#'   to the metadata search.  
-#' @examples \dontrun{
-#' all <- search_metadata("", by="all")
-#' 
-#' nature <- sapply(all, function(x) length(grep("Nature", x$publisher))>0)
-#' science <- sapply(all, function(x) length(grep("^Science$", x$publisher))>0)
-#' s <- get_study_id( all[nature] )
-#' }
-#' @export
-get_study_id <- function(search_results){
-  sapply(search_results, 
-          function(x){
-            id <- x$identifier
-            id <- sub(".*TB2:S(\\d+)+", "\\1", id)
-          })
-}
-
-
-#' return the trees in treebase that correspond to the search results
-#' @param search_results the output of search_metadata, or a subset thereof
-#' @param curl the handle to the curl web utility for repeated calls, see
-#'  the getCurlHandle() function in RCurl package for details.  
-#' @param ... additional arguments to pass to search_treebase
-#' @return all corresponding phylogenies.  
-#' @details this function is commonly used to get trees corresponding
-#'   to the metadata search.  
-#' @examples \dontrun{
-#' all <- search_metadata("", by="all")
-#' nature <- sapply(all, function(x) length(grep("Nature", x$publisher))>0)
-#' science <- sapply(all, function(x) length(grep("^Science$", x$publisher))>0)
-#' s <- get_study( all[nature] )
-#' s <- get_study(all[science])
-#' }
-#' @export
-get_study <- function(search_results, curl=getCurlHandle(), ...){
-  sapply(search_results, function(x) search_treebase(x, input="id.study", curl=curl, ...))
-}
-
 #' Search the dryad metadata archive
 #' @param study.id the dryad identifier
 #' @param curl if calling in series many times, call getCurlHandle() first and 
@@ -136,6 +94,54 @@ dryad_metadata <- function(study.id, curl=getCurlHandle()){
   query <- paste(oai_url, get_record, "oai:datadryad.org:", study.id, sep="")
   metadata_from_oai(query, curl=curl)
 }
+
+
+
+#' return the study.id from the search results.  
+#'
+#' get_study_id is deprecated, and now can be performed more easily using
+#' phylo_metadata and oai_metadata search functions.  
+#' @param search_results the output of search_metadata, or a subset thereof
+#' @return the study id
+#' @details this function is commonly used to get trees corresponding
+#'   to the metadata search.  
+#' @examples \dontrun{
+#' all <- search_metadata("", by="all")
+#' 
+#' nature <- sapply(all, function(x) length(grep("Nature", x$publisher))>0)
+#' science <- sapply(all, function(x) length(grep("^Science$", x$publisher))>0)
+#' s <- get_study_id( all[nature] )
+#' }
+get_study_id <- function(search_results){
+  sapply(search_results, 
+          function(x){
+            id <- x$identifier
+            id <- sub(".*TB2:S(\\d+)+", "\\1", id)
+          })
+}
+
+
+#' return the trees in treebase that correspond to the search results
+#' get_study is deprecated, and now can be performed more easily using
+#' phylo_metadata and oai_metadata search functions.  
+#' @param search_results the output of search_metadata, or a subset thereof
+#' @param curl the handle to the curl web utility for repeated calls, see
+#'  the getCurlHandle() function in RCurl package for details.  
+#' @param ... additional arguments to pass to search_treebase
+#' @return all corresponding phylogenies.  
+#' @details this function is commonly used to get trees corresponding
+#'   to the metadata search.  
+#' @examples \dontrun{
+#' all <- search_metadata("", by="all")
+#' nature <- sapply(all, function(x) length(grep("Nature", x$publisher))>0)
+#' science <- sapply(all, function(x) length(grep("^Science$", x$publisher))>0)
+#' s <- get_study( all[nature] )
+#' s <- get_study(all[science])
+#' }
+get_study <- function(search_results, curl=getCurlHandle(), ...){
+  sapply(search_results, function(x) search_treebase(x, input="id.study", curl=curl, ...))
+}
+
 
 
 #' Internal function for OAI-MPH interface to the Dryad database
