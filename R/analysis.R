@@ -51,9 +51,9 @@ phylo_metadata <- function(x =  c("Study.id", "Tree.id", "kind", "type", "qualit
 #'     table(dates, pub)
 #' }
 #'    # Using cached data from an earlier download
-#'     data(metadata) #loads oai.md, a list of all metadata
-#'     dates <- oai_metadata("date", metadata=oai.md) 
-#'     pub <- oai_metadata("publisher", metadata=oai.md)
+#'     data(metadata) 
+#'     dates <- oai_metadata("date", metadata=metadata) 
+#'     pub <- oai_metadata("publisher", metadata=metadata)
 #'     table(dates, pub)
 #' @export
 oai_metadata <- function(x = c("date", "publisher", "author", "title", "Study.id", "attributes"), metadata=NULL, ...){

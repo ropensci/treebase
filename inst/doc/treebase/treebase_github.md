@@ -1,5 +1,3 @@
-<p>cboettig@ucdavis.edu</p>
-<p>[cor1]Corresponding author.</p>
 <ol style="list-style-type: decimal">
 <li><p>TreeBASE is an important and rapidly growing repository of phylogenetic data. The R statistical environment has become a primary tool for the applied phylogenetic analyses that use this kind of data for across a range of questions, from comparative evolution to community ecology to conservation planning.</p></li>
 <li><p>We have developed <code>treebase</code>, an open-source package (freely available from <a href="http://cran.r-project.org/web/packages/treebase">http://cran.r-project.org/web/packages/treebase</a>) for the R environment, providing simplified, programmatic and interactive access to phylogenetic data in the TreeBASE repository.</p></li>
@@ -110,7 +108,7 @@
     meta &lt;- <span class="kw">data.frame</span>(<span class="dt">pub =</span> pub, <span class="dt">dates =</span> dates)
     <span class="kw">ggplot</span>(meta) + <span class="kw">geom_bar</span>(<span class="kw">aes</span>(dates, <span class="dt">fill =</span> pub))</code></pre>
 <div class="figure">
-<img src="http://farm8.staticflickr.com/7242/7184841966_1865ae66de_o.png" alt="Histogram of publication dates by year, with the code required to generate the figure." /><p class="caption">Histogram of publication dates by year, with the code required to generate the figure.</p>
+<img src="http://farm8.staticflickr.com/7104/7199530114_aee0566934_o.png" alt="Histogram of publication dates by year, with the code required to generate the figure." /><p class="caption">Histogram of publication dates by year, with the code required to generate the figure.</p>
 </div>
 <p>Typically we are more interested in the metadata describing the phylogenies themselves rather than the publications in which they appeared, such as the number of taxa in the tree, a quality score (if available), kind of tree (gene tree, species tree, or barcode tree) or whether the phylogeny represents a consensus tree from a distribution or just a single estimate. The <code>cache_treebase</code> function is used to download all available phylogenies from TreeBASE. Here, we call the function with an optional argument that will return only the metadata just listed for all available phylogenies, which runs much more quickly.</p>
 <pre class="sourceCode r"><code class="sourceCode r">    phylo.md &lt;- <span class="kw">cache_treebase</span>(<span class="dt">only_metadata=</span><span class="ot">TRUE</span>)</code></pre>
@@ -166,7 +164,7 @@ Species Tree
       <span class="kw">geom_point</span>(<span class="dt">position =</span> <span class="st">&#39;jitter&#39;</span>, <span class="dt">alpha =</span> .<span class="dv">8</span>) + 
       <span class="kw">scale_y_log10</span>() + <span class="kw">stat_smooth</span>(<span class="kw">aes</span>(<span class="dt">group =</span> <span class="dv">1</span>))</code></pre>
 <div class="figure">
-<img src="http://farm8.staticflickr.com/7242/7184238818_6564ca0e1c_o.png" alt="Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number." /><p class="caption">Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number.</p>
+<img src="http://farm6.staticflickr.com/5031/7199531658_3f4bc24518_o.png" alt="Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number." /><p class="caption">Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number.</p>
 </div>
 <p>The promise of this exponential growth in the sizes of available phylogenies, with some trees representing 2,957 taxa motivates the more and more ambitious inference methods being developed which require large trees to have adequate signal <span class="citation">(Boettiger, Coop, and Ralph 2012; FitzJohn, Maddison, and Otto 2009; Beaulieu et al. 2012)</span>.</p>
 <h1 id="reproducible-research">Reproducible research</h1>

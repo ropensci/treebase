@@ -58,35 +58,33 @@
 }
 \details{
   Choose the search type.  Options are: \itemize{
-  \item{abstract}{ "dcterms.abtract", search terms in the
-  publication abstract} \item{citation}{
-  "dcterms.bibliographicCitation", } \item{author }{
-  "dcterms.contributor", match authors in the publication}
-  \item{subject }{ "dcterms.subject", match subject}
-  \item{id.matrix }{ "tb.identifier.matrix",}
-  \item{id.matrix.tb1 }{ "tb.identifer.matrix.tb1",
-  (TreeBASE 1 id #s, legacy)} \item{ncbi }{
-  "tb.identifier.ncbi", NCBI identifier number}
-  \item{id.study }{ "tb.identifier.study", TreeBASE study
-  ID} \item{id.study.tb1 }{ "tb.identifier.study.tb1",
-  (legacy id) } \item{id.taxon }{ "tb.identifer.taxon",}
-  \item{taxon.tb1 }{ "tb.identifier.taxon.tb1", (legacy
-  taxon)} \item{taxonVariant.tb1 }{
-  "tb.identifier.taxonVarient.tb1", (legacy)} \item{id.tree
-  }{ "tb.identifier.tree", TreeBASE tree identifier}
-  \item{ubio }{ "tb.identifier.ubio",} \item{kind.tree }{
-  "tb.kind.tree", } \item{nchar }{ "tb.nchar.matrix",
-  number of characters in the matrix} \item{ntax }{
-  "tb.ntax.matrix", number of taxa in the matrix}
-  \item{quality}{ "tb.quality.tree", } \item{matrix }{
-  "tb.title.matrix", } \item{study }{ "tb.title.study",
-  study title} \item{taxon }{ "tb.title.taxon", taxon name}
-  \item{taxonLabel }{ "tb.title.taxonLabel", }
-  \item{taxonVariant }{ "tb.title.taxonVariant",}
-  \item{tree }{ "tb.title.tree",} \item{type.matrix}{
-  "tb.type.matrix",} \item{type.tree }{ "tb.type.tree"}
-  \item{doi}{ "prism.doi" a unique object identifier} } for
-  a description of all possible search options, see
+  \item{abstract }{ search terms in the publication
+  abstract} \item{author }{ match authors in the
+  publication} \item{subject }{ match subject} \item{doi }{
+  the unique object identifier for the publication }
+  \item{ncbi }{ NCBI identifier number for the taxon}
+  \item{kind.tree }{ Kind of tree (Gene tree, species tree,
+  barcode tree) } \item{type.tree }{ type of tree
+  (Consensus or Single)} \item{ntax }{ number of taxa in
+  the matrix} \item{quality }{ A quality score for the
+  tree, if it has been rated.  } \item{study }{ match words
+  in the title of the study or publication} \item{taxon }{
+  taxon scientific name } \item{id.study }{ TreeBASE study
+  ID} \item{id.tree }{ TreeBASE's unique tree identifier
+  (Tr.id)} \item{id.taxon }{ taxon identifier number from
+  TreeBase } \item{tree }{ The title for the tree}
+  \item{type.matrix }{ Type of matrix } \item{matrix }{
+  Name given the the matrix } \item{id.matrix }{ TreeBASE's
+  unique matrix identifier} \item{nchar }{ number of
+  characters in the matrix} }
+
+  The package provides partial support for character
+  matrices provided by TreeBASE. At the time of writing,
+  TreeBASE permits ambiguous DNA characters in these
+  matrices, such as `{CG}` indicating either a C or G,
+  which is not supported by any R interpreter, and thus may
+  lead to errors.  for a description of all possible search
+  options, see
   https://spreadsheets.google.com/pub?key=rL--O7pyhR8FcnnG5-ofAlw.
 }
 \examples{

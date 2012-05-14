@@ -26,7 +26,7 @@
 }
 \examples{
 \dontrun{
-     # calls will work without a metadata object
+     # calls will work without a metadata object, but require longer to download data
      kind <- phylo_metadata("kind")
      type <- phylo_metadata("type")
      table(kind, type)

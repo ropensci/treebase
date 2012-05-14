@@ -35,6 +35,6 @@
   A function to cache the phylogenies in treebase locally
 }
 \details{
-  a good idea to let this run overnight
+  it's a good idea to let this run overnight
 }
 

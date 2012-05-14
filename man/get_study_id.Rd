@@ -12,7 +12,9 @@
   the study id
 }
 \description{
-  return the study.id from the search results.
+  get_study_id is deprecated, and now can be performed more
+  easily using phylo_metadata and oai_metadata search
+  functions.
 }
 \details{
   this function is commonly used to get trees corresponding

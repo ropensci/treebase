@@ -1,6 +1,8 @@
 \name{get_study}
 \alias{get_study}
-\title{return the trees in treebase that correspond to the search results}
+\title{return the trees in treebase that correspond to the search results
+get_study is deprecated, and now can be performed more easily using
+phylo_metadata and oai_metadata search functions.}
 \usage{
   get_study(search_results, curl = getCurlHandle(), ...)
 }
@@ -20,7 +22,9 @@
 }
 \description{
   return the trees in treebase that correspond to the
-  search results
+  search results get_study is deprecated, and now can be
+  performed more easily using phylo_metadata and
+  oai_metadata search functions.
 }
 \details{
   this function is commonly used to get trees corresponding

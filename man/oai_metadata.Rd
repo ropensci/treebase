@@ -26,9 +26,15 @@
 }
 \examples{
 \dontrun{
+    # automatically search each time
     dates <- oai_metadata("date")
     pub <- oai_metadata("publisher")
     table(dates, pub)
 }
+   # Using cached data from an earlier download
+    data(metadata) #loads oai.md, a list of all metadata
+    dates <- oai_metadata("date", metadata=oai.md)
+    pub <- oai_metadata("publisher", metadata=oai.md)
+    table(dates, pub)
 }
 

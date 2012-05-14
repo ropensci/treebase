@@ -1,8 +1,6 @@
 export(cache_treebase)
 export(drop_nontrees)
 export(dryad_metadata)
-export(get_study)
-export(get_study_id)
 export(have_branchlength)
 export(oai_metadata)
 export(phylo_metadata)
