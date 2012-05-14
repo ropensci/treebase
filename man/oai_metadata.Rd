@@ -32,9 +32,9 @@
     table(dates, pub)
 }
    # Using cached data from an earlier download
-    data(metadata) #loads oai.md, a list of all metadata
-    dates <- oai_metadata("date", metadata=oai.md)
-    pub <- oai_metadata("publisher", metadata=oai.md)
+    data(metadata)
+    dates <- oai_metadata("date", metadata=metadata)
+    pub <- oai_metadata("publisher", metadata=metadata)
     table(dates, pub)
 }
 
