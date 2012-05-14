@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>treebase 0.0-6</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Carl Boettiger, Duncan Temple-Lang">
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {padding-top: 60px;}
+      h2 {padding-top: 20px}
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/highlight.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class = "container">
+          <a class="brand" href="#">treebase 0.0-6</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="hero-unit">
+        <h1>treebase 0.0-6</h1>
+        <p>Interface to the API for TreeBASE</p>
+      </div>
+      
+      <div class="row">
+        <div class="span8">
+          <h1>treebase</h1>
+
+<p><em>An R package for discovery, access and manipulation of online phylogenies</em></p>
+
+<ul>
+<li><a href="https://github.com/ropensci/treebase">Development version source code on github</a></li>
+<li><a href="http://ropensci.github.com/treeBASE/">HTML package documentation</a></li>
+<li><a href="https://github.com/ropensci/treebase/issues">Report issues, bugs or feature requests</a></li>
+</ul>
+
+<h2>Installation</h2>
+
+<p><code>treebase</code> is available from CRAN.  You can install the latest version from the development website on github using the <code>devtools</code> package from within R.  Make sure you have the latest version for the best experience. </p>
+
+<pre><code class="r">library(devtools)
+install_github(&quot;treebase&quot;, &quot;ropensci&quot;)
+</code></pre>
+
+<h2>Getting Started </h2>
+
+<p>Use of the <code>treebase</code> package should be relatively straight forward: </p>
+
+<pre><code class="r">library(treebase)
+Phylogenies_from_Huelsenbeck &lt;- search_treebase(&quot;Huelsenbeck&quot;, &quot;author&quot;)
+</code></pre>
+
+<p>More interesting examples will take advantage of <code>R</code> to loop over large amounts of treebase data that would be to tiresome to search for, download and analyze by hand. Welcome to the era of big data phylogenetics.  </p>
+
+<ul>
+<li>Browse the examples in the <a href="http://ropensci.github.com/treeBASE/">documentation</a></li>
+<li><p>We are preparing a short manuscript to introduce the motivation, functions, and use-cases for the <code>treebase</code> package.  Meanwhile, a <a href="https://github.com/ropensci/treeBASE/blob/master/inst/doc/treebase/treebase_github.md">preprint is available</a> as a dynamic document, where all of the examples shown are produced by the code shown using <code>knitr</code>. <a href="https://github.com/ropensci/treeBASE/blob/master/inst/doc/treebase/treebase.Rmd">See source code</a>.  </p></li>
+<li><p>treebase is part of the <a href="http://ropensci.github.com">rOpenSci Project</a></p></li>
+</ul>
+
+
+          <h2>Help topics</h2>
+          <ul class="index">
+            <li class="NA"><code><a href="cache_treebase.html">cache_treebase</a></code>: A function to cache the phylogenies in treebase locally</li>
+            <li class="internal"><code><a href="clean_data.html">clean_data</a></code>: clean the fish.base data into pure ASCII</li>
+            <li class="internal"><code><a href="drop_nonascii.html">drop_nonascii</a></code>: remove non-ASCII characters</li>
+            <li class="NA"><code><a href="drop_nontrees.html">drop_nontrees</a></code>: drop errors from the search</li>
+            <li class="NA"><code><a href="dryad_metadata.html">dryad_metadata</a></code>: Search the dryad metadata archive</li>
+            <li class="internal"><code><a href="get_nex.html">get_nex</a></code>: imports phylogenetic trees from treebase. internal function</li>
+            <li class="NA"><code><a href="get_study.html">get_study</a></code>: return the trees in treebase that correspond to the search results
+get_study is deprecated, and now can be performed more easily using
+phylo_metadata and oai_metadata search functions.</li>
+            <li class="NA"><code><a href="get_study_id.html">get_study_id</a></code>: return the study.id from the search results.</li>
+            <li class="NA"><code><a href="have_branchlength.html">have_branchlength</a></code>: Simple function to identify which trees have branch lengths</li>
+            <li class="NA"><code><a href="metadata.html">metadata</a></code>: metadata.rda</li>
+            <li class="internal"><code><a href="metadata_from_oai.html">metadata_from_oai</a></code>: Internal function for OAI-MPH interface to the Dryad database</li>
+            <li class="NA"><code><a href="oai_metadata.html">oai_metadata</a></code>: Search the OAI-PMH metadata by date, publisher, or identifier</li>
+            <li class="NA"><code><a href="phylo_metadata.html">phylo_metadata</a></code>: Search the PhyloWS metadata</li>
+            <li class="NA"><code><a href="search_metadata.html">search_metadata</a></code>: Search the metadata on treebase using the OAI-MPH interface</li>
+            <li class="NA"><code><a href="search_treebase.html">search_treebase</a></code>: A function to pull in the phyologeny/phylogenies matching a search query</li>
+            <li class="NA"><code><a href="show_metadata.html">show_metadata</a></code>: Get the metadata associated with the study in which the phylogeny
+ was published.</li>
+            <li class="NA"><code><a href="treebase.html">treebase</a></code>: treebase.rda</li>
+          </ul>
+        </div>
+        <div class="span4">
+          <h2>Vignettes</h2>
+          <ul>
+          </ul>
+
+          <h2>Demos</h2>
+          <ul>
+          </ul>
+
+          <h2>Dependencies</h2>
+          <ul>
+            <li><strong>Depends</strong>: ape</li>
+            <li><strong>Imports</strong>: XML, RCurl, methods, utils</li>
+            <li><strong>Suggests</strong>: TreePar</li>
+            <li><strong>Extends</strong>: </li>
+          </ul>
+            
+           
+          <h2>Authors</h2>
+          
+          
+        </div>
+      </div>
+
+      <footer class="footer">
+        <p class="pull-right"><a href="#">Back to top</a></p>
+        <p>Built by <a href="https://github.com/hadley/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+      </footer>
+    </div> <!-- /container -->
+  </body>
+</html>
