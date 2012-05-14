@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Search the OAI-PMH metadata by date, publisher, or identifier. treebase 0.0-6</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {padding-top: 60px;}
+      h2 {padding-top: 20px}
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/highlight.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class = "container">
+          <a class="brand" href="#">treebase 0.0-6</a>
+          <div class="nav">
+            <ul class="nav">
+              <li><a href="index.html"><i class="icon-home icon-white"></i> Index</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <h1>Search the OAI-PMH metadata by date, publisher, or identifier</h1>
+
+      <div class="row">
+        <div class="span8">
+          <h2>Usage</h2>
+          <pre><span class="functioncall"><a href='oai_metadata.html.html'>oai_metadata</a></span><span class="keyword">(</span><span class="argument">x</span> <span class="argument">=</span> <span class="functioncall"><a href='http://www.inside-r.org/r-doc/base/c'>c</a></span><span class="keyword">(</span><span class="string">"date"</span><span class="keyword">,</span> <span class="string">"publisher"</span><span class="keyword">,</span> <span class="string">"author"</span><span class="keyword">,</span> <span class="string">"title"</span><span class="keyword">,</span> <span class="string">"Study.id"</span><span class="keyword">,</span> <span class="string">"attributes"</span><span class="keyword">)</span><span class="keyword">,</span>
+  <span class="argument">metadata</span> <span class="argument">=</span> NULL<span class="keyword">,</span> <span class="symbol">...</span><span class="keyword">)</span></pre>
+          
+          <h2>Arguments</h2>
+          <dl>
+            <dt>x</dt>
+            <dd>one of "date", "publisher", "identifier" for the
+  study</dd>
+            <dt>metadata</dt>
+            <dd>returned from <code>search_metadata</code>
+  function. if not specified will download latest copy from
+  treebase.  Pass in the value during repeated calls to
+  speed function runtime substantially</dd>
+            <dt>...</dt>
+            <dd>additional arguments to
+  <code>search_metadata</code></dd>
+          </dl>
+          
+          <div class="Value">
+            <h2>Value</h2>
+            
+            <p>a list of values matching the query</p>
+        
+          </div>
+
+          <div class="Description">
+            <h2>Description</h2>
+            
+            <p>Search the OAI-PMH metadata by date, publisher, or
+  identifier</p>
+        
+          </div>
+      
+          <h2 id="examples">Examples</h2>
+          <pre class="examples"><div class='input'><span class="comment">## &lt;strong&gt;Not run&lt;/strong&gt;: </span>
+<span class="comment">#     # automatically search each time</span>
+<span class="comment">#     dates &lt;- oai_metadata("date")</span>
+<span class="comment">#     pub &lt;- oai_metadata("publisher")</span>
+<span class="comment">#     table(dates, pub)</span>
+<span class="comment"># ## &lt;strong&gt;End(Not run)&lt;/strong&gt;</span>
+   <span class="comment"># Using cached data from an earlier download</span>
+    <span class="functioncall"><a href='http://www.inside-r.org/r-doc/utils/data'>data</a></span><span class="keyword">(</span><span class="symbol">metadata</span><span class="keyword">)</span>
+    <span class="symbol">dates</span> <span class="assignement">&lt;-</span> <span class="functioncall"><a href='oai_metadata.html.html'>oai_metadata</a></span><span class="keyword">(</span><span class="string">"date"</span><span class="keyword">,</span> <span class="argument">metadata</span><span class="argument">=</span><span class="symbol">metadata</span><span class="keyword">)</span></div>
+<strong class='error'>Error in eval(expr, envir, enclos): could not find function "oai_metadata"</strong>
+<div class='input'>    <span class="symbol">pub</span> <span class="assignement">&lt;-</span> <span class="functioncall"><a href='oai_metadata.html.html'>oai_metadata</a></span><span class="keyword">(</span><span class="string">"publisher"</span><span class="keyword">,</span> <span class="argument">metadata</span><span class="argument">=</span><span class="symbol">metadata</span><span class="keyword">)</span></div>
+<strong class='error'>Error in eval(expr, envir, enclos): could not find function "oai_metadata"</strong>
+<div class='input'>    <span class="functioncall"><a href='http://www.inside-r.org/r-doc/base/table'>table</a></span><span class="keyword">(</span><span class="symbol">dates</span><span class="keyword">,</span> <span class="symbol">pub</span><span class="keyword">)</span></div>
+<strong class='error'>Error in table(dates, pub): object 'dates' not found</strong></pre>
+        </div>
+        <div class="span4">
+          <!-- <ul>
+            <li>oai_metadata</li>
+          </ul>
+          <ul>
+            
+          </ul> -->
+            
+                    
+        </div>
+      </div>
+      <footer class="footer">
+        <p class="pull-right"><a href="#">Back to top</a></p>
+        <p>Built by <a href="https://github.com/hadley/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+      </footer>
+    </div> <!-- /container -->
+  </body>
+</html>
