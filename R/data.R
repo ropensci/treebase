@@ -15,7 +15,7 @@ NULL
 #'
 #' Contains a cache of all publication metadata the search_metadata()
 #' to pull down when run  on 2012-05-12.  
-#' @name treebase
+#' @name metadata 
 #' @docType data
 #' @keywords data
 #' @details recreate with: \code{

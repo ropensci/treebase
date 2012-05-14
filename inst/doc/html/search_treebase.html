@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>A function to pull in the phyologeny/phylogenies matching a search query. treebase 0.0-6</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {padding-top: 60px;}
+      h2 {padding-top: 20px}
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/highlight.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class = "container">
+          <a class="brand" href="#">treebase 0.0-6</a>
+          <div class="nav">
+            <ul class="nav">
+              <li><a href="index.html"><i class="icon-home icon-white"></i> Index</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <h1>A function to pull in the phyologeny/phylogenies matching a search query</h1>
+
+      <div class="row">
+        <div class="span8">
+          <h2>Usage</h2>
+          <pre><span class="functioncall"><a href='search_treebase.html.html'>search_treebase</a></span><span class="keyword">(</span><span class="symbol">input</span><span class="keyword">,</span> <span class="symbol">by</span><span class="keyword">,</span> <span class="argument">returns</span> <span class="argument">=</span> <span class="functioncall"><a href='http://www.inside-r.org/r-doc/base/c'>c</a></span><span class="keyword">(</span><span class="string">"tree"</span><span class="keyword">,</span> <span class="string">"matrix"</span><span class="keyword">)</span><span class="keyword">,</span> <span class="argument">exact_match</span> <span class="argument">=</span> <span class="number">FALSE</span><span class="keyword">,</span> <span class="argument">max_trees</span> <span class="argument">=</span> <span class="number">Inf</span><span class="keyword">,</span>
+  <span class="argument">branch_lengths</span> <span class="argument">=</span> <span class="number">FALSE</span><span class="keyword">,</span> <span class="argument">curl</span> <span class="argument">=</span> <span class="functioncall"><a href='http://www.inside-r.org/r-doc/RCurl/getCurlHandle'>getCurlHandle</a></span><span class="keyword">(</span><span class="keyword">)</span><span class="keyword">,</span> <span class="argument">verbose</span> <span class="argument">=</span> <span class="number">TRUE</span><span class="keyword">,</span> <span class="argument">pause1</span> <span class="argument">=</span> <span class="number">2</span><span class="keyword">,</span> <span class="argument">pause2</span> <span class="argument">=</span> <span class="number">1</span><span class="keyword">,</span>
+      <span class="argument">attempts</span> <span class="argument">=</span> <span class="number">3</span><span class="keyword">,</span> <span class="argument">only_metadata</span> <span class="argument">=</span> <span class="number">FALSE</span><span class="keyword">)</span></pre>
+          
+          <h2>Arguments</h2>
+          <dl>
+            <dt>input</dt>
+            <dd>a search query (character string)</dd>
+            <dt>by</dt>
+            <dd>the kind of search; author, taxon, subject,
+  study, etc (see list of possible search terms, details)</dd>
+            <dt>returns</dt>
+            <dd>should the fn return the tree or the
+  character matrix?</dd>
+            <dt>exact_match</dt>
+            <dd>force exact matching for author name,
+  taxon, etc.  Otherwise does partial matching</dd>
+            <dt>max_trees</dt>
+            <dd>Upper bound for the number of trees
+  returned, good for keeping possibly large initial queries
+  fast</dd>
+            <dt>branch_lengths</dt>
+            <dd>logical indicating whether should
+  only return trees that have branch lengths.</dd>
+            <dt>curl</dt>
+            <dd>the handle to the curl web utility for
+  repeated calls, see the getCurlHandle() function in RCurl
+  package for details.</dd>
+            <dt>verbose</dt>
+            <dd>logical indicating level of progress
+  reporting</dd>
+            <dt>pause1</dt>
+            <dd>number of seconds to hesitate between
+  requests</dd>
+            <dt>pause2</dt>
+            <dd>number of seconds to hesitate between
+  individual files</dd>
+            <dt>attempts</dt>
+            <dd>number of attempts to access a particular
+  resource</dd>
+            <dt>only_metadata</dt>
+            <dd>option to only return metadata about
+  matching trees which lists study.id, tree.id, kind
+  (gene,species,barcode) type (single, consensus) number of
+  taxa, and possible quality score.</dd>
+          </dl>
+          
+          <div class="Value">
+            <h2>Value</h2>
+            
+            <p>either a list of trees (multiphylo) or a list of
+  character matrices</p>
+        
+          </div>
+
+          <div class="Description">
+            <h2>Description</h2>
+            
+            <p>A function to pull in the phyologeny/phylogenies matching
+  a search query</p>
+        
+          </div>
+
+          <div class="Details">
+            <h2>Details</h2>
+            
+            <p>Choose the search type.  Options are: <ul>
+<li>  </li>
+<li>abstract  search terms in the publication
+  abstract </li>
+<li>author  match authors in the
+  publication </li>
+<li>subject  match subject </li>
+<li>doi 
+  the unique object identifier for the publication 
+  </li>
+<li>ncbi  NCBI identifier number for the taxon
+  </li>
+<li>kind.tree  Kind of tree (Gene tree, species tree,
+  barcode tree)  </li>
+<li>type.tree  type of tree
+  (Consensus or Single) </li>
+<li>ntax  number of taxa in
+  the matrix </li>
+<li>quality  A quality score for the
+  tree, if it has been rated.   </li>
+<li>study  match words
+  in the title of the study or publication </li>
+<li>taxon 
+  taxon scientific name  </li>
+<li>id.study  TreeBASE study
+  ID </li>
+<li>id.tree  TreeBASE's unique tree identifier
+  (Tr.id) </li>
+<li>id.taxon  taxon identifier number from
+  TreeBase  </li>
+<li>tree  The title for the tree
+  </li>
+<li>type.matrix  Type of matrix  </li>
+<li>matrix 
+  Name given the the matrix  </li>
+<li>id.matrix  TreeBASE's
+  unique matrix identifier </li>
+<li>nchar  number of
+  characters in the matrix </li>
+</ul></p>
+        
+            <p>The package provides partial support for character
+  matrices provided by TreeBASE. At the time of writing,
+  TreeBASE permits ambiguous DNA characters in these
+  matrices, such as `CG` indicating either a C or G,
+  which is not supported by any R interpreter, and thus may
+  lead to errors.  for a description of all possible search
+  options, see
+  https://spreadsheets.google.com/pub?key=rL--O7pyhR8FcnnG5-ofAlw.</p>
+        
+          </div>
+      
+          <h2 id="examples">Examples</h2>
+          <pre class="examples"><div class='input'>## <strong>Not run</strong>: # ## defaults to return phylogeny# Huelsenbeck <- search_treebase("Huelsenbeck", by="author")# # ## can ask for character matrices:# wingless <- search_treebase("2907", by="id.matrix", returns="matrix")# # ## Some nexus matrices don't meet read.nexus.data's strict requirements,# ## these aren't returned# H_matrices <- search_treebase("Huelsenbeck", by="author", returns="matrix")# # ## Use Booleans in search: and, or, not# ## Note that by must identify each entry type if a Boolean is given# HR_trees <- search_treebase("Ronquist or Hulesenbeck", by=c("author", "author"))# # ## We'll often use max_trees in the example so that they run quickly,# ## notice the quotes for species.# dolphins <- search_treebase('"Delphinus"', by="taxon", max_trees=5)# ## can do exact matches# humans <- search_treebase('"Homo sapiens"', by="taxon", exact_match=TRUE, max_trees=10)# ## all trees with 5 taxa# five <- search_treebase(5, by="ntax", max_trees = 10)# ## These are different, a tree id isn't a Study id.  we report both# studies <- search_treebase("2377", by="id.study")# tree <- search_treebase("2377", by="id.tree")# c("TreeID" = tree$Tr.id, "StudyID" = tree$S.id)# ## Only results with branch lengths# ## Has to grab all the trees first, then toss out ones without branch_lengths# Near <- search_treebase("Near", "author", branch_lengths=TRUE)#  ## <strong>End(Not run)</strong></div></pre>
+        </div>
+        <div class="span4">
+          <!-- <ul>
+            <li>search_treebase</li>
+          </ul>
+          <ul>
+            <li>utility</li>
+          </ul> -->
+            
+                    
+        </div>
+      </div>
+      <footer class="footer">
+        <p class="pull-right"><a href="#">Back to top</a></p>
+        <p>Built by <a href="https://github.com/hadley/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+      </footer>
+    </div> <!-- /container -->
+  </body>
+</html>

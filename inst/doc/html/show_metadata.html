@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Get the metadata associated with the study in which the phylogeny
+ was published.. treebase 0.0-6</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style>
+      body {padding-top: 60px;}
+      h2 {padding-top: 20px}
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/highlight.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class = "container">
+          <a class="brand" href="#">treebase 0.0-6</a>
+          <div class="nav">
+            <ul class="nav">
+              <li><a href="index.html"><i class="icon-home icon-white"></i> Index</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <h1>Get the metadata associated with the study in which the phylogeny
+ was published.</h1>
+
+      <div class="row">
+        <div class="span8">
+          <h2>Usage</h2>
+          <pre><span class="functioncall"><a href='show_metadata.html.html'>show_metadata</a></span><span class="keyword">(</span><span class="symbol">study.id</span><span class="keyword">,</span> <span class="argument">curl</span> <span class="argument">=</span> <span class="functioncall"><a href='http://www.inside-r.org/r-doc/RCurl/getCurlHandle'>getCurlHandle</a></span><span class="keyword">(</span><span class="keyword">)</span><span class="keyword">)</span></pre>
+          
+          <h2>Arguments</h2>
+          <dl>
+            <dt>study.id</dt>
+            <dd>The treebase study id (numbers only,
+  specify in quotes)</dd>
+            <dt>curl</dt>
+            <dd>if calling in series many times, call
+  getCurlHandle() first and then pass the return value in
+  here.  avoids repeated handshakes with server.</dd>
+          </dl>
+          
+          <div class="Description">
+            <h2>Description</h2>
+            
+            <p>Get the metadata associated with the study in which the
+  phylogeny was published.</p>
+        
+          </div>
+
+          <div class="Details">
+            <h2>Details</h2>
+            
+            <p>if the tree is imported with search_treebase, then this
+  is in tree$S.id</p>
+        
+          </div>
+      
+          <h2 id="examples">Examples</h2>
+          <pre class="examples"><div class='input'>## <strong>Not run</strong>: #   tree <- search_treebase("1234", "id.tree")#   metadata(tree$S.id)# ## <strong>End(Not run)</strong></div></pre>
+        </div>
+        <div class="span4">
+          <!-- <ul>
+            <li>show_metadata</li>
+          </ul>
+          <ul>
+            <li>utilities</li>
+          </ul> -->
+            
+                    
+        </div>
+      </div>
+      <footer class="footer">
+        <p class="pull-right"><a href="#">Back to top</a></p>
+        <p>Built by <a href="https://github.com/hadley/staticdocs">staticdocs</a>. Styled with <a href="http://twitter.github.com/bootstrap">bootstrap</a>.</p>
+      </footer>
+    </div> <!-- /container -->
+  </body>
+</html>
