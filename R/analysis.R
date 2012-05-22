@@ -60,7 +60,7 @@ oai_metadata <- function(x = c("date", "publisher", "author", "title", "Study.id
   x = match.arg(x)
 # Aliases
   x <- gsub("attributes", ".attr", x)
-  x <- gsub("author", "creator", x)
+  x <- gsub("author", "creator", x) # gets first author only
   x <- gsub("Study.id", "identifier", x)
   if(is.null(metadata))
     metadata <- search_metadata(...)
@@ -70,5 +70,55 @@ oai_metadata <- function(x = c("date", "publisher", "author", "title", "Study.id
   as.character(out) # avoid list object returns
 }
 
+
+#' 
+#' Get a table of all available metadata 
+#' @param phylo.md cached phyloWS (tree) metadata, (optional)
+#' @param oai.md cached OAI-PMH (study) metadata (optional)
+#' @return a data frame of all available metadata, (as a data.table object)
+#' columns are: 
+#' @examples
+#' meta <- metadata_table()
+#' meta[publisher %in% c("Nature", "Science") & ntaxa > 100 & kind == "Gene Tree",]
+#' 
+#' @import reshape2 data.table
+#' @export
+metadata_table <- function(phylo.md = NULL, oai.md=NULL){
+
+  require(reshape2)
+  require(data.table)
+
+  if(is.null(phylo.md))
+    phylo.md <- cache_treebase(only_metadata=TRUE)
+  if(is.null(oai.md))
+    oai.md <- search_metadata() 
+
+  #  phylo_data <- melt(phylo.md) # This is very slow
+  #  phylo <- dcast(phylo_data, ... ~ L2)
+
+  phylo <- 
+    data.frame(Study.id = phylo_metadata("Study.id", phylo.md), 
+    Tree.id = phylo_metadata("Tree.id", phylo.md), 
+    kind = phylo_metadata("kind", phylo.md), 
+    type = phylo_metadata("type", phylo.md), 
+    quality = phylo_metadata("quality", phylo.md),
+    ntaxa = phylo_metadata("ntaxa", phylo.md))
+
+  oai <- 
+    data.frame(date = oai_metadata("date", oai.md), 
+    publisher = oai_metadata("publisher", oai.md),
+    author = oai_metadata("author", oai.md),
+    title = oai_metadata("title", oai.md),
+    Study.id = oai_metadata("Study.id", oai.md))
+
+  oai <- data.table(oai)
+  setkey(oai, "Study.id")
+  phylo <- data.table(phylo)
+  setkey(phylo, "Study.id")
+  
+  both <-  phylo[oai] # Fast join
+  class(both$ntaxa) <- "integer"
+  both
+}
 
 
