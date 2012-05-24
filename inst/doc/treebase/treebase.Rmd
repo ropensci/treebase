@@ -181,7 +181,38 @@ This can help the user discover phylogenies of interest and also allows
 the user to perform statistical analyses on the data deposition itself,
 which could identify trends or biases in the phylogenetics literature.
 
-This publication metadata is accessed by `search_metadata` function, 
+These tools can assist in data discovery by identifying potential datasets
+that meet an arbitrary list of requirements.  For instance, if our analysis
+requires consensus gene trees with 100 or more taxa appearing in the journals
+_Nature_ or _Science_, we can quickly identify candidate phylogenies using
+the `metadata_table` function, which combines information from both of the 
+TreeBASE APIs.  
+
+```{r }
+meta <- metadata_table()
+meta[publisher %in% c("Nature", "Science") & ntaxa > 100 & kind == "Gene Tree",]
+````
+
+The fields provided are listed in Table II.  
+
+  metadata field     description
+  ---------------  -----------------------------------------------------
+  Study.id         TreeBASE study ID
+  Tree.id          TreeBASE's unique tree identifier 
+  kind             Kind of tree (Gene tree, species tree, barcode tree)  
+  type             Type of tree (Consensus or Single)
+  quality          A quality score for the tree, if it has been rated.  
+  ntaxa            Number of taxa in the matrix
+  date             Year the study was published
+  author           First author in the publication
+  title            The title of the publication 
+
+Table: Columns of metadata avialable from the `metadata_table` function 
+
+
+
+
+publication metadata is accessed by the `search_metadata` function, 
 which can download the metadata for all publications
 associated with TreeBASE. 
 
@@ -287,16 +318,6 @@ Figure [fig:2].
     ggplot(taxa, aes(dates, Ntaxa)) + 
       geom_point(position = 'jitter', alpha = .8) + 
       scale_y_log10() + stat_smooth(aes(group = 1))
-````
-
-These tools can assist in data discovery by identifying potential datasets
-that meet an arbitrary list of requirements.  For instance, if our analysis
-requires consensus gene trees with 100 or more taxa appearing in the journals
-_Nature_ or _Science_, we can grab them with a few successive filters:
-
-```{r }
-meta <- metadata_table()
-meta[publisher %in% c("Nature", "Science") & ntaxa > 100 & kind == "Gene Tree",]
 ````
 
 

@@ -71,16 +71,16 @@ oai_metadata <- function(x = c("date", "publisher", "author", "title", "Study.id
 }
 
 
-#' 
-#' Get a table of all available metadata 
+#' generate a table of all available metadata for TreeBASE entries 
+#'
 #' @param phylo.md cached phyloWS (tree) metadata, (optional)
 #' @param oai.md cached OAI-PMH (study) metadata (optional)
 #' @return a data frame of all available metadata, (as a data.table object)
-#' columns are: 
+#' columns are: "Study.id", "Tree.id", "kind", "type", "quality", "ntaxa"    
+#' "date", "publisher", "author", "title".  
 #' @examples
 #' meta <- metadata_table()
 #' meta[publisher %in% c("Nature", "Science") & ntaxa > 100 & kind == "Gene Tree",]
-#' 
 #' @import reshape2 data.table
 #' @export
 metadata_table <- function(phylo.md = NULL, oai.md=NULL){
