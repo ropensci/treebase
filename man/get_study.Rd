@@ -7,8 +7,8 @@ phylo_metadata and oai_metadata search functions.}
   get_study(search_results, curl = getCurlHandle(), ...)
 }
 \arguments{
-  \item{search_results}{the output of search_metadata, or a
-  subset thereof}
+  \item{search_results}{the output of download_metadata, or
+  a subset thereof}
 
   \item{curl}{the handle to the curl web utility for
   repeated calls, see the getCurlHandle() function in RCurl
@@ -32,7 +32,7 @@ phylo_metadata and oai_metadata search functions.}
 }
 \examples{
 \dontrun{
-all <- search_metadata("", by="all")
+all <- download_metadata("", by="all")
 nature <- sapply(all, function(x) length(grep("Nature", x$publisher))>0)
 science <- sapply(all, function(x) length(grep("^Science$", x$publisher))>0)
 s <- get_study( all[nature] )

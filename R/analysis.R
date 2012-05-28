@@ -38,10 +38,10 @@ phylo_metadata <- function(x =  c("Study.id", "Tree.id", "kind", "type", "qualit
 #' Search the OAI-PMH metadata by date, publisher, or identifier
 #' 
 #' @param x one of "date", "publisher", "identifier" for the study
-#' @param metadata returned from \code{search_metadata} function. 
+#' @param metadata returned from \code{download_metadata} function. 
 #' if not specified will download latest copy from treebase.  Pass
 #' in the value during repeated calls to speed function runtime substantially
-#' @param ... additional arguments to \code{search_metadata}
+#' @param ... additional arguments to \code{download_metadata}
 #' @return a list of values matching the query
 #' @examples
 #' \dontrun{
@@ -63,7 +63,7 @@ oai_metadata <- function(x = c("date", "publisher", "author", "title", "Study.id
   x <- gsub("author", "creator", x) # gets first author only
   x <- gsub("Study.id", "identifier", x)
   if(is.null(metadata))
-    metadata <- search_metadata(...)
+    metadata <- download_metadata(...)
   out <- sapply(metadata, `[[`, x)
   if(x == "identifier")
     out <- gsub(".*TB2:S(\\d*)", "\\1", out)
@@ -79,11 +79,11 @@ oai_metadata <- function(x = c("date", "publisher", "author", "title", "Study.id
 #' columns are: "Study.id", "Tree.id", "kind", "type", "quality", "ntaxa"    
 #' "date", "publisher", "author", "title".  
 #' @examples
-#' meta <- metadata_table()
+#' meta <- metadata()
 #' meta[publisher %in% c("Nature", "Science") & ntaxa > 100 & kind == "Gene Tree",]
 #' @import reshape2 data.table
 #' @export
-metadata_table <- function(phylo.md = NULL, oai.md=NULL){
+metadata <- function(phylo.md = NULL, oai.md=NULL){
 
   require(reshape2)
   require(data.table)
@@ -91,7 +91,7 @@ metadata_table <- function(phylo.md = NULL, oai.md=NULL){
   if(is.null(phylo.md))
     phylo.md <- cache_treebase(only_metadata=TRUE)
   if(is.null(oai.md))
-    oai.md <- search_metadata() 
+    oai.md <- download_metadata() 
 
   #  phylo_data <- melt(phylo.md) # This is very slow
   #  phylo <- dcast(phylo_data, ... ~ L2)

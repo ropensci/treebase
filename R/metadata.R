@@ -34,7 +34,7 @@ show_metadata <- function(study.id, curl=getCurlHandle()){
 #'   "from" that date to current, or "all"
 #' @param curl if calling in series many times, call getCurlHandle() first and 
 #'  then pass the return value in here. Avoids repeated handshakes with server.
-#' @details query must be#'  search_metadata(2010-01-01, by="until")
+#' @details query must be#'  download_metadata(2010-01-01, by="until")
 #'  all isn't a real query type, but will return all trees regardless of date
 #' @examples \dontrun{
 #' Near <- search_treebase("Near", "author", max_trees=1)
@@ -43,7 +43,7 @@ show_metadata <- function(study.id, curl=getCurlHandle()){
 #' metadata("2377")
 #' 
 #' ### get all trees from a certain depostition date forwards ##
-#' m <- search_metadata("2009-01-01", by="until")
+#' m <- download_metadata("2009-01-01", by="until")
 #' ## extract any metadata, e.g. publication date:
 #' dates <- sapply(m, function(x) as.numeric(x$date))
 #' hist(dates, main="TreeBase growth", xlab="Year")
@@ -57,7 +57,7 @@ show_metadata <- function(study.id, curl=getCurlHandle()){
 #' head(summary(a))
 #' 
 #' ## Show growth of TreeBASE 
-#' all <- search_metadata("", by="all")
+#' all <- download_metadata("", by="all")
 #' dates <- sapply(all, function(x) as.numeric(x$date))
 #' hist(dates, main="TreeBase growth", xlab="Year")
 #' 
@@ -68,7 +68,7 @@ show_metadata <- function(study.id, curl=getCurlHandle()){
 #' text(b, names(J), srt=70, pos=4, xpd=T)
 #' }
 #' @export
-search_metadata <- function(query="", by=c("all", "until", "from"),
+download_metadata <- function(query="", by=c("all", "until", "from"),
                             curl=getCurlHandle()){
   by = match.arg(by)
   oai_url <- "http://treebase.org/treebase-web/top/oai?verb=" 
@@ -101,12 +101,12 @@ dryad_metadata <- function(study.id, curl=getCurlHandle()){
 #'
 #' get_study_id is deprecated, and now can be performed more easily using
 #' phylo_metadata and oai_metadata search functions.  
-#' @param search_results the output of search_metadata, or a subset thereof
+#' @param search_results the output of download_metadata, or a subset thereof
 #' @return the study id
 #' @details this function is commonly used to get trees corresponding
 #'   to the metadata search.  
 #' @examples \dontrun{
-#' all <- search_metadata("", by="all")
+#' all <- download_metadata("", by="all")
 #' 
 #' nature <- sapply(all, function(x) length(grep("Nature", x$publisher))>0)
 #' science <- sapply(all, function(x) length(grep("^Science$", x$publisher))>0)
@@ -124,7 +124,7 @@ get_study_id <- function(search_results){
 #' return the trees in treebase that correspond to the search results
 #' get_study is deprecated, and now can be performed more easily using
 #' phylo_metadata and oai_metadata search functions.  
-#' @param search_results the output of search_metadata, or a subset thereof
+#' @param search_results the output of download_metadata, or a subset thereof
 #' @param curl the handle to the curl web utility for repeated calls, see
 #'  the getCurlHandle() function in RCurl package for details.  
 #' @param ... additional arguments to pass to search_treebase
@@ -132,7 +132,7 @@ get_study_id <- function(search_results){
 #' @details this function is commonly used to get trees corresponding
 #'   to the metadata search.  
 #' @examples \dontrun{
-#' all <- search_metadata("", by="all")
+#' all <- download_metadata("", by="all")
 #' nature <- sapply(all, function(x) length(grep("Nature", x$publisher))>0)
 #' science <- sapply(all, function(x) length(grep("^Science$", x$publisher))>0)
 #' s <- get_study( all[nature] )

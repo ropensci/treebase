@@ -9,13 +9,13 @@
   \item{x}{one of "date", "publisher", "identifier" for the
   study}
 
-  \item{metadata}{returned from \code{search_metadata}
+  \item{metadata}{returned from \code{download_metadata}
   function. if not specified will download latest copy from
   treebase.  Pass in the value during repeated calls to
   speed function runtime substantially}
 
   \item{...}{additional arguments to
-  \code{search_metadata}}
+  \code{download_metadata}}
 }
 \value{
   a list of values matching the query

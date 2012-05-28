@@ -5,8 +5,8 @@
   get_study_id(search_results)
 }
 \arguments{
-  \item{search_results}{the output of search_metadata, or a
-  subset thereof}
+  \item{search_results}{the output of download_metadata, or
+  a subset thereof}
 }
 \value{
   the study id
@@ -22,7 +22,7 @@
 }
 \examples{
 \dontrun{
-all <- search_metadata("", by="all")
+all <- download_metadata("", by="all")
 
 nature <- sapply(all, function(x) length(grep("Nature", x$publisher))>0)
 science <- sapply(all, function(x) length(grep("^Science$", x$publisher))>0)

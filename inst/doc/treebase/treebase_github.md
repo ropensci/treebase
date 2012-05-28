@@ -1,28 +1,29 @@
 <ol style="list-style-type: decimal">
-<li><p>TreeBASE is an important and rapidly growing repository of phylogenetic data. The R statistical environment has become a primary tool for the applied phylogenetic analyses that use this kind of data for across a range of questions, from comparative evolution to community ecology to conservation planning.</p></li>
-<li><p>We have developed <code>treebase</code>, an open-source package (freely available from <a href="http://cran.r-project.org/web/packages/treebase">http://cran.r-project.org/web/packages/treebase</a>) for the R environment, providing simplified, programmatic and interactive access to phylogenetic data in the TreeBASE repository.</p></li>
+<li><p>The TreeBASE portal is an important and rapidly growing repository of phylogenetic data. The R statistical environment has also become a primary tool for applied phylogenetic analyses that use this kind of data across a range of questions, from comparative evolution to community ecology to conservation planning.</p></li>
+<li><p>We have developed <code>treebase</code>, an open-source (freely available from <a href="http://cran.r-project.org/web/packages/treebase">http://cran.r-project.org/web/packages/treebase</a>) for the R programming environment, providing simplified, programmatic and interactive access to phylogenetic data in the TreeBASE repository.</p></li>
 <li><p>We illustrate how this package creates a bridge between the repository and the rapidly growing ecosystem of R packages for phylogenetics that can reduce barriers to discovery and integration across phylogenetic research.</p></li>
-<li><p>We show how the <code>treebase</code> package can be used to facilitate replication of previous studies and testing of methods and hypotheses across a large sample of phylogenies, which may help make these practices more common.</p></li>
+<li><p>We show how the <code>treebase</code> package can be used to facilitate replication of previous studies and testing of methods and hypotheses across a large sample of phylogenies, which may help make such important practices more common.</p></li>
 </ol>
 <h4 id="keywords">Keywords</h4>
 <p>R, software, API, TreeBASE, database, e-science</p>
 <h1 id="introduction">Introduction</h1>
-<p>Applications that use phylogenetic information as part of their analyses are becoming increasingly central to both evolutionary and ecological research. The exponential growth in genetic sequence data available for all forms of life has driven rapid advances in the methods that can infer the phylogenetic relationships and divergence times across different taxa <span class="citation">(Huelsenbeck and Ronquist 2001; Stamatakis 2006; Drummond and Rambaut 2007)</span>. just as the availability of sequence data has led to the subsequent explosion of phylogenetic methods, and many other avenues of research, this rapid expanse of phylogenetic data now primes new innovations across ecology and evolution. Once again the product of one field has become the raw data of the next. Unfortunately, while the discipline of bioinformatics has emerged to help harness and curate the wealth of genetic data with cutting edge computer science, statistics, and internet technology, its counterpart in evolutionary informatics remains “scattered, poorly documented, and in formats that impede discovery and integration” <span class="citation">(Parr et al. 2011)</span>. Our goal when developing the <code>treebase</code> package was to address this gap by providing how programmatic and interactive access between the repositories that store this data and the software tools commonly used to analyze them.</p>
-<p>In this paper we focus on applications which use rather than generate phylogenetic data. Such approaches stand to benefit substantially from this programmatic and interactive access to TreeBASE. While the task of inferring phylogenies from sequence data remains dominated by dedicated compiled software such as MrBayes <span class="citation">(Huelsenbeck and Ronquist 2001)</span>, BEAST <span class="citation">(Drummond and Rambaut 2007)</span>, RAXML <span class="citation">(Stamatakis 2006)</span>, the ever-growing suite of research methods that use these phylogenies as input data are largely based in R. The R statistical environment <span class="citation">(R Development Core Team 2012)</span> has become a dominant platform for researchers using phylogenetic data to address a rapidly expanding set of questions in ecological and evolutionary processes. These methods include but are not limited to ancestral state reconstruction <span class="citation">(Paradis 2004; Butler and King 2004)</span>, diversification analysis <span class="citation">(Paradis 2004; Rabosky 2006; Harmon et al. 2008; FitzJohn, Maddison, and Otto 2009; Fitzjohn 2010; Goldberg, Lancaster, and Ree 2011; Stadler 2011b)</span>, quantifying the rate and tempo of trait evolution <span class="citation">(Butler and King 2004; Paradis 2004; Harmon et al. 2008; Hipp and Escudero 2010; Revell et al. 2011; Eastman et al. 2011)</span>, identifying evolutionary influences and proxies for community ecology <span class="citation">(Webb, Ackerly, and Kembel 2008; Kembel et al. 2010)</span>, performing phyloclimatic modelling <span class="citation">(Warren, Glor, and Turelli 2008; Evans et al. 2009)</span>, and simulation of speciation and character evolution <span class="citation">(Harmon et al. 2008; Stadler 2011a; Boettiger, Coop, and Ralph 2012)</span>, as well as various manipulation and visualization of phylogenetic data <span class="citation">(Paradis 2004; Schliep 2010; Jombart, Balloux, and Dray 2010; Revell et al. 2011)</span>. A more comprehensive list of R packages by analysis type is available on the phylogenetics taskview, <a href="http://cran.r-project.org/web/views/Phylogenetics.html">http://cran.r-project.org/web/views/Phylogenetics.html</a>. Several programs exist outside the R language for applied phylogenetic methods, incuding Java <span class="citation">(Maddison and Maddison 2011)</span>, MATLAB <span class="citation">(Blomberg, Garland, and Ives 2003)</span> and Python <span class="citation">(sukumaran and holder 2010)</span> and online interfaces <span class="citation">(Martins 2004)</span>.</p>
+<p>Applications that use phylogenetic information as part of their analyses are becoming increasingly central to both evolutionary and ecological research. The exponential growth in genetic sequence data available for all forms of life has driven rapid advances in the methods that can infer the phylogenetic relationships and divergence times across different taxa <span class="citation">(Huelsenbeck and Ronquist 2001; Stamatakis 2006; Drummond and Rambaut 2007)</span>. Once again the product of one field has become the raw data of the next. Unfortunately, while the discipline of bioinformatics has emerged to help harness and curate the wealth of genetic data with cutting edge computer science, statistics, and internet technology, its counterpart in evolutionary informatics remains “scattered, poorly documented, and in formats that impede discovery and integration” <span class="citation">(Parr et al. 2011)</span>. Our goal when developing the <code>treebase</code> package is to provide steps to reduce these challenges through programmatic and interactive access between the repositories that store this data and the software tools commonly used to analyze them. The tools provided in the <code>treebase</code> package can make discovery and analysis easier and more replicable, and facilitate scaling analyses across an ever growing repository of potential phylogenetic data.</p>
+<p>In this paper we focus on applications which use rather than generate phylogenetic data. Such approaches stand to benefit substantially from this programmatic and interactive access to TreeBASE.<br />The R statistical environment <span class="citation">(R Development Core Team 2012)</span> has become a dominant platform for researchers using phylogenetic data to address a rapidly expanding set of questions in ecological and evolutionary processes. These methods include, but are not limited to, ancestral state reconstruction <span class="citation">(Paradis 2004; Butler and King 2004)</span>, diversification analysis <span class="citation">(Paradis 2004; Rabosky 2006; Harmon et al. 2008)</span>, identifying trait dependent speciation and extinction rates, <span class="citation">(Fitzjohn 2010; Goldberg, Lancaster, and Ree 2011; Stadler 2011b)</span>, quantifying the rate and tempo of trait evolution <span class="citation">(Butler and King 2004; Harmon et al. 2008; Eastman et al. 2011)</span>, identifying evolutionary influences and proxies for community ecology <span class="citation">(Webb, Ackerly, and Kembel 2008; Kembel et al. 2010)</span>, connecting phylogeny data to climate patterns <span class="citation">(Warren, Glor, and Turelli 2008; Evans et al. 2009)</span>, and simulation of speciation and character evolution <span class="citation">(Harmon et al. 2008; Stadler 2011a; Boettiger, Coop, and Ralph 2012)</span>, as well as various manipulations and visualizations of phylogenetic data <span class="citation">(Paradis 2004; Schliep 2010; Jombart, Balloux, and Dray 2010; Revell et al. 2011)</span>. A more comprehensive list of R packages by analysis type is available on the phylogenetics taskview, <a href="http://cran.r-project.org/web/views/Phylogenetics.html">http://cran.r-project.org/web/views/Phylogenetics.html</a>. A few programs for applied phylogenetic methods are written for environments outside the R language, incuding Java <span class="citation">(Maddison and Maddison 2011)</span>, MATLAB <span class="citation">(Blomberg, Garland, and Ives 2003)</span> and Python <span class="citation">(sukumaran and holder 2010)</span> and online interfaces <span class="citation">(Martins 2004)</span>.</p>
 <p>TreeBASE (<a href="http://treebase.org">http://treebase.org</a>) is an online repository of phylogenetic data (e.g. trees of species, populations, or genes) that have been published in a peer-reviewed academic journal, book, thesis or conference proceedings <span class="citation">(Sanderson et al. 1994; Morell 1996)</span>. The database can be searched through an online interface which allows users to find a phylogenetic tree from a particular publication, author or taxa of interest. TreeBASE provides an application programming interface (API) that lets computer applications make queries to the database. Our <code>treebase</code> package uses this API to create a direct link between this data and the R language. This has several immediate and important benefits:</p>
 <ol style="list-style-type: decimal">
-<li><p><em>Data discovery.</em> Users can leverage the rich statstical environment provided by the R language to better identify data sets appropriate for their research.</p></li>
-<li><p><em>Programmatic data access.</em> Many tasks that are theoretically made possible by the creation of the TreeBASE repository are not pursued because they would be too laborious for an exploratory analysis. The ability to use loops to automatically download and perform a systematic analysis using the rich set of tools available in R opens up new avenues for research.</p></li>
-<li><p><em>Automatic updating</em>. The TreeBASE repository is expanding rapidly. The scriptable nature of analyses run in with our <code>treebase</code> package means that a study can be rerun on the latest version of the repository without additional effort.</p></li>
+<li><p><em>Data discovery.</em> Users can leverage the rich higher-level programming environment provided by the R language to better identify data sets appropriate for their research by constructing queries for datasets that match appropriate metadata requirements.</p></li>
+<li><p><em>Programmatic data access.</em> Many tasks that are theoretically made possible by the creation of the TreeBASE repository are not pursued because they would be too laborious for an exploratory analysis. The ability to use programatic access across data sets to automatically download and perform a systematic analysis using the rich set of tools available in R opens up new avenues for research.</p></li>
+<li><p><em>Automatic updating</em>. The TreeBASE repository is expanding rapidly. The scriptable nature of analyses run with our <code>treebase</code> package means that a study can be rerun on the latest version of the repository without additional effort but with potential new information.</p></li>
 </ol>
 <h2 id="basic-queries">Basic queries</h2>
-<p>The basic functions of the TreeBASE API allow search queries through two separate interfaces. The <code>OAI-PMH</code> interface provides the metadata associated with the publications from which the phylogenies have been taken, while the <code>Phylo-WS</code> interface provides information and access to the phylogenetic data itself. These interfaces are well-documented on the TreeBASE website. The <code>treebase</code> package allows these queries to be made directly from R, just as a user would make them from the browser. Because the queries can be implemented programmatically in R, a user can construct more complicated filters than permitted by the web interface, and can maintain a record of the queries they used to collect their data as an R script. The ability to script this data-gathering step of research can go a long way to reducing errors and ensuring that an analysis can be replicated later, by the author or other groups <span class="citation">(Peng et al. 2011)</span>.</p>
-<p>Any of the queries available on the web interface can now be made directly from R, including downloading and importing the phylogeny into the R interface. For instance, one can search for phylogenies containing dolphin taxa, &quot;Delphinus,&quot; or all phylogenies submitted by a given author, &quot;Huelsenbeck&quot;,</p>
+<p>The basic functions of the TreeBASE API allow search queries through two separate interfaces. The <code>OAI-PMH</code> interface provides the metadata associated with the publications from which the phylogenies have been taken, while the <code>Phylo-WS</code> interface provides information and access to the phylogenetic data itself. These interfaces are well-documented on the TreeBASE website. The <code>treebase</code> package allows these queries to be made directly from R, just as a user would make them from the web browser. Because the queries can be implemented programmatically in R, a user can construct more complicated filters than permitted by the web interface, and can maintain a record of the queries they used to collect their data as an R script. The ability to script this data-gathering step of research can go a long way to reducing errors and ensuring that an analysis can be replicated later, by the author or other groups <span class="citation">(Peng et al. 2011)</span>.</p>
+<p>Any of the queries available on the web interface can now be made directly from R, including downloading and importing the phylogeny into the R interface. For instance, one can search for phylogenies containing dolphin taxa, &quot;Delphinus,&quot; or all phylogenies submitted by a given author, &quot;Huelsenbeck&quot; using the R command</p>
 <pre class="sourceCode r"><code class="sourceCode r">    <span class="kw">search_treebase</span>(<span class="st">&quot;Delphinus&quot;</span>, <span class="dt">by=</span><span class="st">&quot;taxon&quot;</span>)
     <span class="kw">search_treebase</span>(<span class="st">&quot;Huelsenbeck&quot;</span>, <span class="dt">by=</span><span class="st">&quot;author&quot;</span>)</code></pre>
-<p>This function loads the matching phylogenies into R, ready for analysis. The package documentation provides many examples of possible queries. The <code>search_treebase</code> function is the heart of the <code>treebase</code> package. Table 1 lists each of the types of queries available through the <code>search_treebase</code> function. This list can also be found in the function documentation, <code>?search_treebase</code>.</p>
+<p>This function loads the matching phylogenies into R, ready for analysis. The package documentation provides many examples of possible queries.</p>
+<p>The <code>search_treebase</code> function is the heart of the <code>treebase</code> package. Table 1 lists each of the types of queries available through the <code>search_treebase</code> function. This list can also be found in the function documentation through the R command <code>?search_treebase</code>.</p>
 <table>
-<caption>Queries available in <code>search_treebase</code></caption>
+<caption>Queries available in <code>search_treebase</code>. The first argument is the keyword used in the query such as an author's name, while the second argument indcates the type of query (<em>i.e.</em> &quot;author&quot;).</caption>
 <thead>
 <tr class="header">
 <th align="left">search &quot;by=&quot;</th>
@@ -93,30 +94,88 @@
 </tbody>
 </table>
 <h1 id="data-discovery-in-treebase">Data discovery in TreeBASE</h1>
-<p>The <code>treebase</code> package provides access to the metadata of all publications containing trees deposited in TreeBASE using a separate API built on the OAI-PMH protocol, an international web standard such data. This can help the user discover phylogenies of interest and also allows the user to perform statistical analyses on the data deposition itself, which could identify trends or biases in the phylogenetics literature.</p>
-<p>This publication metadata is accessed by <code>search_metadata</code> function, which can download the metadata for all publications associated with TreeBASE.</p>
-<pre class="sourceCode r"><code class="sourceCode r">    oai.md &lt;- <span class="kw">search_metadata</span>() </code></pre>
-<p>This returns an R list object, in which each element is an entry with bibliographic information corresponding to a published study that has deposited data in TreeBASE. From the length of this list we see that there are currently 3105 published studies in the database.</p>
-<p>The <code>oai_metadata</code> function facilitates extracting the different meta-data fields. For instance, to obtain a list of all the dates of publication &amp; names of the journals (publishers) that have submitted data:</p>
-<pre class="sourceCode r"><code class="sourceCode r">    dates &lt;- <span class="kw">oai_metadata</span>(<span class="st">&quot;date&quot;</span>, oai.md) 
-    pub &lt;- <span class="kw">oai_metadata</span>(<span class="st">&quot;publisher&quot;</span>, oai.md)</code></pre>
+<p>The <code>treebase</code> package provides access to the metadata of all publications containing trees deposited in TreeBASE using a separate API built on the OAI-PMH protocol, an international web standard for such data. This can help the user discover phylogenies of interest and also allows the user to perform statistical analyses on the data deposition itself, which could identify trends or biases in the phylogenetics literature, as we illustrate later.</p>
+<p>A common task for the <code>treebase</code> package is assisting in data discovery by identifying potential datasets that meet a given list of requirements. For instance, if our analysis requires consensus gene trees with 100 or more taxa appearing in the journals <em>Nature</em> or <em>Science</em>, we can quickly identify candidate phylogenies using the <code>metadata</code> function, which combines information from both of the TreeBASE APIs.</p>
+<pre class="sourceCode r"><code class="sourceCode r">meta &lt;- <span class="kw">metadata</span>()
+meta[publisher %in% <span class="kw">c</span>(<span class="st">&quot;Nature&quot;</span>, <span class="st">&quot;Science&quot;</span>) &amp; ntaxa &gt; <span class="dv">100</span> &amp; kind == <span class="st">&quot;Gene Tree&quot;</span>,]</code></pre>
+<pre><code>     Study.id Tree.id      kind   type quality ntaxa date publisher
+[1,]    10521    9286 Gene Tree Single Unrated   218 2010   Science
+              author
+[1,] Werren, John H.
+                                                                                         title
+[1,] Functional and Evolutionary Insights from the Genomes of Three Parasitoid Nasonia Species</code></pre>
+<p>The fields provided are listed in Table II.</p>
+<table>
+<caption>Columns of metadata avialable from the <code>metadata</code> function</caption>
+<thead>
+<tr class="header">
+<th align="left">metadata field</th>
+<th align="center">description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Study.id</td>
+<td align="center">TreeBASE study ID</td>
+</tr>
+<tr class="even">
+<td align="left">Tree.id</td>
+<td align="center">TreeBASE's unique tree identifier</td>
+</tr>
+<tr class="odd">
+<td align="left">kind</td>
+<td align="center">Kind of tree (Gene tree, species tree, barcode tree)</td>
+</tr>
+<tr class="even">
+<td align="left">type</td>
+<td align="center">Type of tree (Consensus or Single)</td>
+</tr>
+<tr class="odd">
+<td align="left">quality</td>
+<td align="center">A quality score for the tree, if it has been rated.</td>
+</tr>
+<tr class="even">
+<td align="left">ntaxa</td>
+<td align="center">Number of taxa in the matrix</td>
+</tr>
+<tr class="odd">
+<td align="left">date</td>
+<td align="center">Year the study was published</td>
+</tr>
+<tr class="even">
+<td align="left">author</td>
+<td align="center">First author in the publication</td>
+</tr>
+<tr class="odd">
+<td align="left">title</td>
+<td align="center">The title of the publication</td>
+</tr>
+</tbody>
+</table>
+<p>From the length of this list we see that there are currently 3123 published studies in the database. Subsetting from the metadata can be done using the standard R syntax. For instance to obtain a list of all the dates of publication &amp; names of the journals (publishers) that have submitted data:</p>
+<pre class="sourceCode r"><code class="sourceCode r">    date &lt;- meta[[<span class="st">&quot;date&quot;</span>]]
+    pub &lt;- meta[[<span class="st">&quot;publisher&quot;</span>]]</code></pre>
 <p>Many journals have only a few submissions, so we will classify any not in the top ten contributing journals as “Other”:</p>
 <pre class="sourceCode r"><code class="sourceCode r">    topten &lt;- <span class="kw">sort</span>(<span class="kw">table</span>(pub), <span class="dt">decreasing=</span><span class="ot">TRUE</span>)[<span class="dv">1</span>:<span class="dv">10</span>]
-    pub[!(pub %in% <span class="kw">names</span>(topten))] &lt;- <span class="st">&quot;Other&quot;</span></code></pre>
+    meta[[<span class="st">&quot;publisher&quot;</span>]][!(pub %in% <span class="kw">names</span>(topten))] &lt;- <span class="st">&quot;Other&quot;</span></code></pre>
 <p>We plot the distribution of publication years for phylogenies deposited in TreeBASE, color coding by publisher in Fig [fig:1].</p>
 <pre class="sourceCode r"><code class="sourceCode r">    <span class="kw">library</span>(ggplot2)
-    meta &lt;- <span class="kw">data.frame</span>(<span class="dt">pub =</span> pub, <span class="dt">dates =</span> dates)
-    <span class="kw">ggplot</span>(meta) + <span class="kw">geom_bar</span>(<span class="kw">aes</span>(dates, <span class="dt">fill =</span> pub))</code></pre>
+    <span class="kw">ggplot</span>(meta) + <span class="kw">geom_bar</span>(<span class="kw">aes</span>(date, <span class="dt">fill =</span> publisher)) + <span class="kw">opts</span>(<span class="dt">axis.text.x=</span><span class="kw">theme_text</span>(<span class="dt">angle=</span><span class="dv">90</span>, <span class="dt">hjust=</span><span class="dv">1</span>))</code></pre>
 <div class="figure">
-<img src="http://farm8.staticflickr.com/7104/7199530114_aee0566934_o.png" alt="Histogram of publication dates by year, with the code required to generate the figure." /><p class="caption">Histogram of publication dates by year, with the code required to generate the figure.</p>
+<img src="http://farm8.staticflickr.com/7076/7289690726_445c0ef1c2_o.png" alt="Histogram of publication dates by year, with the code required to generate the figure." /><p class="caption">Histogram of publication dates by year, with the code required to generate the figure.</p>
 </div>
-<p>Typically we are more interested in the metadata describing the phylogenies themselves rather than the publications in which they appeared, such as the number of taxa in the tree, a quality score (if available), kind of tree (gene tree, species tree, or barcode tree) or whether the phylogeny represents a consensus tree from a distribution or just a single estimate. The <code>cache_treebase</code> function is used to download all available phylogenies from TreeBASE. Here, we call the function with an optional argument that will return only the metadata just listed for all available phylogenies, which runs much more quickly.</p>
+<p>Typically we are interested in the metadata describing the phylogenies themselves rather than just in the publications in which they appeared. Phylogenetic metadata includes features such as the number of taxa in the tree, a quality score (if available), kind of tree (gene tree, species tree, or barcode tree) or whether the phylogeny represents a consensus tree from a distribution or just a single estimate.</p>
+<p>The <code>cache_treebase</code> function is used to download all available phylogenies from TreeBASE. Here, we call the function with an optional argument that will return only the metadata just listed for all available phylogenies, which runs much more quickly.</p>
 <pre class="sourceCode r"><code class="sourceCode r">    phylo.md &lt;- <span class="kw">cache_treebase</span>(<span class="dt">only_metadata=</span><span class="ot">TRUE</span>)</code></pre>
-<p>We can summarize how these 10,555 trees break out by kind or type (The <code>xtable</code> command formats this as a table) using the <code>phylo_metadata</code> function to extract the kind of tree (gene/species/barcode) and type (single or consensus):</p>
-<pre class="sourceCode r"><code class="sourceCode r"> output &lt;- <span class="kw">table</span>(<span class="kw">phylo_metadata</span>(<span class="st">&quot;kind&quot;</span>, phylo.md), <span class="kw">phylo_metadata</span>(<span class="st">&quot;type&quot;</span>, phylo.md))
- xtable::<span class="kw">xtable</span>(output)</code></pre>
+<p>We can summarize how these 8,803 trees break out by kind or type using the <code>phylo_metadata</code> function to extract the kind of tree (gene/species/barcode) and type (single or consensus):</p>
+<pre class="sourceCode r"><code class="sourceCode r"> <span class="kw">table</span>(<span class="kw">phylo_metadata</span>(<span class="st">&quot;kind&quot;</span>, phylo.md), <span class="kw">phylo_metadata</span>(<span class="st">&quot;type&quot;</span>, phylo.md))</code></pre>
+<pre><code>
+               Consensus Single
+  Barcode Tree         1     11
+  Gene Tree          125    219
+  Species Tree      2962   7265</code></pre>
 <!-- html table generated in R 2.15.0 by xtable 1.7-0 package -->
-<!-- Sat May 12 14:33:29 2012 -->
+<!-- Mon May 28 13:56:51 2012 -->
 <TABLE border=1>
 <TR> <TH>  </TH> <TH> 
 Consensus
@@ -133,41 +192,37 @@ Barcode Tree
   <TR> <TD align="right"> 
 Gene Tree
 </TD> <TD align="right"> 
-123
+125
 </TD> <TD align="right"> 
-214
+219
 </TD> </TR>
   <TR> <TD align="right"> 
 Species Tree
 </TD> <TD align="right"> 
-2952
+2962
 </TD> <TD align="right"> 
-7239
+7265
 </TD> </TR>
    </TABLE>
 
 
 
 
-<p>For certain applications a user may wish to download all the available phylogenies from TreeBASE. Using the <code>cache_treebase</code> function allows a user to download a local copy of all trees. Because direct database dumps are not available, this function has intentional delays to avoid overtaxing the TreeBASE servers, and should be allowed a full day to run.</p>
+<p>For certain applications a user may wish to download all the available phylogenies from TreeBASE. Using the <code>cache_treebase</code> function allows a user to download a local copy of all trees. Because direct database dumps are not available from treebase.org, this function has intentional delays to avoid overtaxing the TreeBASE servers, and should be allowed a full day to run.</p>
 <pre class="sourceCode r"><code class="sourceCode r">    treebase &lt;- <span class="kw">cache_treebase</span>()</code></pre>
 <p>Once run, the cache is saved compactly in memory where it can be easily and quickly restored. For convenience, the <code>treebase</code> package comes with a copy already cached, which can be loaded into memory.</p>
 <pre class="sourceCode r"><code class="sourceCode r">    <span class="kw">data</span>(treebase)</code></pre>
 <p>Having access to both the metadata from the studies and from the phylogenies in R lets us quickly combine these data sources in interesting ways. For instance, with a few commands we can visualize how the number of taxa on submitted phylogenies has increasing over time, Figure [fig:2].</p>
-<pre class="sourceCode r"><code class="sourceCode r">    phylo.id &lt;- <span class="kw">phylo_metadata</span>(<span class="st">&quot;Study.id&quot;</span>, phylo.md)
-    oai.id &lt;- <span class="kw">oai_metadata</span>(<span class="st">&quot;Study.id&quot;</span>, oai.md)
-    matches &lt;- <span class="kw">sapply</span>(oai.id, match, phylo.id)
-    Ntaxa &lt;- <span class="kw">phylo_metadata</span>(<span class="st">&quot;ntaxa&quot;</span>,  phylo.md[matches])
-    Ntaxa[<span class="kw">sapply</span>(Ntaxa, is.null)] &lt;- <span class="ot">NA</span>
-    taxa &lt;- <span class="kw">data.frame</span>(<span class="dt">Ntaxa=</span><span class="kw">as.numeric</span>(<span class="kw">unlist</span>(Ntaxa)), meta)
-    <span class="kw">ggplot</span>(taxa, <span class="kw">aes</span>(dates, Ntaxa)) + 
-      <span class="kw">geom_point</span>(<span class="dt">position =</span> <span class="st">&#39;jitter&#39;</span>, <span class="dt">alpha =</span> .<span class="dv">8</span>) + 
-      <span class="kw">scale_y_log10</span>() + <span class="kw">stat_smooth</span>(<span class="kw">aes</span>(<span class="dt">group =</span> <span class="dv">1</span>))</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">    <span class="kw">ggplot</span>(meta, <span class="kw">aes</span>(date, ntaxa)) + <span class="kw">stat_smooth</span>(<span class="kw">aes</span>(<span class="dt">group =</span> <span class="dv">1</span>))</code></pre>
 <div class="figure">
-<img src="http://farm6.staticflickr.com/5031/7199531658_3f4bc24518_o.png" alt="Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number." /><p class="caption">Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number.</p>
+<img src="http://farm8.staticflickr.com/7241/7289713124_a6de42b6bf_o.png" alt="Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number." /><p class="caption">Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number.</p>
 </div>
-<p>The promise of this exponential growth in the sizes of available phylogenies, with some trees representing 2,957 taxa motivates the more and more ambitious inference methods being developed which require large trees to have adequate signal <span class="citation">(Boettiger, Coop, and Ralph 2012; FitzJohn, Maddison, and Otto 2009; Beaulieu et al. 2012)</span>.</p>
-<h1 id="reproducible-research">Reproducible research</h1>
+<p>The promise of this exponential growth in the sizes of available phylogenies, with some trees representing</p>
+<pre><code>
+Error in eval(expr, envir, enclos) : object &#39;taxa&#39; not found
+</code></pre>
+<p>taxa motivates the more and more ambitious inference methods being developed which require large trees to have adequate signal <span class="citation">(Boettiger, Coop, and Ralph 2012; FitzJohn, Maddison, and Otto 2009; Beaulieu et al. 2012)</span>.</p>
+<h1 id="reproducible-computations">Reproducible computations</h1>
 <p>Reproducible research has become a topic of increasing concern in recent years, and facilitating access to data and using scripts that can replicate analyses can help lower barriers to the replication of statistical and computational results <span class="citation">(Schwab, Karrenbach, and Claerbout 2000; Gentleman and Temple Lang 2004; Peng 2011)</span>. The <code>treebase</code> package facilitates this process, as we illustrate in a simple example.</p>
 <p>Consider the shifts in speciation rate identified by Derryberry et al. <span class="citation">(2011)</span> on a phylogeny of ovenbirds and treecreapers, which uses the methods provided in the R package <code>laser</code> <span class="citation">(Rabosky 2006)</span>. We will seek to not only replicate the results, but also compare them against methods presented in Stadler <span class="citation">(2011b)</span> in the package <code>TreePar</code>, which permits speciation models that were not available to Derryberry et al. <span class="citation">(2011)</span> at the time of their study.</p>
 <h2 id="obtaining-the-tree">Obtaining the tree</h2>
@@ -247,12 +302,12 @@ best_model &lt;- <span class="kw">which.min</span>(<span class="kw">c</span>(<sp
     <span class="kw">try</span>( <span class="kw">chronoMPL</span>(<span class="kw">multi2di</span>(tree)) )
 }
 tt &lt;- <span class="kw">drop_nontrees</span>(<span class="kw">sapply</span>(branchlengths, timetree))</code></pre>
-<p>At this point we have 1,217 time-calibrated phylogenies over which we will apply the diversification rate analysis. Computing the gamma test statistic to identify devations from the constant-rates model takes a single line,</p>
+<p>At this point we have 1,396 time-calibrated phylogenies over which we will apply the diversification rate analysis. Computing the gamma test statistic to identify devations from the constant-rates model takes a single line,</p>
 <pre class="sourceCode r"><code class="sourceCode r">gammas &lt;- <span class="kw">sapply</span>(tt,  gammaStat)</code></pre>
 <p>and the resulting distribution of the statistic across available trees is shown Fig 3.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(gammas)</code></pre>
 <div class="figure">
-<img src="http://farm8.staticflickr.com/7076/7184681476_9c80ca0361_o.png" alt="Distribution of the gamma statistic across phylogenies in TreeBASE. Strongly positive values are indicative of an increasing rate of evolution (excess of nodes near the tips), very negative values indicate an early burst of diversification (an excess of nodes near the root)." /><p class="caption">Distribution of the gamma statistic across phylogenies in TreeBASE. Strongly positive values are indicative of an increasing rate of evolution (excess of nodes near the tips), very negative values indicate an early burst of diversification (an excess of nodes near the root).</p>
+<img src="http://farm8.staticflickr.com/7241/7289809976_b779b1b0f9_o.png" alt="Distribution of the gamma statistic across phylogenies in TreeBASE. Strongly positive values are indicative of an increasing rate of evolution (excess of nodes near the tips), very negative values indicate an early burst of diversification (an excess of nodes near the root)." /><p class="caption">Distribution of the gamma statistic across phylogenies in TreeBASE. Strongly positive values are indicative of an increasing rate of evolution (excess of nodes near the tips), very negative values indicate an early burst of diversification (an excess of nodes near the root).</p>
 </div>
 <p>Because <code>treebase</code> makes it possible to perform this analysis entirely by scripts using the latest treebase data, it is not only easier to perform this analysis but also to update it to reflect the latest data. Note that in this example it is not our objective to provide a thorough analysis of diversification patterns and their possible interpretations, as in Pybus and Harvey <span class="citation">(2000)</span>; McPeek and Brown <span class="citation">(2007)</span>; McPeek <span class="citation">(2008)</span>; and Phillimore and Price <span class="citation">(2008)</span>; but merely to illustrate how the similar calculations to these can be easily applied across the much larger datasets in the repository. This example can be automatically updated to reflect the latest data in TreeBASE simply by rerunning the code we present above.</p>
 <p>Beaulieu, Jeremy M., Dwueng-Chwuan Jhwueng, Carl Boettiger, and Brian C. O’Meara. 2012. “Modeling Stabilizing Selection: Expanding the Ornstein-Uhlenbeck Model of Adaptive Evolution.” <em>Evolution</em> (mar). doi:10.1111/j.1558-5646.2012.01619.x. <a href="http://doi.wiley.com/10.1111/j.1558-5646.2012.01619.x" title="http://doi.wiley.com/10.1111/j.1558-5646.2012.01619.x">http://doi.wiley.com/10.1111/j.1558-5646.2012.01619.x</a>.</p>
@@ -272,7 +327,6 @@ tt &lt;- <span class="kw">drop_nontrees</span>(<span class="kw">sapply</span>(br
 <p>Gentleman, Robert, and D. Temple Lang. 2004. “Statistical analyses and reproducible research.” <em>Bioconductor Project Working Papers</em>: 2. <a href="http://www.bepress.com/cgi/viewcontent.cgi?article=1001\&amp;amp;context=bioconductor" title="http://www.bepress.com/cgi/viewcontent.cgi?article=1001\&amp;amp;context=bioconductor">http://www.bepress.com/cgi/viewcontent.cgi?article=1001\&amp;amp;context=bioconductor</a>.</p>
 <p>Goldberg, Emma E., Lesley T. Lancaster, and Richard H. Ree. 2011. “Phylogenetic Inference of Reciprocal Effects between Geographic Range Evolution and Diversification.” <em>Systematic biology</em> 60 (may): 451–465. doi:10.1093/sysbio/syr046. <a href="http://www.ncbi.nlm.nih.gov/pubmed/21551125" title="http://www.ncbi.nlm.nih.gov/pubmed/21551125">http://www.ncbi.nlm.nih.gov/pubmed/21551125</a>.</p>
 <p>Harmon, Luke J., Jason T. Weir, Chad D. Brock, Richard E. Glor, and Wendell Challenger. 2008. “Geiger: investigating evolutionary radiations.” <em>Bioinformatics</em> 24: 129–131. doi:10.1093/bioinformatics/btm538.</p>
-<p>Hipp, Andrew L., and Marcial Escudero. 2010. “MATICCE: mapping transitions in continuous character evolution.” <em>Bioinformatics</em> 26: 132–3. doi:10.1093/bioinformatics/btp625. <a href="http://www.ncbi.nlm.nih.gov/pubmed/19880368" title="http://www.ncbi.nlm.nih.gov/pubmed/19880368">http://www.ncbi.nlm.nih.gov/pubmed/19880368</a>.</p>
 <p>Huelsenbeck, John P., and Fredrik Ronquist. 2001. “MRBAYES: Bayesian inference of phylogenetic trees.” <em>Bioinformatics (Oxford, England)</em> 17 (aug): 754–5. doi:10.1093/bioinformatics/17.8.754. <a href="http://www.ncbi.nlm.nih.gov/pubmed/11524383" title="http://www.ncbi.nlm.nih.gov/pubmed/11524383">http://www.ncbi.nlm.nih.gov/pubmed/11524383</a>.</p>
 <p>Jombart, Thibaut, François Balloux, and Stéphane Dray. 2010. “Adephylo: New Tools for Investigating the Phylogenetic Signal in Biological Traits.” <em>Bioinformatics (Oxford, England)</em> 26 (aug): 1907–9. doi:10.1093/bioinformatics/btq292. <a href="http://www.ncbi.nlm.nih.gov/pubmed/20525823" title="http://www.ncbi.nlm.nih.gov/pubmed/20525823">http://www.ncbi.nlm.nih.gov/pubmed/20525823</a>.</p>
 <p>Kembel, Steven W., Peter D. Cowan, Matthew R. Helmus, William K. Cornwell, Helene Morlon, David D. Ackerly, Simon P. Blomberg, and Campbell O. Webb. 2010. “Picante: R tools for integrating phylogenies and ecology.” <em>Bioinformatics (Oxford, England)</em> 26 (jun): 1463–4. doi:10.1093/bioinformatics/btq166. <a href="http://www.ncbi.nlm.nih.gov/pubmed/20395285" title="http://www.ncbi.nlm.nih.gov/pubmed/20395285">http://www.ncbi.nlm.nih.gov/pubmed/20395285</a>.</p>

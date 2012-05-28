@@ -91,21 +91,22 @@ applications make queries to the database. Our `treebase` package uses
 this API to create a direct link between this data and the R language.
 This has several immediate and important benefits:
 
-1. *Data discovery.*  Users can leverage the rich hihger-level programming environment 
-provided by the R language to better identify data sets appropriate for
-their research by constructing queries for datasets that match appropriate metadata
-requirements.  
+1. *Data discovery.*  Users can leverage the rich higher-level programming
+environment provided by the R language to better identify data sets
+appropriate for their research by constructing queries for datasets that
+match appropriate metadata requirements.
 
-2. *Programmatic data access.* Many tasks that are theoretically made possible
-by the creation of the TreeBASE repository are not pursued because they would 
-be too laborious for an exploratory analysis.  The ability to use loops to 
-automatically download and perform a systematic analysis using the rich set of 
-tools available in R opens up new avenues for research.
+2. *Programmatic data access.* Many tasks that are theoretically made
+possible by the creation of the TreeBASE repository are not pursued
+because they would be too laborious for an exploratory analysis.
+The ability to use programatic access across data sets to automatically
+download and perform a systematic analysis using the rich set of tools
+available in R opens up new avenues for research.
 
-3. *Automatic updating*.  The TreeBASE repository is expanding rapidly.  The 
-scriptable nature of analyses run in with our `treebase` package means that 
-a study can be rerun on the latest version of the repository without additional
-effort.  
+3. *Automatic updating*.  The TreeBASE repository is expanding rapidly.
+The scriptable nature of analyses run with our `treebase` package
+means that a study can be rerun on the latest version of the repository
+without additional effort but with potential new information.
 
 
 Basic queries
@@ -122,7 +123,7 @@ associated with the publications from which the phylogenies have been
 taken, while the `Phylo-WS` interface provides information and access to
 the phylogenetic data itself. These interfaces are well-documented on
 the TreeBASE website. The `treebase` package allows these queries to be
-made directly from R, just as a user would make them from the browser.
+made directly from R, just as a user would make them from the web browser.
 Because the queries can be implemented programmatically in R, a user can
 construct more complicated filters than permitted by the web interface,
 and can maintain a record of the queries they used to collect their data
@@ -134,7 +135,7 @@ Any of the queries available on the web interface can now be made
 directly from R, including downloading and importing the phylogeny into
 the R interface. For instance, one can search for phylogenies containing
 dolphin taxa, "Delphinus," or all phylogenies submitted by a given
-author, "Huelsenbeck",
+author, "Huelsenbeck" using the R command
 
 ``` {r basicQueries, eval=FALSE }
     search_treebase("Delphinus", by="taxon")
@@ -143,10 +144,12 @@ author, "Huelsenbeck",
 
 This function loads the matching phylogenies into R, ready for analysis.
 The package documentation provides many examples of possible queries.
+
+
 The `search_treebase` function is the heart of the `treebase` package.
 Table 1 lists each of the types of queries available through the
 `search_treebase` function.  This list can also be found in the function 
-documentation, `?search_treebase`.  
+documentation through the R command `?search_treebase`.  
 
 
   search "by="     description
@@ -167,7 +170,9 @@ documentation, `?search_treebase`.
   id.taxon         Taxon identifier number from TreeBase 
   tree             The title for the tree
 
-Table: Queries available in `search_treebase`
+Table: Queries available in `search_treebase`.  The first argument is
+the keyword used in the query such as an author's name, while the second
+argument indcates the type of query (_i.e._ "author").
 
 
 
@@ -176,20 +181,21 @@ Data discovery in TreeBASE
 
 The `treebase` package provides access to the metadata of all
 publications containing trees deposited in TreeBASE using a separate API
-built on the OAI-PMH protocol, an international web standard such data.
+built on the OAI-PMH protocol, an international web standard for such data.
 This can help the user discover phylogenies of interest and also allows
 the user to perform statistical analyses on the data deposition itself,
-which could identify trends or biases in the phylogenetics literature.
+which could identify trends or biases in the phylogenetics literature,
+as we illustrate later.
 
-These tools can assist in data discovery by identifying potential datasets
-that meet an arbitrary list of requirements.  For instance, if our analysis
+A common task for the `treebase` package is assisting in data discovery by identifying potential datasets
+that meet a given list of requirements.  For instance, if our analysis
 requires consensus gene trees with 100 or more taxa appearing in the journals
 _Nature_ or _Science_, we can quickly identify candidate phylogenies using
-the `metadata_table` function, which combines information from both of the 
+the `metadata` function, which combines information from both of the 
 TreeBASE APIs.  
 
-```{r }
-meta <- metadata_table()
+```{r metadata_table}
+meta <- metadata()
 meta[publisher %in% c("Nature", "Science") & ntaxa > 100 & kind == "Gene Tree",]
 ````
 
@@ -207,33 +213,20 @@ The fields provided are listed in Table II.
   author           First author in the publication
   title            The title of the publication 
 
-Table: Columns of metadata avialable from the `metadata_table` function 
+Table: Columns of metadata avialable from the `metadata` function 
 
 
 
-
-publication metadata is accessed by the `search_metadata` function, 
-which can download the metadata for all publications
-associated with TreeBASE. 
-
-``` {r   getmetadata }
-    oai.md <- search_metadata() 
-````
-
-This returns an R list object, in which each element is an entry with
-bibliographic information corresponding to a published study that has
-deposited data in TreeBASE. From the length of this list we see that
-there are currently `r prettyNum(length(oai.md)) ` published studies in the
-database.
-
-The `oai_metadata` function facilitates extracting the different meta-data fields. 
-For instance, to obtain a list of all the dates of publication & names of the journals
+From the length of this list we see that there are currently 
+`r prettyNum(length(unique(meta[["Study.id"]])))` published studies in the database. Subsetting
+from the metadata can be done using the standard R syntax.  For instance
+to obtain a list of all the dates of publication & names of the journals
 (publishers) that have submitted data:
 
 
 ``` {r   journals }
-    dates <- oai_metadata("date", oai.md) 
-    pub <- oai_metadata("publisher", oai.md)
+    date <- meta[["date"]]
+    pub <- meta[["publisher"]]
 ````
 
 Many journals have only a few submissions, so we will classify any not in the 
@@ -242,7 +235,7 @@ top ten contributing journals as “Other”:
 
 ``` {r top_journals }
     topten <- sort(table(pub), decreasing=TRUE)[1:10]
-    pub[!(pub %in% names(topten))] <- "Other"
+    meta[["publisher"]][!(pub %in% names(topten))] <- "Other"
 ````
 
 We plot the distribution of publication years for
@@ -251,15 +244,16 @@ phylogenies deposited in TreeBASE, color coding by publisher in Fig
 
 ``` {r dates, cache=FALSE, fig.cap="Histogram of publication dates by year, with the code required to generate the figure."}
     library(ggplot2)
-    meta <- data.frame(pub = pub, dates = dates)
-    ggplot(meta) + geom_bar(aes(dates, fill = pub))
+    ggplot(meta) + geom_bar(aes(date, fill = publisher)) + opts(axis.text.x=theme_text(angle=90, hjust=1))
 ````
 
-Typically we are more interested in the metadata describing the phylogenies 
-themselves rather than the publications in which they appeared, such as
-the number of taxa in the tree, a quality score (if available), 
+Typically we are interested in the metadata describing the phylogenies 
+themselves rather than just in the publications in which they appeared.
+Phylogenetic metadata includes features such as the number of taxa in the tree, a quality score (if available), 
 kind of tree (gene tree, species tree, or barcode tree) or whether the 
 phylogeny represents a consensus tree from a distribution or just a single estimate.
+
+
 The `cache_treebase` function is used to download all available phylogenies
 from TreeBASE.  Here, we call the function with an optional argument that 
 will return only the metadata just listed for all available phylogenies, 
@@ -270,13 +264,17 @@ which runs much more quickly.
     phylo.md <- cache_treebase(only_metadata=TRUE)
 ````
 
-We can summarize how these `r length(phylo.md)` trees 
-break out by kind or type (The `xtable` command formats this as a
-table) using the `phylo_metadata` function to extract the kind of tree
+We can summarize how these `r dim(meta)[1]` trees 
+break out by kind or type  using the `phylo_metadata` function 
+to extract the kind of tree
 (gene/species/barcode) and type (single or consensus):
 
 
-``` {r  kind, results='asis' }
+``` {r  kind }
+ table(phylo_metadata("kind", phylo.md), phylo_metadata("type", phylo.md))
+````
+
+``` {r  kindtable, results='asis', echo=FALSE }
  output <- table(phylo_metadata("kind", phylo.md), phylo_metadata("type", phylo.md))
  xtable::xtable(output)
 ````
@@ -285,7 +283,7 @@ table) using the `phylo_metadata` function to extract the kind of tree
 For certain applications a user may wish to download all the available
 phylogenies from TreeBASE. Using the `cache_treebase` function allows a
 user to download a local copy of all trees. Because direct database
-dumps are not available, this function has intentional delays to avoid
+dumps are not available from treebase.org, this function has intentional delays to avoid
 overtaxing the TreeBASE servers, and should be allowed a full day to
 run.
 
@@ -309,15 +307,7 @@ the number of taxa on submitted phylogenies has increasing over time,
 Figure [fig:2]. 
 
 ``` {r   taxagrowth, fig.cap="Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number."}
-    phylo.id <- phylo_metadata("Study.id", phylo.md)
-    oai.id <- oai_metadata("Study.id", oai.md)
-    matches <- sapply(oai.id, match, phylo.id)
-    Ntaxa <- phylo_metadata("ntaxa",  phylo.md[matches])
-    Ntaxa[sapply(Ntaxa, is.null)] <- NA
-    taxa <- data.frame(Ntaxa=as.numeric(unlist(Ntaxa)), meta)
-    ggplot(taxa, aes(dates, Ntaxa)) + 
-      geom_point(position = 'jitter', alpha = .8) + 
-      scale_y_log10() + stat_smooth(aes(group = 1))
+    ggplot(meta, aes(date, ntaxa)) + stat_smooth(aes(group = 1))
 ````
 
 
@@ -329,8 +319,8 @@ which require large trees to have adequate signal
 [@boettiger2012; @fitzjohn2009; @beaulieu2012].
 
 
-Reproducible research
-====================
+Reproducible computations 
+=========================
 
 
 Reproducible research has become a topic of increasing concern in 
