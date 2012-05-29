@@ -6,8 +6,7 @@
     of data across a range of questions, from comparative evolution
     to community ecology to conservation planning.
 
-2.  We have developed `treebase`, an open-source  (freely
-    available from
+2.  We have developed `treebase`, an open-source  (freely available from
     [http://cran.r-project.org/web/packages/treebase](http://cran.r-project.org/web/packages/treebase))
     for the R programming environment, providing simplified, programmatic and
     interactive access to phylogenetic data in the TreeBASE repository.
@@ -33,46 +32,44 @@ Introduction
 
 Applications that use phylogenetic information as part of their analyses
 are becoming increasingly central to both evolutionary and ecological
-research. The exponential growth in genetic sequence data available for
-all forms of life has driven rapid advances in the methods that can
-infer the phylogenetic relationships and divergence times across
+research. The exponential growth in genetic sequence data available
+for all forms of life has driven rapid advances in the methods that
+can infer the phylogenetic relationships and divergence times across
 different taxa [@huelsenbeck2001b; @stamatakis2006; @drummond2007].
-Once again the product of one field has become the raw data of the next. 
-Unfortunately, while the discipline of
-bioinformatics has emerged to help harness and curate the wealth of
-genetic data with cutting edge computer science, statistics, and
-internet technology, its counterpart in evolutionary informatics remains
-“scattered, poorly documented, and in formats that impede discovery and
-integration” [@parr2011a]. Our goal when developing the `treebase`
-package is to provide steps to reduce these challenges through programmatic and
-interactive access between the repositories that store this data and the
-software tools commonly used to analyze them.  The tools provided in the
-`treebase` package can make discovery and analysis easier and more replicable, 
-and facilitate scaling analyses across an ever growing repository of potential 
-phylogenetic data.  
+Once again the product of one field has become the raw data of the next.
+Unfortunately, while the discipline of bioinformatics has emerged to
+help harness and curate the wealth of genetic data with cutting edge
+computer science, statistics, and internet technology, its counterpart
+in evolutionary informatics remains “scattered, poorly documented,
+and in formats that impede discovery and integration” [@parr2011a]. Our
+goal when developing the `treebase` package is to provide steps to reduce
+these challenges through programmatic and interactive access between the
+repositories that store this data and the software tools commonly used
+to analyze them.  The tools provided in the `treebase` package can make
+discovery and analysis easier and more replicable, and facilitate scaling
+analyses across an ever growing repository of potential phylogenetic data.
 
 
-The R statistical environment [@rteam2012] has
-become a dominant platform for researchers using phylogenetic data to
-address a rapidly expanding set of questions in ecological and
-evolutionary processes. These methods include, but are not limited to,
-ancestral state reconstruction [@paradis2004; @butler2004], 
-diversification analysis [@paradis2004; @rabosky2006b; @harmon2008],
-identifying trait dependent speciation and extinction rates, [@fitzjohn2010; @goldberg2011; @stadler2011],
-quantifying the rate and tempo of trait evolution
-[@butler2004; @harmon2008; @eastman2011],
-identifying evolutionary influences and proxies for community ecology
-[@webb2008; @kembel2010], 
-connecting phylogeny data to climate patterns [@warren2008; @evans2009b], 
-and simulation of speciation and character evolution 
-[@harmon2008; @stadler2011a; @boettiger2012], as
-well as various manipulations and visualizations of phylogenetic data
-[@paradis2004; @schliep2010; @jombart2010; @revell2011]. A more
-comprehensive list of R packages by analysis type is available on the
-phylogenetics taskview,
+The R statistical environment [@rteam2012] has become a dominant
+platform for researchers using phylogenetic data to address a
+rapidly expanding set of questions in ecological and evolutionary
+processes. These methods include, but are not limited to, ancestral
+state reconstruction [@paradis2004; @butler2004], diversification
+analysis [@paradis2004; @rabosky2006b; @harmon2008], identifying
+trait dependent speciation and extinction rates, [@fitzjohn2010;
+@goldberg2011; @stadler2011], quantifying the rate and tempo of
+trait evolution [@butler2004; @harmon2008; @eastman2011], identifying
+evolutionary influences and proxies for community ecology [@webb2008;
+@kembel2010], connecting phylogeny data to climate patterns [@warren2008;
+@evans2009b], and simulation of speciation and character evolution
+[@harmon2008; @stadler2011a; @boettiger2012], as well as various
+manipulations and visualizations of phylogenetic data [@paradis2004;
+@schliep2010; @jombart2010; @revell2011]. A more comprehensive list
+of R packages by analysis type is available on the phylogenetics taskview,
 [http://cran.r-project.org/web/views/Phylogenetics.html](http://cran.r-project.org/web/views/Phylogenetics.html).
-A few programs for applied phylogenetic methods are written for environments outside the R language,
-incuding Java [@maddison2011], MATLAB [@blomberg2003] and Python [@sukumaran2010] and online interfaces
+A few programs for applied phylogenetic methods are written for
+environments outside the R language, incuding Java [@maddison2011],
+MATLAB [@blomberg2003] and Python [@sukumaran2010] and online interfaces
 [@martins2004].
 
 
@@ -278,11 +275,11 @@ type  using the `phylo_metadata` function to extract the kind of tree
 
 
 ``` {r  kind, eval=FALSE }
-table(meta[["kind"]]), meta([["type"]]))
+table(meta[["kind"]], meta[["type"]])
 ````
 
 ``` {r  kindtable, results='asis', echo=FALSE }
-output <-  table(meta[["kind"]]), meta([["type"]]))
+output <-  table(meta[["kind"]], meta[["type"]])
 xtable::xtable(output)
 ````
 
@@ -476,7 +473,6 @@ number DE-FG02-97ER25308.
 ````
 
 
-# References
 
 
 Appendix
@@ -582,6 +578,7 @@ in `TreePar` syntax.  First compute the AIC scores of both the `yule_models` and
 ``` {r   aic_yule1  }
 yule_aic <- sapply(yule_models, function(pars) 2 * (length(pars) - 1) + 2 * pars[1] )
 birth_death_aic <- sapply(birth_death_models, function(pars) 2 * (length(pars) - 1) + 2 * pars[1] )
+````
 
 And ten generate a list identifying which model has the best (lowest) AIC score among the Yule models and 
 which has the best AIC score among the birth-death models, 
@@ -618,11 +615,11 @@ we can time-calibrate using tools available in R.  We can then calculate the
 distribution of this statistic for all available trees, and compare these 
 results with those from the analyses mentioned above.  
 
-The ` treebase ` package provides a compressed cache of the phylogenies
+The `treebase` package provides a compressed cache of the phylogenies
 available in treebase.  This cache can be automatically updated with the
 `cache_treebase` function,
 
-``` {r   meta_harvest, eval=FALSE  }
+``` {r meta_harvest, eval=FALSE}
 treebase <- cache_treebase()
 ````
 
@@ -631,14 +628,14 @@ and will save a file in the working directory named with treebase and
 the date obtained.  For convenience, we can load the cached copy 
 distributed with the ` treebase ` package:
 
-``` {r   cachedcopy  }
+``` {r cachedcopy}
 data(treebase)
 ````
 
 We will only be able to use those phylogenies that include branch length data.
 We drop those that do not from the data set, 
 
-``` {r   branchlengthfilter  }
+``` {r branchlengthfilter}
       have <- have_branchlength(treebase)
       branchlengths <- treebase[have]
 
@@ -649,10 +646,9 @@ Like most comparative methods, this analysis will require ultrametric trees
 As most of these phylogenies are calibrated with branch length proportional
 to mutational step, we must time-calibrate each of them first.  
 
-``` {r   timetree, cache=TRUE  }
-timetree <- function(tree){
+``` {r timetree, cache=TRUE}
+timetree <- function(tree)
     try( chronoMPL(multi2di(tree)) )
-}
 tt <- drop_nontrees(sapply(branchlengths, timetree))
 ````
 At this point we have `r length(tt)` time-calibrated phylogenies over which
@@ -660,7 +656,7 @@ we will apply the diversification rate analysis.
 Computing the gamma test statistic to identify devations from the 
 constant-rates model takes a single line,
 
-``` {r     }
+``` {r }
 gammas <- sapply(tt,  gammaStat)
 ````
 and the resulting distribution of the statistic across available trees is shown Fig 3.
@@ -675,8 +671,12 @@ by scripts using the latest treebase data, it is not only easier to
 perform this analysis but also to update it to reflect the latest data.
 Note that in this example it is not our objective to provide a thorough
 analysis of diversification patterns and their possible interpretations,
-as in @pybus2000; @mcpeek2007; @mcpeek2008; and @phillimore2008; but
+as in @pybus2000, @mcpeek2007, @mcpeek2008 and @phillimore2008, but
 merely to illustrate how the similar calculations to these can be easily
 applied across the much larger datasets in the repository. This example
 can be automatically updated to reflect the latest data in TreeBASE
 simply by rerunning the code we present above.
+
+
+# References
+
