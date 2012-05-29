@@ -252,16 +252,7 @@ of phylogenies to TreeBASE over time,
 
 ``` {r   journals }
     date <- meta[["date"]] 
-    pub <- meta[["publisher"]]
-````
-
-Many journals have only a few submissions, so we will classify any not
-in the top ten contributing journals as “Other”:
-
-
-``` {r top_journals }
-    topten <- sort(table(pub), decreasing=TRUE)[1:10]
-    meta[["publisher"]][!(pub %in% names(topten))] <- "Other"
+    publisher <- meta[["publisher"]]
 ````
 
 We plot the distribution of publication years for phylogenies deposited
