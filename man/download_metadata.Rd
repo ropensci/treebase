@@ -1,6 +1,6 @@
 \name{download_metadata}
 \alias{download_metadata}
-\title{Search the metadata on treebase using the OAI-MPH interface}
+\title{Download the metadata on treebase using the OAI-MPH interface}
 \usage{
   download_metadata(query = "",
     by = c("all", "until", "from"), curl = getCurlHandle())
@@ -16,7 +16,7 @@
   here. Avoids repeated handshakes with server.}
 }
 \description{
-  Search the metadata on treebase using the OAI-MPH
+  Download the metadata on treebase using the OAI-MPH
   interface
 }
 \details{

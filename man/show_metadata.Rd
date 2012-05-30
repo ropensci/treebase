@@ -27,5 +27,6 @@
   metadata(tree$S.id)
 }
 }
+\keyword{internal}
 \keyword{utilities}
 

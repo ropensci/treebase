@@ -37,4 +37,5 @@
      type <- phylo_metadata("type", metadata=treebase)
      table(kind, type)
 }
+\keyword{internal}
 

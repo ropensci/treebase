@@ -1,7 +1,7 @@
 \docType{data}
 \name{metadata}
 \alias{metadata}
-\title{generate a table of all available metadata for TreeBASE entries}
+\title{metadata.rda}
 \usage{
   metadata(phylo.md = NULL, oai.md = NULL)
 }
@@ -18,11 +18,11 @@
   "title".
 }
 \description{
-  generate a table of all available metadata for TreeBASE
-  entries
-
   Contains a cache of all publication metadata the
   search_metadata() to pull down when run on 2012-05-12.
+
+  generate a table of all available metadata for TreeBASE
+  entries
 }
 \details{
   recreate with: \code{ search_metadata() }

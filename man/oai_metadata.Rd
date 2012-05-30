@@ -37,4 +37,5 @@
     pub <- oai_metadata("publisher", metadata=metadata)
     table(dates, pub)
 }
+\keyword{internal}
 

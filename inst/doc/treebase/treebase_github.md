@@ -155,19 +155,22 @@
 </table>
 <p>From the length of this list we see that there are currently <code>r prettyNum(length(unique(meta[[&quot;Study.id&quot;]])))</code> published studies in the database. Metadata can also be used to reveal trends in the data deposition which may be useful in identifying patterns or biases in research or emerging potential types of data. As a simple example, we look at trends in which publishers are submitting the greatest number of phylogenies to TreeBASE over time,</p>
 <pre class="sourceCode r"><code class="sourceCode r">    date &lt;- meta[[<span class="st">&quot;date&quot;</span>]] 
-    publisher &lt;- meta[[<span class="st">&quot;publisher&quot;</span>]]</code></pre>
+    pub &lt;- meta[[<span class="st">&quot;publisher&quot;</span>]]</code></pre>
+<p>Many journals have only a few submissions, so we will classify any not in the top ten contributing journals as “Other”:</p>
+<pre class="sourceCode r"><code class="sourceCode r">    topten &lt;- <span class="kw">sort</span>(<span class="kw">table</span>(pub), <span class="dt">decreasing=</span><span class="ot">TRUE</span>)[<span class="dv">1</span>:<span class="dv">10</span>]
+    meta[[<span class="st">&quot;publisher&quot;</span>]][!(pub %in% <span class="kw">names</span>(topten))] &lt;- <span class="st">&quot;Other&quot;</span></code></pre>
 <p>We plot the distribution of publication years for phylogenies deposited in TreeBASE, color coding by publisher in Fig [fig:1].</p>
 <pre class="sourceCode r"><code class="sourceCode r">  <span class="kw">library</span>(ggplot2) 
   <span class="kw">ggplot</span>(meta) + <span class="kw">geom_bar</span>(<span class="kw">aes</span>(date, <span class="dt">fill =</span> publisher)) + 
     <span class="kw">opts</span>(<span class="dt">axis.text.x=</span><span class="kw">theme_text</span>(<span class="dt">angle=</span><span class="dv">90</span>, <span class="dt">hjust=</span><span class="dv">1</span>))</code></pre>
 <div class="figure">
-<img src="http://farm8.staticflickr.com/7211/7295910768_b0f23c7028_o.png" alt="Histogram of publication dates by year, with the code required to generate the figure." /><p class="caption">Histogram of publication dates by year, with the code required to generate the figure.</p>
+<img src="http://farm8.staticflickr.com/7224/7298825952_264f771a91_o.png" alt="Histogram of publication dates by year, with the code required to generate the figure." /><p class="caption">Histogram of publication dates by year, with the code required to generate the figure.</p>
 </div>
 <p>Typically we are interested in the metadata describing the phylogenies themselves rather than just in the publications in which they appeared. Phylogenetic metadata includes features such as the number of taxa in the tree, a quality score (if available), kind of tree (gene tree, species tree, or barcode tree) or whether the phylogeny represents a consensus tree from a distribution or just a single estimate.</p>
-<p>We can summarize how these 8,803 trees break out by kind or type using the <code>phylo_metadata</code> function to extract the kind of tree (gene/species/barcode) and type (single or consensus):</p>
+<p>We can summarize how these 8,809 trees break out by kind or type using the <code>phylo_metadata</code> function to extract the kind of tree (gene/species/barcode) and type (single or consensus):</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(meta[[<span class="st">&quot;kind&quot;</span>]], meta[[<span class="st">&quot;type&quot;</span>]])</code></pre>
 <!-- html table generated in R 2.15.0 by xtable 1.7-0 package -->
-<!-- Tue May 29 09:09:46 2012 -->
+<!-- Tue May 29 11:59:04 2012 -->
 <TABLE border=1>
 <TR> <TH>  </TH> <TH> 
 Consensus
@@ -186,7 +189,7 @@ Gene Tree
 </TD> <TD align="right">  
 59
 </TD> <TD align="right"> 
-123
+129
 </TD> </TR>
   <TR> <TD align="right"> 
 Species Tree
@@ -208,7 +211,7 @@ Species Tree
 <p>Having access to both the metadata from the studies and from the phylogenies in R lets us quickly combine these data sources in interesting ways. For instance, with a few commands we can visualize how the number of taxa on submitted phylogenies has increasing over time, Figure [fig:2].</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(meta, <span class="kw">aes</span>(date, ntaxa)) + <span class="kw">geom_point</span>() + <span class="kw">stat_smooth</span>(<span class="kw">aes</span>(<span class="dt">group =</span> <span class="dv">1</span>))</code></pre>
 <div class="figure">
-<img src="http://farm9.staticflickr.com/8024/7295626112_3bda84dd40_o.png" alt="Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number." /><p class="caption">Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number.</p>
+<img src="http://farm9.staticflickr.com/8007/7298826756_db3654f746_o.png" alt="Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number." /><p class="caption">Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number.</p>
 </div>
 <p>The promise of this exponential growth in the sizes of available phylogenies, with some trees representing</p>
 <pre><code>
@@ -274,24 +277,13 @@ x &lt;- <span class="kw">sort</span>(<span class="kw">getx</span>(derryberry), <
 <pre class="sourceCode r"><code class="sourceCode r">birth_death_models &lt;- <span class="kw">bd.shifts.optim</span>(x, <span class="dt">sampling =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), 
   <span class="dt">grid =</span> <span class="dv">5</span>, <span class="dt">start =</span> <span class="dv">0</span>, <span class="dt">end =</span> <span class="dv">60</span>, <span class="dt">yule =</span> <span class="ot">FALSE</span>)[[<span class="dv">2</span>]]</code></pre>
 <p>The models output by these functions are ordered by increasing number of shifts.<br />We can select the best-fitting model by AIC score, which is slightly cumbersome in <code>TreePar</code> syntax. First compute the AIC scores of both the <code>yule_models</code> and the <code>birth_death_models</code> we fitted above,</p>
-<pre class="sourceCode r"><code class="sourceCode r">yule_aic &lt;- <span class="kw">sapply</span>(yule_models, function(pars) <span class="dv">2</span> * (<span class="kw">length</span>(pars) - <span class="dv">1</span>) + <span class="dv">2</span> * pars[<span class="dv">1</span>] )</code></pre>
-<pre><code>Error: object &#39;yule_models&#39; not found</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r">birth_death_aic &lt;- <span class="kw">sapply</span>(birth_death_models, function(pars) <span class="dv">2</span> * (<span class="kw">length</span>(pars) - <span class="dv">1</span>) + <span class="dv">2</span> * pars[<span class="dv">1</span>] )</code></pre>
-<pre><code>Error: object &#39;birth_death_models&#39; not found</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">yule_aic &lt;- <span class="kw">sapply</span>(yule_models, function(pars) <span class="dv">2</span> * (<span class="kw">length</span>(pars) - <span class="dv">1</span>) + <span class="dv">2</span> * pars[<span class="dv">1</span>] )
+birth_death_aic &lt;- <span class="kw">sapply</span>(birth_death_models, function(pars) <span class="dv">2</span> * (<span class="kw">length</span>(pars) - <span class="dv">1</span>) + <span class="dv">2</span> * pars[<span class="dv">1</span>] )</code></pre>
 <p>And ten generate a list identifying which model has the best (lowest) AIC score among the Yule models and which has the best AIC score among the birth-death models,</p>
 <pre class="sourceCode r"><code class="sourceCode r">best_no_of_rates &lt;- <span class="kw">list</span>(<span class="dt">Yule =</span> <span class="kw">which.min</span>(yule_aic), <span class="dt">birth.death =</span> <span class="kw">which.min</span>(birth_death_aic))</code></pre>
-<pre><code>Error: object &#39;yule_aic&#39; not found</code></pre>
 <p>The best model is then whichever of these has the smaller AIC value.</p>
 <pre class="sourceCode r"><code class="sourceCode r">best_model &lt;- <span class="kw">which.min</span>(<span class="kw">c</span>(<span class="kw">min</span>(yule_aic), <span class="kw">min</span>(birth_death_aic)))</code></pre>
-<pre><code>Error: object &#39;yule_aic&#39; not found</code></pre>
-<p>which confirms that the</p>
-<pre><code>
-Error in eval(expr, envir, enclos) : object &#39;best_no_of_rates&#39; not found
-</code></pre>
-<pre><code>
-Error in eval(expr, envir, enclos) : object &#39;best_no_of_rates&#39; not found
-</code></pre>
-<p>-rate<br />model is still the best choice based on AIC score. Of the eight models in this second analysis, only three were in the original set considered (Yule 1-rate and 2-rate, and birth-death without a shift), so we could by no means have been sure ahead of time that a birth death with a shift, or a Yule model with a greater number of shifts, would not have fitted better.</p>
+<p>which confirms that the Yule 2-rate<br />model is still the best choice based on AIC score. Of the eight models in this second analysis, only three were in the original set considered (Yule 1-rate and 2-rate, and birth-death without a shift), so we could by no means have been sure ahead of time that a birth death with a shift, or a Yule model with a greater number of shifts, would not have fitted better.</p>
 <h2 id="tests-across-many-phylogenies">Tests across many phylogenies</h2>
 <p>A standard test of this is the gamma statistic of Pybus and Harvey <span class="citation">(2000)</span> which tests the null hypothesis that the rates of speciation and extinction are constant. The gamma statistic is normally distributed about 0 for a pure birth or birth-death process, values larger than 0 indicate that internal nodes are closer to the tip then expected, while values smaller than 0 indicate nodes farther from the tip then expected. In this section, we collect all phylogenetic trees from TreeBASE and select those with branch length data that we can time-calibrate using tools available in R. We can then calculate the distribution of this statistic for all available trees, and compare these results with those from the analyses mentioned above.</p>
 <p>The <code>treebase</code> package provides a compressed cache of the phylogenies available in treebase. This cache can be automatically updated with the <code>cache_treebase</code> function,</p>
@@ -310,7 +302,7 @@ tt &lt;- <span class="kw">drop_nontrees</span>(<span class="kw">sapply</span>(br
 <p>and the resulting distribution of the statistic across available trees is shown Fig 3.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(gammas)</code></pre>
 <div class="figure">
-<img src="http://farm8.staticflickr.com/7243/7295917850_74fe5e9ed4_o.png" alt="Distribution of the gamma statistic across phylogenies in TreeBASE. Strongly positive values are indicative of an increasing rate of evolution (excess of nodes near the tips), very negative values indicate an early burst of diversification (an excess of nodes near the root)." /><p class="caption">Distribution of the gamma statistic across phylogenies in TreeBASE. Strongly positive values are indicative of an increasing rate of evolution (excess of nodes near the tips), very negative values indicate an early burst of diversification (an excess of nodes near the root).</p>
+<img src="http://farm8.staticflickr.com/7219/7296753108_61af202852_o.png" alt="Distribution of the gamma statistic across phylogenies in TreeBASE. Strongly positive values are indicative of an increasing rate of evolution (excess of nodes near the tips), very negative values indicate an early burst of diversification (an excess of nodes near the root)." /><p class="caption">Distribution of the gamma statistic across phylogenies in TreeBASE. Strongly positive values are indicative of an increasing rate of evolution (excess of nodes near the tips), very negative values indicate an early burst of diversification (an excess of nodes near the root).</p>
 </div>
 <p>Because <code>treebase</code> makes it possible to perform this analysis entirely by scripts using the latest treebase data, it is not only easier to perform this analysis but also to update it to reflect the latest data. Note that in this example it is not our objective to provide a thorough analysis of diversification patterns and their possible interpretations, as in Pybus and Harvey <span class="citation">(2000)</span>, McPeek and Brown <span class="citation">(2007)</span>, McPeek <span class="citation">(2008)</span> and Phillimore and Price <span class="citation">(2008)</span>, but merely to illustrate how the similar calculations to these can be easily applied across the much larger datasets in the repository. This example can be automatically updated to reflect the latest data in TreeBASE simply by rerunning the code we present above.</p>
 <h1 id="references">References</h1>

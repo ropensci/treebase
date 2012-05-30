@@ -1,161 +1,123 @@
-# file: metadata.R
-# author: Carl Boettiger <cboettig@gmail.com>
-# date: 11 May 2011
-# Description: Implementation of the TreeBASE API in R 
-# With input from Ducan Temple Lang
-
-
-#' Get the metadata associated with the study in which the phylogeny
-#'  was published.
-#' @param study.id The treebase study id (numbers only, specify in quotes)
-#' @param curl if calling in series many times, call getCurlHandle()
-#'  first and then pass the return value in here.  avoids repeated
-#' handshakes with server. 
-#' @details if the tree is imported with search_treebase, 
-#' then this is in tree$S.id
-#' @keywords utilities
-#' @examples \dontrun{
-#'   tree <- search_treebase("1234", "id.tree")
-#'   metadata(tree$S.id)
-#' }
-#' @export
-show_metadata <- function(study.id, curl=getCurlHandle()){
-  oai_url <- "http://treebase.org/treebase-web/top/oai?verb=" 
-  get_record <- "GetRecord&metadataPrefix=oai_dc&identifier=" 
-  query <- paste(oai_url, get_record, "TB:s", study.id, sep="")
-  out <- metadata_from_oai(query, curl=curl)
-  out[[1]]
-}
-
-
-#' Search the metadata on treebase using the OAI-MPH interface
-#' @param query a date in format yyyy-mm-dd
-#' @param by return all data "until" that date, 
-#'   "from" that date to current, or "all"
-#' @param curl if calling in series many times, call getCurlHandle() first and 
-#'  then pass the return value in here. Avoids repeated handshakes with server.
-#' @details query must be#'  download_metadata(2010-01-01, by="until")
-#'  all isn't a real query type, but will return all trees regardless of date
-#' @examples \dontrun{
-#' Near <- search_treebase("Near", "author", max_trees=1)
-#'  metadata(Near[[1]]$S.id)
-#' ## or manualy give a sudy id
-#' metadata("2377")
-#' 
-#' ### get all trees from a certain depostition date forwards ##
-#' m <- download_metadata("2009-01-01", by="until")
-#' ## extract any metadata, e.g. publication date:
-#' dates <- sapply(m, function(x) as.numeric(x$date))
-#' hist(dates, main="TreeBase growth", xlab="Year")
-#' 
-#' ### show authors with most tree submissions in that date range 
-#' authors <- sapply(m, function(x){
-#'    index <- grep( "creator", names(x))
-#'      x[index] 
-#' })
-#' a <- as.factor(unlist(authors))
-#' head(summary(a))
-#' 
-#' ## Show growth of TreeBASE 
-#' all <- download_metadata("", by="all")
-#' dates <- sapply(all, function(x) as.numeric(x$date))
-#' hist(dates, main="TreeBase growth", xlab="Year")
-#' 
-#' ## make a barplot submission volume by journals
-#' journals <- sapply(all, function(x) x$publisher)
-#' J <- tail(sort(table(as.factor(unlist(journals)))),5)
-#' b<- barplot(as.numeric(J))
-#' text(b, names(J), srt=70, pos=4, xpd=T)
-#' }
-#' @export
-download_metadata <- function(query="", by=c("all", "until", "from"),
-                            curl=getCurlHandle()){
-  by = match.arg(by)
-  oai_url <- "http://treebase.org/treebase-web/top/oai?verb=" 
-  list_record <- "ListRecords&metadataPrefix=oai_dc&"
-  midnight <- "T00:00:00Z"
-  query <- paste(oai_url, list_record, by, "=", query, midnight, sep="")
-  metadata_from_oai(query, curl=curl)
-}
-
-
-#' Search the dryad metadata archive
-#' @param study.id the dryad identifier
-#' @param curl if calling in series many times, call getCurlHandle() first and 
-#'  then pass the return value in here. Avoids repeated handshakes with server.
-#' @return a list object containing the study metadata
-#' @examples \dontrun{
-#'   dryad_metadata("10255/dryad.12")
-#' }
-#' @export
-dryad_metadata <- function(study.id, curl=getCurlHandle()){
-  oai_url <- "http://www.datadryad.org/oai/request?verb=" 
-  get_record <- "GetRecord&metadataPrefix=oai_dc&identifier=" 
-  query <- paste(oai_url, get_record, "oai:datadryad.org:", study.id, sep="")
-  metadata_from_oai(query, curl=curl)
-}
-
-
-
-#' return the study.id from the search results.  
+#' generate a table of all available metadata for TreeBASE entries 
 #'
-#' get_study_id is deprecated, and now can be performed more easily using
-#' phylo_metadata and oai_metadata search functions.  
-#' @param search_results the output of download_metadata, or a subset thereof
-#' @return the study id
-#' @details this function is commonly used to get trees corresponding
-#'   to the metadata search.  
-#' @examples \dontrun{
-#' all <- download_metadata("", by="all")
+#' @param phylo.md cached phyloWS (tree) metadata, (optional)
+#' @param oai.md cached OAI-PMH (study) metadata (optional)
+#' @return a data frame of all available metadata, (as a data.table object)
+#' columns are: "Study.id", "Tree.id", "kind", "type", "quality", "ntaxa"    
+#' "date", "publisher", "author", "title".  
+#' @examples
+#' meta <- metadata()
+#' meta[publisher %in% c("Nature", "Science") & ntaxa > 100 & kind == "Gene Tree",]
+#' @import reshape2 data.table
+#' @export
+metadata <- function(phylo.md = NULL, oai.md=NULL){
+
+  require(reshape2)
+  require(data.table)
+
+  if(is.null(phylo.md))
+    phylo.md <- cache_treebase(only_metadata=TRUE)
+  if(is.null(oai.md))
+    oai.md <- download_metadata() 
+
+  #  phylo_data <- melt(phylo.md) # This is very slow
+  #  phylo <- dcast(phylo_data, ... ~ L2)
+
+  phylo <- 
+    data.frame(Study.id = phylo_metadata("Study.id", phylo.md), 
+    Tree.id = phylo_metadata("Tree.id", phylo.md), 
+    kind = phylo_metadata("kind", phylo.md), 
+    type = phylo_metadata("type", phylo.md), 
+    quality = phylo_metadata("quality", phylo.md),
+    ntaxa = phylo_metadata("ntaxa", phylo.md))
+
+  oai <- 
+    data.frame(date = oai_metadata("date", oai.md), 
+    publisher = oai_metadata("publisher", oai.md),
+    author = oai_metadata("author", oai.md),
+    title = oai_metadata("title", oai.md),
+    Study.id = oai_metadata("Study.id", oai.md))
+
+  oai <- data.table(oai)
+  setkey(oai, "Study.id")
+  phylo <- data.table(phylo)
+  setkey(phylo, "Study.id")
+  
+  both <-  phylo[oai] # Fast join
+  class(both$ntaxa) <- "integer"
+  both
+}
+
+# Helper functions 
+
+#' Search the PhyloWS metadata 
 #' 
-#' nature <- sapply(all, function(x) length(grep("Nature", x$publisher))>0)
-#' science <- sapply(all, function(x) length(grep("^Science$", x$publisher))>0)
-#' s <- get_study_id( all[nature] )
-#' }
-get_study_id <- function(search_results){
-  sapply(search_results, 
-          function(x){
-            id <- x$identifier
-            id <- sub(".*TB2:S(\\d+)+", "\\1", id)
-          })
-}
-
-
-#' return the trees in treebase that correspond to the search results
-#' get_study is deprecated, and now can be performed more easily using
-#' phylo_metadata and oai_metadata search functions.  
-#' @param search_results the output of download_metadata, or a subset thereof
-#' @param curl the handle to the curl web utility for repeated calls, see
-#'  the getCurlHandle() function in RCurl package for details.  
-#' @param ... additional arguments to pass to search_treebase
-#' @return all corresponding phylogenies.  
-#' @details this function is commonly used to get trees corresponding
-#'   to the metadata search.  
-#' @examples \dontrun{
-#' all <- download_metadata("", by="all")
-#' nature <- sapply(all, function(x) length(grep("Nature", x$publisher))>0)
-#' science <- sapply(all, function(x) length(grep("^Science$", x$publisher))>0)
-#' s <- get_study( all[nature] )
-#' s <- get_study(all[science])
-#' }
-get_study <- function(search_results, curl=getCurlHandle(), ...){
-  sapply(search_results, function(x) search_treebase(x, input="id.study", curl=curl, ...))
-}
-
-
-
-#' Internal function for OAI-MPH interface to the Dryad database
-#' @param query a properly formed url query to dryad
-#' @param curl if calling in series many times, call getCurlHandle() first and 
-#'  then pass the return value in here. Avoids repeated handshakes with server.
+#' @param x one of "Study.ids", "Tree.ids", "kind", "type", "quality", "ntaxa"
+#' @param metadata returned from \code{search_treebase} function. 
+#' if not specified will download latest copy of PhyloWS metadata from treebase.  Pass
+#' in search results value during repeated calls to speed function runtime substantially
+#' @param ... additional arguments to \code{search_treebase}
+#' @return a list of the values matching the query
 #' @keywords internal
-#' @seealso \code{\link{dryad_metadata}}
-metadata_from_oai <- function(query, curl=curl){
-  message(query)
-  tt <- getURLContent(query, followlocation=TRUE, curl=curl)
-  doc <- xmlParse(tt)
-  dc = getNodeSet(doc, "//dc:dc", namespaces=c(dc="http://www.openarchives.org/OAI/2.0/oai_dc/"))
-  lapply(dc, xmlToList)
+#' @examples
+#' \dontrun{
+#'      # calls will work without a metadata object, but require longer to download data
+#'      kind <- phylo_metadata("kind")
+#'      type <- phylo_metadata("type") 
+#'      table(kind, type)
+#'      }
+#'      # but are much faster if the data object is provided, see cache_treebase():
+#'      data(treebase)
+#'      kind <- phylo_metadata("kind", metadata=treebase)
+#'      type <- phylo_metadata("type", metadata=treebase) 
+#'      table(kind, type)
+#' 
+phylo_metadata <- function(x =  c("Study.id", "Tree.id", "kind", "type", "quality", "ntaxa"), metadata=NULL, ...){
+  x = match.arg(x)
+# Aliases
+  x <- gsub("Study.id", "S.id", x)
+  x <- gsub("Tree.id", "Tr.id", x)
+  x <- gsub("ntaxa", "ntax", x)
+  if(is.null(metadata))
+    metadata <- cache_treebase(only_metadata=TRUE, save=FALSE)
+  sapply(metadata, `[[`, x)
 }
+
+
+#' Search the OAI-PMH metadata by date, publisher, or identifier
+#' 
+#' @param x one of "date", "publisher", "identifier" for the study
+#' @param metadata returned from \code{download_metadata} function. 
+#' if not specified will download latest copy from treebase.  Pass
+#' in the value during repeated calls to speed function runtime substantially
+#' @param ... additional arguments to \code{download_metadata}
+#' @return a list of values matching the query
+#' @keywords internal
+#' @examples
+#' \dontrun{
+#'     # automatically search each time
+#'     dates <- oai_metadata("date") 
+#'     pub <- oai_metadata("publisher")
+#'     table(dates, pub)
+#' }
+#'    # Using cached data from an earlier download
+#'     data(metadata) 
+#'     dates <- oai_metadata("date", metadata=metadata) 
+#'     pub <- oai_metadata("publisher", metadata=metadata)
+#'     table(dates, pub)
+oai_metadata <- function(x = c("date", "publisher", "author", "title", "Study.id", "attributes"), metadata=NULL, ...){
+  x = match.arg(x)
+# Aliases
+  x <- gsub("attributes", ".attr", x)
+  x <- gsub("author", "creator", x) # gets first author only
+  x <- gsub("Study.id", "identifier", x)
+  if(is.null(metadata))
+    metadata <- download_metadata(...)
+  out <- sapply(metadata, `[[`, x)
+  if(x == "identifier")
+    out <- gsub(".*TB2:S(\\d*)", "\\1", out)
+  as.character(out) # avoid list object returns
+}
+
 
 

@@ -249,7 +249,16 @@ of phylogenies to TreeBASE over time,
 
 ``` {r   journals }
     date <- meta[["date"]] 
-    publisher <- meta[["publisher"]]
+    pub <- meta[["publisher"]]
+````
+
+Many journals have only a few submissions, so we will classify any not
+in the top ten contributing journals as “Other”:
+
+
+``` {r top_journals }
+    topten <- sort(table(pub), decreasing=TRUE)[1:10]
+    meta[["publisher"]][!(pub %in% names(topten))] <- "Other"
 ````
 
 We plot the distribution of publication years for phylogenies deposited
@@ -312,7 +321,7 @@ phylogenies in R lets us quickly combine these data sources in interesting
 ways. For instance, with a few commands we can visualize how the number
 of taxa on submitted phylogenies has increasing over time, Figure [fig:2].
 
-``` {r   taxagrowth, fig.cap="Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number."}
+``` {r cache=FALSE, taxagrowth, fig.cap="Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number."}
 ggplot(meta, aes(date, ntaxa)) + geom_point() + stat_smooth(aes(group = 1))
 ````
 

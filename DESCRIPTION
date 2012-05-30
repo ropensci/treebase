@@ -20,11 +20,12 @@ Depends:
     R (>= 2.12),
     ape
 Suggests:
-    TreePar
+    TreePar,
+    testthat
 Collate:
-    'analysis.R'
     'cache_treebase.R'
     'clean_metadata.R'
     'data.R'
     'metadata.R'
     'treebase.R'
+    'download_metadata.R'

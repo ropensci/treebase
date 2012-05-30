@@ -37,4 +37,9 @@
 \details{
   it's a good idea to let this run overnight
 }
+\examples{
+\dontrun{
+ treebase <- cache_treebase()
+}
+}
 
