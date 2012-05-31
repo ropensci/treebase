@@ -99,12 +99,7 @@
 <pre class="sourceCode r"><code class="sourceCode r">meta &lt;- <span class="kw">metadata</span>()</code></pre>
 <p>This facilitates identifying all potetnial data which meets certain desired attributes. For instance, if an analysis requires consensus gene trees with 100 or more taxa appearing in the journals <em>Nature</em> or <em>Science</em>, one can quickly identify candidate phylogenies using the R's subsetting syntax</p>
 <pre class="sourceCode r"><code class="sourceCode r">meta[publisher %in% <span class="kw">c</span>(<span class="st">&quot;Nature&quot;</span>, <span class="st">&quot;Science&quot;</span>) &amp; ntaxa &gt; <span class="dv">100</span> &amp; kind == <span class="st">&quot;Gene Tree&quot;</span>,]</code></pre>
-<pre><code>     Study.id Tree.id      kind   type quality ntaxa date publisher
-[1,]    10521    9286 Gene Tree Single Unrated   218 2010   Science
-              author
-[1,] Werren, John H.
-                                                                                         title
-[1,] Functional and Evolutionary Insights from the Genomes of Three Parasitoid Nasonia Species</code></pre>
+<pre><code>NULL data table</code></pre>
 <p>The fields provided by <code>metadata</code> are listed in Table II.</p>
 <table>
 <caption>Columns of metadata avialable from the <code>metadata</code> function</caption>
@@ -164,13 +159,13 @@
   <span class="kw">ggplot</span>(meta) + <span class="kw">geom_bar</span>(<span class="kw">aes</span>(date, <span class="dt">fill =</span> publisher)) + 
     <span class="kw">opts</span>(<span class="dt">axis.text.x=</span><span class="kw">theme_text</span>(<span class="dt">angle=</span><span class="dv">90</span>, <span class="dt">hjust=</span><span class="dv">1</span>))</code></pre>
 <div class="figure">
-<img src="http://farm8.staticflickr.com/7224/7298825952_264f771a91_o.png" alt="Histogram of publication dates by year, with the code required to generate the figure." /><p class="caption">Histogram of publication dates by year, with the code required to generate the figure.</p>
+<img src="http://farm8.staticflickr.com/7093/7305185138_c6a180f626_o.png" alt="Histogram of publication dates by year, with the code required to generate the figure." /><p class="caption">Histogram of publication dates by year, with the code required to generate the figure.</p>
 </div>
 <p>Typically we are interested in the metadata describing the phylogenies themselves rather than just in the publications in which they appeared. Phylogenetic metadata includes features such as the number of taxa in the tree, a quality score (if available), kind of tree (gene tree, species tree, or barcode tree) or whether the phylogeny represents a consensus tree from a distribution or just a single estimate.</p>
-<p>We can summarize how these 8,809 trees break out by kind or type using the <code>phylo_metadata</code> function to extract the kind of tree (gene/species/barcode) and type (single or consensus):</p>
+<p>We can summarize how these 8,815 trees break out by kind or type using the <code>phylo_metadata</code> function to extract the kind of tree (gene/species/barcode) and type (single or consensus):</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(meta[[<span class="st">&quot;kind&quot;</span>]], meta[[<span class="st">&quot;type&quot;</span>]])</code></pre>
 <!-- html table generated in R 2.15.0 by xtable 1.7-0 package -->
-<!-- Tue May 29 11:59:04 2012 -->
+<!-- Wed May 30 17:30:52 2012 -->
 <TABLE border=1>
 <TR> <TH>  </TH> <TH> 
 Consensus
@@ -196,7 +191,7 @@ Species Tree
 </TD> <TD align="right"> 
 2827
 </TD> <TD align="right"> 
-5731
+5737
 </TD> </TR>
    </TABLE>
 
@@ -211,7 +206,7 @@ Species Tree
 <p>Having access to both the metadata from the studies and from the phylogenies in R lets us quickly combine these data sources in interesting ways. For instance, with a few commands we can visualize how the number of taxa on submitted phylogenies has increasing over time, Figure [fig:2].</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(meta, <span class="kw">aes</span>(date, ntaxa)) + <span class="kw">geom_point</span>() + <span class="kw">stat_smooth</span>(<span class="kw">aes</span>(<span class="dt">group =</span> <span class="dv">1</span>))</code></pre>
 <div class="figure">
-<img src="http://farm9.staticflickr.com/8007/7298826756_db3654f746_o.png" alt="Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number." /><p class="caption">Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number.</p>
+<img src="http://farm9.staticflickr.com/8142/7305186242_7434f94f83_o.png" alt="Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number." /><p class="caption">Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number.</p>
 </div>
 <p>The promise of this exponential growth in the sizes of available phylogenies, with some trees representing</p>
 <pre><code>
@@ -302,7 +297,7 @@ tt &lt;- <span class="kw">drop_nontrees</span>(<span class="kw">sapply</span>(br
 <p>and the resulting distribution of the statistic across available trees is shown Fig 3.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(gammas)</code></pre>
 <div class="figure">
-<img src="http://farm8.staticflickr.com/7219/7296753108_61af202852_o.png" alt="Distribution of the gamma statistic across phylogenies in TreeBASE. Strongly positive values are indicative of an increasing rate of evolution (excess of nodes near the tips), very negative values indicate an early burst of diversification (an excess of nodes near the root)." /><p class="caption">Distribution of the gamma statistic across phylogenies in TreeBASE. Strongly positive values are indicative of an increasing rate of evolution (excess of nodes near the tips), very negative values indicate an early burst of diversification (an excess of nodes near the root).</p>
+<img src="http://farm8.staticflickr.com/7223/7305239418_d2c77ed966_o.png" alt="Distribution of the gamma statistic across phylogenies in TreeBASE. Strongly positive values are indicative of an increasing rate of evolution (excess of nodes near the tips), very negative values indicate an early burst of diversification (an excess of nodes near the root)." /><p class="caption">Distribution of the gamma statistic across phylogenies in TreeBASE. Strongly positive values are indicative of an increasing rate of evolution (excess of nodes near the tips), very negative values indicate an early burst of diversification (an excess of nodes near the root).</p>
 </div>
 <p>Because <code>treebase</code> makes it possible to perform this analysis entirely by scripts using the latest treebase data, it is not only easier to perform this analysis but also to update it to reflect the latest data. Note that in this example it is not our objective to provide a thorough analysis of diversification patterns and their possible interpretations, as in Pybus and Harvey <span class="citation">(2000)</span>, McPeek and Brown <span class="citation">(2007)</span>, McPeek <span class="citation">(2008)</span> and Phillimore and Price <span class="citation">(2008)</span>, but merely to illustrate how the similar calculations to these can be easily applied across the much larger datasets in the repository. This example can be automatically updated to reflect the latest data in TreeBASE simply by rerunning the code we present above.</p>
 <h1 id="references">References</h1>

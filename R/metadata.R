@@ -29,10 +29,10 @@ metadata <- function(phylo.md = NULL, oai.md=NULL){
     kind = phylo_metadata("kind", phylo.md), 
     type = phylo_metadata("type", phylo.md), 
     quality = phylo_metadata("quality", phylo.md),
-    ntaxa = phylo_metadata("ntaxa", phylo.md))
+    ntaxa = as.numeric(phylo_metadata("ntaxa", phylo.md)))
 
   oai <- 
-    data.frame(date = oai_metadata("date", oai.md), 
+    data.frame(date = as.integer(oai_metadata("date", oai.md)), 
     publisher = oai_metadata("publisher", oai.md),
     author = oai_metadata("author", oai.md),
     title = oai_metadata("title", oai.md),
@@ -44,7 +44,7 @@ metadata <- function(phylo.md = NULL, oai.md=NULL){
   setkey(phylo, "Study.id")
   
   both <-  phylo[oai] # Fast join
-  class(both$ntaxa) <- "integer"
+  class(both$ntaxa) <- "numeric"
   both
 }
 
