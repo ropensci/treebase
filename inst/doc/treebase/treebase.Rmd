@@ -234,7 +234,7 @@ The fields provided by `metadata` are listed in Table II.
   author           First author in the publication
   title            The title of the publication 
 
-Table: Columns of metadata avialable from the `metadata` function 
+ Table: Columns of metadata avialable from the `metadata` function 
 
 
 
@@ -264,7 +264,7 @@ in the top ten contributing journals as “Other”:
 We plot the distribution of publication years for phylogenies deposited
 in TreeBASE, color coding by publisher in Fig [fig:1].
 
-``` {r dates, cache=FALSE, fig.cap="Histogram of publication dates by year, with the code required to generate the figure."}
+``` {r dates, fig.cap="Histogram of publication dates by year, with the code required to generate the figure."}
   library(ggplot2) 
   ggplot(meta) + geom_bar(aes(date, fill = publisher)) 
 ````
@@ -320,14 +320,14 @@ phylogenies in R lets us quickly combine these data sources in interesting
 ways. For instance, with a few commands we can visualize how the number
 of taxa on submitted phylogenies has increasing over time, Figure [fig:2].
 
-``` {r cache=FALSE, taxagrowth, fig.cap="Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number."}
+``` {r taxagrowth, fig.cap="Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number."}
 ggplot(meta, aes(date, ntaxa)) + geom_point() + stat_smooth(aes(group = 1)) + scale_y_log10()
 ````
 
 
 
 The promise of this exponential growth in the sizes of available
-phylogenies, with some trees representing `r max(taxa$Ntaxa, na.rm=TRUE)` 
+phylogenies, with some trees representing `r max(meta$ntaxa, na.rm=TRUE)` 
 taxa motivates the more and more ambitious inference
 methods being developed which require large trees to have adequate signal
 [@boettiger2012; @fitzjohn2009; @beaulieu2012].
