@@ -39,7 +39,7 @@ different taxa [@huelsenbeck2001b; @stamatakis2006; @drummond2007].
 Once again the product of one field has become the raw data of the next.
 Unfortunately, while the discipline of bioinformatics has emerged to
 help harness and curate the wealth of genetic data with cutting edge
-computer science, statistics, and internet technology, its counterpart
+computer science, statistics, and Internet technology, its counterpart
 in evolutionary informatics remains “scattered, poorly documented,
 and in formats that impede discovery and integration” [@parr2011a]. Our
 goal when developing the `treebase` package is to provide steps to reduce
@@ -93,7 +93,7 @@ match appropriate metadata requirements.
 2. *Programmatic data access.* Many tasks that are theoretically made
 possible by the creation of the TreeBASE repository are not pursued
 because they would be too laborious for an exploratory analysis.
-The ability to use programatic access across data sets to automatically
+The ability to use programmatic access across data sets to automatically
 download and perform a systematic analysis using the rich set of tools
 available in R opens up new avenues for research.
 
@@ -109,15 +109,15 @@ Programmatic Web Access
 
 The Treebase repository makes data accessible by web queries through a 
 RESTful (REpresentational State Transfer) interface, which supplies search
-conditions aaddress URL.  The repository returns the requested data in 
+conditions in the address URL.  The repository returns the requested data in 
 XML (extensible markup language) format.  The `treebase` package uses the 
 `RCurl` package to make queries over the web to the repository, and the 
-`XML` package to parse the webpage returned by the repository into meaningful
+`XML` package to parse the web page returned by the repository into meaningful
 R data objects [@rcurl, @xml].  While these querying and parsing functions
 comprise most of the code provided in the `treebase` package, they are 
-hidden from the end user who can interact with these rich data retrivial and 
+hidden from the end user who can interact with these rich data retrieval and 
 manipulation tools to access data from these remote repositories in much 
-the same way as data locally available on the users harddisk.  
+the same way as data locally available on the users hard-disk.  
 
 
 
@@ -181,8 +181,8 @@ The package documentation provides many examples of possible queries.
   tree             The title for the tree
 
   Table: Queries available in `search_treebase`.  The first argument is
-  the keyword used in the query such as an author's name, while the second
-  argument indcates the type of query (_i.e._ "author").
+  the keyword used in the query such as an author's name and the second
+  argument indicates the type of query (_i.e._ "author").
 
 
 
@@ -195,10 +195,10 @@ metadata, summary information describing the data entries provided in
 the repository.  The web repository uses separate interfaces (APIs)
 to access metadata describing the publications associated with the
 data entered, such as the publisher, year of publication, etc., and
-the a different interface to describe the metadata associated with an
+a different interface to describe the metadata associated with an
 individual phylogeny, such as the number of taxa or the kind of tree
 (_e.g._ gene tree vs. species tree).  The `treebase` package can query
-these individal sources of metadata seperately, but this information
+these individual sources of metadata separately, but this information
 is most powerful when used in concert -- allowing the construction of
 complicated searches that cannot be automated through the web interface.
 The `metadata` function updates a list of all available metadata from
@@ -209,7 +209,7 @@ both APIs and returns this information as an R `data.frame`.
 meta <- metadata()
 ````
 
-This facilitates identifying all potetnial data which meets certain
+This facilitates identifying all potential data which meets certain
 desired attributes.  For instance, if an analysis requires consensus
 gene trees with 100 or more taxa appearing in the journals _Nature_
 or _Science_, one can quickly identify candidate phylogenies using the
@@ -234,7 +234,7 @@ The fields provided by `metadata` are listed in Table II.
   author           First author in the publication
   title            The title of the publication 
 
- Table: Columns of metadata avialable from the `metadata` function 
+ Table: Columns of metadata available from the `metadata` function 
 
 
 
