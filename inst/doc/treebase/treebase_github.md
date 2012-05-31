@@ -156,10 +156,9 @@
     meta[[<span class="st">&quot;publisher&quot;</span>]][!(pub %in% <span class="kw">names</span>(topten))] &lt;- <span class="st">&quot;Other&quot;</span></code></pre>
 <p>We plot the distribution of publication years for phylogenies deposited in TreeBASE, color coding by publisher in Fig [fig:1].</p>
 <pre class="sourceCode r"><code class="sourceCode r">  <span class="kw">library</span>(ggplot2) 
-  <span class="kw">ggplot</span>(meta) + <span class="kw">geom_bar</span>(<span class="kw">aes</span>(date, <span class="dt">fill =</span> publisher)) + 
-    <span class="kw">opts</span>(<span class="dt">axis.text.x=</span><span class="kw">theme_text</span>(<span class="dt">angle=</span><span class="dv">90</span>, <span class="dt">hjust=</span><span class="dv">1</span>))</code></pre>
+  <span class="kw">ggplot</span>(meta) + <span class="kw">geom_bar</span>(<span class="kw">aes</span>(date, <span class="dt">fill =</span> publisher)) </code></pre>
 <div class="figure">
-<img src="http://farm8.staticflickr.com/7093/7305185138_c6a180f626_o.png" alt="Histogram of publication dates by year, with the code required to generate the figure." /><p class="caption">Histogram of publication dates by year, with the code required to generate the figure.</p>
+<img src="http://farm8.staticflickr.com/7086/7309580026_a24d710403_o.png" alt="Histogram of publication dates by year, with the code required to generate the figure." /><p class="caption">Histogram of publication dates by year, with the code required to generate the figure.</p>
 </div>
 <p>Typically we are interested in the metadata describing the phylogenies themselves rather than just in the publications in which they appeared. Phylogenetic metadata includes features such as the number of taxa in the tree, a quality score (if available), kind of tree (gene tree, species tree, or barcode tree) or whether the phylogeny represents a consensus tree from a distribution or just a single estimate.</p>
 <p>We can summarize how these 8,815 trees break out by kind or type using the <code>phylo_metadata</code> function to extract the kind of tree (gene/species/barcode) and type (single or consensus):</p>
@@ -204,9 +203,9 @@ Species Tree
 <p>Once run, the cache is saved compactly in memory where it can be easily and quickly restored. For convenience, the <code>treebase</code> package comes with a copy already cached, which can be loaded into memory.</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(treebase)</code></pre>
 <p>Having access to both the metadata from the studies and from the phylogenies in R lets us quickly combine these data sources in interesting ways. For instance, with a few commands we can visualize how the number of taxa on submitted phylogenies has increasing over time, Figure [fig:2].</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(meta, <span class="kw">aes</span>(date, ntaxa)) + <span class="kw">geom_point</span>() + <span class="kw">stat_smooth</span>(<span class="kw">aes</span>(<span class="dt">group =</span> <span class="dv">1</span>))</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(meta, <span class="kw">aes</span>(date, ntaxa)) + <span class="kw">geom_point</span>() + <span class="kw">stat_smooth</span>(<span class="kw">aes</span>(<span class="dt">group =</span> <span class="dv">1</span>)) + <span class="kw">scale_y_log10</span>()</code></pre>
 <div class="figure">
-<img src="http://farm9.staticflickr.com/8142/7305186242_7434f94f83_o.png" alt="Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number." /><p class="caption">Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number.</p>
+<img src="http://farm9.staticflickr.com/8016/7309581420_ca3a1ce85f_o.png" alt="Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number." /><p class="caption">Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number.</p>
 </div>
 <p>The promise of this exponential growth in the sizes of available phylogenies, with some trees representing</p>
 <pre><code>
