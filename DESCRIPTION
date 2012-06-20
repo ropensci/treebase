@@ -11,6 +11,7 @@ Authors@R: c(person("Carl", "Boettiger", role = c("aut", "cre"),
 Description: Interface to the API for TreeBASE
 License: CC0
 URL: http://www.github.com/ropensci/treebase
+BugReports: http://www.github.com/ropensci/treebase/issues
 Imports:
     XML,
     RCurl,

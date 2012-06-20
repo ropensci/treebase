@@ -18,7 +18,7 @@ knit_hooks$set(inline = function(x) {
 })
 
 ## global chunk options: default uses high quality Cairo PNG device
-pdf.options(pointsize = 10)  # smaller pointsize for recording plots
+pdf.options(pointsize = 8)  # smaller pointsize for recording plots
 opts_chunk$set(cache=TRUE, fig.path='figure/', dev='png', cache.path = 'cache-local/', par=TRUE)
 
 ## xtable html format for github/html output.  
@@ -26,7 +26,7 @@ opts_chunk$set(cache=TRUE, fig.path='figure/', dev='png', cache.path = 'cache-lo
 options(xtable.type = 'html')
 
 ## Global options 
-opts_chunk$set(warning=FALSE, message=FALSE, comment=NA, tidy=FALSE, refresh=1)
+opts_chunk$set(warning=FALSE, message=FALSE, comment=NA, tidy=FALSE, refresh=2)
 
 ## chunk hooks
 knit_hooks$set(par=function(before, options, envir){
@@ -52,7 +52,7 @@ local({
     # xtable shouldn't print comments 
     options(xtable.print.comment=FALSE)
     # Journal probably wants eps formatted graphics.  
-    opts_chunk$set(dev = 'postscript', fig.width=16, fig.height=6, 
+    opts_chunk$set(dev = 'postscript', fig.width=8, fig.height=3, 
                    cache.path = 'cache-doc/')
     # try splitting the tables out with special options?
     options(knitr.include=TRUE)
@@ -65,8 +65,9 @@ local({
     options(xtable.type = 'latex', table.placement="H")
     opts_chunk$set(cache.path = 'cache-pdf/')
     # use pdf graphics for PDF output
-    opts_chunk$set(dev = 'Cairo_pdf', fig.width=16, fig.height=6)
-  }
+    opts_chunk$set(dev = 'pdf', fig.width=8, fig.height=3)
+    pdf.options(pointsize = 8)  # smaller pointsize for recording plots
+ }
   
     knit("treebase.Rmd")
 })
