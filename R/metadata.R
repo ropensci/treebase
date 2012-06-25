@@ -16,7 +16,7 @@ metadata <- function(phylo.md = NULL, oai.md=NULL){
   require(data.table)
 
   if(is.null(phylo.md))
-    phylo.md <- cache_treebase(only_metadata=TRUE)
+    phylo.md <- cache_treebase(only_metadata=TRUE, save=FALSE)
   if(is.null(oai.md))
     oai.md <- download_metadata() 
 

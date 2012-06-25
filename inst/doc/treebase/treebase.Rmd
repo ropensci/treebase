@@ -45,10 +45,7 @@ and in formats that impede discovery and integration” [@parr2011a]. Our
 goal in developing the `treebase` package is to provide steps to reduce
 these challenges through programmatic and interactive access between the
 repositories that store this data and the software tools commonly used
-to analyse them.  The tools provided in the `treebase` package can make
-discovery and analysis easier and more replicable, and facilitate scaling
-analyses across an ever growing repository of potential phylogenetic data.
-
+to analyse them.  
 
 The R statistical environment [@rteam2012] has become a dominant
 platform for researchers using phylogenetic data to address a
@@ -130,16 +127,13 @@ Basic queries
 ````
 
 
-The basic functions of the TreeBASE API allow search queries through two
-separate interfaces. The `OAI-PMH` interface provides the metadata
-associated with the publications from which the phylogenies have been
-taken, while the `Phylo-WS` interface provides information and access to
-the phylogenetic data itself. The `treebase` package allows these queries to be
-made directly from R, just as a user would make them from the Web browser.
-This enables a user to construct more complicated filters than permitted by the Web interface,
-and allows the user to maintain a record of the queries they used to collect their data
-as an R script. Scripting the data-gathering process helps reduce errors and assists in 
-replicating the analysis later, either by the authors or other researchers [@peng2011a].
+The `treebase` package allows these queries to be made directly from R,
+just as a user would make them from the Web browser.  This enables a
+user to construct more complicated filters than permitted by the Web
+interface, and allows the user to maintain a record of the queries they
+used to collect their data as an R script. Scripting the data-gathering
+process helps reduce errors and assists in replicating the analysis later,
+either by the authors or other researchers [@peng2011a].
 
 
 The `search_treebase` function forms the base of the `treebase` package.
@@ -209,8 +203,14 @@ a copy already cached, which can be loaded into memory.
 data(treebase)
 ````
 
-All of the examples shown in this manuscript 
-
+All of the examples shown in this manuscript are run as shown using 
+the `knitr` package for authoring dynamic documents [@knitr], which
+helps ensure the results shown are reproducible.  These examples can
+be updated by copying and pasting the code shown into the R terminal,
+or by recompiling the entire manuscript from the source files found on 
+the development Web page for the TreeBASE package,
+[github.com/ropensci/treebase](https://github.com/ropensci/treebase). 
+Data was accessed to produce the examples shown on `r date()`.  
 
 
 Data discovery in TreeBASE
@@ -321,25 +321,6 @@ _Science_, using the R's sub-setting syntax
 meta[publisher == "Science" & ntaxa > 200 & kind == "Species Tree",]
 ````
 
-<!-- 
-Having access to both the metadata from the studies and from the
-phylogenies in R lets us quickly combine these data sources in interesting
-ways. For instance, with a few commands we can visualize how the number
-of taxa on submitted phylogenies has increasing over time, Figure [fig:2].
-
-``` {r taxagrowth, fig.width=7, fig.height=4, fig.cap="Combining the metadata available from publications and from phylogenies themselves, we can visualize the growth in taxa on published phylogenies. Note that the maximum size tree deposited each year is growing far faster than the average number.", dev.opts=list(pointsize=8)}
-ggplot(meta, aes(date, ntaxa)) + geom_point() + stat_smooth(aes(group = 1)) + scale_y_log10()
-````
-
-
-
-The promise of this exponential growth in the sizes of available
-phylogenies, with some trees representing `r max(meta$ntaxa, na.rm=TRUE)` 
-taxa motivates the more and more ambitious inference
-methods being developed which require large trees to have adequate signal
-[@boettiger2012; @fitzjohn2009; @beaulieu2012].
--->
-
 Reproducible computations
 =========================
 
@@ -376,18 +357,22 @@ results <- search_treebase("10.1111/j.1558-5646.2011.01374.x", "doi")
 ````
 
 The search returns a list, since some publications can contain many trees.
-In this case our phylogeny is in the first element of the list,
+In this case our phylogeny is in the first element of the list.  We can 
+see the R output summarizing this phylogeny object by printing this 
+element,
 
 
 ``` {r doiqueryresults} 
 results[[1]] 
 ```` 
 
+confirming that we have successfully imported the desired phylogeny. 
+
 ``` {r firstone, echo=FALSE, include=FALSE} 
 derryberry <- results[[1]] 
 ````
 
-Having successfully imported the phylogenetic tree corresponding to this
+Having imported the phylogenetic tree corresponding to this
 study, we can quickly replicate their analysis of which diversification
 process best fits the data.  These steps can be easily implemented using
 the phylogenetics packages we have just mentioned. 
@@ -563,7 +548,7 @@ trees is shown Fig 2.  While researchers have often considered this
 statistic for individual phylogenies, we are unaware of any study that has
 visualized the empirical distribution of this statistic across thousands
 of phylogenies.  Both the overall distribution, which appears slightly
-skewed towards postive values indicating increasing rate of speciation
+skewed towards positive values indicating increasing rate of speciation
 near the tips, and the position and identity of outlier phylogenies are
 patterns that may introduce new hypotheses and potential directions for
 further exploration.
@@ -675,7 +660,7 @@ that the `r best_fit` model is the best fit to the data.
 
 The best-fit model in the laser analysis was a Yule (net diversification
 rate) model with two separate rates.  We can ask ` TreePar ` to see if
-a model with more rate shifts is favored over this single shift,
+a model with more rate shifts is favoured over this single shift,
 a question that was not possible to address using the tools provided in
 `laser`. The previous analysis also considers a birth-death model that 
 allowed speciation and extinction rates to be estimated separately, but 
