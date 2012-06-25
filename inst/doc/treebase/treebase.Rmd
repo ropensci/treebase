@@ -209,6 +209,8 @@ a copy already cached, which can be loaded into memory.
 data(treebase)
 ````
 
+All of the examples shown in this manuscript 
+
 
 
 Data discovery in TreeBASE
@@ -309,15 +311,14 @@ xtable::xtable(output)
 ````
 
 
-In addition to tabulating all available data, this programmatic access 
-facilitates identifying all potential data which meets certain
-desired attributes.  For instance, if an analysis requires consensus
-gene trees with 100 or more taxa appearing in the journals _Nature_
-or _Science_, one can quickly identify candidate phylogenies using the
-R's sub-setting syntax
+In addition to tabulating all available data, this programmatic access
+facilitates identifying all potential data which meets certain desired
+attributes.  For instance, one can quickly identify candidate phylogenies
+consisting of a Species tree with over 200 taxa appearing in the journal
+_Science_, using the R's sub-setting syntax
 
 ```{r metadata_subset}
-meta[publisher %in% c("Nature", "Science") & ntaxa > 100 & kind == "Gene Tree",]
+meta[publisher == "Science" & ntaxa > 200 & kind == "Species Tree",]
 ````
 
 <!-- 
@@ -444,7 +445,7 @@ Here we consider models that have up to 4 different rates in Yule models, (The s
 `TreePar` is slightly cumbersome, the [[2]] indicates where this command
 happens to store the output models.)
 
-``` {r   treepar_yule, include=FALSE  }
+``` {r   treepar_yule_demo, include=FALSE  }
 yule_models <- bd.shifts.optim(x, sampling = c(1,1,1,1), 
   grid = 5, start = 0, end = 60, yule = TRUE)[[2]]
 ````
