@@ -88,7 +88,7 @@ dryad_metadata <- function(study.id, curl=getCurlHandle()){
 #' @keywords utilities internal
 #' @examples \dontrun{
 #'   tree <- search_treebase("1234", "id.tree")
-#'   metadata(tree$S.id)
+#'   treebase:::show_metadata(tree$S.id)
 #' }
 show_metadata <- function(study.id, curl=getCurlHandle()){
   oai_url <- "http://treebase.org/treebase-web/top/oai?verb=" 
@@ -112,8 +112,9 @@ show_metadata <- function(study.id, curl=getCurlHandle()){
 #' 
 #' nature <- sapply(all, function(x) length(grep("Nature", x$publisher))>0)
 #' science <- sapply(all, function(x) length(grep("^Science$", x$publisher))>0)
-#' s <- get_study_id( all[nature] )
+#' s <- treebase:::get_study_id( all[nature] )
 #' }
+#' @keywords internal
 get_study_id <- function(search_results){
   sapply(search_results, 
           function(x){
@@ -137,9 +138,10 @@ get_study_id <- function(search_results){
 #' all <- download_metadata("", by="all")
 #' nature <- sapply(all, function(x) length(grep("Nature", x$publisher))>0)
 #' science <- sapply(all, function(x) length(grep("^Science$", x$publisher))>0)
-#' s <- get_study( all[nature] )
-#' s <- get_study(all[science])
+#' s <- treebase:::get_study( all[nature] )
+#' s <- treebase:::get_study(all[science])
 #' }
+#' @keyword internal
 get_study <- function(search_results, curl=getCurlHandle(), ...){
   sapply(search_results, function(x) search_treebase(x, input="id.study", curl=curl, ...))
 }

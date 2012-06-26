@@ -232,7 +232,7 @@ The `metadata` function updates a list of all available metadata from
 both APIs and returns this information as an R `data.frame`.
 
 
-```{r metadata_table}
+```{r metadatatable }
 meta <- metadata()
 ````
 
@@ -317,7 +317,7 @@ attributes.  For instance, one can quickly identify candidate phylogenies
 consisting of a Species tree with over 200 taxa appearing in the journal
 _Science_, using the R's sub-setting syntax
 
-```{r metadata_subset}
+```{r metadata-subset}
 meta[publisher == "Science" & ntaxa > 200 & kind == "Species Tree",]
 ````
 

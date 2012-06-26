@@ -26,7 +26,8 @@ all <- download_metadata("", by="all")
 
 nature <- sapply(all, function(x) length(grep("Nature", x$publisher))>0)
 science <- sapply(all, function(x) length(grep("^Science$", x$publisher))>0)
-s <- get_study_id( all[nature] )
+s <- treebase:::get_study_id( all[nature] )
 }
 }
+\keyword{internal}
 

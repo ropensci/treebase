@@ -16,7 +16,9 @@ Imports:
     XML,
     RCurl,
     methods,
-    utils
+    utils,
+    reshape2,
+    data.table
 Depends:
     R (>= 2.12),
     ape

@@ -24,7 +24,7 @@
 \examples{
 \dontrun{
   tree <- search_treebase("1234", "id.tree")
-  metadata(tree$S.id)
+  treebase:::show_metadata(tree$S.id)
 }
 }
 \keyword{internal}

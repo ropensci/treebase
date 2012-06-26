@@ -35,8 +35,8 @@ phylo_metadata and oai_metadata search functions.}
 all <- download_metadata("", by="all")
 nature <- sapply(all, function(x) length(grep("Nature", x$publisher))>0)
 science <- sapply(all, function(x) length(grep("^Science$", x$publisher))>0)
-s <- get_study( all[nature] )
-s <- get_study(all[science])
+s <- treebase:::get_study( all[nature] )
+s <- treebase:::get_study(all[science])
 }
 }
 

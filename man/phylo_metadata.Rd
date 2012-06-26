@@ -27,14 +27,14 @@
 \examples{
 \dontrun{
      # calls will work without a metadata object, but require longer to download data
-     kind <- phylo_metadata("kind")
+     kind <- treebase:::phylo_metadata("kind")
      type <- phylo_metadata("type")
      table(kind, type)
      }
      # but are much faster if the data object is provided, see cache_treebase():
      data(treebase)
-     kind <- phylo_metadata("kind", metadata=treebase)
-     type <- phylo_metadata("type", metadata=treebase)
+     kind <- treebase:::phylo_metadata("kind", metadata=treebase)
+     type <- treebase:::phylo_metadata("type", metadata=treebase)
      table(kind, type)
 }
 \keyword{internal}

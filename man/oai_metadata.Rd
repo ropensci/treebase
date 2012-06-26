@@ -26,15 +26,15 @@
 }
 \examples{
 \dontrun{
-    # automatically search each time
-    dates <- oai_metadata("date")
-    pub <- oai_metadata("publisher")
+    # automatically search each time (note: this calls internal function now)
+    dates <- treebase:::oai_metadata("date")
+    pub <- treebase:::oai_metadata("publisher")
     table(dates, pub)
 }
    # Using cached data from an earlier download
     data(metadata)
-    dates <- oai_metadata("date", metadata=metadata)
-    pub <- oai_metadata("publisher", metadata=metadata)
+    dates <- treebase:::oai_metadata("date", metadata=metadata)
+    pub <- treebase:::oai_metadata("publisher", metadata=metadata)
     table(dates, pub)
 }
 \keyword{internal}

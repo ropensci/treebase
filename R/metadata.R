@@ -62,14 +62,14 @@ metadata <- function(phylo.md = NULL, oai.md=NULL){
 #' @examples
 #' \dontrun{
 #'      # calls will work without a metadata object, but require longer to download data
-#'      kind <- phylo_metadata("kind")
+#'      kind <- treebase:::phylo_metadata("kind")
 #'      type <- phylo_metadata("type") 
 #'      table(kind, type)
 #'      }
 #'      # but are much faster if the data object is provided, see cache_treebase():
 #'      data(treebase)
-#'      kind <- phylo_metadata("kind", metadata=treebase)
-#'      type <- phylo_metadata("type", metadata=treebase) 
+#'      kind <- treebase:::phylo_metadata("kind", metadata=treebase)
+#'      type <- treebase:::phylo_metadata("type", metadata=treebase) 
 #'      table(kind, type)
 #' 
 phylo_metadata <- function(x =  c("Study.id", "Tree.id", "kind", "type", "quality", "ntaxa"), metadata=NULL, ...){
@@ -95,15 +95,15 @@ phylo_metadata <- function(x =  c("Study.id", "Tree.id", "kind", "type", "qualit
 #' @keywords internal
 #' @examples
 #' \dontrun{
-#'     # automatically search each time
-#'     dates <- oai_metadata("date") 
-#'     pub <- oai_metadata("publisher")
+#'     # automatically search each time (note: this calls internal function now)
+#'     dates <- treebase:::oai_metadata("date") 
+#'     pub <- treebase:::oai_metadata("publisher")
 #'     table(dates, pub)
 #' }
 #'    # Using cached data from an earlier download
 #'     data(metadata) 
-#'     dates <- oai_metadata("date", metadata=metadata) 
-#'     pub <- oai_metadata("publisher", metadata=metadata)
+#'     dates <- treebase:::oai_metadata("date", metadata=metadata) 
+#'     pub <- treebase:::oai_metadata("publisher", metadata=metadata)
 #'     table(dates, pub)
 oai_metadata <- function(x = c("date", "publisher", "author", "title", "Study.id", "attributes"), metadata=NULL, ...){
   x = match.arg(x)
