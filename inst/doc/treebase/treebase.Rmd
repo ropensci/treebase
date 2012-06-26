@@ -121,9 +121,10 @@ the same way as data locally available on the users hard-disk.
 Basic queries
 --------------
 
-``` {r libs, echo=FALSE}
+``` {r libs, echo=FALSE, cache=FALSE}
     library(treebase)
     library(ggplot2)
+    theme_set(theme_bw())
 ````
 
 
@@ -264,7 +265,7 @@ research or emerging potential types of data.  As a simple example, we
 look at trends in the submission patterns of publishers over time, 
 
 
-``` {r   journals }
+``` {r journals}
     date <- meta[["date"]] 
     pub <- meta[["publisher"]]
 ````
@@ -273,7 +274,7 @@ Many journals have only a few submissions, so we will label any not
 in the top ten contributing journals as “Other”:
 
 
-``` {r top_journals }
+``` {r top_journals}
     topten <- sort(table(pub), decreasing=TRUE)[1:10]
     meta[["publisher"]][!(pub %in% names(topten))] <- "Other"
 ````
@@ -281,7 +282,7 @@ in the top ten contributing journals as “Other”:
 We plot the distribution of publication years for phylogenies deposited
 in TreeBASE, color coding by publisher in Fig [fig:1].
 
-``` {r dates, fig.width=7, fig.height=4, fig.cap="Histogram of publication dates by year, with the code required to generate the figure.", dev.opts=list(pointsize=8)}
+``` {r dates, fig.width=8, fig.height=3.5, fig.cap="Histogram of publication dates by year, with the code required to generate the figure.", dev.opts=list(pointsize=8) }
   library(ggplot2) 
   ggplot(meta) + geom_bar(aes(date, fill = publisher)) 
 ````
@@ -310,16 +311,6 @@ output <-  table(meta[["kind"]], meta[["type"]])
 xtable::xtable(output)
 ````
 
-
-In addition to tabulating all available data, this programmatic access
-facilitates identifying all potential data which meets certain desired
-attributes.  For instance, one can quickly identify candidate phylogenies
-consisting of a Species tree with over 200 taxa appearing in the journal
-_Science_, using the R's sub-setting syntax
-
-```{r metadata-subset}
-meta[publisher == "Science" & ntaxa > 200 & kind == "Species Tree",]
-````
 
 Reproducible computations
 =========================
@@ -357,16 +348,7 @@ results <- search_treebase("10.1111/j.1558-5646.2011.01374.x", "doi")
 ````
 
 The search returns a list, since some publications can contain many trees.
-In this case our phylogeny is in the first element of the list.  We can 
-see the R output summarizing this phylogeny object by printing this 
-element,
-
-
-``` {r doiqueryresults} 
-results[[1]] 
-```` 
-
-confirming that we have successfully imported the desired phylogeny. 
+In this case our phylogeny is in the first element of the list. 
 
 ``` {r firstone, echo=FALSE, include=FALSE} 
 derryberry <- results[[1]] 
@@ -553,8 +535,8 @@ near the tips, and the position and identity of outlier phylogenies are
 patterns that may introduce new hypotheses and potential directions for
 further exploration.
 
-``` {r   gammadist, fig.cap="Distribution of the gamma statistic across phylogenies in TreeBASE. Strongly positive values are indicative of an increasing rate of evolution (excess of nodes near the tips), very negative values indicate an early burst of diversification (an excess of nodes near the root)."   }
-qplot(gammas)
+``` {r gammadist, fig.width=6.2, fig.cap="Distribution of the gamma statistic across phylogenies in TreeBASE. Strongly positive values are indicative of an increasing rate of evolution (excess of nodes near the tips), very negative values indicate an early burst of diversification (an excess of nodes near the root)."}
+qplot(gammas)+ylab("gamma statistic")
 ````
 
 

@@ -39,9 +39,9 @@
 
 
 \usepackage{microtype}
-\usepackage{fancyhdr}
-\pagestyle{fancy}
-\pagenumbering{arabic}
+%\usepackage{fancyhdr}
+%\pagestyle{fancy}
+%\pagenumbering{arabic}
 
 \usepackage{listings}
 \lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
@@ -82,7 +82,7 @@
 \newcommand{\textsubscr}[1]{\ensuremath{_{\scriptsize\textrm{#1}}}}
 
 % Configure hyperlinks package
-\usepackage[breaklinks=true,linktocpage,pdftitle={$title$},pdfauthor={$for(author)$$author$$sep$; $endfor$},xetex,colorlinks]{hyperref}
+\usepackage[breaklinks=true,linktocpage,pdftitle={$title$},pdfauthor={$for(author)$$author$$sep$; $endfor$},colorlinks]{hyperref}
 \hypersetup{breaklinks=true, pdfborder={0 0 0}}
 
 % Pandoc toggle for numbering sections (defaults to be off)
@@ -115,8 +115,8 @@ $endfor$
 
 $body$
 
-
-\bibliography{$biblio-files$}
-
+%\begin{sloppypar} % more room to wrap urls
+%\bibliography{$biblio-files$}
+%\end{sloppypar}
 
 \end{document}
