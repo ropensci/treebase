@@ -28,8 +28,10 @@
   recreate with: \code{ search_metadata() }
 }
 \examples{
+\dontrun{
 meta <- metadata()
-meta[publisher \%in\% c("Nature", "Science") & ntaxa > 100 & kind == "Gene Tree",]
+meta[publisher \%in\% c("Nature", "Science") & ntaxa > 100 & kind == "Species Tree",]
+}
 }
 \keyword{data}
 \keyword{datasets}

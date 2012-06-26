@@ -141,7 +141,7 @@ get_study_id <- function(search_results){
 #' s <- treebase:::get_study( all[nature] )
 #' s <- treebase:::get_study(all[science])
 #' }
-#' @keyword internal
+#' @keywords internal
 get_study <- function(search_results, curl=getCurlHandle(), ...){
   sapply(search_results, function(x) search_treebase(x, input="id.study", curl=curl, ...))
 }

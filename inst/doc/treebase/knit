@@ -67,6 +67,7 @@ local({
     pdf.options(pointsize = 8)  # smaller pointsize for recording plots
  }
     knit("treebase.Rmd")
+    knit("appendix.Rmd")
 })
 
 

@@ -507,10 +507,10 @@ available in treebase.  This cache can be automatically updated with the
 treebase <- cache_treebase()
 ````
 
-which may require a day or so to complete, 
-and will save a file in the working directory named with treebase and
-the date obtained.  For convenience, we can load the cached copy 
-distributed with the ` treebase ` package:
+which may require a day or so to complete, and will save a file in
+the working directory named with treebase and the date obtained.
+For convenience, we can load the cached copy distributed with the `
+treebase ` package:
 
 ``` {r cachedcopy}
 data(treebase)
@@ -537,7 +537,7 @@ tt <- drop_nontrees(sapply(branchlengths, timetree))
 ````
 At this point we have `r length(tt)` time-calibrated phylogenies over which
 we will apply the diversification rate analysis. 
-Computing the gamma test statistic to identify devations from the 
+Computing the gamma test statistic to identify deviations from the 
 constant-rates model takes a single line,
 
 ``` {r }
@@ -556,19 +556,6 @@ further exploration.
 ``` {r   gammadist, fig.cap="Distribution of the gamma statistic across phylogenies in TreeBASE. Strongly positive values are indicative of an increasing rate of evolution (excess of nodes near the tips), very negative values indicate an early burst of diversification (an excess of nodes near the root)."   }
 qplot(gammas)
 ````
-
-
-Because `treebase` makes it possible to perform this analysis entirely
-by scripts using the latest treebase data, it is not only easier to
-perform this analysis but also to update it to reflect the latest data.
-Note that in this example it is not our objective to provide a thorough
-analysis of diversification patterns and their possible interpretations,
-as in @pybus2000, @mcpeek2007, @mcpeek2008 and @phillimore2008, but
-merely to illustrate how the similar calculations to these can be easily
-applied across the much larger datasets in the repository. This example
-can be automatically updated to reflect the latest data in TreeBASE
-simply by rerunning the code we present above.
-
 
 
 Conclusion
@@ -616,117 +603,6 @@ number DE-FG02-97ER25308.
 ````
 
 
-
-
-Appendix
-========
-
-Reproducible computation: A diversification rate analysis
----------------------------------------------------------
-
-Different diversification models make different assumptions 
-about the rate of speciation, extinction, and how these rates may be changing
-over time.  The authors consider eight different models, implemented in the 
-laser package [@rabosky2006b]. This code fits each of the eight models to that
-data:
-
-``` {r   RR, tidy=FALSE  }
-library(ape)
-library(laser)
-bt <- branching.times(derryberry)
-models <- list(
-  yule = pureBirth(bt),  
-  birth_death = bd(bt),     
-  yule.2.rate = yule2rate(bt),
-  linear.diversity.dependent = DDL(bt),    
-  exponential.diversity.dependent = DDX(bt),
-  varying.speciation_rate = fitSPVAR(bt),  
-  varying.extinction_rate = fitEXVAR(bt),  
-  varying_both = fitBOTHVAR(bt))
-````
-
-Each of the model estimate includes an AIC score indicating the goodness of
-fit, penalized by model complexity (lower scores indicate better fits)
-We ask R to tell us which model has the lowest AIC score,
-
-``` {r   extract_aic  }
-aics <- sapply(models, function(model) model$aic)
-best_fit <- names(models[which.min(aics)])
-```` 
-
-and confirm the result presented in @derryberry2011; 
-that the `r best_fit` model is the best fit to the data.  
-
-
-The best-fit model in the laser analysis was a Yule (net diversification
-rate) model with two separate rates.  We can ask ` TreePar ` to see if
-a model with more rate shifts is favoured over this single shift,
-a question that was not possible to address using the tools provided in
-`laser`. The previous analysis also considers a birth-death model that 
-allowed speciation and extinction rates to be estimated separately, but 
-did not allow for a shift in the rate of such a model.  In the main text
-we introduced a model from @stadler2011 that permitted up to 3 change-points
-in the speciation rate of the Yule model,
-
-``` {r   treepar_yule, include=FALSE  }
-yule_models <- bd.shifts.optim(x, sampling = c(1,1,1,1), 
-  grid = 5, start = 0, end = 60, yule = TRUE)[[2]]
-````
-
-
-``` {r   treepar_yule_show, eval=FALSE  }
-yule_models <- bd.shifts.optim(x, sampling = c(1,1,1,1), 
-  grid = 5, start = 0, end = 60, yule = TRUE)[[2]]
-````
-
-We can also compare the performance of models which allow up to three
-shifts while estimating extinction and speciation rates separately:
-
-``` {r   treepar_birthdeath, include=FALSE  }
-birth_death_models <- bd.shifts.optim(x, sampling = c(1,1,1,1), 
-  grid = 5, start = 0, end = 60, yule = FALSE)[[2]]
-````
-
-``` {r   treepar_birthdeath_show, eval=FALSE  }
-birth_death_models <- bd.shifts.optim(x, sampling = c(1,1,1,1), 
-  grid = 5, start = 0, end = 60, yule = FALSE)[[2]]
-````
-
-The models output by these functions are ordered by increasing number of shifts.  
-We can select the best-fitting model by AIC score, which is slightly cumbersome 
-in `TreePar` syntax.  First compute the AIC scores of both the `yule_models` and the 
-`birth_death_models` we fitted above,
-
-``` {r   aic_yule1  }
-yule_aic <- 
-sapply(yule_models, function(pars)
-                    2 * (length(pars) - 1) + 2 * pars[1] )
-birth_death_aic <- 
-sapply(birth_death_models, function(pars)
-                            2 * (length(pars) - 1) + 2 * pars[1] )
-````
-
-And then generate a list identifying which model has the best (lowest) AIC score among the Yule models and 
-which has the best AIC score among the birth-death models, 
-
-```{r aic_yule2}
-best_no_of_rates <- list(Yule = which.min(yule_aic), 
-                         birth.death = which.min(birth_death_aic))
-````
-
-The best model is then whichever of these has the smaller AIC value.  
-
-```{r aic_yule3}
-best_model <- which.min(c(min(yule_aic), min(birth_death_aic)))
-````
-
-
-which confirms that the `r names(best_no_of_rates[best_model])` `r best_no_of_rates[best_model][[1]]`-rate  
-model is still the best choice based on AIC score.  Of the eight models 
-in this second analysis, only three were in the original set considered 
-(Yule 1-rate and 2-rate, and birth-death without a shift), so we could by
-no means have been sure ahead of time that a birth death with a shift, or
-a Yule model with a greater number of shifts, would not have fitted better.  
 
 
 # References

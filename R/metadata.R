@@ -5,15 +5,13 @@
 #' @return a data frame of all available metadata, (as a data.table object)
 #' columns are: "Study.id", "Tree.id", "kind", "type", "quality", "ntaxa"    
 #' "date", "publisher", "author", "title".  
-#' @examples
+#' @examples \dontrun{
 #' meta <- metadata()
-#' meta[publisher %in% c("Nature", "Science") & ntaxa > 100 & kind == "Gene Tree",]
+#' meta[publisher %in% c("Nature", "Science") & ntaxa > 100 & kind == "Species Tree",]
+#' }
 #' @import reshape2 data.table
 #' @export
 metadata <- function(phylo.md = NULL, oai.md=NULL){
-
-  require(reshape2)
-  require(data.table)
 
   if(is.null(phylo.md))
     phylo.md <- cache_treebase(only_metadata=TRUE, save=FALSE)
