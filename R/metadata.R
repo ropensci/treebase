@@ -7,7 +7,7 @@
 #' "date", "publisher", "author", "title".  
 #' @examples \dontrun{
 #' meta <- metadata()
-#' meta[publisher %in% c("Nature", "Science") & ntaxa > 100 & kind == "Species Tree",]
+#' meta[publisher %in% c("Nature", "Science") & ntaxa > 50 & kind == "Species Tree",]
 #' }
 #' @import reshape2 data.table
 #' @export
@@ -35,13 +35,7 @@ metadata <- function(phylo.md = NULL, oai.md=NULL){
     author = oai_metadata("author", oai.md),
     title = oai_metadata("title", oai.md),
     Study.id = oai_metadata("Study.id", oai.md))
-
-  oai <- data.table(oai)
-  setkey(oai, "Study.id")
-  phylo <- data.table(phylo)
-  setkey(phylo, "Study.id")
-  
-  both <-  phylo[oai] # Fast join
+  both <- merge(phylo, oai)
   class(both$ntaxa) <- "numeric"
   both
 }
