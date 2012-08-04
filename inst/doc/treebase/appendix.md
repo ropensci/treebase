@@ -3,32 +3,24 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Appendix
 ========
 
 Reproducible computation: A diversification rate analysis
 ---------------------------------------------------------
 
+This appendix illustrates the diversification rate analysis discussed in the text. 
+For completeness we begin by executing the code discussed in the manuscript which 
+locates, downloads, and imports the relevant data: 
+
+
+
+
+
 Different diversification models make different assumptions 
 about the rate of speciation, extinction, and how these rates may be changing
 over time.  The authors consider eight different models, implemented in the 
-laser package [@rabosky2006b]. This code fits each of the eight models to that
+laser package [@Rabosky2006b]. This code fits each of the eight models to that
 data:
 
 
@@ -36,7 +28,6 @@ data:
 ```r
 library(ape)
 library(laser)
-bt <- branching.times(derryberry)
 models <- list(
   yule = pureBirth(bt),  
   birth_death = bd(bt),     
@@ -65,7 +56,7 @@ best_fit <- names(models[which.min(aics)])
 
 
 
-and confirm the result presented in @derryberry2011; 
+and confirm the result presented in @Derryberry2011; 
 that the yule.2.rate model is the best fit to the data.  
 
 
@@ -76,7 +67,7 @@ a question that was not possible to address using the tools provided in
 `laser`. The previous analysis also considers a birth-death model that 
 allowed speciation and extinction rates to be estimated separately, but 
 did not allow for a shift in the rate of such a model.  In the main text
-we introduced a model from @stadler2011 that permitted up to 3 change-points
+we introduced a model from @Stadler2011 that permitted up to 3 change-points
 in the speciation rate of the Yule model,
 
 

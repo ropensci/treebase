@@ -4,29 +4,6 @@ require(treebase)
 data(treebase)
 ````
 
-``` {r libs, echo=FALSE, include=FALSE, dependson="loadcache"}
-    library(treebase)
-    library(ggplot2)
-````
-
-``` {r doiquery, echo=FALSE, include=FALSE, dependson="loadcache"} 
-results <- search_treebase("10.1111/j.1558-5646.2011.01374.x", "doi") 
-````
-
-``` {r firstone, echo=FALSE, include=FALSE, dependson="loadcache"} 
-derryberry <- results[[1]] 
-````
-
-``` {r RRexamplelibs, echo=FALSE, include=FALSE, dependson="loadcache"  }
-library(ape)
-library(laser)
-````
-
-``` {r RRexamp, echo=FALSE, include=FALSE, dependson="loadcache" }
-bt <- branching.times(derryberry)
-````
-
-
 
 Appendix
 ========
@@ -34,16 +11,26 @@ Appendix
 Reproducible computation: A diversification rate analysis
 ---------------------------------------------------------
 
+This appendix illustrates the diversification rate analysis discussed in the text. 
+For completeness we begin by executing the code discussed in the manuscript which 
+locates, downloads, and imports the relevant data: 
+
+``` {r libs, include=FALSE, dependson="loadcache"}
+library(treebase)
+results <- search_treebase("10.1111/j.1558-5646.2011.01374.x", "doi") 
+bt <- branching.times(results[[1]])
+````
+
+
 Different diversification models make different assumptions 
 about the rate of speciation, extinction, and how these rates may be changing
 over time.  The authors consider eight different models, implemented in the 
-laser package [@rabosky2006b]. This code fits each of the eight models to that
+laser package [@Rabosky2006b]. This code fits each of the eight models to that
 data:
 
 ``` {r   RR, tidy=FALSE, dependson="loadcache"  }
 library(ape)
 library(laser)
-bt <- branching.times(derryberry)
 models <- list(
   yule = pureBirth(bt),  
   birth_death = bd(bt),     
@@ -64,7 +51,7 @@ aics <- sapply(models, function(model) model$aic)
 best_fit <- names(models[which.min(aics)])
 ```` 
 
-and confirm the result presented in @derryberry2011; 
+and confirm the result presented in @Derryberry2011; 
 that the `r best_fit` model is the best fit to the data.  
 
 
@@ -75,7 +62,7 @@ a question that was not possible to address using the tools provided in
 `laser`. The previous analysis also considers a birth-death model that 
 allowed speciation and extinction rates to be estimated separately, but 
 did not allow for a shift in the rate of such a model.  In the main text
-we introduced a model from @stadler2011 that permitted up to 3 change-points
+we introduced a model from @Stadler2011 that permitted up to 3 change-points
 in the speciation rate of the Yule model,
 
 ``` {r   treepar-yule, include=FALSE}
