@@ -19,7 +19,7 @@
 4.  We show how the `treebase` package can be used to facilitate replication
     of previous studies and testing of methods and hypotheses across
     a large sample of phylogenies, which may help make such 
-    important practices more common.
+    important reproducibility practices more common.
 
 
 #### Keywords 
@@ -36,10 +36,10 @@ research. The exponential growth in genetic sequence data available
 for all forms of life has driven rapid advances in the methods that
 can infer the phylogenetic relationships and divergence times across
 different taxa [@Huelsenbeck2001b; @Stamatakis2006; @Drummond2007].
-Once again the product of one field has become the raw data of the next.
+The product of one field has become the raw data of the next.
 Unfortunately, while the discipline of bioinformatics has emerged to
 help harness and curate the wealth of genetic data with cutting edge
-computer science, statistics, and Internet technology, its counterpart
+computer science, statistics, and Internet technologies, its counterpart
 in evolutionary informatics remains “scattered, poorly documented,
 and in formats that impede discovery and integration” [@Parr2011a]. Our
 goal in developing the `treebase` package is to provide steps to reduce
@@ -64,15 +64,14 @@ manipulations and visualizations of phylogenetic data [@Paradis2004;
 @Schliep2010; @Jombart2010; @Revell2011]. A more comprehensive list
 of R packages by analysis type is available on the phylogenetics taskview,
 [http://cran.r-project.org/web/views/Phylogenetics.html](http://cran.r-project.org/web/views/Phylogenetics.html).
-A few programs for applied phylogenetic methods are written for
-environments outside the R environment, incuding Java [@Maddison2011],
+Libraries and packages are developed for use in other general purpose programming environments and languages, including Java [@Maddison2011],
 MATLAB [@Blomberg2003] and Python [@Sukumaran2010] and online interfaces
 [@Martins2004].  In particular, the Bio::Phylo toolkit [@Vos2011] not
-only provides a perl implementation of some of the common phylogenetic
+only provides a PERL implementation of some of the common phylogenetic
 simulation and visualization tools found in these R libraries, but can
 already provide programmatic access to TreeBASE.  Our goal is to bring
 similar functionality to the larger suite of applied phylogenetics
-methods and user community in the R language.
+methods and user in the R community.
 
 TreeBASE ([http://treebase.org](http://treebase.org)) is an online
 repository of phylogenetic data (e.g. trees of species, populations,
@@ -86,17 +85,18 @@ known as PhyloWS [@Vos2010].  Our `treebase` package uses this API to
 create a direct link between this data and the R environment.  This has
 several immediate and important benefits:
 
-1. *Data discovery.*  Users can leverage the rich, higher-level programming
-environment provided by the R environment to better identify data sets
-appropriate for their research by iteratively constructing queries for datasets that
-match appropriate metadata requirements.
+1. *Data discovery.*  Users can leverage the rich, higher-level
+programming environment provided by the R environment to better identify
+data sets appropriate for their research by iteratively constructing
+queries for datasets that match appropriate metadata requirements.
 
 2. *Programmatic data access.* Many tasks that are theoretically made
-possible by the creation of the TreeBASE repository are not pursued
-because they would be too laborious for an exploratory analysis.
-The ability to use programmatic access across data sets to automatically
-download and perform a reproducible and systematic analysis using the rich set of tools
-available in R opens up new avenues for research.
+possible by the creation of the Web-base interface to the TreeBASE
+repository are not pursued because they would be too laborious for an
+exploratory analysis.  The ability to use programmatic access across data
+sets to automatically download and perform a reproducible and systematic
+analysis using the rich set of tools available in R opens up new avenues
+for research.
 
 3. *Automatic updating*.  The TreeBASE repository is expanding rapidly.
 The scriptable nature of analyses run with our `treebase` package
@@ -108,10 +108,10 @@ without additional effort but with potential new information.
 Programmatic Web Access
 -----------------------
 
-The TreeBASE repository makes data accessible by Web queries through a
+The TreeBASE repository makes data accessible via Web queries through a
 RESTful (REpresentational State Transfer) interface, which supplies search
 conditions in the address URL.  The repository returns the requested
-data in XML (extensible markup language) format, conforming the RSS1.0
+data in XML (extensible markup language) format, conforming to the RSS1.0
 standard.  Because the RSS1.0 format allows the search results to also be
 viewed in a human-readable format in common browsers such as Safari and
 Firefox, the `treebase` package echoes this URL to the console, so that
@@ -127,13 +127,11 @@ available on the users hard-disk.
 
 
 While the TreeBASE repository provides phylogenies in both the traditional
-Nexus file format and the more data-rich NeXML format [@Vos2012],
-none of the R packages currently available for phylogenetic research 
-are positioned to read these NeXML files.  As our `treebase` package seeks
-to provide a bridge the repository and the R packages for phylogenetic analysis,
-support for the NeXML formats must await greater integration of this format.
-Meanwhile, the next version of the `treebase` package will provide extraction
-of metadata information from the NeXML through XML parsing.  
+Nexus file format and the more data-rich NeXML format [@Vos2012], none
+of the R packages currently available for phylogenetic research are
+positioned to read these NeXML files.  The next version of the `treebase`
+package will provide extraction of metadata information from the NeXML
+through XML parsing.
 
 
 
@@ -147,13 +145,13 @@ Basic queries
 ````
 
 
-The `treebase` package allows these queries to be made directly from R,
-just as a user would make them from the Web browser.  This enables a
-user to construct more complicated filters than permitted by the Web
-interface, and allows the user to maintain a record of the queries they
-used to collect their data as an R script. Scripting the data-gathering
-process helps reduce errors and assists in replicating the analysis later,
-either by the authors or other researchers [@Peng2011a].
+The `treebase` package allows these queries to be made directly from R.
+Programmatic access also allows a user to go beyond the utilities of the
+Web interface, constructing more complicated queries and allowing the
+user to maintain a record of the commands used to collect their data as
+an R script. Scripting the data-gathering process helps reduce errors
+and assists in replicating the analysis later, either by the authors or
+other researchers [@Peng2011a].
 
 
 The `search_treebase` function forms the base of the `treebase` package.
@@ -162,7 +160,7 @@ Table 1 lists each of the types of queries available through the
 documentation through the R command `?search_treebase`.  
 Any of the queries available on the Web interface can now be made
 directly from R, including downloading and importing a phylogeny into
-the R interface. For instance, one can search for phylogenies containing
+the R session. For instance, one can search for phylogenies containing
 dolphin taxa, "Delphinus," or all phylogenies submitted by a given
 author, "Huelsenbeck" using the R commands
 
@@ -171,8 +169,9 @@ author, "Huelsenbeck" using the R commands
     search_treebase("Huelsenbeck", by="author")
 ````
 
-This function returns the matching phylogenies into R as an R object, ready for analysis.
-The package documentation provides many examples of possible queries.
+The `search_treebase` function returns the matching phylogenies as an
+R object, ready for analysis.  The package documentation provides many
+examples of possible queries.
 
 
 
@@ -203,12 +202,12 @@ The package documentation provides many examples of possible queries.
 Accessing all phylogenies
 -------------------------
 
-For certain applications a user may wish to download all the available
+For certain applications, a user may wish to download all the available
 phylogenies from TreeBASE. Using the `cache_treebase` function allows
 a user to download a local copy of all trees. Because direct database
-dumps are not available from treebase.org, this function has intentional
-delays to avoid overtaxing the TreeBASE servers, and should be allowed
-a full day to run.  
+dumps are not currently available from treebase.org, this function has
+intentional delays to avoid overtaxing the TreeBASE servers, and should
+be allowed a full day to run.
 
 ``` {r buildcache, eval=FALSE }
 treebase <- cache_treebase()
@@ -218,7 +217,10 @@ Users should still be mindful that these servers are a shared
 community resource and not place many queries at once. Users
 running large jobs should consider joining the TreeBASE mailing list
 ([http://sourceforge.net/mailarchive/forum.php?forum_name=treebase-users](http://sourceforge.net/mailarchive/forum.php?forum_name=treebase-users))
-to discuss such queries ahead of time.  Once run, the cache is saved
+to discuss such queries ahead of time.  When query
+
+
+Once run, the cache is saved
 compactly in memory where it can be easily and quickly restored. For
 convenience, the `treebase` package comes with a copy already cached,
 which can be loaded into memory.
@@ -228,13 +230,13 @@ which can be loaded into memory.
 data(treebase)
 ````
 
-Though the cache included in the package will be updated during major package 
+The cache included in the package will be updated during major package 
 revisions.  The timestamp of the cache provided can be viewed in the help
-file for the data object using the command `r ?treebase`.  
+file for the data object using the command `?treebase` (Current cache is May 14, 2012).  All queries from `metadata()` and `search_treebase()` are run against the current online version of the database.  
 
 
 All of the examples shown in this manuscript are run as shown using 
-the `knitr` package for authoring dynamic documents [@Knitr], which
+the `knitr` package for authoring dynamic documents [@knitr], which
 helps ensure the results shown are reproducible.  These examples can
 be updated by copying and pasting the code shown into the R terminal,
 or by recompiling the entire manuscript from the source files found on 
@@ -267,9 +269,9 @@ meta <- metadata()
 ````
 
 
-From the length of the metadata list we see that there are currently
+From the number of rows of the metadata list we see that there are currently
 `r prettyNum(length(unique(meta[["Study.id"]])))` published studies in
-the database.  The fields provided by `metadata` are listed in Table II.  
+the database.  The field columns provided by `metadata` are listed in Table II.  
 
   metadata field   description
   ---------------  ---------------------------------------------------
@@ -324,7 +326,7 @@ Even simple queries can illustrate the advantage of interacting with
 TreeBASE data through an R interface has over the Web interface.  A Web 
 interface can only perform the tasks built in by design.  For instance,
 rather than performing six separate searches to determine the number 
-of consensus vs single phylogenies available for each king of tree,
+of consensus vs single phylogenies available for each kind of tree,
 we can construct a 2 by 2 table with a single line of code: 
 
 
@@ -360,12 +362,8 @@ against methods presented in @Stadler2011 and implemented in the package
 Obtaining the tree
 ------------------
 
-By drawing on the rich data manipulation tools available in R which may
-be familiar to the large R phylogenetics community, the ` treebase `
-package allows us to construct richer queries than are possible through
-the TreeBASE Web interface alone.
 
-The most expedient way to identify the data uses the digital object identifer
+The most expedient way to identify the data uses the digital object identifier
 (doi) at the top of most articles, which we use in a call to the 
 `search_treebase` function, such as
 
@@ -374,7 +372,7 @@ results <- search_treebase("10.1111/j.1558-5646.2011.01374.x", "doi")
 ````
 
 The search returns a list, since some publications can contain many trees.
-In this case our phylogeny is in the first element of the list. 
+In this case our phylogeny is in the only element of the list. 
 
 Having imported the phylogenetic tree corresponding to this
 study, we can quickly replicate their analysis of which diversification
@@ -405,17 +403,19 @@ or the birth-death model,
 birth_death <- bd(bt)
 ````
 
-The estimated models are now loaded into the active R session where we can further 
-explore them as we go along.  The appendix shows the estimation and comparison 
-of all the models originally considered by @Derryberry2011.  
+The estimated models are now available in the active R session where
+we can further explore them as we go along.  The appendix shows the
+estimation and comparison of all the models originally considered by
+@Derryberry2011.
 
 
-In this fast-moving field, new methods often become available between the 
-time of submission and time of publication of a manuscript. For instance, 
+In this fast-moving field, new methods often become available between the
+time of submission and time of publication of a manuscript. For instance,
 the more sophisticated models introduced in @Stadler2011 were not used
-in this study, but have since been made available in the recent package, `TreePar`. 
-These richer models permit a shift the speciation or extinction rate to occur
-multiple times throughout the course of the phylogeny.  
+in the original study, but have since been made available in the recent
+package, `TreePar`.  These richer models permit a shift in the speciation
+or extinction rate to occur multiple times throughout the course of
+the phylogeny.
 
 ``` {r   TreeSimError, echo=FALSE  }
 # Locale settings to be safe
@@ -423,7 +423,8 @@ Sys.setlocale(locale="C") -> locale
 rm(list="locale") # clean up
 ````
 
-We load the new method and format the phylogeny using the R commands:
+We load the new method and format the phylogeny appropriately using the
+R commands:
 
 ``` {r   treepar  }
 library(TreePar)
@@ -439,8 +440,8 @@ yule_models <- bd.shifts.optim(x, sampling = c(1,1,1,1),
 
 As a comparison of
 speciation models is not the focus of this paper, the complete code
-and explanation for these steps is provided as an appendix.  Happily,
-this analysis confirms the author's original conclusions, even when the
+and explanation for these steps are provided in an appendix.  Happily,
+this analysis confirms the original author's conclusions, even when the
 more general models of @Stadler2011 are considered.
 
 
@@ -451,19 +452,19 @@ Analyses across many phylogenies
 
 Large scale comparative analyses that seek to characterize evolutionary
 patterns across many phylogenies are increasingly common in phylogenetic
-methods [_e.g._ @Mcpeek2007; @Phillimore2008; @Mcpeek2008; @Quental2010;
-@Davies2011a].  Sometimes referred to by their authors as meta-analyses,
-these approaches have focused on re-analyzing phylogenetic trees collected
-from many different earlier publications.  This is a more direct approach
-than the traditional concept of meta-analysis where statistical results
-from earlier studies are weighted by their sample size without being able to
-access the raw data.  Because the identical
-analysis can be repeated on the original data from each study, this
-approach avoids some of the statistical challenges inherent in traditional
-meta-analyses summarizing results across heterogeneous approaches.
+methods research [_e.g._ @McPeek2007; @Phillimore2008; @McPeek2008;
+@Quental2010; @Davies2011a].  Sometimes referred to by their authors as
+meta-analyses, these approaches have focused on re-analyzing phylogenetic
+trees collected from many different earlier publications.  This is a
+more direct approach than the traditional concept of meta-analysis where
+statistical results from earlier studies are weighted by their sample size
+without being able to access the raw data.  Because the identical analysis
+can be repeated on the original data from each study, this approach avoids
+some of the statistical challenges inherent in traditional meta-analyses
+summarizing results across heterogeneous approaches.
 
 To date, researchers have gone through heroic efforts simply to assemble
-these data sets from the literature.  As described in @Mcpeek2007; (emphasis added) 
+these data sets from the literature.  As described in @McPeek2007; (emphasis added) 
 
 > One data set was based on 163 published species-level molecular
 phylogenies of arthropods, chordates, and mollusks.  A PDF format file
@@ -482,43 +483,30 @@ meta-analyses can become increasingly tedious. Using `treebase`, a user
 can apply any analysis they have written for a single phylogeny across
 the entire collection of suitable phylogenies in TreeBASE, which can help
 overcome such barriers to discovery and integration at this large scale.
-Using the functions we introduce above, we provide a simple example that
-computes the gamma statistic of @Pybus2000, which provides an measure
+Using the functions we introduced above, we provide a simple example that
+computes the gamma statistic of @Pybus2000, which provides a measure
 of when speciation patterns differ from the popular birth-death model.
 
 Tests across many phylogenies
 -----------------------------
 
-A standard test of this is the gamma statistic of @Pybus2000
-which tests the null hypothesis that the rates of speciation and extinction
-are constant. The gamma statistic is normally distributed about 0 for a pure
-birth or birth-death process, values larger than 0 indicate that internal 
-nodes are closer to the tip then expected, while values smaller than 0 indicate
-nodes farther from the tip then expected.  In this section, we collect all 
-phylogenetic trees from TreeBASE and select those with branch length data that 
-we can time-calibrate using tools available in R.  We can then calculate the 
-distribution of this statistic for all available trees, and compare these 
-results with those from the analyses mentioned above.  
+A standard test of the constant rate of diversification is the gamma
+statistic of @Pybus2000 which tests the null hypothesis that the rates
+of speciation and extinction are constant. Under the null hypothesis,
+The gamma statistic is normally distributed about 0; values larger than
+0 indicate that internal nodes are closer to the tip then expected, while
+values smaller than 0 indicate nodes farther from the tip then expected.
+In this section, we collect all phylogenetic trees from TreeBASE and
+select those with branch length data that we can time-calibrate using
+tools available in R.  We can then calculate the distribution of this
+statistic for all available trees, and compare these results with those
+from the analyses mentioned above.  As we will use all trees in the 
+repository, we use the cached copy of TreeBASE phylogenies described 
+above to reduce load on TreeBASE servers.  
 
-The `treebase` package provides a compressed cache of the phylogenies
-available in treebase.  This cache can be automatically updated with the
-`cache_treebase` function,
-
-``` {r meta_harvest, eval=FALSE}
-treebase <- cache_treebase()
-````
-
-which may require a day or so to complete, and will save a file in
-the working directory named with treebase and the date obtained.
-For convenience, we can load the cached copy distributed with the `
-treebase ` package:
-
-``` {r cachedcopy}
-data(treebase)
-````
-
-We will only be able to use those phylogenies that include branch length data.
-We drop those that do not from the data set, 
+We will only be able to use those phylogenies that include branch length data,
+which we can determine from the `have_branchlength` function in the `treebase`
+package. We drop those that do not from the data set, 
 
 ``` {r branchlengthfilter}
       have <- have_branchlength(treebase)
@@ -529,7 +517,7 @@ We drop those that do not from the data set,
 Like most comparative methods, this analysis will require ultrametric trees
 (branch lengths proportional to time, rather than to the nucleotide substitution rate). 
 As most of these phylogenies are calibrated with branch length proportional
-to mutational step, we must time-calibrate each of them first. This function
+to mutational step, we must time-calibrate each of them first. The following function
 drops trees which cannot meet the assumptions of the time-calibration function.  
 
 ``` {r timetree, cache=TRUE}
@@ -551,7 +539,7 @@ and the resulting distribution of the statistic across available
 trees is shown Fig 2.  While researchers have often considered this
 statistic for individual phylogenies, we are unaware of any study that has
 visualized the empirical distribution of this statistic across thousands
-of phylogenies.  Both the overall distribution, which appears slightly
+of phylogenies.  The overall distribution appears slightly
 skewed towards positive values.  This could indicate increasing rate of 
 speciation or constant extinction rates.  While differences in sampling 
 may account for much of the spread observed, the position and identity of 
@@ -569,7 +557,7 @@ Conclusion
 While we have focused on examples that require no additional data
 beyond the phylogeny, a wide array of methods combine this data with
 information about the traits, geography, or ecological community of the
-taxa represented. In such cases we would need programmatic access to
+taxa represented. In such cases, we would need programmatic access to
 the trait data as well as the phylogeny. The Dryad digital repository
 ([http://datadryad.org](http://datadryad.org)) is an effort in this 
 direction. While programmatic access to the repository is possible
