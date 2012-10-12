@@ -299,20 +299,25 @@ look at trends in the submission patterns of publishers over time:
 ````
 
 Many journals have only a few submissions, so we will label any not
-in the top ten contributing journals as “Other”:
+in the top ten contributing journals as "Other":
 
 
 ``` {r top_journals}
     topten <- sort(table(pub), decreasing=TRUE)[1:10]
+    meta[["publisher"]] <- as.character(meta[["publisher"]])
     meta[["publisher"]][!(pub %in% names(topten))] <- "Other"
+    meta[["publisher"]] <- as.factor(meta[["publisher"]])
 ````
 
 We plot the distribution of publication years for phylogenies deposited
 in TreeBASE, color coding by publisher in Figure 1.
 
 ``` {r dates, fig.width=8, fig.height=3.5, fig.cap="Histogram of publication dates by year, with the code required to generate the figure.", dev.opts=list(pointsize=8) }
-  library(ggplot2) 
-  ggplot(meta) + geom_bar(aes(date, fill = publisher)) 
+library(ggplot2) 
+library(reshape2)
+df <- acast(meta, date ~ publisher, value.var='publisher', length)
+df <- melt(df, varnames=c("date", "publisher"))
+ggplot(df) + geom_area(aes(x=date,y=value, fill = publisher)) 
 ````
 
 Typically we are interested in the metadata describing the phylogenies
@@ -348,7 +353,7 @@ Reproducible research has become a topic of increasing interest in
 recent years, and facilitating access to data and using scripts that
 can replicate analyses can help lower barriers to the replication of
 statistical and computational results [@Schwab2000; @Gentleman2004;
-@Peng2011b].  The `treebase` package facilitates this process, as we
+@Peng2011a].  The `treebase` package facilitates this process, as we
 illustrate in a simple example.
 
 Consider the shifts in speciation rate identified by @Derryberry2011

@@ -9,19 +9,19 @@ Appendix
 Reproducible computation: A diversification rate analysis
 ---------------------------------------------------------
 
-This appendix illustrates the diversification rate analysis discussed in the text. 
-For completeness we begin by executing the code discussed in the manuscript which 
-locates, downloads, and imports the relevant data: 
+This appendix illustrates the diversification rate analysis discussed in
+the main text.  For completeness we begin by executing the code discussed
+in the manuscript which locates, downloads, and imports the relevant data:
 
 
 
 
 
-Different diversification models make different assumptions 
-about the rate of speciation, extinction, and how these rates may be changing
-over time.  The authors consider eight different models, implemented in the 
-laser package [@Rabosky2006b]. This code fits each of the eight models to that
-data:
+Different diversification models make different assumptions about the rate
+of speciation, extinction, and how these rates may be changing over time.
+The original authors consider eight different models, implemented in the
+laser package [@Rabosky2006b]. This code fits each of the eight models
+to that data:
 
 
 
@@ -42,9 +42,10 @@ models <- list(
 
 
 
-Each of the model estimate includes an AIC score indicating the goodness of
-fit, penalized by model complexity (lower scores indicate better fits)
-We ask R to tell us which model has the lowest AIC score,
+Each of the model estimate includes an Akaike Information Criterion
+(AIC) score indicating the goodness of fit, penalized by model complexity
+(lower scores indicate better fits) We ask R to tell us which model has
+the lowest AIC score,
 
 
 
@@ -56,19 +57,17 @@ best_fit <- names(models[which.min(aics)])
 
 
 
-and confirm the result presented in @Derryberry2011; 
-that the yule.2.rate model is the best fit to the data.  
+and confirm the result presented in @Derryberry2011; that the best-fit
+model in the laser analysis was a Yule (net diversification rate) model
+with two separate rates.  
 
-
-The best-fit model in the laser analysis was a Yule (net diversification
-rate) model with two separate rates.  We can ask ` TreePar ` to see if
-a model with more rate shifts is favoured over this single shift,
-a question that was not possible to address using the tools provided in
-`laser`. The previous analysis also considers a birth-death model that 
-allowed speciation and extinction rates to be estimated separately, but 
-did not allow for a shift in the rate of such a model.  In the main text
-we introduced a model from @Stadler2011 that permitted up to 3 change-points
-in the speciation rate of the Yule model,
+We can ask ` TreePar ` to see if a model with more rate shifts is favoured
+over this single shift, a question that was not possible to address using
+the tools provided in `laser`. The previous analysis also considers a
+birth-death model that allowed speciation and extinction rates to be
+estimated separately, but did not allow for a shift in the rate of such
+a model.  In the main text we introduced a model from @Stadler2011 that
+permitted up to 3 change-points in the speciation rate of the Yule model,
 
 
 
@@ -100,10 +99,10 @@ birth_death_models <- bd.shifts.optim(x, sampling = c(1,1,1,1),
 
 
 
-The models output by these functions are ordered by increasing number of shifts.  
-We can select the best-fitting model by AIC score, which is slightly cumbersome 
-in `TreePar` syntax.  First compute the AIC scores of both the `yule_models` and the 
-`birth_death_models` we fitted above,
+The models output by these functions are ordered by increasing number
+of shifts.  We can select the best-fitting model by AIC score, which is
+slightly cumbersome in `TreePar` syntax.  First, we compute the AIC scores
+of both the `yule_models` and the `birth_death_models` we fitted above,
 
 
 
@@ -119,8 +118,9 @@ sapply(birth_death_models, function(pars)
 
 
 
-And then generate a list identifying which model has the best (lowest) AIC score among the Yule models and 
-which has the best AIC score among the birth-death models, 
+Then we generate a list identifying which model has the best (lowest)
+AIC score among the Yule models and which has the best AIC score among
+the birth-death models,
 
 
 
@@ -144,8 +144,7 @@ best_model <- which.min(c(min(yule_aic), min(birth_death_aic)))
 
 
 
-which confirms that the Yule 2-rate  
-model is still the best choice based on AIC score.  Of the eight models 
+which still confirms that the Yule 2-rate  model is still the best choice based on AIC score.  Of the eight models 
 in this second analysis, only three were in the original set considered 
 (Yule 1-rate and 2-rate, and birth-death without a shift), so we could by
 no means have been sure ahead of time that a birth death with a shift, or

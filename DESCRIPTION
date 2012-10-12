@@ -1,4 +1,4 @@
-Package: treebase
+Package: rtreebase
 Type: Package
 Title: An R package for discovery, access and manipulation of online phylogenies
 Version: 0.0-6

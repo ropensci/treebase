@@ -106,7 +106,7 @@ $endfor$
   \title{$title$}
   \author[cpb]{Carl Boettiger\corref{cor1}}
   \ead{cboettig@ucdavis.edu}
-  \cortext[cor1]{Corresponding author, cboettig@ucdavis.edu}
+  \cortext[cor1]{Corresponding author}
   \address[cpb]{Center for Population Biology, University of California, Davis, California 95616}
   \author[stats]{Duncan Temple Lang}
   \address[stats]{Department of Statistics, University of California, Davis, California 95616}
