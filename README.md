@@ -3,7 +3,7 @@ treebase
 
 _An R package for discovery, access and manipulation of online phylogenies_
 
-
+- [Publication in Methods in Ecology and Evolution](http://dx.doi.org/10.1111/j.2041-210X.2012.00247.x)
 - [Development version source code on github](https://github.com/ropensci/treebase)
 - [HTML package documentation](http://ropensci.github.com/treeBASE/)
 - [Report issues, bugs or feature requests](https://github.com/ropensci/treebase/issues)
@@ -36,3 +36,8 @@ More interesting examples will take advantage of `R` to loop over large amounts 
 
 
 - treebase is part of the [rOpenSci Project](http://ropensci.github.com)
+
+References
+----------
+
+* Carl Boettiger, Duncan Temple Lang (2012). Treebase: An R package for discovery, access and manipulation of online phylogenies, Methods in Ecology and Evolution. doi:10.1111/j.2041-210X.2012.00247.x
