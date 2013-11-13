@@ -1,1 +1,4 @@
 .travis.yml
+vignettes/cache
+vignettes/figure
+vignettes/out_yule2rate.txt
