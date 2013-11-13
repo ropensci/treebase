@@ -30,12 +30,13 @@
      kind <- treebase:::phylo_metadata("kind")
      type <- phylo_metadata("type")
      table(kind, type)
-     }
+
      # but are much faster if the data object is provided, see cache_treebase():
      data(treebase)
      kind <- treebase:::phylo_metadata("kind", metadata=treebase)
      type <- treebase:::phylo_metadata("type", metadata=treebase)
      table(kind, type)
+}
 }
 \keyword{internal}
 

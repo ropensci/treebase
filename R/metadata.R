@@ -57,13 +57,13 @@ metadata <- function(phylo.md = NULL, oai.md=NULL){
 #'      kind <- treebase:::phylo_metadata("kind")
 #'      type <- phylo_metadata("type") 
 #'      table(kind, type)
-#'      }
+#'      
 #'      # but are much faster if the data object is provided, see cache_treebase():
 #'      data(treebase)
 #'      kind <- treebase:::phylo_metadata("kind", metadata=treebase)
 #'      type <- treebase:::phylo_metadata("type", metadata=treebase) 
 #'      table(kind, type)
-#' 
+#' }
 phylo_metadata <- function(x =  c("Study.id", "Tree.id", "kind", "type", "quality", "ntaxa"), metadata=NULL, ...){
   x = match.arg(x)
 # Aliases
@@ -91,12 +91,13 @@ phylo_metadata <- function(x =  c("Study.id", "Tree.id", "kind", "type", "qualit
 #'     dates <- treebase:::oai_metadata("date") 
 #'     pub <- treebase:::oai_metadata("publisher")
 #'     table(dates, pub)
-#' }
+#' 
 #'    # Using cached data from an earlier download
 #'     data(metadata) 
 #'     dates <- treebase:::oai_metadata("date", metadata=metadata) 
 #'     pub <- treebase:::oai_metadata("publisher", metadata=metadata)
 #'     table(dates, pub)
+#' }
 oai_metadata <- function(x = c("date", "publisher", "author", "title", "Study.id", "attributes"), metadata=NULL, ...){
   x = match.arg(x)
 # Aliases

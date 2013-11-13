@@ -30,12 +30,13 @@
     dates <- treebase:::oai_metadata("date")
     pub <- treebase:::oai_metadata("publisher")
     table(dates, pub)
-}
+
    # Using cached data from an earlier download
     data(metadata)
     dates <- treebase:::oai_metadata("date", metadata=metadata)
     pub <- treebase:::oai_metadata("publisher", metadata=metadata)
     table(dates, pub)
+}
 }
 \keyword{internal}
 
