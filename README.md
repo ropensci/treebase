@@ -1,6 +1,8 @@
 treebase
 ========
 
+[![Build Status](https://api.travis-ci.org/ropensci/treeBASE.png)](https://travis-ci.org/ropensci/treeBASE)
+
 _An R package for discovery, access and manipulation of online phylogenies_
 
 - [Publication in Methods in Ecology and Evolution](http://dx.doi.org/10.1111/j.2041-210X.2012.00247.x)

@@ -21,8 +21,27 @@ oai_metadata(x = c("date", "publisher", "author", "title", "Study.id",
 a list of values matching the query
 }
 \description{
+<<<<<<< HEAD
 Search the OAI-PMH metadata by date, publisher, or
 identifier
+=======
+  Search the OAI-PMH metadata by date, publisher, or
+  identifier
+}
+\examples{
+\dontrun{
+    # automatically search each time (note: this calls internal function now)
+    dates <- treebase:::oai_metadata("date")
+    pub <- treebase:::oai_metadata("publisher")
+    table(dates, pub)
+
+   # Using cached data from an earlier download
+    data(metadata)
+    dates <- treebase:::oai_metadata("date", metadata=metadata)
+    pub <- treebase:::oai_metadata("publisher", metadata=metadata)
+    table(dates, pub)
+>>>>>>> a58a0d8694bfd6db833d7eece8794ba95b2f9526
+}
 }
 \keyword{internal}
 

@@ -3,3 +3,6 @@
 LICENSE
 inst/doc/treebase/*
 inst/doc/treebase/fancyvrb.sty
+vignettes/cache
+vignettes/figure
+vignettes/out_yule2rate.txt
