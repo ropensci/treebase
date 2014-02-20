@@ -22,25 +22,7 @@ phylo_metadata(x = c("Study.id", "Tree.id", "kind", "type", "quality",
 a list of the values matching the query
 }
 \description{
-<<<<<<< HEAD
 Search the PhyloWS metadata
-=======
-  Search the PhyloWS metadata
-}
-\examples{
-\dontrun{
-     # calls will work without a metadata object, but require longer to download data
-     kind <- treebase:::phylo_metadata("kind")
-     type <- phylo_metadata("type")
-     table(kind, type)
-
-     # but are much faster if the data object is provided, see cache_treebase():
-     data(treebase)
-     kind <- treebase:::phylo_metadata("kind", metadata=treebase)
-     type <- treebase:::phylo_metadata("type", metadata=treebase)
-     table(kind, type)
->>>>>>> a58a0d8694bfd6db833d7eece8794ba95b2f9526
-}
 }
 \keyword{internal}
 
