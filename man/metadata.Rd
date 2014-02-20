@@ -30,7 +30,7 @@
 \examples{
 \dontrun{
 meta <- metadata()
-meta[publisher \%in\% c("Nature", "Science") & ntaxa > 100 & kind == "Species Tree",]
+meta[publisher \%in\% c("Nature", "Science") & ntaxa > 50 & kind == "Species Tree",]
 }
 }
 \keyword{data}
