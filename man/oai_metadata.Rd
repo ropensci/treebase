@@ -2,8 +2,8 @@
 \alias{oai_metadata}
 \title{Search the OAI-PMH metadata by date, publisher, or identifier}
 \usage{
-  oai_metadata(x = c("date", "publisher", "author", "title", "Study.id", "attributes"),
-    metadata = NULL, ...)
+oai_metadata(x = c("date", "publisher", "author", "title", "Study.id",
+  "attributes"), metadata = NULL, ...)
 }
 \arguments{
   \item{x}{one of "date", "publisher", "identifier" for the
@@ -18,24 +18,11 @@
   \code{download_metadata}}
 }
 \value{
-  a list of values matching the query
+a list of values matching the query
 }
 \description{
-  Search the OAI-PMH metadata by date, publisher, or
-  identifier
-}
-\examples{
-\dontrun{
-    # automatically search each time (note: this calls internal function now)
-    dates <- treebase:::oai_metadata("date")
-    pub <- treebase:::oai_metadata("publisher")
-    table(dates, pub)
-}
-   # Using cached data from an earlier download
-    data(metadata)
-    dates <- treebase:::oai_metadata("date", metadata=metadata)
-    pub <- treebase:::oai_metadata("publisher", metadata=metadata)
-    table(dates, pub)
+Search the OAI-PMH metadata by date, publisher, or
+identifier
 }
 \keyword{internal}
 

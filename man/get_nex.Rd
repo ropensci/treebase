@@ -2,9 +2,9 @@
 \alias{get_nex}
 \title{imports phylogenetic trees from treebase. internal function}
 \usage{
-  get_nex(query, max_trees = "last()", returns = "tree",
-    curl = getCurlHandle(), verbose = TRUE, pause1 = 1,
-    pause2 = 1, attempts = 5, only_metadata = FALSE)
+get_nex(query, max_trees = "last()", returns = "tree",
+  curl = getCurlHandle(), verbose = TRUE, pause1 = 1, pause2 = 1,
+  attempts = 5, only_metadata = FALSE)
 }
 \arguments{
   \item{query}{: a phylows formatted search, see
@@ -31,12 +31,11 @@
   resource}
 }
 \value{
-  A list object containing all the trees matching the
-  search (of class phylo)
+A list object containing all the trees matching the search
+(of class phylo)
 }
 \description{
-  imports phylogenetic trees from treebase. internal
-  function
+imports phylogenetic trees from treebase. internal function
 }
 \keyword{internal}
 

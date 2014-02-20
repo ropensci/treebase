@@ -2,11 +2,10 @@
 \alias{search_treebase}
 \title{A function to pull in the phyologeny/phylogenies matching a search query}
 \usage{
-  search_treebase(input, by, returns = c("tree", "matrix"),
-    exact_match = FALSE, max_trees = Inf,
-    branch_lengths = FALSE, curl = getCurlHandle(),
-    verbose = TRUE, pause1 = 2, pause2 = 1, attempts = 3,
-    only_metadata = FALSE)
+search_treebase(input, by, returns = c("tree", "matrix"),
+  exact_match = FALSE, max_trees = Inf, branch_lengths = FALSE,
+  curl = getCurlHandle(), verbose = TRUE, pause1 = 2, pause2 = 1,
+  attempts = 3, only_metadata = FALSE)
 }
 \arguments{
   \item{input}{a search query (character string)}
@@ -49,43 +48,41 @@
   taxa, and possible quality score.}
 }
 \value{
-  either a list of trees (multiphylo) or a list of
-  character matrices
+either a list of trees (multiphylo) or a list of character
+matrices
 }
 \description{
-  A function to pull in the phyologeny/phylogenies matching
-  a search query
+A function to pull in the phyologeny/phylogenies matching a
+search query
 }
 \details{
-  Choose the search type.  Options are: \itemize{
-  \item{abstract }{ search terms in the publication
-  abstract} \item{author }{ match authors in the
-  publication} \item{subject }{ match subject} \item{doi }{
-  the unique object identifier for the publication }
-  \item{ncbi }{ NCBI identifier number for the taxon}
-  \item{kind.tree }{ Kind of tree (Gene tree, species tree,
-  barcode tree) } \item{type.tree }{ type of tree
-  (Consensus or Single)} \item{ntax }{ number of taxa in
-  the matrix} \item{quality }{ A quality score for the
-  tree, if it has been rated.  } \item{study }{ match words
-  in the title of the study or publication} \item{taxon }{
-  taxon scientific name } \item{id.study }{ TreeBASE study
-  ID} \item{id.tree }{ TreeBASE's unique tree identifier
-  (Tr.id)} \item{id.taxon }{ taxon identifier number from
-  TreeBase } \item{tree }{ The title for the tree}
-  \item{type.matrix }{ Type of matrix } \item{matrix }{
-  Name given the the matrix } \item{id.matrix }{ TreeBASE's
-  unique matrix identifier} \item{nchar }{ number of
-  characters in the matrix} }
+Choose the search type.  Options are: \itemize{
+\item{abstract }{ search terms in the publication abstract}
+\item{author }{ match authors in the publication}
+\item{subject }{ match subject} \item{doi }{ the unique
+object identifier for the publication } \item{ncbi }{ NCBI
+identifier number for the taxon} \item{kind.tree }{ Kind of
+tree (Gene tree, species tree, barcode tree) }
+\item{type.tree }{ type of tree (Consensus or Single)}
+\item{ntax }{ number of taxa in the matrix} \item{quality
+}{ A quality score for the tree, if it has been rated.  }
+\item{study }{ match words in the title of the study or
+publication} \item{taxon }{ taxon scientific name }
+\item{id.study }{ TreeBASE study ID} \item{id.tree }{
+TreeBASE's unique tree identifier (Tr.id)} \item{id.taxon
+}{ taxon identifier number from TreeBase } \item{tree }{
+The title for the tree} \item{type.matrix }{ Type of matrix
+} \item{matrix }{ Name given the the matrix }
+\item{id.matrix }{ TreeBASE's unique matrix identifier}
+\item{nchar }{ number of characters in the matrix} }
 
-  The package provides partial support for character
-  matrices provided by TreeBASE. At the time of writing,
-  TreeBASE permits ambiguous DNA characters in these
-  matrices, such as `{CG}` indicating either a C or G,
-  which is not supported by any R interpreter, and thus may
-  lead to errors.  for a description of all possible search
-  options, see
-  https://spreadsheets.google.com/pub?key=rL--O7pyhR8FcnnG5-ofAlw.
+The package provides partial support for character matrices
+provided by TreeBASE. At the time of writing, TreeBASE
+permits ambiguous DNA characters in these matrices, such as
+`{CG}` indicating either a C or G, which is not supported
+by any R interpreter, and thus may lead to errors.  for a
+description of all possible search options, see
+https://spreadsheets.google.com/pub?key=rL--O7pyhR8FcnnG5-ofAlw.
 }
 \examples{
 \dontrun{

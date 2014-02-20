@@ -86,10 +86,10 @@ dryad_metadata <- function(study.id, curl=getCurlHandle()){
 #' @details if the tree is imported with search_treebase, 
 #' then this is in tree$S.id
 #' @keywords utilities internal
-#' @examples \dontrun{
-#'   tree <- search_treebase("1234", "id.tree")
-#'   treebase:::show_metadata(tree$S.id)
-#' }
+# @examples \dontrun{
+#   tree <- search_treebase("1234", "id.tree")
+#   show_metadata(tree$S.id)
+# }
 show_metadata <- function(study.id, curl=getCurlHandle()){
   oai_url <- "http://treebase.org/treebase-web/top/oai?verb=" 
   get_record <- "GetRecord&metadataPrefix=oai_dc&identifier=" 
@@ -107,13 +107,13 @@ show_metadata <- function(study.id, curl=getCurlHandle()){
 #' @return the study id
 #' @details this function is commonly used to get trees corresponding
 #'   to the metadata search.  
-#' @examples \dontrun{
-#' all <- download_metadata("", by="all")
-#' 
-#' nature <- sapply(all, function(x) length(grep("Nature", x$publisher))>0)
-#' science <- sapply(all, function(x) length(grep("^Science$", x$publisher))>0)
-#' s <- treebase:::get_study_id( all[nature] )
-#' }
+# @examples \dontrun{
+# all <- download_metadata("", by="all")
+# 
+# nature <- sapply(all, function(x) length(grep("Nature", x$publisher))>0)
+# science <- sapply(all, function(x) length(grep("^Science$", x$publisher))>0)
+# s <- get_study_id( all[nature] )
+# }
 #' @keywords internal
 get_study_id <- function(search_results){
   sapply(search_results, 
@@ -134,13 +134,13 @@ get_study_id <- function(search_results){
 #' @return all corresponding phylogenies.  
 #' @details this function is commonly used to get trees corresponding
 #'   to the metadata search.  
-#' @examples \dontrun{
-#' all <- download_metadata("", by="all")
-#' nature <- sapply(all, function(x) length(grep("Nature", x$publisher))>0)
-#' science <- sapply(all, function(x) length(grep("^Science$", x$publisher))>0)
-#' s <- treebase:::get_study( all[nature] )
-#' s <- treebase:::get_study(all[science])
-#' }
+# @examples \dontrun{
+# all <- download_metadata("", by="all")
+# nature <- sapply(all, function(x) length(grep("Nature", x$publisher))>0)
+# science <- sapply(all, function(x) length(grep("^Science$", x$publisher))>0)
+# s <- get_study( all[nature] )
+# s <- get_study(all[science])
+# }
 #' @keywords internal
 get_study <- function(search_results, curl=getCurlHandle(), ...){
   sapply(search_results, function(x) search_treebase(x, input="id.study", curl=curl, ...))

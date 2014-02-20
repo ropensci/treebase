@@ -3,7 +3,7 @@
 \title{Get the metadata associated with the study in which the phylogeny
  was published.}
 \usage{
-  show_metadata(study.id, curl = getCurlHandle())
+show_metadata(study.id, curl = getCurlHandle())
 }
 \arguments{
   \item{study.id}{The treebase study id (numbers only,
@@ -14,18 +14,12 @@
   here.  avoids repeated handshakes with server.}
 }
 \description{
-  Get the metadata associated with the study in which the
-  phylogeny was published.
+Get the metadata associated with the study in which the
+phylogeny was published.
 }
 \details{
-  if the tree is imported with search_treebase, then this
-  is in tree$S.id
-}
-\examples{
-\dontrun{
-  tree <- search_treebase("1234", "id.tree")
-  treebase:::show_metadata(tree$S.id)
-}
+if the tree is imported with search_treebase, then this is
+in tree$S.id
 }
 \keyword{internal}
 \keyword{utilities}

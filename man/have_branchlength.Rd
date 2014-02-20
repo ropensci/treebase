@@ -2,17 +2,16 @@
 \alias{have_branchlength}
 \title{Simple function to identify which trees have branch lengths}
 \usage{
-  have_branchlength(trees)
+have_branchlength(trees)
 }
 \arguments{
   \item{trees}{a list of phylogenetic trees (ape/phylo
   format)}
 }
 \value{
-  logical string indicating which have branch length data
+logical string indicating which have branch length data
 }
 \description{
-  Simple function to identify which trees have branch
-  lengths
+Simple function to identify which trees have branch lengths
 }
 

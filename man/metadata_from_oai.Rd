@@ -2,7 +2,7 @@
 \alias{metadata_from_oai}
 \title{Internal function for OAI-MPH interface to the Dryad database}
 \usage{
-  metadata_from_oai(query, curl = curl)
+metadata_from_oai(query, curl = curl)
 }
 \arguments{
   \item{query}{a properly formed url query to dryad}
@@ -12,11 +12,11 @@
   here. Avoids repeated handshakes with server.}
 }
 \description{
-  Internal function for OAI-MPH interface to the Dryad
-  database
+Internal function for OAI-MPH interface to the Dryad
+database
 }
 \seealso{
-  \code{\link{dryad_metadata}}
+\code{\link{dryad_metadata}}
 }
 \keyword{internal}
 

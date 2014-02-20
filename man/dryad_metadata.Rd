@@ -2,7 +2,7 @@
 \alias{dryad_metadata}
 \title{Search the dryad metadata archive}
 \usage{
-  dryad_metadata(study.id, curl = getCurlHandle())
+dryad_metadata(study.id, curl = getCurlHandle())
 }
 \arguments{
   \item{study.id}{the dryad identifier}
@@ -12,10 +12,10 @@
   here. Avoids repeated handshakes with server.}
 }
 \value{
-  a list object containing the study metadata
+a list object containing the study metadata
 }
 \description{
-  Search the dryad metadata archive
+Search the dryad metadata archive
 }
 \examples{
 \dontrun{

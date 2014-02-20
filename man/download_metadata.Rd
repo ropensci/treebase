@@ -2,8 +2,8 @@
 \alias{download_metadata}
 \title{Download the metadata on treebase using the OAI-MPH interface}
 \usage{
-  download_metadata(query = "",
-    by = c("all", "until", "from"), curl = getCurlHandle())
+download_metadata(query = "", by = c("all", "until", "from"),
+  curl = getCurlHandle())
 }
 \arguments{
   \item{query}{a date in format yyyy-mm-dd}
@@ -16,13 +16,13 @@
   here. Avoids repeated handshakes with server.}
 }
 \description{
-  Download the metadata on treebase using the OAI-MPH
-  interface
+Download the metadata on treebase using the OAI-MPH
+interface
 }
 \details{
-  query must be#' download_metadata(2010-01-01, by="until")
-  all isn't a real query type, but will return all trees
-  regardless of date
+query must be#' download_metadata(2010-01-01, by="until")
+all isn't a real query type, but will return all trees
+regardless of date
 }
 \examples{
 \dontrun{
