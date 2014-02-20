@@ -1,0 +1,5 @@
+.travis.yml
+.gitignore
+LICENSE
+inst/doc/treebase/*
+inst/doc/treebase/fancyvrb.sty
