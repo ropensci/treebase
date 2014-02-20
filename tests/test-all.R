@@ -1,2 +1,2 @@
 library(testthat)
-test_package("treebase")
+test_check("treebase")
