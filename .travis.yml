@@ -7,6 +7,11 @@ before_script:
 - ./travis-tool.sh install_deps
 - ./travis-tool.sh github_package assertthat
 notifications:
+  email:
+    on_success: change
+    on_failure: change
   hipchat:
     rooms:
       secure: xTz1s2YyDmdGevYqBpnyjUQJ6fVBKVlJEMTurOBC9icTLpH0N92EPB8PyMK/BgsuIDYeM91wVcmS9A/FXhGw1HQu1+bGb18iU+abMEZ/Damse/aCmNwrIZslGKKikVopkPqth21hRDExXYLip0WgpnHMth9h25qsNgZ9Arzm3To=
+
+
