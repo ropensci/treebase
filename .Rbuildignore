@@ -7,3 +7,4 @@ vignettes/cache
 vignettes/figure
 vignettes/out_yule2rate.txt
 cran-comments.md
+^appveyor\.yml$

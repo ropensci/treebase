@@ -2,6 +2,7 @@ treebase
 ========
 
 [![Build Status](https://api.travis-ci.org/ropensci/treeBASE.png)](https://travis-ci.org/ropensci/treeBASE)
+[![Build status](https://ci.appveyor.com/api/projects/status/d74vw3cpwh0kdg3e/branch/master)](https://ci.appveyor.com/project/sckott/treebase/branch/master)
 
 _An R package for discovery, access and manipulation of online phylogenies_
 
@@ -14,17 +15,17 @@ _An R package for discovery, access and manipulation of online phylogenies_
 Installation
 ------------
 
-`treebase` is available from CRAN.  You can install the latest version from the development website on github using the `devtools` package from within R.  Make sure you have the latest version for the best experience. 
+`treebase` is available from CRAN.  You can install the latest version from the development website on github using the `devtools` package from within R.  Make sure you have the latest version for the best experience.
 
 ```r
 library(devtools)
 install_github("treebase", "ropensci")
 ```
 
-Getting Started 
+Getting Started
 ---------------
 
-Use of the `treebase` package should be relatively straight forward: 
+Use of the `treebase` package should be relatively straight forward:
 
 ```r
 library(treebase)
