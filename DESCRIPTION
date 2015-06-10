@@ -1,8 +1,7 @@
 Package: treebase
 Type: Package
 Title: Discovery, access and manipulation of TreeBASE phylogenies
-Version: 0.0-7.1
-Date: 2011-04-25
+Version: 0.1.0
 Authors@R: c(person("Carl", "Boettiger", role = c("aut", "cre"),
     email = "cboettig@gmail.com"),
     person("Duncan", "Temple Lang", role = "aut"))

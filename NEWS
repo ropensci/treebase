@@ -1,3 +1,9 @@
+version 0.1.0
+-------------
+
+* update unit test structure for newer testthat version
+* switch to semantic version numbering
+
 version 0.0-7.1
 ---------------
 
