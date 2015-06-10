@@ -1,6 +1,6 @@
 Package: treebase
 Type: Package
-Title: An R package for discovery, access and manipulation of online phylogenies
+Title: Discovery, access and manipulation of TreeBASE phylogenies
 Version: 0.0-7.1
 Date: 2011-04-25
 Authors@R: c(person("Carl", "Boettiger", role = c("aut", "cre"),
