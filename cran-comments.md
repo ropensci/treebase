@@ -1,7 +1,6 @@
 Dear CRAN Maintainers,
 
-This updates the test infrastructure to be compatible with the new version of testthat. My apologies for the delay in submitting the update to this package. 
-This time I also fix the use of title case in the title -- my apologies for failing to implement this change in the original submission of this update.
+As requested, this makes the tests run on CRAN less fragile, avoiding possible errors when the external resource accessed by several of the tests goes down. This should also shorten th run-time of the tests you observe. (The longer-running tests against the external resource will still be run nightly by me on the package development version, but will not impact CRAN).
 
 Sincerely,
 

@@ -1,13 +1,14 @@
 Package: treebase
 Type: Package
-Title: Discovery, Access and Manipulation of 'TreeBASE' phylogenies
-Version: 0.1.0
+Title: Discovery, Access and Manipulation of 'TreeBASE' Phylogenies
+Version: 0.1.1
 Authors@R: c(person("Carl", "Boettiger", role = c("aut", "cre"),
     email = "cboettig@gmail.com"),
     person("Duncan", "Temple Lang", role = "aut"))
-Description: Interface to the API for TreeBASE. TreeBASE is a repository of
-    user-submitted phylogenetic trees (of species, population, or genes) and the
-    data used to create them.
+Description: Interface to the API for 'TreeBASE' (http://treebase.org)
+  from 'R.' 'TreeBASE' is a repository of user-submitted phylogenetic 
+  trees (of species, population, or genes) and the data used to create
+  them.
 License: CC0
 URL: https://github.com/ropensci/treebase
 BugReports: http://www.github.com/ropensci/treebase/issues
