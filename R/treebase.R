@@ -84,7 +84,7 @@
 search_treebase <- function(input, by, returns = c("tree", "matrix"),   
                             exact_match = FALSE, max_trees = Inf,
                             branch_lengths = FALSE, curl = getCurlHandle(),
-                            verbose = TRUE, pause1 = 2, pause2 = 1, attempts = 3,
+                            verbose = TRUE, pause1 = 0, pause2 = 0, attempts = 3,
                             only_metadata = FALSE){
 
   nterms <- length(by)
@@ -251,6 +251,7 @@ get_nex <- function(query, max_trees = "last()", returns = "tree",
   ## process some metadata
   metadata <- getNodeSet(xml_hits, "//@rdf:about/./..")
   metadata <- metadata[-1] # first value is for the search
+  metadata <- metadata[1:max_trees]
   Studies <- sapply(metadata, function(x) xmlValue(x[["isDefinedBy"]]))
   Trees <- sapply(metadata, function(x) xmlValue(x[["link"]]))
   Study.ids <- gsub(".*TB2:S([1-9]+)+", "\\1", Studies)
@@ -297,7 +298,8 @@ have_branchlength <- function(trees){
 
 
 ## an internal function which descends through the pages to get the nexus resources
-dig <- function(tree_url, returns="tree", curl=getCurlHandle(), pause1=1, pause2=1){
+#' @importFrom httr GET content
+dig <- function(tree_url, returns="tree", curl=getCurlHandle(), pause1=0, pause2=0){
 # Get the URL to the actual resource on that page 
   #thepage <- xmlAttrs(x, "rdf:resource")
 
@@ -315,7 +317,8 @@ dig <- function(tree_url, returns="tree", curl=getCurlHandle(), pause1=1, pause2
               ## being patient will let the server get the resource ready
               Sys.sleep(pause2)
               f <- tempfile()
-              download.file(link, f)
+              #download.file(link, f, method="libcurl")
+              writeBin(httr::content(httr::GET(link), as="raw"), f)
               if(returns=="tree"){
                 nex <- read.nexus(f) ## fails if we rush
                 message("Tree read in successfully")
@@ -323,7 +326,7 @@ dig <- function(tree_url, returns="tree", curl=getCurlHandle(), pause1=1, pause2
                  nex <- read.nexus.data(f)
               }
               unlink(f)
-            nex
+  nex
 
   # One tree per seconddoc 
 }

@@ -1,3 +1,4 @@
 test_that("package loads successfully", {
-  expect_is(require("treebase"), TRUE)
+          status = require("treebase")
+          expect_true(status)
 })

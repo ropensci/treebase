@@ -9,3 +9,5 @@ vignettes/out_yule2rate.txt
 cran-comments.md
 ^appveyor\.yml$
 ^\.travis\.yml$
+^.*\.Rproj$
+^\.Rproj\.user$
