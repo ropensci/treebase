@@ -19,7 +19,7 @@ Installation
 
 ```r
 library(devtools)
-install_github("treebase", "ropensci")
+install_github("ropensci/treebase")
 ```
 
 Getting Started
