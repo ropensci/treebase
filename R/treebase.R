@@ -309,25 +309,22 @@ dig <- function(tree_url, returns="tree", curl=getCurlHandle(), pause1=1, pause2
   message("Looking for nexus files...")
 
   ### Here we sometimes get 304 errors, and want to try again
-  node <- xpathApply(seconddoc, "//x:item[x:title='Nexus file']", 
-            namespaces=c(x="http://purl.org/rss/1.0/"),
-            function(x){
-              if(is.list(x))
-                x = x[[1]]
+  link <- xpathApply(seconddoc, "//x:item[x:title='Nexus file']/x:link", 
+            namespaces=c(x="http://purl.org/rss/1.0/"), xmlValue)[[1]]
 
               ## being patient will let the server get the resource ready
               Sys.sleep(pause2)
-              con <- url(xmlValue(x[["link"]]))
+              f <- tempfile()
+              download.file(link, f)
               if(returns=="tree"){
-                nex <- read.nexus(con) ## fails if we rush
+                nex <- read.nexus(f) ## fails if we rush
                 message("Tree read in successfully")
               } else if (returns=="matrix"){
-                 nex <- read.nexus.data(xmlValue(x[["link"]]))
+                 nex <- read.nexus.data(f)
               }
+              unlink(f)
             nex
-            })
-  node <- node[[1]] # will fail if above has errored
-  node
+
   # One tree per seconddoc 
 }
 
