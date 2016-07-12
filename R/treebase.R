@@ -1,24 +1,24 @@
 #' A function to pull in the phyologeny/phylogenies matching a search query
-#' 
+#'
 #' @param input a search query (character string)
 #' @param by the kind of search; author, taxon, subject, study, etc
 #' (see list of possible search terms, details)
 #' @param returns should the fn return the tree or the character matrix?
-#' @param exact_match force exact matching for author name, taxon, etc.  
+#' @param exact_match force exact matching for author name, taxon, etc.
 #'   Otherwise does partial matching
 #' @param max_trees Upper bound for the number of trees returned, good for
 #' keeping possibly large initial queries fast
-#' @param branch_lengths logical indicating whether should only return 
-#'   trees that have branch lengths. 
+#' @param branch_lengths logical indicating whether should only return
+#'   trees that have branch lengths.
 #' @param curl the handle to the curl web utility for repeated calls, see
-#'  the getCurlHandle() function in RCurl package for details.  
+#'  the getCurlHandle() function in RCurl package for details.
 #' @param verbose logical indicating level of progress reporting
 #' @param pause1 number of seconds to hesitate between requests
 #' @param pause2 number of seconds to hesitate between individual files
 #' @param attempts number of attempts to access a particular resource
-#' @param only_metadata option to only return metadata about matching trees 
+#' @param only_metadata option to only return metadata about matching trees
 #' which lists study.id, tree.id, kind (gene,species,barcode) type (single, consensus)
-#' number of taxa, and possible quality score.  
+#' number of taxa, and possible quality score.
 #' @return either a list of trees (multiphylo) or a list of character matrices
 #' @keywords utility
 #' @details Choose the search type.  Options are: \itemize{
@@ -41,17 +41,17 @@
 #' \item{matrix          }{ Name given the the matrix }
 #' \item{id.matrix       }{ TreeBASE's unique matrix identifier}
 #' \item{nchar           }{ number of characters in the matrix}
-#' } 
-#' 
+#' }
+#'
 #' The package provides partial support for character matrices provided by TreeBASE.
 #' At the time of writing, TreeBASE permits ambiguous DNA characters in these matrices,
 #' such as `{CG}` indicating either a C or G, which is not supported by any R interpreter,
-#' and thus may lead to errors.  
+#' and thus may lead to errors.
 #'   for a description of all possible search options, see
-#'   https://spreadsheets.google.com/pub?key=rL--O7pyhR8FcnnG5-ofAlw. 
-#' 
+#'   https://spreadsheets.google.com/pub?key=rL--O7pyhR8FcnnG5-ofAlw.
+#'
 #' @examples \dontrun{
-#' ## defaults to return phylogeny 
+#' ## defaults to return phylogeny
 #' Huelsenbeck <- search_treebase("Huelsenbeck", by="author")
 #'
 #' ## can ask for character matrices:
@@ -65,8 +65,8 @@
 #' ## Note that by must identify each entry type if a Boolean is given
 #' HR_trees <- search_treebase("Ronquist or Hulesenbeck", by=c("author", "author"))
 #'
-#' ## We'll often use max_trees in the example so that they run quickly, 
-#' ## notice the quotes for species.  
+#' ## We'll often use max_trees in the example so that they run quickly,
+#' ## notice the quotes for species.
 #' dolphins <- search_treebase('"Delphinus"', by="taxon", max_trees=5)
 #' ## can do exact matches
 #' humans <- search_treebase('"Homo sapiens"', by="taxon", exact_match=TRUE, max_trees=10)
@@ -81,7 +81,7 @@
 #'Near <- search_treebase("Near", "author", branch_lengths=TRUE)
 #'  }
 #' @export
-search_treebase <- function(input, by, returns = c("tree", "matrix"),   
+search_treebase <- function(input, by, returns = c("tree", "matrix"),
                             exact_match = FALSE, max_trees = Inf,
                             branch_lengths = FALSE, curl = getCurlHandle(),
                             verbose = TRUE, pause1 = 0, pause2 = 0, attempts = 3,
@@ -109,7 +109,7 @@ search_treebase <- function(input, by, returns = c("tree", "matrix"),
                        ubio = "tb.identifier.ubio",
                        kind.tree = "tb.kind.tree",
                        nchar = "tb.nchar.matrix",
-                       ntax = "tb.ntax.matrix", 
+                       ntax = "tb.ntax.matrix",
                        quality="tb.quality.tree",
                        matrix = "tb.title.matrix",
                        study = "tb.title.study",
@@ -127,7 +127,7 @@ search_treebase <- function(input, by, returns = c("tree", "matrix"),
                        citation= "study",
                        author = "study",
                        subject = "study",
-                       id.matrix ="matrix",  
+                       id.matrix ="matrix",
                        id.matrix.tb1 = "matrix",
                        ncbi =  "taxon",
                        id.study = "study",
@@ -137,7 +137,7 @@ search_treebase <- function(input, by, returns = c("tree", "matrix"),
                        taxonVariant.tb1 = "taxon",
                        id.tree =  "tree",
                        ubio = "taxon",
-                       kind.tree = "tree", 
+                       kind.tree = "tree",
                        nchar = "matrix",
                        ntax = "matrix",
                        quality = "tree",
@@ -145,8 +145,8 @@ search_treebase <- function(input, by, returns = c("tree", "matrix"),
                        study="study",
                        taxon = "taxon",
                        taxonLabel =  "taxon",
-                       taxonVariant = "taxon", 
-                       tree = "tree", 
+                       taxonVariant = "taxon",
+                       tree = "tree",
                        type.matrix= "matrix",
                        type.tree = "tree",
                        doi="study")
@@ -155,7 +155,7 @@ search_treebase <- function(input, by, returns = c("tree", "matrix"),
     stop("Multiple queries must belong to the same section (study/taxon/tree/matrix)")
   search_type <- paste(section[1], "/find?query=", sep="")
 
-  search_term[1] <- paste(search_term[1], "=", sep="") 
+  search_term[1] <- paste(search_term[1], "=", sep="")
   if(nterms > 1){
     for(i in 2:nterms){
       input <- sub("(and|or) ", paste("\\1%20", search_term[i], "=", sep=""), input)
@@ -168,19 +168,19 @@ search_treebase <- function(input, by, returns = c("tree", "matrix"),
   if(by %in% c("doi")) # list of search types that need to be quoted
     input <- paste("%22", input,"%22", sep="")
   if(exact_match){
-    search_term <- gsub("=", "==", search_term) # exact match uses (==) 
+    search_term <- gsub("=", "==", search_term) # exact match uses (==)
   }
 
   returns <- match.arg(returns)
   schema <- switch(returns, tree = "tree", matrix = "matrix")
 
-# We'll always use rss1 as the machine-readable format 
+# We'll always use rss1 as the machine-readable format
 # could attempt to open a webpage instead with html format to allow manual user search
   format <- "&format=rss1"
 
   # combine into a search query
   # Should eventually update to allow for multiple query terms with booleans
-  query <- paste("http://purl.org/phylo/treebase/phylows/", search_type, 
+  query <- paste("http://purl.org/phylo/treebase/phylows/", search_type,
                  search_term[1], input, format, "&recordSchema=", schema, sep="")
   ## display the constructed query to the user
   message(query)
@@ -218,17 +218,17 @@ drop_nontrees <- function(tr){
 
 
 #' imports phylogenetic trees from treebase. internal function
-#' @param query : a phylows formatted search, 
+#' @param query : a phylows formatted search,
 #'     see https://sourceforge.net/apps/mediawiki/treebase/index.php?title=API
 #' @param max_trees limits the number of trees returned
-#'  should be kept.  
+#'  should be kept.
 #' @param returns should return the tree object or the matrix (of sequences)
-#' @param curl the handle to the curl 
+#' @param curl the handle to the curl
 #' @param verbose a logical indicating if output should be printed to screen
 #' @param pause1 number of seconds to hesitate between requests
 #' @param pause2 number of seconds to hesitate between individual files
 #' @param attempts number of attempts to access a particular resource
-#' @return A list object containing all the trees matching the search 
+#' @return A list object containing all the trees matching the search
 #'    (of class phylo)
 #' @import XML
 #' @import RCurl
@@ -236,21 +236,24 @@ drop_nontrees <- function(tr){
 #' @import utils
 #' @import methods
 #' @keywords internal
-get_nex <- function(query, max_trees = "last()", returns = "tree", 
+get_nex <- function(query, max_trees = "last()", returns = "tree",
                     curl = getCurlHandle(), verbose = TRUE,
                     pause1 = 1, pause2 = 1, attempts = 5,
-                    only_metadata = FALSE){
+                    only_metadata = FALSE) {
   n_trees <- 0
   ## Note the need for followlocation -- the actual url just resolves to a page that forwards us on
-  page1 <- getURLContent(query, followlocation=TRUE, curl=curl)
+  page1 <- getURLContent(query, followlocation = TRUE, curl = curl)
   xml_hits <- xmlParse(page1)
   message("Query resolved, looking at each matching resource...")
 
-  resources <- getNodeSet(xml_hits, paste("//rdf:li[position()<= ", max_trees, "]", sep=""))
+  resources <- getNodeSet(xml_hits, paste0("//rdf:li[position()<= ", max_trees, "]"))
 
   ## process some metadata
   metadata <- getNodeSet(xml_hits, "//@rdf:about/./..")
   metadata <- metadata[-1] # first value is for the search
+  if (inherits(max_trees, "character")) {
+    max_trees <- length(metadata)
+  }
   metadata <- metadata[1:max_trees]
   Studies <- sapply(metadata, function(x) xmlValue(x[["isDefinedBy"]]))
   Trees <- sapply(metadata, function(x) xmlValue(x[["link"]]))
@@ -269,11 +272,11 @@ get_nex <- function(query, max_trees = "last()", returns = "tree",
   if(only_metadata){
     out <- vector("list", length=length(Trees))
   } else {
-    out <- lapply(Trees, 
-      try_recursive, returns=returns, curl=curl, pause1=pause1, 
+    out <- lapply(Trees,
+      try_recursive, returns=returns, curl=curl, pause1=pause1,
       pause2=pause2, attempts=attempts)
   }
-    out <- lapply(1:length(out), function(i){ 
+    out <- lapply(1:length(out), function(i){
       out[[i]]$S.id <- Study.ids[i]
       out[[i]]$Tr.id <- Tree.ids[i]
       out[[i]]$type <- type[i]
@@ -282,7 +285,7 @@ get_nex <- function(query, max_trees = "last()", returns = "tree",
       out[[i]]$ntax <- ntax[i]
       out[[i]] })
 
-  
+
   out
 }
 
@@ -300,7 +303,7 @@ have_branchlength <- function(trees){
 ## an internal function which descends through the pages to get the nexus resources
 #' @importFrom httr GET content
 dig <- function(tree_url, returns="tree", curl=getCurlHandle(), pause1=0, pause2=0){
-# Get the URL to the actual resource on that page 
+# Get the URL to the actual resource on that page
   #thepage <- xmlAttrs(x, "rdf:resource")
 
   ## being patient will let the server get the resource ready
@@ -311,7 +314,7 @@ dig <- function(tree_url, returns="tree", curl=getCurlHandle(), pause1=0, pause2
   message("Looking for nexus files...")
 
   ### Here we sometimes get 304 errors, and want to try again
-  link <- xpathApply(seconddoc, "//x:item[x:title='Nexus file']/x:link", 
+  link <- xpathApply(seconddoc, "//x:item[x:title='Nexus file']/x:link",
             namespaces=c(x="http://purl.org/rss/1.0/"), xmlValue)[[1]]
 
               ## being patient will let the server get the resource ready
@@ -328,7 +331,7 @@ dig <- function(tree_url, returns="tree", curl=getCurlHandle(), pause1=0, pause2
               unlink(f)
   nex
 
-  # One tree per seconddoc 
+  # One tree per seconddoc
 }
 
 
@@ -341,13 +344,13 @@ try_thrice <- function(x,returns, curl, pause1, pause2, attempts){
   }
   retry <- function(e){
     message("Query failed, attempting a second call")
-    tryCatch(dig(x,returns, curl, pause1+2, pause2+2), 
+    tryCatch(dig(x,returns, curl, pause1+2, pause2+2),
       error = retry2)
   }
 
   retry2 <- function(e){
     message("Query failed, attempting a third call")
-    tryCatch(dig(x,returns, curl, pause1+5, pause2+5), 
+    tryCatch(dig(x,returns, curl, pause1+5, pause2+5),
       error = function(e){
         message("Resource cannot be reached")
         "Retry failed"})

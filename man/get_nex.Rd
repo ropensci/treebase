@@ -9,7 +9,7 @@ get_nex(query, max_trees = "last()", returns = "tree",
   attempts = 5, only_metadata = FALSE)
 }
 \arguments{
-\item{query}{: a phylows formatted search, 
+\item{query}{: a phylows formatted search,
 see https://sourceforge.net/apps/mediawiki/treebase/index.php?title=API}
 
 \item{max_trees}{limits the number of trees returned
@@ -28,7 +28,7 @@ should be kept.}
 \item{attempts}{number of attempts to access a particular resource}
 }
 \value{
-A list object containing all the trees matching the search 
+A list object containing all the trees matching the search
    (of class phylo)
 }
 \description{
