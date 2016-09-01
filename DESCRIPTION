@@ -23,6 +23,8 @@ Imports:
     httr
 Suggests:
     testthat,
-    knitr
+    knitr,
+    rmarkdown,
+    laser
 RoxygenNote: 5.0.1
 VignetteBuilder: knitr

@@ -1,5 +1,15 @@
-treebase tutorial
-==========
+---
+title: "treebase Tutorial"
+author: "Carl Boettiger"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
 
 Here are a few introductory examples to illustrate some of the functionality of the package. Thanks in part to new data deposition requirements at journals such as Evolution, Am Nat, and Sys Bio, and
 data management plan requirements from NSF, I hope the package will become increasingly useful for teaching by replicating results and for meta-analyses that can be automatically updated as the repository grows. Additional information and bug-reports welcome via the [treebase page](http://ropensci.org/packages/treebase.html#support).
@@ -8,6 +18,10 @@ Basic tree and metadata queries
 ==========
 
 Downloading trees by different queries: by author, taxa, & study. More options are described in the help file.
+
+```{r include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+```
 
 ```{r install, eval=FALSE}
 install.packages('treebase')
@@ -60,7 +74,7 @@ plot(tree)
 
 They fit a variety of diversification rate models avialable in the `laser` R package, which they compare using AIC.
 
-```{r message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE, eval = FALSE}
 library(laser)
 tt <- branching.times(tree)
 models <-  list(pb = pureBirth(tt),
@@ -76,9 +90,11 @@ names(models[[3]])[5] <- "aic"
 aics <- sapply(models, "[[", "aic")
 # show the winning model
 models[which.min(aics)]
+
+
 ```
 
-Yup, their result agrees with our analysis. Using the extensive toolset for diversification rates in R, we could now rather easily check if these results hold up in newer methods such as TreePar, etc.
+Their result agrees with our analysis. Using the extensive toolset for diversification rates in R, we could now rather easily check if these results hold up in newer methods such as `TreePar`, etc.
 
 Meta-Analysis
 -------------
