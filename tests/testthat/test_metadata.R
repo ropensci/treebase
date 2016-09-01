@@ -8,5 +8,7 @@ test_that("metadata works as expected", {
           type <- phylo_metadata("type") 
           table(kind, type)
           
-          
+          dates <- oai_metadata("date") 
+          pub <- oai_metadata("publisher")
+          table(dates, pub)
 })
