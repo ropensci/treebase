@@ -165,8 +165,8 @@ search_treebase <- function(input, by, returns = c("tree", "matrix"),
   input <- gsub(" +", "%20\\1", input) # whitespace to html space symbol
   input <- gsub("\"", "%22", input) # html quote code at start
   input <- gsub("'", "%22", input) # html quote code at start
-  if(by %in% c("doi")) # list of search types that need to be quoted
-    input <- paste("%22", input,"%22", sep="")
+ # if(by %in% c("doi")) # list of search types that need to be quoted
+#    input <- paste("%22", input,"%22", sep="")
   if(exact_match){
     search_term <- gsub("=", "==", search_term) # exact match uses (==) 
   }
@@ -251,7 +251,7 @@ get_nex <- function(query, max_trees = "last()", returns = "tree",
   ## process some metadata
   metadata <- getNodeSet(xml_hits, "//@rdf:about/./..")
   metadata <- metadata[-1] # first value is for the search
-  metadata <- metadata[1:max_trees]
+  #metadata <- metadata[1:max_trees]
   Studies <- sapply(metadata, function(x) xmlValue(x[["isDefinedBy"]]))
   Trees <- sapply(metadata, function(x) xmlValue(x[["link"]]))
   Study.ids <- gsub(".*TB2:S([1-9]+)+", "\\1", Studies)

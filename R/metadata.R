@@ -9,7 +9,6 @@
 #' meta <- metadata()
 #' meta[publisher %in% c("Nature", "Science") & ntaxa > 50 & kind == "Species Tree",]
 #' }
-#' @import reshape2 data.table
 #' @export
 metadata <- function(phylo.md = NULL, oai.md=NULL){
 
@@ -17,9 +16,6 @@ metadata <- function(phylo.md = NULL, oai.md=NULL){
     phylo.md <- cache_treebase(only_metadata=TRUE, save=FALSE)
   if(is.null(oai.md))
     oai.md <- download_metadata() 
-
-  #  phylo_data <- melt(phylo.md) # This is very slow
-  #  phylo <- dcast(phylo_data, ... ~ L2)
 
   phylo <- 
     data.frame(Study.id = phylo_metadata("Study.id", phylo.md), 
@@ -51,19 +47,19 @@ metadata <- function(phylo.md = NULL, oai.md=NULL){
 #' @param ... additional arguments to \code{search_treebase}
 #' @return a list of the values matching the query
 #' @keywords internal
-# @examples
-# \dontrun{
-#      # calls will work without a metadata object, but requires longer to download data
-#      kind <- phylo_metadata("kind")
-#      type <- phylo_metadata("type") 
-#      table(kind, type)
-#      }
-#      # but are much faster if the data object is provided, see cache_treebase():
-#      data(treebase)
-#      kind <- phylo_metadata("kind", metadata=treebase)
-#      type <- phylo_metadata("type", metadata=treebase) 
-#      table(kind, type)
-# 
+#' @examples
+#' \dontrun{
+#'      # calls will work without a metadata object, but requires longer to download data
+#'      kind <- phylo_metadata("kind")
+#'      type <- phylo_metadata("type") 
+#'     table(kind, type)
+#'      }
+#'      # but are much faster if the data object is provided, see cache_treebase():
+#'      data(treebase)
+#'      kind <- phylo_metadata("kind", metadata=treebase)
+#'      type <- phylo_metadata("type", metadata=treebase) 
+#'      table(kind, type)
+#' 
 phylo_metadata <- function(x =  c("Study.id", "Tree.id", "kind", "type", "quality", "ntaxa"), metadata=NULL, ...){
   x = match.arg(x)
 # Aliases
@@ -85,18 +81,18 @@ phylo_metadata <- function(x =  c("Study.id", "Tree.id", "kind", "type", "qualit
 #' @param ... additional arguments to \code{download_metadata}
 #' @return a list of values matching the query
 #' @keywords internal
-# @examples
-# \dontrun{
-#     # automatically search each time (note: this calls internal function now)
-#     dates <- oai_metadata("date") 
-#     pub <- oai_metadata("publisher")
-#     table(dates, pub)
-# }
-#    # Using cached data from an earlier download
-#     data(metadata) 
-#     dates <- oai_metadata("date", metadata=metadata) 
-#     pub <- oai_metadata("publisher", metadata=metadata)
-#     table(dates, pub)
+#' @examples
+#' \dontrun{
+#'     # automatically search each time (note: this calls internal function now)
+#'     dates <- oai_metadata("date") 
+#'     pub <- oai_metadata("publisher")
+#'     table(dates, pub)
+#' }
+#'    # Using cached data from an earlier download
+#'     data(metadata) 
+#'     dates <- oai_metadata("date", metadata=metadata) 
+#'     pub <- oai_metadata("publisher", metadata=metadata)
+#'     table(dates, pub)
 oai_metadata <- function(x = c("date", "publisher", "author", "title", "Study.id", "attributes"), metadata=NULL, ...){
   x = match.arg(x)
 # Aliases

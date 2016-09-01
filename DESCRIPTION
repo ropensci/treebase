@@ -20,9 +20,9 @@ Imports:
     RCurl,
     methods,
     utils,
-    reshape2,
-    data.table,
     httr
 Suggests:
-    testthat
+    testthat,
+    knitr
 RoxygenNote: 5.0.1
+VignetteBuilder: knitr
