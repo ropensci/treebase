@@ -23,7 +23,7 @@ Otherwise does partial matching}
 \item{max_trees}{Upper bound for the number of trees returned, good for
 keeping possibly large initial queries fast}
 
-\item{branch_lengths}{logical indicating whether should only return 
+\item{branch_lengths}{logical indicating whether should only return
 trees that have branch lengths.}
 
 \item{curl}{the handle to the curl web utility for repeated calls, see
@@ -37,7 +37,7 @@ the getCurlHandle() function in RCurl package for details.}
 
 \item{attempts}{number of attempts to access a particular resource}
 
-\item{only_metadata}{option to only return metadata about matching trees 
+\item{only_metadata}{option to only return metadata about matching trees
 which lists study.id, tree.id, kind (gene,species,barcode) type (single, consensus)
 number of taxa, and possible quality score.}
 }
@@ -68,18 +68,18 @@ Choose the search type.  Options are: \itemize{
 \item{matrix          }{ Name given the the matrix }
 \item{id.matrix       }{ TreeBASE's unique matrix identifier}
 \item{nchar           }{ number of characters in the matrix}
-} 
+}
 
 The package provides partial support for character matrices provided by TreeBASE.
 At the time of writing, TreeBASE permits ambiguous DNA characters in these matrices,
 such as `{CG}` indicating either a C or G, which is not supported by any R interpreter,
-and thus may lead to errors.  
+and thus may lead to errors.
   for a description of all possible search options, see
   https://spreadsheets.google.com/pub?key=rL--O7pyhR8FcnnG5-ofAlw.
 }
 \examples{
 \dontrun{
-## defaults to return phylogeny 
+## defaults to return phylogeny
 Huelsenbeck <- search_treebase("Huelsenbeck", by="author")
 
 ## can ask for character matrices:
@@ -93,8 +93,8 @@ H_matrices <- search_treebase("Huelsenbeck", by="author", returns="matrix")
 ## Note that by must identify each entry type if a Boolean is given
 HR_trees <- search_treebase("Ronquist or Hulesenbeck", by=c("author", "author"))
 
-## We'll often use max_trees in the example so that they run quickly, 
-## notice the quotes for species.  
+## We'll often use max_trees in the example so that they run quickly,
+## notice the quotes for species.
 dolphins <- search_treebase('"Delphinus"', by="taxon", max_trees=5)
 ## can do exact matches
 humans <- search_treebase('"Homo sapiens"', by="taxon", exact_match=TRUE, max_trees=10)
