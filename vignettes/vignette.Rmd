@@ -65,7 +65,7 @@ sum(science)
 Replicating results
 -------------------
 
-A nice paper by Derryberry et al. appeared in Evolution recently on [diversification in ovenbirds and woodcreepers, 0.1111/j.1558-5646.2011.01374.x](http://dx.doi.org/0.1111/j.1558-5646.2011.01374.x]). The article mentions that the tree is on Treebase, so let's see if we can replicate their diversification rate analysis: Let's grab the trees by that author and make sure we have the right one:
+A nice paper by Derryberry et al. appeared in Evolution recently on [diversification in ovenbirds and woodcreepers, 0.1111/j.1558-5646.2011.01374.x](http://dx.doi.org/0.1111/j.1558-5646.2011.01374.x). The article mentions that the tree is on Treebase, so let's see if we can replicate their diversification rate analysis: Let's grab the trees by that author and make sure we have the right one:
 
 ```{r message=FALSE, warning=FALSE}
 search_treebase("Derryberry", "author")[[1]] -> tree
