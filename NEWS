@@ -1,7 +1,12 @@
+version 0.1.4
+-------------
+
+* Drop laser dependency since laser is deprecated
+
 version 0.1.3
 -------------
 
-Declare VignetteBuilder
+* Declare VignetteBuilder
 
 
 version 0.1.2

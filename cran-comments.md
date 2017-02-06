@@ -1,6 +1,6 @@
 Dear CRAN Maintainers,
 
-This commit declares the vignette builder and vignette index information, as requested.
+This commit drops the suggested dependency *laser*, as requested, since that package is now to be archived.
 
 Sincerely,
 
