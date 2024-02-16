@@ -4,10 +4,20 @@
 \alias{search_treebase}
 \title{A function to pull in the phyologeny/phylogenies matching a search query}
 \usage{
-search_treebase(input, by, returns = c("tree", "matrix"),
-  exact_match = FALSE, max_trees = Inf, branch_lengths = FALSE,
-  curl = getCurlHandle(), verbose = TRUE, pause1 = 0, pause2 = 0,
-  attempts = 3, only_metadata = FALSE)
+search_treebase(
+  input,
+  by,
+  returns = c("tree", "matrix"),
+  exact_match = FALSE,
+  max_trees = Inf,
+  branch_lengths = FALSE,
+  curl = getCurlHandle(),
+  verbose = TRUE,
+  pause1 = 0,
+  pause2 = 0,
+  attempts = 3,
+  only_metadata = FALSE
+)
 }
 \arguments{
 \item{input}{a search query (character string)}
@@ -48,7 +58,8 @@ either a list of trees (multiphylo) or a list of character matrices
 A function to pull in the phyologeny/phylogenies matching a search query
 }
 \details{
-Choose the search type.  Options are: \itemize{
+Choose the search type.  Options are:
+\itemize{
 \item{abstract        }{ search terms in the publication abstract}
 \item{author          }{ match authors in the publication}
 \item{subject         }{ match subject}
@@ -110,4 +121,3 @@ Near <- search_treebase("Near", "author", branch_lengths=TRUE)
  }
 }
 \keyword{utility}
-

@@ -23,4 +23,3 @@ Search the dryad metadata archive
   dryad_metadata("10255/dryad.12")
 }
 }
-

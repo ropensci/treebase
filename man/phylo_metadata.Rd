@@ -4,8 +4,11 @@
 \alias{phylo_metadata}
 \title{Search the PhyloWS metadata}
 \usage{
-phylo_metadata(x = c("Study.id", "Tree.id", "kind", "type", "quality",
-  "ntaxa"), metadata = NULL, ...)
+phylo_metadata(
+  x = c("Study.id", "Tree.id", "kind", "type", "quality", "ntaxa"),
+  metadata = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{one of "Study.ids", "Tree.ids", "kind", "type", "quality", "ntaxa"}
@@ -23,4 +26,3 @@ a list of the values matching the query
 Search the PhyloWS metadata
 }
 \keyword{internal}
-

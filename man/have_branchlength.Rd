@@ -15,4 +15,3 @@ logical string indicating which have branch length data
 \description{
 Simple function to identify which trees have branch lengths
 }
-

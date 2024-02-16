@@ -4,8 +4,11 @@
 \alias{oai_metadata}
 \title{Search the OAI-PMH metadata by date, publisher, or identifier}
 \usage{
-oai_metadata(x = c("date", "publisher", "author", "title", "Study.id",
-  "attributes"), metadata = NULL, ...)
+oai_metadata(
+  x = c("date", "publisher", "author", "title", "Study.id", "attributes"),
+  metadata = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{one of "date", "publisher", "identifier" for the study}
@@ -23,4 +26,3 @@ a list of values matching the query
 Search the OAI-PMH metadata by date, publisher, or identifier
 }
 \keyword{internal}
-

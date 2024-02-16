@@ -29,4 +29,3 @@ this function is commonly used to get trees corresponding
   to the metadata search.
 }
 \keyword{internal}
-

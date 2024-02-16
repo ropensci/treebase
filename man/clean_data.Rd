@@ -16,4 +16,3 @@ the item scrubbed of non-ASCII characters
 clean the fish.base data into pure ASCII
 }
 \keyword{internal}
-

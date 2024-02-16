@@ -14,4 +14,3 @@ recreate with: \code{
 }
 }
 \keyword{data}
-

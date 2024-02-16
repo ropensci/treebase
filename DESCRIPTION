@@ -1,7 +1,7 @@
 Package: treebase
 Type: Package
 Title: Discovery, Access and Manipulation of 'TreeBASE' Phylogenies
-Version: 0.1.4
+Version: 0.1.5
 Authors@R: c(person("Carl", "Boettiger", role = c("aut", "cre"),
     email = "cboettig@gmail.com"),
     person("Duncan", "Temple Lang", role = "aut"))
@@ -10,6 +10,7 @@ Description: Interface to the API for 'TreeBASE' <http://treebase.org>
     trees (of species, population, or genes) and the data used to create
     them.
 License: CC0
+Encoding: UTF-8
 URL: https://docs.ropensci.org/treebase, https://github.com/ropensci/treebase
 BugReports: http://www.github.com/ropensci/treebase/issues
 Depends:
@@ -25,5 +26,5 @@ Suggests:
     testthat,
     knitr,
     rmarkdown
-RoxygenNote: 5.0.1
+RoxygenNote: 7.3.1
 VignetteBuilder: knitr

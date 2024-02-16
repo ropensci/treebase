@@ -20,8 +20,6 @@ columns are: "Study.id", "Tree.id", "kind", "type", "quality", "ntaxa"
 \description{
 Contains a cache of all publication metadata the search_metadata()
 to pull down when run  on 2012-05-12.
-
-generate a table of all available metadata for TreeBASE entries
 }
 \details{
 recreate with: \code{
@@ -35,4 +33,3 @@ meta[publisher \%in\% c("Nature", "Science") & ntaxa > 50 & kind == "Species Tre
 }
 }
 \keyword{data}
-

@@ -4,9 +4,15 @@
 \alias{cache_treebase}
 \title{A function to cache the phylogenies in treebase locally}
 \usage{
-cache_treebase(file = paste("treebase-", Sys.Date(), ".rda", sep = ""),
-  pause1 = 3, pause2 = 3, attempts = 10, max_trees = Inf,
-  only_metadata = FALSE, save = TRUE)
+cache_treebase(
+  file = paste("treebase-", Sys.Date(), ".rda", sep = ""),
+  pause1 = 3,
+  pause2 = 3,
+  attempts = 10,
+  max_trees = Inf,
+  only_metadata = FALSE,
+  save = TRUE
+)
 }
 \arguments{
 \item{file}{filename for the cache, otherwise created with datestamp}
@@ -37,4 +43,3 @@ it's a good idea to let this run overnight
  treebase <- cache_treebase()
 }
 }
-

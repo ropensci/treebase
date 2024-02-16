@@ -4,8 +4,11 @@
 \alias{download_metadata}
 \title{Download the metadata on treebase using the OAI-MPH interface}
 \usage{
-download_metadata(query = "", by = c("all", "until", "from"),
-  curl = getCurlHandle())
+download_metadata(
+  query = "",
+  by = c("all", "until", "from"),
+  curl = getCurlHandle()
+)
 }
 \arguments{
 \item{query}{a date in format yyyy-mm-dd}
@@ -56,4 +59,3 @@ b<- barplot(as.numeric(J))
 text(b, names(J), srt=70, pos=4, xpd=T)
 }
 }
-

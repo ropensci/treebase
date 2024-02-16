@@ -21,7 +21,8 @@
 #' number of taxa, and possible quality score.
 #' @return either a list of trees (multiphylo) or a list of character matrices
 #' @keywords utility
-#' @details Choose the search type.  Options are: \itemize{
+#' @details Choose the search type.  Options are:
+#' \itemize{
 #' \item{abstract        }{ search terms in the publication abstract}
 #' \item{author          }{ match authors in the publication}
 #' \item{subject         }{ match subject}

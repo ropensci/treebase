@@ -16,4 +16,3 @@ the string after dropping all html tags to spaces
 remove non-ASCII characters
 }
 \keyword{internal}
-

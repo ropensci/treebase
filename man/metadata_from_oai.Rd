@@ -19,4 +19,3 @@ Internal function for OAI-MPH interface to the Dryad database
 \code{\link{dryad_metadata}}
 }
 \keyword{internal}
-
