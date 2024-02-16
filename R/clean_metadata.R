@@ -18,7 +18,7 @@ drop_nonascii <- function(string){
 }
 
 #' clean the fish.base data into pure ASCII
-#' @param a list item with fishbase data
+#' @param metadata list item with fishbase data
 #' @return the item scrubbed of non-ASCII characters
 #' @keywords internal
 clean_data <- function(metadata) lapply(metadata, function(x) lapply(x, drop_nonascii)) 
